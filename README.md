@@ -2,11 +2,12 @@
 
 Mobil-first, offline çekirdekli, vaka bazlı hastane öncesi acil sağlık eğitim ve hızlı hatırlatma uygulaması.
 
-## V0.6 mimarisi
+## V0.6.2 mimarisi
 
 - **Kaynak:** T.C. Sağlık Bakanlığı 25.08.2026 tarihli Ek-2 Hastane Öncesi Acil Tıbbi Yardım ve Bakım Akış Şemaları.
 - **Hasta grubu katmanı:** Yetişkin / Çocuk / Doğum & Yenidoğan. Yalnız kaynak-kod-doz-yetki QA'sı tamamlanan kartlar yayımlanır.
 - **İlk 30 saniye:** Her vaka için ayrı kritik ilk eylem katmanı.
+- **Acil Uyarı Bulguları:** Önceliği, müdahaleyi veya nakil kararını değiştirebilecek bulgular için standart kullanıcı terimi.
 - **İlaç modeli:** ad, doz, uygulama yolu, tekrar, maksimum doz ve standart yetki enumu.
 - **Yetki enumları:** `DIRECT`, `SKKM`, `ALGORITHM`.
 - **Kaynak izi:** belge, yürürlük tarihi, kod/sayfa, son içerik inceleme tarihi ve resmî bağlantılar vaka ile birlikte tutulur.
