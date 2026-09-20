@@ -13,7 +13,8 @@ from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.support.ui import WebDriverWait
 
 ROOT=Path(__file__).resolve().parents[1]
-OUT=ROOT/"chrome-audit-results.json"\nSCREEN_DIR=ROOT/"chrome-audit-screenshots"
+OUT=ROOT/"chrome-audit-results.json"
+SCREEN_DIR=ROOT/"chrome-audit-screenshots"
 
 SCENARIOS=[
   {"name":"phone-360-dark-standard-home","width":360,"height":800,"theme":"dark","mode":"standard","case":""},
