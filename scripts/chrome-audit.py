@@ -1,16 +1,16 @@
 #!/usr/bin/env python3
-import html
 import json
 import os
-import re
 import shutil
-import subprocess
 import tempfile
 import threading
-import time
 from http.server import ThreadingHTTPServer, SimpleHTTPRequestHandler
 from pathlib import Path
 from urllib.parse import urlencode
+
+from selenium import webdriver
+from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.support.ui import WebDriverWait
 
 ROOT=Path(__file__).resolve().parents[1]
 OUT=ROOT/"chrome-audit-results.json"
@@ -37,15 +37,20 @@ HARNESS=r'''
   if(qs.get('prepared')!=='1'){
     localStorage.setItem('saha112:theme',theme);
     localStorage.setItem('saha112:density',mode==='field'?'compact':'standard');
-    const u=new URL(location.href);u.searchParams.set('prepared','1');location.replace(u);return;
+    const u=new URL(location.href);
+    u.searchParams.set('prepared','1');
+    location.replace(u);
+    return;
   }
+
   const sleep=ms=>new Promise(r=>setTimeout(r,ms));
-  await sleep(450);
+  await sleep(350);
   const target=qs.get('case')||'';
   if(target){
     const btn=document.querySelector('[data-open="'+target+'"]');
-    if(btn){btn.click();await sleep(350)}
+    if(btn){btn.click();await sleep(250)}
   }
+
   const visible=e=>{
     if(!e)return false;
     const cs=getComputedStyle(e),r=e.getBoundingClientRect();
@@ -81,12 +86,13 @@ HARNESS=r'''
     return {...ident(e),w:+r.width.toFixed(1),h:+r.height.toFixed(1)};
   }).filter(x=>x.w<44||x.h<44);
 
-  const clipped=[...document.querySelectorAll('button,a,input,section,article,.case-row,.featured-card,.shortcut-card,.detail-section,.first30-card,.detail-top')].filter(visible).flatMap(e=>{
-    const r=e.getBoundingClientRect();
-    if(insideXScroll(e))return [];
-    if(r.left<-1||r.right>innerWidth+1)return [{...ident(e),left:+r.left.toFixed(1),right:+r.right.toFixed(1),vw:innerWidth}];
-    return [];
-  }).slice(0,30);
+  const clipped=[...document.querySelectorAll('button,a,input,section,article,.case-row,.featured-card,.shortcut-card,.detail-section,.first30-card,.detail-top')]
+    .filter(visible).flatMap(e=>{
+      const r=e.getBoundingClientRect();
+      if(insideXScroll(e))return [];
+      if(r.left<-1||r.right>innerWidth+1)return [{...ident(e),left:+r.left.toFixed(1),right:+r.right.toFixed(1),vw:innerWidth}];
+      return [];
+    }).slice(0,30);
 
   const surfaces=[...document.querySelectorAll('.quick-step,.red-flag,.branch,.detail-section,.case-summary,.med-card,.first30-card,.case-row,.featured-card,.shortcut-card,.hero-card,.insight-card')].filter(visible);
   const paleDark=[];
@@ -106,11 +112,14 @@ HARNESS=r'''
   }
 
   const criticalOrder=['critical-actions','algorithm','severity','red-flags','decision','medications','source']
-    .map(id=>{const e=document.getElementById(id);return e&&visible(e)?{id,top:+e.getBoundingClientRect().top.toFixed(1)}:null}).filter(Boolean);
+    .map(id=>{
+      const e=document.getElementById(id);
+      return e&&visible(e)?{id,top:+e.getBoundingClientRect().top.toFixed(1)}:null;
+    }).filter(Boolean);
 
   const result={
-    url:location.href,
     viewport:{innerWidth,innerHeight,devicePixelRatio},
+    screen:{width:screen.width,height:screen.height,availWidth:screen.availWidth,availHeight:screen.availHeight},
     theme:document.documentElement.dataset.theme||'',
     density:document.documentElement.dataset.density||'',
     target,
@@ -126,13 +135,21 @@ HARNESS=r'''
     lowContrastCount:lowContrast.length,
     lowContrast:lowContrast.slice(0,20),
     modeLabel:(document.getElementById('modePill')?.textContent||'').trim(),
-    filterSemantics:[...document.querySelectorAll('#filterRow button')].slice(0,8).map(e=>({text:text(e),pressed:e.getAttribute('aria-pressed'),role:e.getAttribute('role')})),
+    filterSemantics:[...document.querySelectorAll('#filterRow button')].slice(0,8).map(e=>({
+      text:text(e),pressed:e.getAttribute('aria-pressed'),role:e.getAttribute('role')
+    })),
     detailOrder:criticalOrder,
-    bodyClass:document.body.className,
-    ua:navigator.userAgent
+    ua:navigator.userAgent,
+    maxTouchPoints:navigator.maxTouchPoints
   };
+
   let pre=document.getElementById('chromeAuditResult');
-  if(!pre){pre=document.createElement('pre');pre.id='chromeAuditResult';document.body.appendChild(pre)}
+  if(!pre){
+    pre=document.createElement('pre');
+    pre.id='chromeAuditResult';
+    pre.style.display='none';
+    document.body.appendChild(pre);
+  }
   pre.textContent=JSON.stringify(result);
 })();
 </script>
@@ -156,72 +173,98 @@ def prepare_site(tmp):
   shutil.copytree(ROOT,site,ignore=shutil.ignore_patterns(".git","chrome-audit-results.json"))
   index=site/"index.html"
   src=index.read_text(encoding="utf-8")
-  if "</body>" not in src: raise RuntimeError("index.html body kapanışı bulunamadı")
+  if "</body>" not in src:
+    raise RuntimeError("index.html body kapanışı bulunamadı")
   index.write_text(src.replace("</body>",HARNESS+"\n</body>"),encoding="utf-8")
   return site
+
+def run_scenario(browser,sc,url):
+  options=Options()
+  options.binary_location=browser
+  for arg in ("--headless=new","--no-sandbox","--disable-gpu","--disable-dev-shm-usage","--hide-scrollbars"):
+    options.add_argument(arg)
+  options.add_experimental_option("mobileEmulation",{
+    "deviceMetrics":{
+      "width":sc["width"],
+      "height":sc["height"],
+      "pixelRatio":1.0,
+      "touch":True,
+      "mobile":True
+    },
+    "userAgent":PHONE_UA if sc["width"]<600 else TABLET_UA
+  })
+  driver=webdriver.Chrome(options=options)
+  try:
+    driver.get(url)
+    WebDriverWait(driver,12).until(
+      lambda d: d.execute_script("return (document.getElementById('chromeAuditResult')?.textContent?.length||0)>2")
+    )
+    return driver.execute_script("return JSON.parse(document.getElementById('chromeAuditResult').textContent)")
+  finally:
+    driver.quit()
 
 def run():
   browser=browser_path()
   results=[]
   with tempfile.TemporaryDirectory(prefix="saha112-chrome-") as tmp:
     site=prepare_site(tmp)
-    old=os.getcwd();os.chdir(site)
+    old=os.getcwd()
+    os.chdir(site)
     server=ThreadingHTTPServer(("127.0.0.1",0),Quiet)
     port=server.server_address[1]
-    th=threading.Thread(target=server.serve_forever,daemon=True);th.start()
+    threading.Thread(target=server.serve_forever,daemon=True).start()
     try:
       for sc in SCENARIOS:
-        q=urlencode({"theme":sc["theme"],"mode":sc["mode"],"case":sc["case"]})
-        url=f"http://127.0.0.1:{port}/?{q}"
-        profile=Path(tmp)/("profile-"+sc["name"])
-        ua=PHONE_UA if sc["width"]<600 else TABLET_UA
-        cmd=[browser,"--headless=new","--no-sandbox","--disable-gpu","--hide-scrollbars",
-             "--touch-events=enabled","--force-device-scale-factor=1",
-             f"--window-size={sc['width']},{sc['height']}",f"--user-agent={ua}",
-             f"--user-data-dir={profile}","--virtual-time-budget=3500","--dump-dom",url]
-        p=subprocess.run(cmd,capture_output=True,text=True,timeout=35)
-        m=re.search(r'<pre id="chromeAuditResult">(.*?)</pre>',p.stdout,re.S)
-        if not m:
-          results.append({**sc,"error":"audit result bulunamadı","chromeExit":p.returncode,"stderr":p.stderr[-1500:]})
-          continue
+        url=f"http://127.0.0.1:{port}/?"+urlencode({
+          "theme":sc["theme"],"mode":sc["mode"],"case":sc["case"]
+        })
         try:
-          payload=json.loads(html.unescape(m.group(1)))
+          payload=run_scenario(browser,sc,url)
+          results.append({**sc,**payload})
         except Exception as e:
-          results.append({**sc,"error":f"JSON parse: {e}","raw":m.group(1)[:800]})
-          continue
-        results.append({**sc,**payload})
+          results.append({**sc,"error":f"{type(e).__name__}: {e}"})
     finally:
-      server.shutdown();server.server_close();os.chdir(old)
+      server.shutdown()
+      server.server_close()
+      os.chdir(old)
 
-  summary={
-    "browser":browser,
-    "scenarioCount":len(results),
-    "hardFailures":[],
-    "warnings":[],
-    "results":results
-  }
+  summary={"browser":browser,"scenarioCount":len(results),"hardFailures":[],"warnings":[],"results":results}
   for r in results:
     name=r.get("name","?")
-    if r.get("error"):summary["hardFailures"].append(f"{name}: {r['error']}")
-    if r.get("horizontalOverflow"):summary["hardFailures"].append(f"{name}: sayfa yatay taşıyor (scrollWidth {r.get('scrollWidth')}, viewport {r.get('viewport',{}).get('innerWidth')})")
-    if r.get("clippedCount",0):summary["hardFailures"].append(f"{name}: {r['clippedCount']} görünür öğe viewport dışına taşıyor")
-    if r.get("paleDarkCount",0):summary["hardFailures"].append(f"{name}: koyu modda {r['paleDarkCount']} açık/pale yüzey bulundu")
-    if r.get("lowContrastCount",0):summary["hardFailures"].append(f"{name}: {r['lowContrastCount']} düşük kontrast yüzey bulundu")
-    if r.get("case") and not r.get("targetOpened"):summary["hardFailures"].append(f"{name}: hedef vaka açılamadı")
-    if r.get("smallTargetCount",0):summary["warnings"].append(f"{name}: 44px altı {r['smallTargetCount']} etkileşim hedefi")
+    vp=r.get("viewport") or {}
+    if r.get("error"):
+      summary["hardFailures"].append(f"{name}: {r['error']}")
+      continue
+    if vp.get("innerWidth")!=r.get("width"):
+      summary["hardFailures"].append(f"{name}: istenen genişlik {r.get('width')}px, gerçek {vp.get('innerWidth')}px")
+    if r.get("horizontalOverflow"):
+      summary["hardFailures"].append(f"{name}: sayfa yatay taşıyor (scrollWidth {r.get('scrollWidth')}, viewport {vp.get('innerWidth')})")
+    if r.get("clippedCount",0):
+      summary["hardFailures"].append(f"{name}: {r['clippedCount']} görünür öğe viewport dışına taşıyor")
+    if r.get("paleDarkCount",0):
+      summary["hardFailures"].append(f"{name}: koyu modda {r['paleDarkCount']} açık/pale yüzey bulundu")
+    if r.get("lowContrastCount",0):
+      summary["hardFailures"].append(f"{name}: {r['lowContrastCount']} düşük kontrast yüzey bulundu")
+    if r.get("case") and not r.get("targetOpened"):
+      summary["hardFailures"].append(f"{name}: hedef vaka açılamadı")
+    if r.get("smallTargetCount",0):
+      summary["warnings"].append(f"{name}: 44px altı {r['smallTargetCount']} etkileşim hedefi")
 
   OUT.write_text(json.dumps(summary,ensure_ascii=False,indent=2),encoding="utf-8")
+
   print(f"Chrome: {browser}")
   print(f"Senaryo: {len(results)}")
   print(f"Sert hata: {len(summary['hardFailures'])}")
-  for x in summary["hardFailures"]:print("ERROR",x)
+  for x in summary["hardFailures"]: print("ERROR",x)
   print(f"Dokunma uyarısı: {len(summary['warnings'])}")
-  for x in summary["warnings"]:print("WARN",x)
+  for x in summary["warnings"]: print("WARN",x)
   print("\n--- Ayrıntılı özet ---")
   for r in results:
     print(json.dumps({
       "name":r.get("name"),
+      "requested":[r.get("width"),r.get("height")],
       "viewport":r.get("viewport"),
+      "screen":r.get("screen"),
       "theme":r.get("theme"),
       "density":r.get("density"),
       "target":r.get("target"),
@@ -232,9 +275,10 @@ def run():
       "smallTargetCount":r.get("smallTargetCount"),
       "modeLabel":r.get("modeLabel"),
       "detailOrder":r.get("detailOrder"),
-      "smallTargets":r.get("smallTargets",[])[:8],
+      "smallTargets":r.get("smallTargets",[])[:10],
       "clipped":r.get("clipped",[])[:5],
-      "paleDark":r.get("paleDark",[])[:5]
+      "paleDark":r.get("paleDark",[])[:5],
+      "maxTouchPoints":r.get("maxTouchPoints")
     },ensure_ascii=False))
   return 1 if summary["hardFailures"] else 0
 
