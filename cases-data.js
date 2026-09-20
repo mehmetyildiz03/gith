@@ -1,7 +1,7 @@
 const APP_META = {
-  "schemaVersion": 2,
-  "contentVersion": "2026.09.20-v0.5",
-  "productVersion": "0.7.1",
+  "schemaVersion": 3,
+  "contentVersion": "EK2-2026.08.25-review-2026.09.21",
+  "productVersion": "0.8",
   "populations": [
     {
       "id": "adult",
@@ -49,6 +49,19 @@ const APP_META = {
     "TOPICAL",
     "OTHER"
   ],
+  "routeLabels": {
+    "IV": "İntravenöz (IV)",
+    "IM": "İntramüsküler (IM)",
+    "IO": "İntraosseöz (IO)",
+    "SL": "Sublingual (SL)",
+    "PO": "Oral (PO)",
+    "NEB": "Nebülizasyon",
+    "IN": "İntranazal (IN)",
+    "BUCCAL": "Bukkal",
+    "RECTAL": "Rektal",
+    "TOPICAL": "Topikal",
+    "OTHER": "Şemaya göre"
+  },
   "source": {
     "officialPageUrl": "https://acilafet.saglik.gov.tr/TR-119840/hastane-oncesi-acil-tibbi-yardim-ve-bakim-akis-semalari.html",
     "officialPdfUrl": "https://dosyamerkez.saglik.gov.tr/Eklenti/55773/0/ek-2-hastane-oncesi-acil-tibbi-yardim-ve-bakim-akis-semalaripdf.pdf",
@@ -68,15 +81,15 @@ const CASES = [
     "soft": "#fff3d4",
     "code": "SB-ASH-Y-26 + Y-22",
     "page": "44–45 / 37",
-    "featured": true,
-    "summary": "İğneyi, lokal bakımı ve sistemik reaksiyona geçişi tek ekranda ayır. Üç şiddet düzeyi hızlı eğitim görünümü olarak sunulur; ağır tabloda 2026 anafilaksi algoritmasına geçilir.",
+    "uiFeatured": true,
+    "summary": "İğneyi, lokal bakımı ve sistemik reaksiyona geçişi tek ekranda ayır. Lokal reaksiyon, sistemik bulgu ve anafilaksiye geçiş eğitim amaçlı ayrılır; resmî şema ayrı bir üçlü tedavi sınıflaması tanımlamaz.",
     "quick": [
       "<strong>Acil olgu yönetimini uygula</strong>; etkeni belirle, ısırılan/sokulan yeri ve yarayı değerlendir.",
       "<strong>Arı iğnesi görünüyorsa çıkar.</strong> Kara canlısı sokmalarında lokal soğuk uygula; bölgeyi yıka ve sabitle.",
       "<strong>Ödem sınırını yaklaşık 5 dakikada bir izle.</strong> Vital bulgular, zehirlenme, alerjik reaksiyon ve anafilaksi bulgularını takip et.",
       "<strong>Alerjik reaksiyon / anafilaksi varsa ilgili algoritmaya geç.</strong> Her aşamada hastaneye nakil esastır."
     ],
-    "redFlags": [
+    "warningFindings": [
       "Ağız-dil-boğaz/anjiyoödem, stridor veya belirgin hırıltı",
       "Takipne, siyanoz, SpO₂ < %90 veya konfüzyon",
       "Soluk cilt, hipotansiyon, bilinç kaybı/koma",
@@ -84,7 +97,7 @@ const CASES = [
     ],
     "severity": {
       "mild": {
-        "label": "Hafif / lokal",
+        "label": "Lokal reaksiyon",
         "bullets": [
           "Reaksiyon sokma bölgesiyle sınırlı",
           "Yaşamı tehdit eden hava yolu, solunum veya dolaşım bulgusu yok"
@@ -92,15 +105,15 @@ const CASES = [
         "action": "İğne görünüyorsa çıkar. Lokal soğuk uygula, yıka/sabitle, ödem sınırını takip et ve vital bulguları izle. Sistemik bulgu gelişirse düzeyi yükselt."
       },
       "moderate": {
-        "label": "Orta / sistemik",
+        "label": "Sistemik bulgu",
         "bullets": [
           "Lokal alanın dışına taşan alerjik/sistemik bulgu var",
           "Henüz yaşamı tehdit eden hava yolu, solunum veya dolaşım bulgusu yok"
         ],
-        "action": "Bu “orta” sekme eğitimsel bir ara görünümüdür. 2026 resmî şema arı sokması için ayrı bir üçlü tedavi sınıflaması tanımlamaz; alerjik reaksiyon/anafilaksi açısından değerlendirip Anafilaksi algoritmasına geçiş yap."
+        "action": "Bu görünüm eğitimsel bir ara ayrımdır. 2026 resmî şema arı sokması için ayrı bir üçlü tedavi sınıflaması tanımlamaz; alerjik reaksiyon/anafilaksi açısından değerlendirip Anafilaksi algoritmasına geçiş yap."
       },
       "severe": {
-        "label": "Ağır / anafilaksi",
+        "label": "Anafilaksi",
         "bullets": [
           "Hava yolu: anjiyoödem, stridor, hırıltılı solunum",
           "Solunum: takipne, wheezing, siyanoz, SpO₂ < %90, konfüzyon",
@@ -172,9 +185,9 @@ const CASES = [
       "no": "Lokal bakım + seri yeniden değerlendirme + nakil."
     },
     "population": "adult",
-    "priority": "high",
+    "uiPriority": "high",
     "clinicalStatus": "reviewed",
-    "first30": [
+    "criticalActions": [
       "Etkeni ve sokma yerini değerlendir; görünür arı iğnesi varsa çıkar.",
       "Hava yolu-solunum-dolaşım tehdidi ve sistemik alerji/anafilaksi bulgularını aynı anda ara.",
       "Yaşamı tehdit eden anafilaksi bulgusu varsa gecikmeden anafilaksi algoritmasına geç ve IM adrenalini önceliklendir."
@@ -206,7 +219,7 @@ const CASES = [
     "soft": "#fee8ea",
     "code": "SB-ASH-Y-22",
     "page": "37",
-    "featured": true,
+    "uiFeatured": true,
     "summary": "Akut başlangıçlı, yaşamı tehdit eden hava yolu/solunum/dolaşım bulgularında gecikmeden IM adrenalin ve X-ABCDE odaklı destek.",
     "quick": [
       "<strong>Acil olgu yönetimini uygula.</strong> Akut başlangıç + yaşamı tehdit eden bulguları ara.",
@@ -214,7 +227,7 @@ const CASES = [
       "<strong>Hava yolu açıklığını sağla; SpO₂ %94–98 hedefli O₂.</strong> Damar yolu aç, anjiyoödemde erken ileri hava yolu hazırlığı yap; SpO₂, EKG ve KB izle.",
       "<strong>Hipoperfüzyon sürüyorsa</strong> IM adrenalin 5 dk içinde tekrarla ve %0,9 NaCl 500 ml bolus uygula."
     ],
-    "redFlags": [
+    "warningFindings": [
       "Anjiyoödem, stridor, hırıltılı solunum",
       "Takipne, wheezing, siyanoz, SpO₂ < %90, konfüzyon",
       "Soluk cilt, hipotansiyon, koma"
@@ -293,9 +306,9 @@ const CASES = [
       "no": "Yakın takip, yeniden değerlendirme; klinik kötüleşmede algoritmayı tetikle."
     },
     "population": "adult",
-    "priority": "high",
+    "uiPriority": "high",
     "clinicalStatus": "reviewed",
-    "first30": [
+    "criticalActions": [
       "Akut başlangıç + hava yolu, solunum veya dolaşım tehdidini tanı.",
       "Adrenalin 0,3–0,5 mg IM uygula.",
       "Hava yolunu hazırla; SpO₂ %94–98 hedefli O₂, damar yolu ve monitörizasyonu başlat."
@@ -326,7 +339,7 @@ const CASES = [
     "soft": "#e1f7fa",
     "code": "SB-ASH-Y-05",
     "page": "12",
-    "featured": true,
+    "uiFeatured": true,
     "summary": "Rahat pozisyon, SpO₂ hedefi, bronkodilatörler ve ağır/ölümcül atakta erken hava yolu hazırlığı.",
     "quick": [
       "<strong>Acil olgu yönetimini uygula</strong>; hastayı rahat ettiği, tercihen oturur pozisyonda tut.",
@@ -334,7 +347,7 @@ const CASES = [
       "<strong>Damar yolu aç ve %0,9 NaCl (DAKŞ).</strong> Atağın derecesini belirle.",
       "<strong>Hafif-orta:</strong> salbutamol 4–8 puf veya 2,5–5 mg nebül. <strong>Ağır:</strong> salbutamol 2,5–5 mg + ipratropium 500 mcg nebül."
     ],
-    "redFlags": [
+    "warningFindings": [
       "Cümle kuramama, ortopne",
       "Solunum sayısı >30/dk veya belirgin yardımcı kas kullanımı",
       "Bilinç bulanıklığı ve sessiz toraks (ölümcül atak)"
@@ -391,9 +404,9 @@ const CASES = [
       "no": "Salbutamol; 20 dk sonra yanıt yoksa ikinci doz + ipratropium."
     },
     "population": "adult",
-    "priority": "high",
+    "uiPriority": "high",
     "clinicalStatus": "reviewed",
-    "first30": [
+    "criticalActions": [
       "Hastayı rahat, tercihen oturur pozisyona al ve atağın ağırlığını değerlendir.",
       "SpO₂ >%93 hedefli O₂ ver; gerekirse PBV ile destekle.",
       "Bronkodilatörü geciktirme; ağır/ölümcül atakta sessiz toraks ve bilinç değişikliğini kırmızı bayrak kabul et."
@@ -424,7 +437,7 @@ const CASES = [
     "soft": "#fde9ee",
     "code": "SB-ASH-Y-06",
     "page": "14",
-    "featured": false,
+    "uiFeatured": false,
     "summary": "Hastayı yürütmeden, erken 12 derivasyon EKG ve uygun ilaç basamaklarıyla yönet; STEMI’de SKKM/ÇM ile reperfüzyon planını hızlandır.",
     "quick": [
       "<strong>Acil olgu yönetimini uygula, ağrı sorgula.</strong> Hastayı sakinleştir; gereksiz efordan kaçın ve kesinlikle yürütme.",
@@ -432,7 +445,7 @@ const CASES = [
       "<strong>SpO₂ < %90 ise O₂ ver.</strong>",
       "<strong>Asetilsalisilik asit 160–325 mg çiğnet.</strong> Hipotansiyon/bradikardi yoksa SKKM/ÇM ile isosorbid dinitrat 5 mg SL; ağrı sürerse 3–5 dk arayla toplam 3 doza kadar."
     ],
-    "redFlags": [
+    "warningFindings": [
       "ST elevasyonlu MI bulguları",
       "Hipotansiyon veya bradikardi",
       "Devam eden şiddetli göğüs ağrısı",
@@ -479,9 +492,9 @@ const CASES = [
       "no": "AKS tedavisi + ritim/vital takip + uygun merkeze nakil."
     },
     "population": "adult",
-    "priority": "standard",
+    "uiPriority": "standard",
     "clinicalStatus": "reviewed",
-    "first30": [
+    "criticalActions": [
       "Hastayı yürütme; eforu durdur ve ağrıyı değerlendir.",
       "Vital bulgularla birlikte mümkün olan en erken 12 derivasyon EKG'yi al.",
       "ASA uygunluğunu değerlendir; SpO₂ <%90 ise O₂ ver ve STEMI şüphesinde reperfüzyon planını erkenden başlat."
@@ -512,7 +525,7 @@ const CASES = [
     "soft": "#e8f0ff",
     "code": "SB-ASH-Y-03",
     "page": "8",
-    "featured": false,
+    "uiFeatured": false,
     "summary": "Ses/öksürük varlığıyla kısmi ve tam tıkanmayı ayır; tam tıkanmada 5 sırt vuruşu + 5 karına bası döngüsü.",
     "quick": [
       "<strong>Bilinç açık mı?</strong> Bilinç kapalıysa arrest yönetimi algoritmasına geç.",
@@ -520,7 +533,7 @@ const CASES = [
       "<strong>Tam tıkanma:</strong> 5 kez sırta vur + 5 kez karına bası; cisim çıkana kadar devam et.",
       "<strong>Bilinç kaybı gelişirse arrest yönetimine geç.</strong> İleri hava yolu başarısızsa resmî şemada SKKM/ÇM ile iğne krikotirotomi basamağı bulunur."
     ],
-    "redFlags": [
+    "warningFindings": [
       "Ses çıkaramama / konuşamama",
       "Etkisiz veya sessiz öksürük",
       "Siyanoz",
@@ -533,9 +546,9 @@ const CASES = [
       "no": "Tam tıkanma → 5 sırt vuruşu + 5 karına bası; bilinç kaybında arrest algoritması."
     },
     "population": "adult",
-    "priority": "standard",
+    "uiPriority": "standard",
     "clinicalStatus": "reviewed",
-    "first30": [
+    "criticalActions": [
       "Etkili öksürük/ses var mı hızlıca ayır.",
       "Etkili öksürük varsa öksürmeyi teşvik et ve izle.",
       "Tam tıkanmada 5 sırt vuruşu + 5 karına bası; bilinç kaybında arrest yönetimine geç."
@@ -566,7 +579,7 @@ const CASES = [
     "soft": "#e5f1ff",
     "code": "SB-ASH-Y-24",
     "page": "41",
-    "featured": false,
+    "uiFeatured": false,
     "summary": "Vücut ısısı ve bilinç durumuna göre pasif/aktif ısıtma, oksijen, monitörizasyon ve ağır tabloda hava yolu güvenliği.",
     "quick": [
       "<strong>Acil olgu yönetimini uygula.</strong> Soğuk çevreden uzaklaştır; ıslak/soğuk kıyafetleri çıkar, ısı kaybını engelle.",
@@ -574,7 +587,7 @@ const CASES = [
       "<strong>Orta:</strong> bilinç bozukluğu, 28–32°C → monitörize et, ılık O₂, ısı paketleri/termal battaniye, ılık %0,9 NaCl ve immobilizasyon.",
       "<strong>Ağır:</strong> bilinç kapalı, <28°C → orta hipotermi tedavisine ek hava yolu güvenliği."
     ],
-    "redFlags": [
+    "warningFindings": [
       "Vücut ısısı <28°C",
       "Bilinç kapalı",
       "Nabız alınamaması / hipotermik kardiyak arrest",
@@ -599,9 +612,9 @@ const CASES = [
       "no": "Hipotermide arrest yönetimi algoritmasına geç; nabız değerlendirmesini en az 60 sn yap."
     },
     "population": "adult",
-    "priority": "standard",
+    "uiPriority": "standard",
     "clinicalStatus": "reviewed",
-    "first30": [
+    "criticalActions": [
       "Soğuk maruziyeti durdur; ıslak-soğuk giysileri çıkar ve ısı kaybını azalt.",
       "Bilinç, solunum, nabız ve mümkünse çekirdek ısıyı değerlendir; hastayı gereksiz hareket ettirme.",
       "Ağır hipotermide nabız değerlendirmesini uzat; nabız yoksa hipotermik arrest algoritmasına geç."
@@ -632,7 +645,7 @@ const CASES = [
     "soft": "#e5f4ff",
     "code": "SB-ASH-Y-27",
     "page": "47",
-    "featured": false,
+    "uiFeatured": false,
     "summary": "Öncelik hava yolu ve solunum: spontan solunum varsa O₂; yoksa BVM, geri dönmezse arrest yönetimi.",
     "quick": [
       "<strong>Acil olgu yönetimini uygula.</strong> Hava yolu güvenliğini sağla ve solunumu kontrol et.",
@@ -640,7 +653,7 @@ const CASES = [
       "<strong>Spontan solunum yoksa</strong> BVM ile solunumu destekle.",
       "<strong>Solunum geri gelirse O₂;</strong> solunum yok/gasping ise arrest yönetimi algoritmasına geç."
     ],
-    "redFlags": [
+    "warningFindings": [
       "Apne / gasping",
       "Bilinç kaybı",
       "Travma şüphesi veya sığ suya dalma/atlama öyküsü",
@@ -653,9 +666,9 @@ const CASES = [
       "no": "BVM ile destekle; geri dönmez/gasping ise arrest algoritması."
     },
     "population": "adult",
-    "priority": "standard",
+    "uiPriority": "standard",
     "clinicalStatus": "reviewed",
-    "first30": [
+    "criticalActions": [
       "Kendi güvenliğini sağlayarak hastayı sudan çıkar; hava yolu ve solunumu hemen değerlendir.",
       "Spontan solunum varsa O₂; yoksa BVM ile ventilasyon desteği ver.",
       "Apne/gasping sürüyorsa arrest yönetimine geç; travma ve hipotermiyi eş zamanlı düşün."
@@ -686,7 +699,7 @@ const CASES = [
     "soft": "#fff0e8",
     "code": "SB-ASH-Y-23",
     "page": "39",
-    "featured": false,
+    "uiFeatured": false,
     "summary": "Isı krampları, ısı stresi ve ısı çarpmasını klinik şiddete göre ayır; ısı çarpmasında hızlı soğutma ve sıvı desteği.",
     "quick": [
       "<strong>Isı krampları:</strong> dinlenme + oral sıvı replasmanı.",
@@ -694,7 +707,7 @@ const CASES = [
       "<strong>Isı çarpması:</strong> >40°C vücut ısısı + bilinç bulanıklığı; vital/kan şekeri, damar yolu, monitörizasyon.",
       "<strong>%0,9 NaCl 1000 ml bolus</strong> ve vücut ısısını <39°C olacak şekilde pasif eksternal soğutma."
     ],
-    "redFlags": [
+    "warningFindings": [
       "Vücut ısısı >40°C",
       "Bilinç değişikliği",
       "Kollaps / şok",
@@ -719,9 +732,9 @@ const CASES = [
       "no": "Isı stresi/krampları bulgularına göre daha düşük yoğunluklu yaklaşım."
     },
     "population": "adult",
-    "priority": "standard",
+    "uiPriority": "standard",
     "clinicalStatus": "reviewed",
-    "first30": [
+    "criticalActions": [
       "Hastayı sıcak ortamdan çıkar ve hızlı klinik değerlendirme yap.",
       "Vücut ısısı, bilinç, vital bulgular ve kan şekerini değerlendir.",
       "Isı çarpmasında soğutmayı ve IV sıvı desteğini geciktirme; hedef <39°C olacak şekilde seri yeniden değerlendir."
@@ -752,9 +765,9 @@ const CASES = [
     "soft": "#f0edff",
     "code": "SB-ASH-Y-07",
     "page": "16–17",
-    "featured": false,
+    "uiFeatured": false,
     "population": "adult",
-    "priority": "high",
+    "uiPriority": "high",
     "clinicalStatus": "reviewed",
     "source": {
       "documentId": "EK2-2026",
@@ -772,7 +785,7 @@ const CASES = [
       "codeStatus": "verified"
     },
     "summary": "Semptomatik/instabil bradikardide hipoksi ve geri döndürülebilir nedenleri düzelt; atropin dozu 2026 şemasında 1 mg IV başlangıca güncellenmiştir.",
-    "first30": [
+    "criticalActions": [
       "ABC ve monitörizasyonu başlat; semptomatik/instabil bulguları ara.",
       "Atropin 1 mg IV uygula; 3–5 dakikada bir, toplam maksimum 3 mg'a kadar tekrarlanabilir.",
       "Yanıtsız veya yüksek dereceli blokta pacing ve vazopressör infüzyon seçenekleri için ileri basamağa geç."
@@ -783,7 +796,7 @@ const CASES = [
       "<strong>Atropin 1 mg IV.</strong> Gerektiğinde 3–5 dk arayla tekrarla; toplam maksimum 3 mg.",
       "Atropine yanıtsızlıkta veya yüksek dereceli AV blokta transkütan pacing; dopamin 5–20 mcg/kg/dk veya adrenalin 2–10 mcg/dk seçeneklerini değerlendir."
     ],
-    "redFlags": [
+    "warningFindings": [
       "Senkop veya akut bilinç değişikliği",
       "Miyokard iskemisi / devam eden göğüs ağrısı",
       "Şok bulguları veya akut kalp yetmezliği",
@@ -840,9 +853,9 @@ const CASES = [
     "soft": "#ffedf0",
     "code": "SB-ASH-Y-08",
     "page": "18",
-    "featured": false,
+    "uiFeatured": false,
     "population": "adult",
-    "priority": "high",
+    "uiPriority": "high",
     "clinicalStatus": "reviewed",
     "source": {
       "documentId": "EK2-2026",
@@ -860,7 +873,7 @@ const CASES = [
       "codeStatus": "verified"
     },
     "summary": "Önce instabiliteyi belirle; instabil taşikardide elektriksel tedavi, stabil hastada QRS genişliği ve düzenine göre algoritmik yaklaşım.",
-    "first30": [
+    "criticalActions": [
       "Monitörizasyon, damar yolu ve 12 derivasyon EKG'yi başlat.",
       "Senkop/bilinç değişikliği, iskemi, şok veya akut kalp yetmezliği varsa hastayı instabil kabul et.",
       "İnstabil hastada senkronize kardiyoversiyonu geciktirme; stabil hastada QRS genişliği ve düzenine göre ilerle."
@@ -871,7 +884,7 @@ const CASES = [
       "Stabil, düzenli geniş kompleks taşikardide <strong>amiodaron 150 mg IV, 10 dakikada</strong> yaklaşımı yer alır.",
       "Dar kompleks ritimlerde düzenlilik, vagal manevra ve uygun antiaritmik basamakları şemaya göre değerlendir."
     ],
-    "redFlags": [
+    "warningFindings": [
       "Hipotansiyon/şok",
       "Senkop veya akut bilinç değişikliği",
       "Miyokard iskemisi",
@@ -918,9 +931,9 @@ const CASES = [
     "soft": "#ffe9eb",
     "code": "SB-ASH-Y-09–11",
     "page": "20–23",
-    "featured": true,
+    "uiFeatured": true,
     "population": "adult",
-    "priority": "critical",
+    "uiPriority": "critical",
     "clinicalStatus": "reviewed",
     "source": {
       "documentId": "EK2-2026",
@@ -938,7 +951,7 @@ const CASES = [
       "codeStatus": "verified"
     },
     "summary": "Yüksek kaliteli CPR, ritim ayrımı, erken IV/IO yol ve 2026 ilaç sıralamasına göre şoklanabilir/şoklanamaz arrest yönetimi.",
-    "first30": [
+    "criticalActions": [
       "Yanıtsızlık, anormal/olmayan solunum ve nabızsızlığı tanı; yüksek kaliteli CPR'ı başlat.",
       "Defibrilatörü bağla ve ritmi şoklanabilir (VF/pVT) / şoklanamaz (asistoli/NEA) olarak ayır.",
       "IV/IO yolu geciktirme; şoklanamaz ritimde adrenalin erişim sağlanır sağlanmaz, şoklanabilir ritimde şema sırasına göre uygula."
@@ -949,7 +962,7 @@ const CASES = [
       "VF/pVT'de şok döngülerini sürdür; 2. şok sonrası adrenalin 1 mg, 3. şok sonrası amiodaron 300 mg (veya lidokain 1–1,5 mg/kg), 5. şok sonrası amiodaron 150 mg.",
       "Endotrakeal ilaç yolu kaldırılmıştır; ilaç yolu IV/IO'dur. ROSC olursa Resüsitasyon Sonrası Bakım algoritmasına geç."
     ],
-    "redFlags": [
+    "warningFindings": [
       "Kompresyon kesintilerinin uzaması",
       "IV/IO yerine ET ilaç uygulaması",
       "Şoklanabilir ritimde defibrilasyonun gecikmesi",
@@ -1009,9 +1022,9 @@ const CASES = [
     "soft": "#e4f7f0",
     "code": "SB-ASH-Y-12",
     "page": "24",
-    "featured": false,
+    "uiFeatured": false,
     "population": "adult",
-    "priority": "high",
+    "uiPriority": "high",
     "clinicalStatus": "reviewed",
     "source": {
       "documentId": "EK2-2026",
@@ -1029,7 +1042,7 @@ const CASES = [
       "codeStatus": "verified"
     },
     "summary": "Spontan dolaşım geri döndüğünde oksijenasyon, hemodinami, ısı ve disritmi kontrolünü bağımsız bir post-arrest algoritmasıyla yönet.",
-    "first30": [
+    "criticalActions": [
       "Hava yolu/ventilasyonu yeniden değerlendir, SpO₂ ve kapnografiyi uygun şekilde izle.",
       "12 derivasyon EKG, kan basıncı ve ritim monitörizasyonunu başlat.",
       "Hipotansiyonu hızla tanı; 2026 şemasındaki hedef MAP ≥65 mmHg ve vücut ısısı 32–37,5°C aralığını gözet."
@@ -1040,7 +1053,7 @@ const CASES = [
       "2026 şeması post-arrest bakımında <strong>MAP ≥65 mmHg</strong> hedefini ve <strong>32–37,5°C</strong> vücut ısısı aralığını vurgular.",
       "Bradikardi/taşikardi/nöbet veya ventriküler ektopi gelişirse ilgili algoritmaya geç; yeniden arrestte ritim algoritmasına dön."
     ],
-    "redFlags": [
+    "warningFindings": [
       "MAP <65 mmHg / devam eden hipotansiyon",
       "Tekrarlayan malign aritmi",
       "Tekrar arrest",
@@ -1072,7 +1085,7 @@ const CASES = [
       }
     ],
     "decision": {
-      "q": "ROSC sonrası hipotansiyon veya disritmi var mı?",
+      "q": "Spontan dolaşım geri döndükten (ROSC) sonra hipotansiyon veya disritmi var mı?",
       "yes": "Hedef MAP/ritim yönetimini başlat; ilgili algoritma basamaklarına geç.",
       "no": "Oksijenasyon, ısı, EKG ve vital takibi sürdür; uygun merkeze nakil."
     }
@@ -1087,9 +1100,9 @@ const CASES = [
     "soft": "#fff4db",
     "code": "SB-ASH-Y-17",
     "page": "32",
-    "featured": true,
+    "uiFeatured": true,
     "population": "adult",
-    "priority": "critical",
+    "uiPriority": "critical",
     "clinicalStatus": "reviewed",
     "source": {
       "documentId": "EK2-2026",
@@ -1107,7 +1120,7 @@ const CASES = [
       "codeStatus": "verified"
     },
     "summary": "Glukoz <60 mg/dL veya klinik hipoglisemide bilinç durumuna göre oral glikoz/dekstroz; 2026 şemasında IV dekstroz doğrudan uygulama basamağıdır.",
-    "first30": [
+    "criticalActions": [
       "Kan glikozunu hemen ölç; hipoglisemi bulgularını eş zamanlı değerlendir.",
       "Bilinç açık ve güvenli yutabiliyorsa ağızdan şekerli sıvı ver.",
       "Bilinç kapalı / oral alamıyorsa %10–%20 dekstrozdan 25 g glikozu IV bolus ver; yeniden glukoz ölç."
@@ -1118,7 +1131,7 @@ const CASES = [
       "Bilinç kapalı/oral alamıyorsa <strong>%10–%20 dekstrozdan 25 g glikoz IV bolus.</strong>",
       "Glukoz <60 mg/dL sürüyorsa 5–10 dk arayla tekrar değerlendir/uygula; klinik düzelmeyi seri izle."
     ],
-    "redFlags": [
+    "warningFindings": [
       "Bilinç kaybı veya nöbet",
       "Tekrarlayan/refrakter hipoglisemi",
       "Aspirasyon riski",
@@ -1153,9 +1166,9 @@ const CASES = [
     "soft": "#ebefff",
     "code": "SB-ASH-Y-18",
     "page": "33",
-    "featured": true,
+    "uiFeatured": true,
     "population": "adult",
-    "priority": "critical",
+    "uiPriority": "critical",
     "clinicalStatus": "reviewed",
     "source": {
       "documentId": "EK2-2026",
@@ -1173,7 +1186,7 @@ const CASES = [
       "codeStatus": "verified"
     },
     "summary": "2026 algoritması Cincinnati/FAST yerine BEFAST taramasını kullanır; son normal zaman ve uygun inme merkezi seçimi kritik karar noktalarıdır.",
-    "first30": [
+    "criticalActions": [
       "BEFAST ile hızlı inme taraması yap ve hastanın son normal görüldüğü zamanı kesinleştir.",
       "ABC, SpO₂, kan glikozu ve vital bulguları değerlendir; hipoglisemiyi dışla.",
       "İnme şüphesinde zaman kaybetmeden uygun inme merkezine nakil planını başlat; rutin tansiyon düşürme yapma."
@@ -1184,7 +1197,7 @@ const CASES = [
       "2026 şemasında normalin üstündeki kan basıncını rutin olarak düşürmeme yaklaşımı öne çıkarılmıştır.",
       "Trombolitik için ilk 4,5 saat; endovasküler girişim için ilk 6 saat kriterlerini ve uygun merkez seçimini dikkate al."
     ],
-    "redFlags": [
+    "warningFindings": [
       "Yeni fokal nörolojik defisit",
       "Posterior dolaşım bulguları: ani denge/görme bozukluğu",
       "Bilinç bozukluğu / aspirasyon riski",
@@ -1200,7 +1213,7 @@ const CASES = [
   },
   {
     "id": "seizure",
-    "title": "Nöbet / Status",
+    "title": "Nöbet / Status Epileptikus",
     "subtitle": "Benzodiazepin • ikinci basamak antiepileptik",
     "category": "Nörolojik",
     "icon": "〽️",
@@ -1208,9 +1221,9 @@ const CASES = [
     "soft": "#f1eaff",
     "code": "SB-ASH-Y-19",
     "page": "34",
-    "featured": false,
+    "uiFeatured": false,
     "population": "adult",
-    "priority": "high",
+    "uiPriority": "high",
     "clinicalStatus": "reviewed",
     "source": {
       "documentId": "EK2-2026",
@@ -1228,7 +1241,7 @@ const CASES = [
       "codeStatus": "verified"
     },
     "summary": "Nöbeti güvenli ABC yaklaşımıyla yönet; 2026 şemasında valproik asit ve levetirasetam ikinci basamak seçenekler arasına eklenmiştir.",
-    "first30": [
+    "criticalActions": [
       "Hastayı yaralanmadan koru; hava yolunu aç, oksijenasyon/ventilasyonu değerlendir.",
       "Kan glikozunu ölç ve düzeltilebilir nedeni ara.",
       "Devam eden nöbette ilk benzodiazepin basamağını geciktirme; dirençliyse 2026 ikinci basamak seçeneklerine geç."
@@ -1239,7 +1252,7 @@ const CASES = [
       "Dirençli nöbette <strong>fenitoin 20 mg/kg</strong> veya <strong>valproik asit 40 mg/kg</strong> veya <strong>levetirasetam 60 mg/kg IV</strong> seçenekleri yer alır.",
       "Pentothal/fenobarbital önceki algoritmadan çıkarılmıştır; seri solunum ve bilinç değerlendirmesi yap."
     ],
-    "redFlags": [
+    "warningFindings": [
       "Status epileptikus / tekrarlayan nöbet",
       "Solunum depresyonu veya hipoksi",
       "Hipoglisemi",
@@ -1320,9 +1333,9 @@ const CASES = [
     "soft": "#fff0e7",
     "code": "SB-ASH-Y-28",
     "page": "48–51",
-    "featured": false,
+    "uiFeatured": false,
     "population": "adult",
-    "priority": "high",
+    "uiPriority": "high",
     "clinicalStatus": "reviewed",
     "source": {
       "documentId": "EK2-2026",
@@ -1340,7 +1353,7 @@ const CASES = [
       "codeStatus": "verified"
     },
     "summary": "Yanma sürecini durdur, inhalasyon/hava yolu riskini erken tanı, yanık alanını değerlendir ve 2026 sıvı-ağrı yaklaşımına göre nakli planla.",
-    "first30": [
+    "criticalActions": [
       "Yanma sürecini durdur ve olay yeri güvenliğini sağla.",
       "Hava yolu/solunum sıkıntısı, inhalasyon yanığı ve boyunda sirküler yanık açısından erken değerlendir.",
       "Yanık alanını ve derecesini belirle; şok bulgusu varsa ilgili şok algoritmasına geç."
@@ -1351,7 +1364,7 @@ const CASES = [
       "Yanık alanını değerlendirmek için uygun yüzdelik yöntem kullan; yanık yüzeyini steril örtüyle koru.",
       "2026 güncellemesinde sıvı yaklaşımında Ringer Laktat/Parkland ve ağrıda fentanil öne çıkar; ayrıntıyı resmî şemadan doğrula."
     ],
-    "redFlags": [
+    "warningFindings": [
       "Yüz/boyun yanığı, inhalasyon bulgusu, stridor",
       "Elektrik yanığı",
       "Geniş yüzey alanlı / derin yanık",
@@ -1388,9 +1401,9 @@ const CASES = [
     "soft": "#faeaea",
     "code": "Ek-2 • Travma",
     "page": "68",
-    "featured": false,
+    "uiFeatured": false,
     "population": "adult",
-    "priority": "critical",
+    "uiPriority": "critical",
     "clinicalStatus": "reviewed",
     "source": {
       "documentId": "EK2-2026",
@@ -1406,7 +1419,7 @@ const CASES = [
       "codeStatus": "page-verified"
     },
     "summary": "2026 ilk değerlendirmede xABCDE: hayatı tehdit eden dış kanama kontrolü, hava yolundan önce ele alınır; yaşam tehdidi bulunan travmada sahada gereksiz gecikmeden kaçınılır.",
-    "first30": [
+    "criticalActions": [
       "Olay yeri güvenliği ve travma mekanizmasını değerlendir.",
       "x: hayatı tehdit eden dış kanamayı tanı ve derhal kontrol et.",
       "Ardından A-B-C-D-E; hava yolu, solunum, dolaşım, nörolojik durum ve ekspojuru sistematik tamamla."
@@ -1417,7 +1430,7 @@ const CASES = [
       "<strong>C:</strong> dolaşım/şok; dış kanama, pelvis ve iç kanama olasılığını değerlendir.",
       "<strong>D/E:</strong> GKS/pupiller, tam vücut değerlendirmesi ve hipotermiden korunma. Hayatı tehdit eden sorunları düzeltirken hızlı nakli sürdür."
     ],
-    "redFlags": [
+    "warningFindings": [
       "Kontrolsüz dış kanama",
       "Hava yolu tehdidi",
       "Tansiyon pnömotoraks / ciddi solunum yetmezliği",

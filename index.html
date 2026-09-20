@@ -9,10 +9,10 @@
   <meta name="apple-mobile-web-app-title" content="Saha112" />
   <meta name="description" content="Hastane öncesi acil sağlık için vaka bazlı eğitim ve hızlı hatırlatma rehberi." />
   <title>Saha112 — Vaka Rehberi</title>
-  <link rel="manifest" href="./manifest.webmanifest?v=0.7.1" />
+  <link rel="manifest" href="./manifest.webmanifest?v=0.8" />
   <link rel="apple-touch-icon" href="./apple-touch-icon.png" />
   <link rel="icon" href="./icon.svg" type="image/svg+xml" />
-  <link rel="stylesheet" href="./styles.css?v=0.7.1" />
+  <link rel="stylesheet" href="./styles.css?v=0.8" />
 </head>
 <body>
   <div class="app-shell">
@@ -22,7 +22,7 @@
         <div class="brand-copy">
           <div class="eyebrow">HASTANE ÖNCESİ • EĞİTİM</div>
           <h1>Saha112</h1>
-          <p>Resmî akış şemalarına bağlı hızlı saha rehberi</p>
+          <p>Resmî akış şemaları temel alınarak hazırlanmış hızlı saha rehberi</p>
         </div>
         <div class="top-actions">
           <button id="fieldToggle" class="icon-btn" type="button" aria-label="Hızlı Saha modunu aç" aria-pressed="false" title="Hızlı Saha modu">
@@ -49,9 +49,9 @@
     <div class="context-panel">
       <div id="populationTabs" class="population-tabs" role="tablist" aria-label="Hasta grubu"></div>
       <div class="utility-row">
-        <div class="protocol-strip"><span class="status-dot"></span><span><strong>25.08.2026</strong> Ek‑2</span><span class="protocol-chip">V0.7.1</span></div>
+        <div class="protocol-strip"><span class="status-dot"></span><span><strong>25.08.2026</strong> Ek‑2</span><span class="protocol-chip" id="productVersionChip">V0.8</span></div>
         <div id="networkStatus" class="status-pill" data-state="online"><span class="network-dot"></span><span>Çevrimiçi</span></div>
-        <div class="status-pill desktop-pill" id="modePill">Standart</div>
+        <div class="status-pill mode-pill" id="modePill" data-state="standard">Standart görünüm</div>
         <div class="status-pill desktop-pill" id="themePill">Açık</div>
       </div>
     </div>
@@ -60,12 +60,17 @@
       <strong>Çevrimdışı mod</strong><span>Vaka rehberi çalışır; resmî PDF ve dış bağlantılar internet gerektirebilir.</span>
     </div>
 
+    <div id="updateBanner" class="update-banner hidden" role="status" aria-live="polite">
+      <span><strong>Yeni sürüm hazır.</strong> Açık vaka değişmeden kalır; yenilediğinde son arayüz yüklenir.</span>
+      <button type="button" data-action="reload-app">Yenile</button>
+    </div>
+
     <main id="mainView" class="main-view">
       <section class="hero-card">
         <div class="hero-copy">
-          <span class="hero-kicker">Saha karar desteği</span>
-          <h2>Önce kritik eylem. Sonra ayrıntı.</h2>
-          <p>Vaka açıldığında ilk 30 saniye, algoritma, kırmızı bayraklar ve karar noktası aynı akışta görünür.</p>
+          <span class="hero-kicker">Hızlı saha rehberi</span>
+          <h2>Önce kritik adımlar. Sonra ayrıntı.</h2>
+          <p>Vaka açıldığında ilk kritik adımlar, algoritma, Acil Uyarı Bulguları ve karar noktası aynı akışta görünür.</p>
           <div class="hero-badges"><span>Kaynak izli</span><span>Offline çekirdek</span><span>QA kontrollü</span></div>
         </div>
       </section>
@@ -77,18 +82,18 @@
       </section>
 
       <section id="shortcutSection" class="shortcut-section hidden" aria-labelledby="shortcutTitle">
-        <div class="section-head"><div><span class="mini-label">KISAYOLLAR</span><h3 id="shortcutTitle">Sık kullandıkların</h3></div><button id="clearRecentsBtn" class="text-btn" type="button" data-action="clear-recents">Geçmişi temizle</button></div>
+        <div class="section-head"><div><span class="mini-label">KISAYOLLAR</span><h3 id="shortcutTitle">Favoriler ve son bakılanlar</h3></div><button id="clearRecentsBtn" class="text-btn" type="button" data-action="clear-recents">Geçmişi temizle</button></div>
         <div id="shortcutGrid" class="shortcut-grid"></div>
       </section>
 
       <section id="featuredSection" aria-labelledby="quickTitle">
-        <div class="section-head"><div><span class="mini-label">ÖNCELİKLİ</span><h3 id="quickTitle">Kritik ve sık kullanılan vakalar</h3></div><button class="text-btn" type="button" data-action="show-all">Tümünü gör</button></div>
+        <div class="section-head"><div><span class="mini-label">ÖNCELİKLİ</span><h3 id="quickTitle">Öncelikli vakalar</h3></div><button class="text-btn" type="button" data-action="show-all">Tümünü gör</button></div>
         <div id="featuredGrid" class="featured-grid"></div>
       </section>
 
       <section aria-labelledby="filterTitle">
         <div class="section-head compact"><h3 id="filterTitle">Vaka kütüphanesi</h3><span id="caseCount" class="count-pill"></span></div>
-        <div id="filterRow" class="filter-row" role="tablist" aria-label="Vaka kategorileri"></div>
+        <div id="filterRow" class="filter-row" role="group" aria-label="Vaka kategorisi filtreleri"></div>
         <div id="caseList" class="case-list"></div>
       </section>
 
@@ -112,12 +117,12 @@
       <a class="source-link" href="https://acilafet.saglik.gov.tr/TR-119840/hastane-oncesi-acil-tibbi-yardim-ve-bakim-akis-semalari.html" target="_blank" rel="noopener">Resmî algoritma sayfasını aç <span>↗</span></a>
       <a class="source-link" href="https://dosyamerkez.saglik.gov.tr/Eklenti/55773/0/ek-2-hastane-oncesi-acil-tibbi-yardim-ve-bakim-akis-semalaripdf.pdf" target="_blank" rel="noopener">Ek‑2 PDF'yi aç <span>↗</span></a>
       <div class="authority-legend"><div><span class="authority direct">Doğrudan</span><p>SKKM/ÇM onayı gerektirmeyen basamak olarak ayrıca doğrulanan uygulama.</p></div><div><span class="authority skkm">SKKM/ÇM</span><p>Komuta kontrol/medikal danışman kararı gerektiren uygulama.</p></div><div><span class="authority algorithm">Akış şeması</span><p>İlaç/doz şemada yer alır; bu sürümde yetki ayrımı ayrıca doğrulanmadıysa resmî şema kontrol edilir.</p></div></div>
-      <div class="source-meta"><span>Şema: v2</span><span>Uygulama: V0.7.1</span><span>İçerik inceleme: 20.09.2026</span></div>
+      <div class="source-meta"><span>Veri şeması: v3</span><span id="sourceProductMeta">Uygulama: V0.8</span><span id="sourceReviewMeta">Kaynak seti son gözden geçirme: —</span></div>
       <p class="sheet-disclaimer">Saha112 resmî Sağlık Bakanlığı uygulaması değildir. Bu arayüz resmî kaynakların eğitim amaçlı sadeleştirilmiş hızlı erişim katmanıdır.</p>
     </section>
   </div>
 
-  <script src="./cases-data.js?v=0.7.1"></script>
-  <script src="./app-core.js?v=0.7.1"></script>
+  <script src="./cases-data.js?v=0.8"></script>
+  <script src="./app-core.js?v=0.8"></script>
 </body>
 </html>

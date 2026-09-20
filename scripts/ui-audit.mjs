@@ -4,6 +4,7 @@ const css=fs.readFileSync('styles.css','utf8');
 const html=fs.readFileSync('index.html','utf8');
 const sw=fs.readFileSync('sw.js','utf8');
 const app=fs.readFileSync('app-core.js','utf8');
+const data=fs.readFileSync('cases-data.js','utf8');
 const errors=[];
 const assert=(ok,msg)=>{if(!ok)errors.push(msg)};
 
@@ -19,7 +20,7 @@ for(const key of ['ink','ink2','muted','blue','cyan','green','amber','red','viol
 
 assert(css.includes(":root[data-theme=dark] .case-category"),'Koyu mod vaka accent metin override eksik');
 assert(css.includes("color-mix(in srgb,var(--accent) 48%,white)"),'Accent metin aydınlatma kuralı eksik');
-assert(css.includes(".first30-card")&&css.includes("border-left:4px solid var(--red)"),'İlk 30 saniye kritik vurgu kuralı eksik');
+assert(css.includes(".first30-card")&&css.includes("border-left:4px solid var(--red)"),'İlk Kritik Adımlar vurgu kuralı eksik');
 assert(css.includes(".critical-section")&&css.includes(".decision-section")&&css.includes(".meds-section"),'Kritik bölüm hiyerarşisi eksik');
 assert(!html.includes('17 doğrulanmış yetişkin vaka'),'Hero içinde statik vaka sayısı kalmış');
 assert(html.indexOf('id="populationTabs"')>html.indexOf('</header>'),'Hasta grubu sekmeleri sticky header içinde olmamalı');
@@ -29,8 +30,8 @@ assert(css.includes("/* V0.6.1 dark surface hardening */"),'Koyu mod yüzey hard
 assert(css.includes(":root[data-theme='dark'] .quick-step")&&css.includes("background:var(--detail-panel-deep)!important"),'Koyu mod algoritma adımı explicit yüzeyi eksik');
 assert(css.includes(":root[data-theme='dark'] .red-flag")&&css.includes("background:#2b202a!important"),'Koyu mod kırmızı bayrak yüzeyi eksik');
 assert(css.includes(":root[data-theme='dark'] .branch.yes")&&css.includes(":root[data-theme='dark'] .branch.no"),'Koyu mod karar kutuları explicit değil');
-assert(html.includes('styles.css?v=0.7')&&html.includes('app-core.js?v=0.7')&&html.includes('cases-data.js?v=0.7'),'Kritik asset cache-bust sürümü eksik');
-assert(sw.includes("saha112-v07")&&sw.includes('NETWORK_FIRST_DESTINATIONS'),'Service worker kritik asset güncelleme stratejisi eksik');
+assert(html.includes('styles.css?v=0.8')&&html.includes('app-core.js?v=0.8')&&html.includes('cases-data.js?v=0.8'),'Kritik asset cache-bust sürümü eksik');
+assert(sw.includes("saha112-v08")&&sw.includes('NETWORK_FIRST_DESTINATIONS'),'Service worker kritik asset güncelleme stratejisi eksik');
 assert(!app.includes('Kırmızı bayrak'),'Eski kullanıcı terimi hâlâ UI içinde');
 assert(app.includes('Acil Uyarı Bulguları'),'Acil Uyarı Bulguları başlığı eksik');
 assert(app.includes('Önceliği, müdahaleyi veya nakil kararını değiştirebilecek bulgular.'),'Acil uyarı açıklaması eksik');
@@ -41,6 +42,18 @@ assert(app.includes("disabled")&&app.includes("Yakında")&&app.includes("populat
 assert(css.includes('/* V0.7 field workflow */'),'Hızlı Saha görsel hiyerarşi bloğu eksik');
 assert(css.includes(":root[data-density='compact'] .dose")&&css.includes('font-size:16px'),'Hızlı Saha doz vurgusu eksik');
 assert(css.includes(":root[data-density='compact'] .critical-section")&&css.includes(":root[data-density='compact'] .decision-section")&&css.includes(":root[data-density='compact'] .meds-section"),'Hızlı Saha kritik bölüm vurguları eksik');
+assert(!html.includes('Saha karar desteği')&&!html.includes('Resmî akış şemalarına bağlı')&&!html.includes('Sık kullandıkların')&&!html.includes('Kritik ve sık kullanılan vakalar'),'Eski/iddialı ürün dili kullanıcı arayüzünde kaldı');
+assert(!html.includes('ilk 30 saniye')&&!app.includes('İlk 30 saniye')&&!app.includes('İlk 30 sn'),'İlk 30 saniye terminolojisi kaldı');
+assert(app.includes('İlk Kritik Adımlar')&&app.includes('criticalActions'),'İlk Kritik Adımlar modeli/UI eksik');
+assert(!app.includes('>KRİTİK<')&&app.includes('ÖNCELİKLİ'),'UI öncelik etiketi klinik KRİTİK ifadesinden ayrılmamış');
+assert(html.includes('role="group" aria-label="Vaka kategorisi filtreleri"')&&app.includes('aria-pressed='),'Kategori filtre semantiği eksik');
+assert(app.includes('routeLabel')&&app.includes('map(routeLabel)')&&data.includes('"NEB": "Nebülizasyon"'),'Nebülizasyon kullanıcı etiketi eksik');
+assert(html.includes('sourceReviewMeta')&&app.includes('latestReviewDate'),'Dinamik kaynak gözden geçirme tarihi eksik');
+assert(app.includes('PDF sayfa')&&app.includes('PDF s.'),'PDF sayfa etiketi açık değil');
+assert(html.includes('updateBanner')&&app.includes('controllerchange')&&app.includes("reload-app"),'Pasif PWA güncelleme bildirimi eksik');
+assert(app.includes('sourceFocusable')&&app.includes("e.key==='Tab'")&&css.includes('html.dialog-open'),'Kaynak dialog focus trap/scroll kilidi eksik');
+assert(data.includes('"title": "İnme / SVO"'),'İnme / SVO başlığı korunmamış');
+assert(data.includes('"title": "Nöbet / Status Epileptikus"'),'Status Epileptikus başlığı eksik');
 
 console.log(`Saha112 UI audit: ${errors.length} hata`);
 for(const e of errors)console.error('ERROR '+e);

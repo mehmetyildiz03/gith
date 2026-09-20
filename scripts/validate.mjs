@@ -17,7 +17,7 @@ try{
 }catch(e){err(`cases-data.js okunamadı: ${e.message}`)}
 
 if(APP_META){
-  if(APP_META.schemaVersion!==2)err('APP_META.schemaVersion 2 olmalı');
+  if(APP_META.schemaVersion!==3)err('APP_META.schemaVersion 3 olmalı');
   if(!Array.isArray(APP_META.populations)||APP_META.populations.length!==3)err('3 population tanımı bekleniyor');
 }
 if(!Array.isArray(CASES)||!CASES.length)err('CASES boş veya dizi değil');
@@ -30,15 +30,26 @@ else{
 }
 
 const ids=new Set();const allowedAuthority=new Set(['DIRECT','SKKM','ALGORITHM']);const allowedRoutes=new Set(APP_META?.routes||[]);const allowedPop=new Set((APP_META?.populations||[]).map(p=>p.id));
+if(APP_META?.routeLabels?.NEB!=='Nebülizasyon')err('NEB kullanıcı etiketi Nebülizasyon olmalı');
+if(!String(APP_META?.contentVersion||'').startsWith('EK2-2026.08.25-review-'))err('contentVersion kaynak tarihinden bağımsız inceleme sürümünü içermeli');
+const strokeCase=(CASES||[]).find(c=>c.id==='stroke');
+if(!strokeCase||strokeCase.title!=='İnme / SVO')err('İnme / SVO başlığı korunmalı');
+const seizureCase=(CASES||[]).find(c=>c.id==='seizure');
+if(!seizureCase||seizureCase.title!=='Nöbet / Status Epileptikus')err('Nöbet başlığı Status Epileptikus olarak açık yazılmalı');
+const beeCase=(CASES||[]).find(c=>c.id==='bee');
+if(!beeCase||beeCase.severity?.mild?.label!=='Lokal reaksiyon'||beeCase.severity?.moderate?.label!=='Sistemik bulgu'||beeCase.severity?.severe?.label!=='Anafilaksi')err('Arı sokması klinik görünüm etiketleri eksik');
 for(const [i,c] of (CASES||[]).entries()){
   const at=`CASES[${i}] ${c?.id||'(id yok)'}`;
   for(const f of ['id','title','subtitle','category','population','summary','code','page','clinicalStatus'])if(!c?.[f])err(`${at}: ${f} eksik`);
+  if(!['critical','high','standard'].includes(c.uiPriority))err(`${at}: uiPriority geçersiz`);
+  if(typeof c.uiFeatured!=='boolean')err(`${at}: uiFeatured boolean olmalı`);
+  if('priority' in c||'featured' in c||'first30' in c||'redFlags' in c)err(`${at}: eski UI veri alanları kullanılmamalı`);
   if(ids.has(c.id))err(`${at}: duplicate id`);ids.add(c.id);
   if(!allowedPop.has(c.population))err(`${at}: geçersiz population ${c.population}`);
   if(c.clinicalStatus!=='reviewed')warn(`${at}: clinicalStatus reviewed değil`);
-  if(!Array.isArray(c.first30)||c.first30.length<2||c.first30.length>5)err(`${at}: first30 2-5 madde olmalı`);
+  if(!Array.isArray(c.criticalActions)||c.criticalActions.length<2||c.criticalActions.length>5)err(`${at}: criticalActions 2-5 madde olmalı`);
   if(!Array.isArray(c.quick)||c.quick.length<2)err(`${at}: quick eksik`);
-  if(!Array.isArray(c.redFlags)||!c.redFlags.length)err(`${at}: redFlags eksik`);
+  if(!Array.isArray(c.warningFindings)||!c.warningFindings.length)err(`${at}: warningFindings eksik`);
   if(!c.decision?.q||!c.decision?.yes||!c.decision?.no)err(`${at}: decision eksik`);
   const s=c.source;
   if(!s?.documentId||!s?.effectiveDate||!s?.reviewedAt||!s?.officialPageUrl||!s?.officialPdfUrl||!s?.page)err(`${at}: kaynak izi eksik`);
