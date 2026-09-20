@@ -38,38 +38,39 @@
         </div>
       </div>
 
-      <div class="utility-row">
-        <div class="protocol-strip"><span class="status-dot"></span><span><strong>25.08.2026</strong> Ek‑2 bazlı</span><span class="protocol-chip">V0.5</span></div>
-        <div id="networkStatus" class="status-pill" data-state="online"><span class="network-dot"></span><span>Çevrimiçi</span></div>
-        <div class="status-pill desktop-pill" id="modePill">Standart</div>
-        <div class="status-pill desktop-pill" id="themePill">Açık</div>
-      </div>
-
       <div class="search-wrap">
         <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m21 21-4.4-4.4m2.4-5.1a7.5 7.5 0 1 1-15 0 7.5 7.5 0 0 1 15 0Z"/></svg>
         <input id="searchInput" type="search" placeholder="Vaka, bulgu, ilaç veya doz ara…" autocomplete="off" />
         <kbd>⌕</kbd>
       </div>
 
-      <div id="populationTabs" class="population-tabs" role="tablist" aria-label="Hasta grubu"></div>
     </header>
 
+    <div class="context-panel">
+      <div id="populationTabs" class="population-tabs" role="tablist" aria-label="Hasta grubu"></div>
+      <div class="utility-row">
+        <div class="protocol-strip"><span class="status-dot"></span><span><strong>25.08.2026</strong> Ek‑2</span><span class="protocol-chip">V0.6</span></div>
+        <div id="networkStatus" class="status-pill" data-state="online"><span class="network-dot"></span><span>Çevrimiçi</span></div>
+        <div class="status-pill desktop-pill" id="modePill">Standart</div>
+        <div class="status-pill desktop-pill" id="themePill">Açık</div>
+      </div>
+    </div>
+
     <div id="offlineBanner" class="offline-banner hidden" role="status">
-      <strong>Çevrimdışı mod</strong><span>Önbelleğe alınan vaka rehberi çalışır; resmî PDF ve dış bağlantılar internet gerektirebilir.</span>
+      <strong>Çevrimdışı mod</strong><span>Vaka rehberi çalışır; resmî PDF ve dış bağlantılar internet gerektirebilir.</span>
     </div>
 
     <main id="mainView" class="main-view">
       <section class="hero-card">
         <div class="hero-copy">
           <span class="hero-kicker">Saha karar desteği</span>
-          <h2>İlk 30 saniye → algoritma → karar</h2>
-          <p>Önce kritik eylem, sonra ayrıntı. Kaynak, sürüm ve yetki işaretleri içerikle birlikte görünür.</p>
-          <div class="hero-badges"><span>17 doğrulanmış yetişkin vaka</span><span>Offline çekirdek</span><span>QA kontrollü deploy</span></div>
+          <h2>Önce kritik eylem. Sonra ayrıntı.</h2>
+          <p>Vaka açıldığında ilk 30 saniye, algoritma, kırmızı bayraklar ve karar noktası aynı akışta görünür.</p>
+          <div class="hero-badges"><span>Kaynak izli</span><span>Offline çekirdek</span><span>QA kontrollü</span></div>
         </div>
-        <div class="hero-side" aria-hidden="true"><img src="./icon.svg" alt="" /></div>
       </section>
 
-      <section class="insight-strip" aria-label="Kütüphane özeti">
+      <section class="library-strip" aria-label="Kütüphane özeti">
         <article class="insight-card"><span class="insight-label">Vaka</span><strong id="statCases">0</strong><p id="statCasesText">Doğrulanmış içerik</p></article>
         <article class="insight-card"><span class="insight-label">Kategori</span><strong id="statCategories">0</strong><p>Aktif grupta</p></article>
         <article class="insight-card"><span class="insight-label">Kaynak</span><strong>Ek‑2</strong><p>25.08.2026 yürürlük</p></article>
@@ -81,7 +82,7 @@
       </section>
 
       <section id="featuredSection" aria-labelledby="quickTitle">
-        <div class="section-head"><div><span class="mini-label">ÖNE ÇIKAN</span><h3 id="quickTitle">Hızlı vakalar</h3></div><button class="text-btn" type="button" data-action="show-all">Tümünü gör</button></div>
+        <div class="section-head"><div><span class="mini-label">ÖNCELİKLİ</span><h3 id="quickTitle">Kritik ve sık kullanılan vakalar</h3></div><button class="text-btn" type="button" data-action="show-all">Tümünü gör</button></div>
         <div id="featuredGrid" class="featured-grid"></div>
       </section>
 
@@ -111,7 +112,7 @@
       <a class="source-link" href="https://acilafet.saglik.gov.tr/TR-119840/hastane-oncesi-acil-tibbi-yardim-ve-bakim-akis-semalari.html" target="_blank" rel="noopener">Resmî algoritma sayfasını aç <span>↗</span></a>
       <a class="source-link" href="https://dosyamerkez.saglik.gov.tr/Eklenti/55773/0/ek-2-hastane-oncesi-acil-tibbi-yardim-ve-bakim-akis-semalaripdf.pdf" target="_blank" rel="noopener">Ek‑2 PDF'yi aç <span>↗</span></a>
       <div class="authority-legend"><div><span class="authority direct">Doğrudan</span><p>SKKM/ÇM onayı gerektirmeyen basamak olarak ayrıca doğrulanan uygulama.</p></div><div><span class="authority skkm">SKKM/ÇM</span><p>Komuta kontrol/medikal danışman kararı gerektiren uygulama.</p></div><div><span class="authority algorithm">Akış şeması</span><p>İlaç/doz şemada yer alır; bu sürümde yetki ayrımı ayrıca doğrulanmadıysa resmî şema kontrol edilir.</p></div></div>
-      <div class="source-meta"><span>Şema: v2</span><span>Uygulama: V0.5</span><span>İçerik inceleme: 20.09.2026</span></div>
+      <div class="source-meta"><span>Şema: v2</span><span>Uygulama: V0.6</span><span>İçerik inceleme: 20.09.2026</span></div>
       <p class="sheet-disclaimer">Saha112 resmî Sağlık Bakanlığı uygulaması değildir. Bu arayüz resmî kaynakların eğitim amaçlı sadeleştirilmiş hızlı erişim katmanıdır.</p>
     </section>
   </div>

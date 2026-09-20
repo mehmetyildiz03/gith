@@ -31,6 +31,8 @@ jobs:
           node --check sw.js
       - name: Clinical content and PWA QA
         run: node scripts/validate.mjs
+      - name: UI contrast and hierarchy audit
+        run: node scripts/ui-audit.mjs
 
   deploy:
     needs: validate
