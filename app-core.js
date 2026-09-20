@@ -1,93 +1,123 @@
-const CATEGORIES=['Tümü','Alerji','Solunum','Kardiyak','Çevresel'];
-const THEME_KEY='saha112:theme';
-const FAV_KEY='saha112:favs';
-const RECENT_KEY='saha112:recent';
-const DENSITY_KEY='saha112:density';
-let state={
-  category:'Tümü',query:'',current:null,view:'home',nav:'home',
-  returnScrollY:0,returnNav:'home',
-  favorites:new Set(JSON.parse(localStorage.getItem(FAV_KEY)||'[]')),
-  recent:JSON.parse(localStorage.getItem(RECENT_KEY)||'[]'),
-  theme:localStorage.getItem(THEME_KEY)||'',
-  density:localStorage.getItem(DENSITY_KEY)||'standard'
+const STORAGE={theme:'saha112:theme',density:'saha112:density',favorites:'saha112:favs',recent:'saha112:recent',population:'saha112:population'};
+const safeJSON=(key,fallback)=>{try{return JSON.parse(localStorage.getItem(key)||JSON.stringify(fallback))}catch{return fallback}};
+const state={
+  theme:localStorage.getItem(STORAGE.theme)||'',
+  density:localStorage.getItem(STORAGE.density)||'standard',
+  population:localStorage.getItem(STORAGE.population)||'adult',
+  category:'Tümü',query:'',view:'home',nav:'home',current:null,
+  favorites:new Set(safeJSON(STORAGE.favorites,[])),recent:safeJSON(STORAGE.recent,[]),
+  returnScrollY:0,returnNav:'home'
 };
-
 const $=s=>document.querySelector(s);
-const appShell=$('.app-shell');
-const featuredGrid=$('#featuredGrid'),caseList=$('#caseList'),filterRow=$('#filterRow'),caseCount=$('#caseCount'),mainView=$('#mainView'),detailView=$('#detailView'),sourceSheet=$('#sourceSheet');
-const themeToggle=$('#themeToggle'),fieldToggle=$('#fieldToggle'),themePill=$('#themePill'),modePill=$('#modePill'),themeMeta=document.querySelector('meta[name="theme-color"]');
-const shortcutSection=$('#shortcutSection'),shortcutGrid=$('#shortcutGrid'),clearRecentsBtn=$('#clearRecentsBtn'),filterTitle=$('#filterTitle');
+const $$=s=>[...document.querySelectorAll(s)];
+const el={
+  shell:$('.app-shell'),main:$('#mainView'),detail:$('#detailView'),source:$('#sourceSheet'),search:$('#searchInput'),
+  featured:$('#featuredGrid'),featuredSection:$('#featuredSection'),filters:$('#filterRow'),list:$('#caseList'),count:$('#caseCount'),
+  populations:$('#populationTabs'),shortcutSection:$('#shortcutSection'),shortcuts:$('#shortcutGrid'),clearRecents:$('#clearRecentsBtn'),
+  statCases:$('#statCases'),statCasesText:$('#statCasesText'),statCategories:$('#statCategories'),filterTitle:$('#filterTitle'),
+  themeToggle:$('#themeToggle'),fieldToggle:$('#fieldToggle'),themePill:$('#themePill'),modePill:$('#modePill'),
+  network:$('#networkStatus'),offline:$('#offlineBanner'),themeMeta:$('meta[name="theme-color"]')
+};
+const strip=s=>String(s??'').replace(/<[^>]*>/g,' ').replace(/\s+/g,' ').trim();
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const caseStyle=c=>`--accent:${c.accent};--soft:${c.soft}`;
+const popMeta=id=>APP_META.populations.find(p=>p.id===id)||APP_META.populations[0];
+const casesForPopulation=()=>CASES.filter(c=>c.population===state.population&&c.clinicalStatus==='reviewed');
+const categories=()=>['Tümü',...new Set(casesForPopulation().map(c=>c.category))];
 
-function esc(s){return String(s).replace(/[&<>'"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]))}
-function caseStyle(c){return `--accent:${c.accent};--soft:${c.soft}`}
-function detectTheme(){if(state.theme==='light'||state.theme==='dark')return state.theme;return window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light'}
-function applyTheme(theme){const t=theme||detectTheme();document.documentElement.setAttribute('data-theme',t);themePill.textContent=t==='dark'?'Koyu mod':'Açık mod';themeToggle?.setAttribute('aria-label',t==='dark'?'Açık moda geç':'Koyu moda geç');themeToggle?.setAttribute('aria-pressed',String(t==='dark'));if(themeMeta)themeMeta.setAttribute('content',t==='dark'?'#0f1722':'#edf4f8')}
-function toggleTheme(){const next=document.documentElement.getAttribute('data-theme')==='dark'?'light':'dark';state.theme=next;localStorage.setItem(THEME_KEY,next);applyTheme(next)}
-function applyDensity(){const compact=state.density==='compact';document.documentElement.setAttribute('data-density',compact?'compact':'standard');fieldToggle?.classList.toggle('active',compact);fieldToggle?.setAttribute('aria-label',compact?'Hızlı Saha modunu kapat':'Hızlı Saha modunu aç');fieldToggle?.setAttribute('aria-pressed',String(compact));if(modePill)modePill.textContent=compact?'Hızlı Saha':'Standart görünüm'}
-function toggleDensity(){state.density=state.density==='compact'?'standard':'compact';localStorage.setItem(DENSITY_KEY,state.density);applyDensity()}
+function detectTheme(){if(['light','dark'].includes(state.theme))return state.theme;return matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light'}
+function applyTheme(theme){const t=theme||detectTheme();document.documentElement.dataset.theme=t;el.themeToggle?.setAttribute('aria-pressed',String(t==='dark'));el.themeToggle?.setAttribute('aria-label',t==='dark'?'Açık moda geç':'Koyu moda geç');if(el.themePill)el.themePill.textContent=t==='dark'?'Koyu':'Açık';el.themeMeta?.setAttribute('content',t==='dark'?'#0f1722':'#edf4f8')}
+function toggleTheme(){state.theme=document.documentElement.dataset.theme==='dark'?'light':'dark';localStorage.setItem(STORAGE.theme,state.theme);applyTheme(state.theme)}
+function applyDensity(){const compact=state.density==='compact';document.documentElement.dataset.density=compact?'compact':'standard';el.fieldToggle?.classList.toggle('active',compact);el.fieldToggle?.setAttribute('aria-pressed',String(compact));el.fieldToggle?.setAttribute('aria-label',compact?'Hızlı Saha modunu kapat':'Hızlı Saha modunu aç');if(el.modePill)el.modePill.textContent=compact?'Hızlı Saha':'Standart'}
+function toggleDensity(){state.density=state.density==='compact'?'standard':'compact';localStorage.setItem(STORAGE.density,state.density);applyDensity()}
+function updateNetwork(){const online=navigator.onLine;el.network.dataset.state=online?'online':'offline';el.network.querySelector('span:last-child').textContent=online?'Çevrimiçi':'Çevrimdışı';el.offline.classList.toggle('hidden',online)}
 
-function renderFeatured(){const f=CASES.filter(x=>x.featured).slice(0,3);featuredGrid.innerHTML=f.map((c,i)=>`<button class="featured-card ${i===0?'primary':''}" style="${caseStyle(c)}" data-open="${c.id}"><span class="corner-arrow">↗</span><div class="case-icon">${c.icon}</div><h4>${c.title}</h4><p>${c.subtitle}</p>${i===0?'<div class="severity-mini"><span class="g"></span><span class="a"></span><span class="r"></span></div>':''}<span class="code">${c.code}</span></button>`).join('')}
-function searchHaystack(c){const severity=c.severity?Object.values(c.severity).flatMap(s=>[s.label,...s.bullets,s.action]):[];const meds=(c.meds||[]).flatMap(m=>[m.name,m.dose,m.auth,m.note]);return [c.title,c.subtitle,c.category,c.code,c.summary,...c.quick,...c.redFlags,c.decision?.q,c.decision?.yes,c.decision?.no,...severity,...meds].filter(Boolean).join(' ').replace(/<[^>]+>/g,' ')}
-function renderFilters(){filterRow.innerHTML=CATEGORIES.map(x=>`<button type="button" role="tab" aria-selected="${state.category===x}" class="filter-chip ${state.category===x?'active':''}" data-filter="${x}">${x}</button>`).join('')}
-function filteredCases(){const q=state.query.trim().toLocaleLowerCase('tr-TR');return CASES.filter(c=>(state.category==='Tümü'||c.category===state.category)&&(!q||searchHaystack(c).toLocaleLowerCase('tr-TR').includes(q)))}
-function visibleCases(){const list=filteredCases();return state.view==='favorites'?list.filter(c=>state.favorites.has(c.id)):list}
-function syncListHeading(){if(filterTitle)filterTitle.textContent=state.view==='favorites'?'Favoriler':'Vaka kütüphanesi'}
-function renderCases(list=visibleCases()){syncListHeading();caseCount.textContent=state.view==='favorites'?`${list.length} favori`:`${list.length} vaka`;const stats=$('#statCases');if(stats)stats.textContent=String(CASES.length);caseList.innerHTML=list.length?list.map(c=>`<button type="button" class="case-row" style="${caseStyle(c)}" data-open="${c.id}"><div class="case-icon">${c.icon}</div><div class="row-copy"><h4>${c.title}</h4><p>${c.subtitle}</p><div class="row-meta"><span class="tag">${c.category}</span><span class="source-code">${c.code}</span></div></div><span class="chev">›</span></button>`).join(''):`<div class="empty-state"><div class="empty-icon">${state.view==='favorites'?'☆':'🔎'}</div><h3>${state.view==='favorites'?'Favori vaka yok':'Sonuç bulunamadı'}</h3><p>${state.view==='favorites'?'Bir vaka ekranındaki yıldız ile hızlı erişime ekleyebilirsin.':'Aramayı kısalt veya farklı bir kategori seç.'}</p></div>`}
-function addRecent(id){state.recent=[id,...state.recent.filter(x=>x!==id)].slice(0,5);localStorage.setItem(RECENT_KEY,JSON.stringify(state.recent))}
+function searchText(c){
+  const sev=c.severity?Object.values(c.severity).flatMap(s=>[s.label,...s.bullets,s.action]):[];
+  const meds=(c.meds||[]).flatMap(m=>[m.name,m.dose,(m.routes||[]).join(' '),m.repeat,m.maxDose,m.note,APP_META.authority[m.authority]?.label]);
+  return [c.title,c.subtitle,c.category,c.code,c.summary,...c.first30,...c.quick,...c.redFlags,c.decision?.q,c.decision?.yes,c.decision?.no,...sev,...meds].filter(Boolean).map(strip).join(' ').toLocaleLowerCase('tr-TR');
+}
+function visibleCases(){
+  const q=state.query.trim().toLocaleLowerCase('tr-TR');
+  let list=casesForPopulation().filter(c=>state.category==='Tümü'||c.category===state.category);
+  if(state.view==='favorites')list=list.filter(c=>state.favorites.has(c.id));
+  if(q)list=list.filter(c=>searchText(c).includes(q));
+  return list;
+}
+function renderPopulations(){
+  el.populations.innerHTML=APP_META.populations.map(p=>{const n=CASES.filter(c=>c.population===p.id&&c.clinicalStatus==='reviewed').length;const active=state.population===p.id;return `<button type="button" role="tab" aria-selected="${active}" class="population-tab ${active?'active':''}" data-population="${p.id}"><span>${esc(p.label)}</span><small>${n||'QA'}</small></button>`}).join('');
+}
+function renderFilters(){const cats=categories();if(!cats.includes(state.category))state.category='Tümü';el.filters.innerHTML=cats.map(c=>`<button type="button" role="tab" aria-selected="${state.category===c}" class="filter-chip ${state.category===c?'active':''}" data-filter="${esc(c)}">${esc(c)}</button>`).join('')}
+function renderStats(){const all=casesForPopulation();el.statCases.textContent=String(all.length);el.statCategories.textContent=String(new Set(all.map(c=>c.category)).size);el.statCasesText.textContent=all.length?'Doğrulanmış içerik':`${popMeta(state.population).algorithmRange} • QA bekliyor`}
+function emptyLibrary(){const p=popMeta(state.population);return `<div class="empty-state planned"><div class="empty-icon">◎</div><h3>${esc(p.label)} kütüphanesi QA aşamasında</h3><p>${esc(p.algorithmRange)} için altyapı hazır. Kaynak-kod-doz-yetki doğrulaması tamamlanmadan klinik kart yayınlanmıyor.</p></div>`}
+function renderCases(){
+  const base=casesForPopulation();const list=visibleCases();el.filterTitle.textContent=state.view==='favorites'?'Favoriler':'Vaka kütüphanesi';el.count.textContent=state.view==='favorites'?`${list.length} favori`:`${list.length} vaka`;
+  if(!base.length){el.list.innerHTML=emptyLibrary();return}
+  if(!list.length){el.list.innerHTML=`<div class="empty-state"><div class="empty-icon">${state.view==='favorites'?'☆':'⌕'}</div><h3>${state.view==='favorites'?'Favori vaka yok':'Sonuç bulunamadı'}</h3><p>${state.view==='favorites'?'Vaka ekranındaki yıldız ile hızlı erişime ekleyebilirsin.':'Arama veya kategori filtresini değiştir.'}</p></div>`;return}
+  el.list.innerHTML=list.map(c=>`<button type="button" class="case-row" style="${caseStyle(c)}" data-open="${c.id}"><span class="case-accent"></span><div class="case-icon">${c.icon}</div><div class="row-copy"><div class="row-title"><h4>${esc(c.title)}</h4>${c.priority==='critical'?'<span class="priority-badge">KRİTİK</span>':''}</div><p>${esc(c.subtitle)}</p><div class="row-meta"><span class="tag">${esc(c.category)}</span><span class="source-code">${esc(c.code)}</span></div></div><span class="chev">›</span></button>`).join('');
+}
+function renderFeatured(){
+  const f=casesForPopulation().filter(c=>c.featured).sort((a,b)=>(a.priority==='critical'?-1:0)-(b.priority==='critical'?-1:0)).slice(0,4);
+  el.featuredSection.classList.toggle('hidden',f.length===0||state.view==='favorites');
+  el.featured.innerHTML=f.map((c,i)=>`<button type="button" class="featured-card ${i===0?'primary':''}" style="${caseStyle(c)}" data-open="${c.id}"><span class="corner-arrow">↗</span><div class="case-icon">${c.icon}</div><span class="featured-kicker">${esc(c.category)}</span><h4>${esc(c.title)}</h4><p>${esc(c.subtitle)}</p><span class="code">${esc(c.code)}</span></button>`).join('');
+}
+function addRecent(id){state.recent=[id,...state.recent.filter(x=>x!==id)].slice(0,6);localStorage.setItem(STORAGE.recent,JSON.stringify(state.recent))}
 function renderShortcuts(){
-  const items=[];
-  [...state.favorites].slice(-3).reverse().forEach(id=>{const c=CASES.find(x=>x.id===id);if(c)items.push({c,kind:'FAVORİ'})});
-  state.recent.filter(id=>!state.favorites.has(id)).slice(0,3).forEach(id=>{const c=CASES.find(x=>x.id===id);if(c)items.push({c,kind:'SON BAKILAN'})});
-  shortcutSection.classList.toggle('hidden',items.length===0);
-  if(clearRecentsBtn)clearRecentsBtn.classList.toggle('hidden',state.recent.length===0);
-  shortcutGrid.innerHTML=items.map(({c,kind})=>`<button class="shortcut-card" style="${caseStyle(c)}" data-open="${c.id}"><span class="shortcut-kind">${kind}</span><div class="case-icon">${c.icon}</div><div class="shortcut-copy"><strong>${c.title}</strong><span>${c.category} • ${c.code}</span></div></button>`).join('');
+  const allowed=new Set(casesForPopulation().map(c=>c.id));const items=[];
+  [...state.favorites].filter(id=>allowed.has(id)).slice(-3).reverse().forEach(id=>{const c=CASES.find(x=>x.id===id);if(c)items.push({c,kind:'FAVORİ'})});
+  state.recent.filter(id=>allowed.has(id)&&!state.favorites.has(id)).slice(0,3).forEach(id=>{const c=CASES.find(x=>x.id===id);if(c)items.push({c,kind:'SON BAKILAN'})});
+  el.shortcutSection.classList.toggle('hidden',items.length===0||state.view==='favorites');el.clearRecents.classList.toggle('hidden',state.recent.length===0);
+  el.shortcuts.innerHTML=items.map(({c,kind})=>`<button type="button" class="shortcut-card" style="${caseStyle(c)}" data-open="${c.id}"><span class="shortcut-kind">${kind}</span><div class="case-icon">${c.icon}</div><div class="shortcut-copy"><strong>${esc(c.title)}</strong><span>${esc(c.category)} • ${esc(c.code)}</span></div></button>`).join('');
 }
-function renderAll(){renderFeatured();renderFilters();renderCases();renderShortcuts()}
+function renderAll(){renderPopulations();renderFilters();renderStats();renderFeatured();renderShortcuts();renderCases()}
 
-function renderSeverity(c,level='mild'){if(!c.severity)return '';const s=c.severity[level];return `<div class="severity-card ${level}" id="severityCard"><div class="severity-head"><span class="level-dot"></span><strong>${s.label}</strong></div><ul>${s.bullets.map(b=>`<li>${b}</li>`).join('')}</ul><div class="action-box"><b>Ne yap?</b><p>${s.action}</p></div></div>`}
-function renderMeds(c){if(!c.meds?.length)return '';return `<section class="detail-section" id="medications"><h3><span class="tiny-icon">Rx</span> İlaç / uygulama özeti</h3><p class="section-subnote">Doz, yol ve yetki alanını birlikte kontrol et. Kurum talimatı ve SKKM/ÇM kararı önceliklidir.</p><div class="med-list">${c.meds.map(m=>`<div class="med-card"><div class="med-top"><span class="med-pill">${esc(m.dose)}</span><div><strong>${esc(m.name)}</strong><p>${esc(m.note)}</p></div><span class="authority ${m.auth.includes('SKKM')?'skkm':''}">${esc(m.auth)}</span></div></div>`).join('')}</div></section>`}
+function authorityBadge(m){const a=APP_META.authority[m.authority]||APP_META.authority.ALGORITHM;const cls=m.authority==='DIRECT'?'direct':m.authority==='SKKM'?'skkm':'algorithm';return `<span class="authority ${cls}" title="${esc(a.description)}">${esc(a.label)}</span>`}
+function renderMeds(c){if(!c.meds?.length)return '';return `<section class="detail-section" id="medications"><div class="detail-heading"><span class="tiny-icon">Rx</span><div><h3>İlaç / uygulama özeti</h3><p>Doz, yol, tekrar ve yetki işaretini birlikte kontrol et.</p></div></div><div class="med-list">${c.meds.map(m=>`<article class="med-card"><div class="med-main"><div><strong>${esc(m.name)}</strong><span class="dose">${esc(m.dose)}</span></div>${authorityBadge(m)}</div><div class="med-meta"><span>Yol: <b>${esc((m.routes||[]).join(' / '))}</b></span>${m.repeat?`<span>Tekrar: <b>${esc(m.repeat)}</b></span>`:''}${m.maxDose?`<span>Maks: <b>${esc(m.maxDose)}</b></span>`:''}</div><p>${esc(m.note)}</p></article>`).join('')}</div><div class="authority-warning">Yetki etiketi arayüz özetidir; güncel resmî şema, kurum talimatı ve SKKM/ÇM kararı önceliklidir.</div></section>`}
+function renderSeverity(c,level='mild'){if(!c.severity)return '';const s=c.severity[level];return `<div class="severity-card ${level}" id="severityCard"><div class="severity-head"><span class="level-dot"></span><strong>${esc(s.label)}</strong></div><ul>${s.bullets.map(b=>`<li>${esc(b)}</li>`).join('')}</ul><div class="action-box"><b>Ne yap?</b><p>${esc(s.action)}</p></div></div>`}
+function renderSource(c){const s=c.source;const codes=s.algorithmCodes?.length?s.algorithmCodes.join(' + '):'Sayfa referansı';return `<section class="detail-section source-section" id="source"><div class="detail-heading"><span class="tiny-icon">§</span><div><h3>Kaynak izi</h3><p>Bu kartın hangi resmî sürüme dayandığını gösterir.</p></div></div><div class="source-grid"><div><span>Belge</span><strong>${esc(s.documentId)}</strong></div><div><span>Kod</span><strong>${esc(codes)}</strong></div><div><span>Sayfa</span><strong>${esc(s.page)}</strong></div><div><span>İnceleme</span><strong>${esc(s.reviewedAt)}</strong></div></div><div class="source-actions"><a href="${esc(s.officialPageUrl)}" target="_blank" rel="noopener">Resmî sayfa ↗</a><a href="${esc(s.officialPdfUrl)}" target="_blank" rel="noopener">Ek‑2 PDF ↗</a></div><p class="source-disclaimer">Çevrimdışıyken vaka içeriği kullanılabilir; resmî dış bağlantılar internet gerektirebilir. Resmî belge her zaman son referanstır.</p></section>`}
 function openCase(id){
-  const c=CASES.find(x=>x.id===id);if(!c)return;state.current=id;state.returnScrollY=window.scrollY;state.returnNav=state.nav;addRecent(id);renderShortcuts();const fav=state.favorites.has(id);
-  detailView.innerHTML=`<header class="detail-top"><div class="detail-bar"><button class="back-btn" data-action="back" aria-label="Geri">‹</button><div class="detail-title"><div class="kicker">${c.category.toUpperCase()} • YETİŞKİN</div><h2>${c.title}</h2></div><button class="fav-btn ${fav?'active':''}" data-action="favorite" aria-label="Favori">${fav?'★':'☆'}</button></div><div class="source-ribbon"><span class="verified-dot">§</span><span>Resmî kaynak referansı • ${c.code} • sayfa ${c.page}</span></div><div class="detail-jumps"><button class="jump-chip" data-jump="algorithm">Algoritma</button>${c.severity?'<button class="jump-chip" data-jump="severity">Şiddet</button>':''}<button class="jump-chip critical" data-jump="red-flags">Kırmızı bayraklar</button>${c.meds?.length?'<button class="jump-chip" data-jump="medications">İlaçlar</button>':''}<button class="jump-chip" data-jump="decision">Karar</button></div></header>
-  <div class="field-banner"><strong>⚡ Hızlı Saha aktif</strong><span>İkincil açıklamalar azaltıldı, kritik içerik öne alındı.</span></div>
-  <div class="detail-body" style="${caseStyle(c)}"><section class="detail-hero"><div class="big-icon">${c.icon}</div><div><h3>${c.title}</h3><p>${c.summary}</p><div class="detail-stats"><div class="detail-stat"><span>Adım</span><strong>${c.quick.length}</strong></div><div class="detail-stat"><span>Kırmızı bayrak</span><strong>${c.redFlags.length}</strong></div><div class="detail-stat"><span>İlaç</span><strong>${c.meds?.length||0}</strong></div></div></div></section>
-  <section class="detail-section emphasis" id="algorithm"><h3><span class="tiny-icon">↯</span> İlk bakışta algoritma</h3><p class="section-subnote">Sıralama klinik yeniden değerlendirmeyle birlikte okunmalıdır.</p><div class="quick-steps">${c.quick.map(x=>`<div class="quick-step">${x}</div>`).join('')}</div></section>
-  ${c.severity?`<section class="detail-section" id="severity"><h3><span class="tiny-icon">3</span> Şiddeti ayır</h3><div class="severity-tabs"><button class="severity-tab active" data-level="mild">Hafif</button><button class="severity-tab" data-level="moderate">Orta</button><button class="severity-tab" data-level="severe">Ağır</button></div>${renderSeverity(c,'mild')}</section>`:''}
-  <div class="detail-columns"><section class="detail-section" id="red-flags"><h3><span class="tiny-icon">!</span> Kırmızı bayraklar</h3><div class="red-flag-list">${c.redFlags.map(r=>`<div class="red-flag"><strong>Uyarı:</strong> ${r}</div>`).join('')}</div></section>
-  <section class="detail-section" id="decision"><h3><span class="tiny-icon">◇</span> Karar noktası</h3><div class="decision-box"><div class="decision-question">${c.decision.q}</div><div class="decision-branches"><div class="branch yes"><b>EVET</b>${c.decision.yes}</div><div class="branch no"><b>HAYIR</b>${c.decision.no}</div></div></div></section></div>
-  ${renderMeds(c)}
-  <section class="detail-section" id="source"><h3><span class="tiny-icon">§</span> Kaynak</h3><div class="source-block"><p>İçerik, 25.08.2026 tarihli güncellenmiş Hastane Öncesi Acil Tıbbi Yardım ve Bakım Akış Şemaları esas alınarak sadeleştirilmiştir. Bu ekran resmî belgenin yerine geçmez.</p><a href="https://dosyamerkez.saglik.gov.tr/Eklenti/55773/0/ek-2-hastane-oncesi-acil-tibbi-yardim-ve-bakim-akis-semalaripdf.pdf" target="_blank" rel="noopener">Ek-2 PDF’yi aç <span>↗</span></a></div></section></div>`;
-  mainView.classList.add('hidden');detailView.classList.remove('hidden');appShell?.classList.add('detail-open');window.scrollTo(0,0);
+  const c=CASES.find(x=>x.id===id&&x.population===state.population);if(!c)return;state.current=id;state.returnScrollY=scrollY;state.returnNav=state.nav;addRecent(id);renderShortcuts();const fav=state.favorites.has(id);
+  const jumps=[['first30','İlk 30 sn','critical'],['algorithm','Algoritma',''],...(c.severity?[['severity','Şiddet','']]:[]),['red-flags','Kırmızı bayrak','critical'],...(c.meds?.length?[['medications','İlaçlar','']]:[]),['decision','Karar',''],['source','Kaynak','']];
+  el.detail.innerHTML=`<header class="detail-top"><div class="detail-bar"><button type="button" class="back-btn" data-action="back" aria-label="Geri">‹</button><div class="detail-title"><div class="kicker">${esc(popMeta(c.population).label.toUpperCase())} • ${esc(c.category.toUpperCase())}</div><h2>${esc(c.title)}</h2></div><button type="button" class="fav-btn ${fav?'active':''}" data-action="favorite" aria-label="${fav?'Favorilerden çıkar':'Favorilere ekle'}" aria-pressed="${fav}">${fav?'★':'☆'}</button></div><div class="source-ribbon"><span>§</span><span>${esc(c.code)} • s.${esc(c.page)} • incelendi ${esc(c.source.reviewedAt)}</span></div><div class="detail-jumps">${jumps.map(j=>`<button type="button" class="jump-chip ${j[2]}" data-jump="${j[0]}">${j[1]}</button>`).join('')}</div></header>
+  <div class="field-banner"><strong>⚡ Hızlı Saha aktif</strong><span>Kritik eylemler ve karar noktaları öne alındı.</span></div>
+  <div class="detail-body" style="${caseStyle(c)}">
+    <section class="first30-card" id="first30"><div class="first30-head"><span>00:30</span><div><strong>İlk 30 saniye</strong><p>Önce bunları gör; sonra algoritmaya ilerle.</p></div></div><ol>${c.first30.map(x=>`<li>${esc(x)}</li>`).join('')}</ol></section>
+    <section class="detail-hero"><div class="big-icon">${c.icon}</div><div><span class="case-category">${esc(c.category)}</span><h3>${esc(c.title)}</h3><p>${esc(c.summary)}</p><div class="detail-stats"><div><span>Adım</span><strong>${c.quick.length}</strong></div><div><span>Kırmızı bayrak</span><strong>${c.redFlags.length}</strong></div><div><span>İlaç</span><strong>${c.meds?.length||0}</strong></div></div></div></section>
+    <section class="detail-section emphasis" id="algorithm"><div class="detail-heading"><span class="tiny-icon">↯</span><div><h3>İlk bakışta algoritma</h3><p>Sıralamayı seri klinik yeniden değerlendirmeyle birlikte oku.</p></div></div><div class="quick-steps">${c.quick.map(x=>`<div class="quick-step">${x}</div>`).join('')}</div></section>
+    ${c.severity?`<section class="detail-section" id="severity"><div class="detail-heading"><span class="tiny-icon">3</span><div><h3>Şiddeti ayır</h3><p>Renk kodu klinik ayrımı hızlandırmak içindir.</p></div></div><div class="severity-tabs" role="tablist"><button type="button" role="tab" aria-selected="true" class="severity-tab active" data-level="mild">Hafif</button><button type="button" role="tab" aria-selected="false" class="severity-tab" data-level="moderate">Orta</button><button type="button" role="tab" aria-selected="false" class="severity-tab" data-level="severe">Ağır</button></div>${renderSeverity(c)}</section>`:''}
+    <div class="detail-columns"><section class="detail-section" id="red-flags"><div class="detail-heading"><span class="tiny-icon danger">!</span><div><h3>Kırmızı bayraklar</h3><p>Önceliği ve nakil kararını değiştirebilecek bulgular.</p></div></div><div class="red-flag-list">${c.redFlags.map(r=>`<div class="red-flag">${esc(r)}</div>`).join('')}</div></section><section class="detail-section" id="decision"><div class="detail-heading"><span class="tiny-icon">◇</span><div><h3>Karar noktası</h3><p>Şemadaki ana dallanma.</p></div></div><div class="decision-box"><strong>${esc(c.decision.q)}</strong><div class="decision-branches"><div class="branch yes"><b>EVET</b><span>${esc(c.decision.yes)}</span></div><div class="branch no"><b>HAYIR</b><span>${esc(c.decision.no)}</span></div></div></div></section></div>
+    ${renderMeds(c)}${renderSource(c)}
+  </div>`;
+  el.main.classList.add('hidden');el.detail.classList.remove('hidden');el.shell.classList.add('detail-open');scrollTo(0,0);
 }
-function closeCase(){state.current=null;detailView.classList.add('hidden');mainView.classList.remove('hidden');appShell?.classList.remove('detail-open');renderFilters();renderCases();renderShortcuts();setNavActive(state.returnNav||'home');const y=state.returnScrollY;requestAnimationFrame(()=>window.scrollTo(0,y))}
-function setNavActive(name){state.nav=name;document.querySelectorAll('.nav-item').forEach(b=>b.classList.toggle('active',b.dataset.nav===name))}
-function showHome({top=true}={}){state.view='home';state.current=null;detailView.classList.add('hidden');mainView.classList.remove('hidden');appShell?.classList.remove('detail-open');syncListHeading();renderFilters();renderCases();renderShortcuts();setNavActive('home');if(top)window.scrollTo(0,0)}
-function showCases(){state.view='home';showHome({top:false});setNavActive('cases');requestAnimationFrame(()=>filterTitle?.scrollIntoView({behavior:'smooth',block:'start'}))}
-function showFavorites(){state.view='favorites';state.category='Tümü';state.query='';$('#searchInput').value='';state.current=null;detailView.classList.add('hidden');mainView.classList.remove('hidden');appShell?.classList.remove('detail-open');renderFilters();renderCases();renderShortcuts();setNavActive('favorites');requestAnimationFrame(()=>filterTitle?.scrollIntoView({behavior:'smooth',block:'start'}))}
+function closeCase(){state.current=null;el.detail.classList.add('hidden');el.main.classList.remove('hidden');el.shell.classList.remove('detail-open');renderAll();setNav(state.returnNav||'home');requestAnimationFrame(()=>scrollTo(0,state.returnScrollY||0))}
+function setNav(name){state.nav=name;$$('.nav-item').forEach(b=>b.classList.toggle('active',b.dataset.nav===name))}
+function showHome(top=true){state.view='home';state.current=null;el.detail.classList.add('hidden');el.main.classList.remove('hidden');el.shell.classList.remove('detail-open');setNav('home');renderAll();if(top)scrollTo(0,0)}
+function showCases(){state.view='home';setNav('cases');renderAll();requestAnimationFrame(()=>el.filterTitle.scrollIntoView({behavior:'smooth',block:'start'}))}
+function showFavorites(){state.view='favorites';state.category='Tümü';state.query='';el.search.value='';setNav('favorites');renderAll();requestAnimationFrame(()=>el.filterTitle.scrollIntoView({behavior:'smooth',block:'start'}))}
+function selectPopulation(id){if(!APP_META.populations.some(p=>p.id===id))return;state.population=id;state.category='Tümü';state.query='';state.view='home';el.search.value='';localStorage.setItem(STORAGE.population,id);renderAll();scrollTo(0,0)}
 
-applyTheme();applyDensity();renderAll();
-if(window.matchMedia){const mq=window.matchMedia('(prefers-color-scheme: dark)');if(mq.addEventListener){mq.addEventListener('change',()=>{if(!localStorage.getItem(THEME_KEY))applyTheme()})}}
+applyTheme();applyDensity();updateNetwork();renderAll();
+matchMedia('(prefers-color-scheme: dark)').addEventListener?.('change',()=>{if(!localStorage.getItem(STORAGE.theme))applyTheme()});
+addEventListener('online',updateNetwork);addEventListener('offline',updateNetwork);
 
 document.addEventListener('click',e=>{
   const open=e.target.closest('[data-open]');if(open){openCase(open.dataset.open);return}
+  const pop=e.target.closest('[data-population]');if(pop){selectPopulation(pop.dataset.population);return}
   const filter=e.target.closest('[data-filter]');if(filter){state.category=filter.dataset.filter;renderFilters();renderCases();return}
   const jump=e.target.closest('[data-jump]');if(jump){document.getElementById(jump.dataset.jump)?.scrollIntoView({behavior:'smooth',block:'start'});return}
+  const level=e.target.closest('[data-level]');if(level&&state.current){$$('.severity-tab').forEach(b=>{const active=b===level;b.classList.toggle('active',active);b.setAttribute('aria-selected',String(active))});const c=CASES.find(x=>x.id===state.current);$('#severityCard').outerHTML=renderSeverity(c,level.dataset.level);return}
   const action=e.target.closest('[data-action]')?.dataset.action;
-  if(action==='show-all'){document.querySelector('#filterTitle').scrollIntoView({behavior:'smooth'});return}
-  if(action==='clear-recents'){state.recent=[];localStorage.removeItem(RECENT_KEY);renderShortcuts();return}
+  if(action==='show-all'){el.filterTitle.scrollIntoView({behavior:'smooth'});return}
+  if(action==='clear-recents'){state.recent=[];localStorage.removeItem(STORAGE.recent);renderShortcuts();return}
   if(action==='back'){closeCase();return}
-  if(action==='favorite'&&state.current){const id=state.current;if(state.favorites.has(id))state.favorites.delete(id);else state.favorites.add(id);localStorage.setItem(FAV_KEY,JSON.stringify([...state.favorites]));renderShortcuts();const btn=e.target.closest('[data-action="favorite"]');const active=state.favorites.has(id);btn?.classList.toggle('active',active);if(btn){btn.textContent=active?'★':'☆';btn.setAttribute('aria-pressed',String(active));btn.setAttribute('aria-label',active?'Favorilerden çıkar':'Favorilere ekle')}return}
-  if(action==='close-sheet'){sourceSheet.classList.add('hidden');return}
-  const sev=e.target.closest('[data-level]');if(sev&&state.current){document.querySelectorAll('.severity-tab').forEach(b=>{const active=b===sev;b.classList.toggle('active',active);b.setAttribute('aria-selected',String(active))});const c=CASES.find(x=>x.id===state.current);$('#severityCard').outerHTML=renderSeverity(c,sev.dataset.level);return}
-  const nav=e.target.closest('[data-nav]')?.dataset.nav;
-  if(nav==='home'){showHome();return}
-  if(nav==='cases'){showCases();return}
-  if(nav==='favorites'){showFavorites();return}
-  if(e.target===sourceSheet)sourceSheet.classList.add('hidden');
+  if(action==='favorite'&&state.current){const id=state.current;state.favorites.has(id)?state.favorites.delete(id):state.favorites.add(id);localStorage.setItem(STORAGE.favorites,JSON.stringify([...state.favorites]));const b=e.target.closest('[data-action="favorite"]');const active=state.favorites.has(id);b.classList.toggle('active',active);b.textContent=active?'★':'☆';b.setAttribute('aria-pressed',String(active));b.setAttribute('aria-label',active?'Favorilerden çıkar':'Favorilere ekle');return}
+  if(action==='close-sheet'){el.source.classList.add('hidden');return}
+  const nav=e.target.closest('[data-nav]')?.dataset.nav;if(nav==='home'){showHome();return}if(nav==='cases'){showCases();return}if(nav==='favorites'){showFavorites();return}
+  if(e.target===el.source)el.source.classList.add('hidden');
 });
-$('#searchInput').addEventListener('input',e=>{state.query=e.target.value;renderCases();if(state.query)document.querySelector('#filterTitle').scrollIntoView({behavior:'smooth',block:'start'})});
-$('#sourceBtn').addEventListener('click',()=>sourceSheet.classList.remove('hidden'));
-if(themeToggle)themeToggle.addEventListener('click',toggleTheme);
-if(fieldToggle)fieldToggle.addEventListener('click',toggleDensity);
-window.addEventListener('keydown',e=>{if(e.key==='Escape'){if(!sourceSheet.classList.contains('hidden'))sourceSheet.classList.add('hidden');else if(state.current)closeCase()}});
-if('serviceWorker' in navigator)window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js',{updateViaCache:'none'}).then(reg=>reg.update()).catch(()=>{}));
+el.search.addEventListener('input',e=>{state.query=e.target.value;renderCases();if(state.query)el.filterTitle.scrollIntoView({behavior:'smooth',block:'start'})});
+$('#sourceBtn').addEventListener('click',()=>el.source.classList.remove('hidden'));
+el.themeToggle.addEventListener('click',toggleTheme);el.fieldToggle.addEventListener('click',toggleDensity);
+addEventListener('keydown',e=>{if(e.key==='Escape'){if(!el.source.classList.contains('hidden'))el.source.classList.add('hidden');else if(state.current)closeCase()}});
+if('serviceWorker' in navigator)addEventListener('load',()=>navigator.serviceWorker.register('./sw.js',{updateViaCache:'none'}).then(reg=>reg.update()).catch(()=>{}));

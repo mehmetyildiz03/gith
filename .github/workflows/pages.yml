@@ -1,4 +1,4 @@
-name: Deploy Saha112 to GitHub Pages
+name: Validate and deploy Saha112
 
 on:
   push:
@@ -15,7 +15,25 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+      - name: Runtime info
+        run: node --version
+      - name: Build PWA icons
+        run: python3 scripts/build_icons.py
+      - name: JavaScript syntax
+        run: |
+          node --check cases-data.js
+          node --check app-core.js
+          node --check sw.js
+      - name: Clinical content and PWA QA
+        run: node scripts/validate.mjs
+
   deploy:
+    needs: validate
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
@@ -23,6 +41,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v6
+      - name: Build PWA icons
+        run: python3 scripts/build_icons.py
       - name: Configure Pages
         uses: actions/configure-pages@v5
       - name: Upload Pages artifact
