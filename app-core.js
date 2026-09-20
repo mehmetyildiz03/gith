@@ -78,15 +78,15 @@ function renderSeverity(c,level='mild'){if(!c.severity)return '';const s=c.sever
 function renderSource(c){const s=c.source;const codes=s.algorithmCodes?.length?s.algorithmCodes.join(' + '):'Sayfa referansı';return `<section class="detail-section source-section subdued-section" id="source"><div class="detail-heading"><span class="tiny-icon">§</span><div><h3>Kaynak izi</h3><p>Bu kartın hangi resmî sürüme dayandığını gösterir.</p></div></div><div class="source-grid"><div><span>Belge</span><strong>${esc(s.documentId)}</strong></div><div><span>Kod</span><strong>${esc(codes)}</strong></div><div><span>Sayfa</span><strong>${esc(s.page)}</strong></div><div><span>İnceleme</span><strong>${esc(s.reviewedAt)}</strong></div></div><div class="source-actions"><a href="${esc(s.officialPageUrl)}" target="_blank" rel="noopener">Resmî sayfa ↗</a><a href="${esc(s.officialPdfUrl)}" target="_blank" rel="noopener">Ek‑2 PDF ↗</a></div><p class="source-disclaimer">Çevrimdışıyken vaka içeriği kullanılabilir; resmî dış bağlantılar internet gerektirebilir. Resmî belge her zaman son referanstır.</p></section>`}
 function openCase(id){
   const c=CASES.find(x=>x.id===id&&x.population===state.population);if(!c)return;state.current=id;state.returnScrollY=scrollY;state.returnNav=state.nav;addRecent(id);renderShortcuts();const fav=state.favorites.has(id);
-  const jumps=[['first30','İlk 30 sn','critical'],['algorithm','Algoritma',''],...(c.severity?[['severity','Şiddet','']]:[]),['red-flags','Kırmızı bayrak','critical'],...(c.meds?.length?[['medications','İlaçlar','']]:[]),['decision','Karar',''],['source','Kaynak','']];
-  el.detail.innerHTML=`<header class="detail-top"><div class="detail-bar"><button type="button" class="back-btn" data-action="back" aria-label="Geri">‹</button><div class="detail-title"><div class="kicker">${esc(popMeta(c.population).label.toUpperCase())} • ${esc(c.category.toUpperCase())}</div><h2>${esc(c.title)}</h2></div><button type="button" class="fav-btn ${fav?'active':''}" data-action="favorite" aria-label="${fav?'Favorilerden çıkar':'Favorilere ekle'}" aria-pressed="${fav}">${fav?'★':'☆'}</button></div><div class="source-ribbon"><span>§</span><span>${esc(c.code)} • s.${esc(c.page)} • incelendi ${esc(c.source.reviewedAt)}</span></div><div class="detail-jumps">${jumps.map(j=>`<button type="button" class="jump-chip ${j[2]}" data-jump="${j[0]}">${j[1]}</button>`).join('')}</div></header>
+  const jumps=[['first30','İlk 30 sn','critical'],['algorithm','Algoritma',''],...(c.severity?[['severity','Şiddet','']]:[]),['red-flags','Acil uyarılar','critical'],...(c.meds?.length?[['medications','İlaçlar','']]:[]),['decision','Karar',''],['source','Kaynak','']];
+  el.detail.innerHTML=`<header class="detail-top"><div class="detail-bar"><button type="button" class="back-btn" data-action="back" aria-label="Geri">‹</button><div class="detail-title"><div class="kicker">${esc(popMeta(c.population).label.toUpperCase())} • ${esc(c.category.toUpperCase())}</div><h2>${esc(c.title)}</h2></div><button type="button" class="fav-btn ${fav?'active':''}" data-action="favorite" aria-label="${fav?'Favorilerden çıkar':'Favorilere ekle'}" aria-pressed="${fav}">${fav?'★':'☆'}</button></div><div class="source-ribbon"><span>§</span><span>${esc(c.code)} • s.${esc(c.page)} • gözden geçirme ${esc(c.source.reviewedAt)}</span></div><div class="detail-jumps">${jumps.map(j=>`<button type="button" class="jump-chip ${j[2]}" data-jump="${j[0]}">${j[1]}</button>`).join('')}</div></header>
   <div class="field-banner"><strong>⚡ Hızlı Saha aktif</strong><span>Kritik eylemler ve karar noktaları öne alındı.</span></div>
   <div class="detail-body" style="${caseStyle(c)}">
     <section class="first30-card" id="first30"><div class="first30-head"><span>00:30</span><div><strong>İlk 30 saniye</strong><p>Önce bunları gör; sonra algoritmaya ilerle.</p></div></div><ol>${c.first30.map(x=>`<li>${esc(x)}</li>`).join('')}</ol></section>
     <section class="case-summary"><span class="case-category">${esc(c.category)}</span><p>${esc(c.summary)}</p></section>
     <section class="detail-section emphasis" id="algorithm"><div class="detail-heading"><span class="tiny-icon">↯</span><div><h3>İlk bakışta algoritma</h3><p>Sıralamayı seri klinik yeniden değerlendirmeyle birlikte oku.</p></div></div><div class="quick-steps">${c.quick.map(x=>`<div class="quick-step">${x}</div>`).join('')}</div></section>
     ${c.severity?`<section class="detail-section" id="severity"><div class="detail-heading"><span class="tiny-icon">3</span><div><h3>Şiddeti ayır</h3><p>Renk kodu klinik ayrımı hızlandırmak içindir.</p></div></div><div class="severity-tabs" role="tablist"><button type="button" role="tab" aria-selected="true" class="severity-tab active" data-level="mild">Hafif</button><button type="button" role="tab" aria-selected="false" class="severity-tab" data-level="moderate">Orta</button><button type="button" role="tab" aria-selected="false" class="severity-tab" data-level="severe">Ağır</button></div>${renderSeverity(c)}</section>`:''}
-    <div class="detail-columns"><section class="detail-section critical-section" id="red-flags"><div class="detail-heading"><span class="tiny-icon danger">!</span><div><h3>Kırmızı bayraklar</h3><p>Önceliği ve nakil kararını değiştirebilecek bulgular.</p></div></div><div class="red-flag-list">${c.redFlags.map(r=>`<div class="red-flag">${esc(r)}</div>`).join('')}</div></section><section class="detail-section decision-section" id="decision"><div class="detail-heading"><span class="tiny-icon">◇</span><div><h3>Karar noktası</h3><p>Şemadaki ana dallanma.</p></div></div><div class="decision-box"><strong>${esc(c.decision.q)}</strong><div class="decision-branches"><div class="branch yes"><b>EVET</b><span>${esc(c.decision.yes)}</span></div><div class="branch no"><b>HAYIR</b><span>${esc(c.decision.no)}</span></div></div></div></section></div>
+    <div class="detail-columns"><section class="detail-section critical-section" id="red-flags"><div class="detail-heading"><span class="tiny-icon danger">!</span><div><h3>Acil Uyarı Bulguları</h3><p>Önceliği, müdahaleyi veya nakil kararını değiştirebilecek bulgular.</p></div></div><div class="red-flag-list">${c.redFlags.map(r=>`<div class="red-flag">${esc(r)}</div>`).join('')}</div></section><section class="detail-section decision-section" id="decision"><div class="detail-heading"><span class="tiny-icon">◇</span><div><h3>Karar noktası</h3><p>Şemadaki ana dallanma.</p></div></div><div class="decision-box"><strong>${esc(c.decision.q)}</strong><div class="decision-branches"><div class="branch yes"><b>EVET</b><span>${esc(c.decision.yes)}</span></div><div class="branch no"><b>HAYIR</b><span>${esc(c.decision.no)}</span></div></div></div></section></div>
     ${renderMeds(c)}${renderSource(c)}
   </div>`;
   el.main.classList.add('hidden');el.detail.classList.remove('hidden');el.shell.classList.add('detail-open');scrollTo(0,0);
@@ -102,6 +102,19 @@ applyTheme();applyDensity();updateNetwork();renderAll();
 matchMedia('(prefers-color-scheme: dark)').addEventListener?.('change',()=>{if(!localStorage.getItem(STORAGE.theme))applyTheme()});
 addEventListener('online',updateNetwork);addEventListener('offline',updateNetwork);
 
+const sourceBtn=$('#sourceBtn');
+function openSourceSheet(){
+  el.source.classList.remove('hidden');
+  sourceBtn?.setAttribute('aria-expanded','true');
+  requestAnimationFrame(()=>el.source.querySelector('[data-action="close-sheet"]')?.focus());
+}
+function closeSourceSheet(){
+  if(el.source.classList.contains('hidden'))return;
+  el.source.classList.add('hidden');
+  sourceBtn?.setAttribute('aria-expanded','false');
+  requestAnimationFrame(()=>sourceBtn?.focus());
+}
+
 document.addEventListener('click',e=>{
   const open=e.target.closest('[data-open]');if(open){openCase(open.dataset.open);return}
   const pop=e.target.closest('[data-population]');if(pop){selectPopulation(pop.dataset.population);return}
@@ -113,12 +126,12 @@ document.addEventListener('click',e=>{
   if(action==='clear-recents'){state.recent=[];localStorage.removeItem(STORAGE.recent);renderShortcuts();return}
   if(action==='back'){closeCase();return}
   if(action==='favorite'&&state.current){const id=state.current;state.favorites.has(id)?state.favorites.delete(id):state.favorites.add(id);localStorage.setItem(STORAGE.favorites,JSON.stringify([...state.favorites]));const b=e.target.closest('[data-action="favorite"]');const active=state.favorites.has(id);b.classList.toggle('active',active);b.textContent=active?'★':'☆';b.setAttribute('aria-pressed',String(active));b.setAttribute('aria-label',active?'Favorilerden çıkar':'Favorilere ekle');return}
-  if(action==='close-sheet'){el.source.classList.add('hidden');return}
+  if(action==='close-sheet'){closeSourceSheet();return}
   const nav=e.target.closest('[data-nav]')?.dataset.nav;if(nav==='home'){showHome();return}if(nav==='cases'){showCases();return}if(nav==='favorites'){showFavorites();return}
-  if(e.target===el.source)el.source.classList.add('hidden');
+  if(e.target===el.source)closeSourceSheet();
 });
 el.search.addEventListener('input',e=>{state.query=e.target.value;renderCases();if(state.query)el.filterTitle.scrollIntoView({behavior:'smooth',block:'start'})});
-$('#sourceBtn').addEventListener('click',()=>el.source.classList.remove('hidden'));
+sourceBtn?.addEventListener('click',openSourceSheet);
 el.themeToggle.addEventListener('click',toggleTheme);el.fieldToggle.addEventListener('click',toggleDensity);
-addEventListener('keydown',e=>{if(e.key==='Escape'){if(!el.source.classList.contains('hidden'))el.source.classList.add('hidden');else if(state.current)closeCase()}});
+addEventListener('keydown',e=>{if(e.key==='Escape'){if(!el.source.classList.contains('hidden'))closeSourceSheet();else if(state.current)closeCase()}});
 if('serviceWorker' in navigator)addEventListener('load',()=>navigator.serviceWorker.register('./sw.js',{updateViaCache:'none'}).then(reg=>reg.update()).catch(()=>{}));
