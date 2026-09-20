@@ -29,13 +29,18 @@ assert(css.includes("/* V0.6.1 dark surface hardening */"),'Koyu mod yüzey hard
 assert(css.includes(":root[data-theme='dark'] .quick-step")&&css.includes("background:var(--detail-panel-deep)!important"),'Koyu mod algoritma adımı explicit yüzeyi eksik');
 assert(css.includes(":root[data-theme='dark'] .red-flag")&&css.includes("background:#2b202a!important"),'Koyu mod kırmızı bayrak yüzeyi eksik');
 assert(css.includes(":root[data-theme='dark'] .branch.yes")&&css.includes(":root[data-theme='dark'] .branch.no"),'Koyu mod karar kutuları explicit değil');
-assert(html.includes('styles.css?v=0.6.2')&&html.includes('app-core.js?v=0.6.2')&&html.includes('cases-data.js?v=0.6.2'),'Kritik asset cache-bust sürümü eksik');
-assert(sw.includes("saha112-v062")&&sw.includes('NETWORK_FIRST_DESTINATIONS'),'Service worker kritik asset güncelleme stratejisi eksik');
+assert(html.includes('styles.css?v=0.7')&&html.includes('app-core.js?v=0.7')&&html.includes('cases-data.js?v=0.7'),'Kritik asset cache-bust sürümü eksik');
+assert(sw.includes("saha112-v07")&&sw.includes('NETWORK_FIRST_DESTINATIONS'),'Service worker kritik asset güncelleme stratejisi eksik');
 assert(!app.includes('Kırmızı bayrak'),'Eski kullanıcı terimi hâlâ UI içinde');
 assert(app.includes('Acil Uyarı Bulguları'),'Acil Uyarı Bulguları başlığı eksik');
 assert(app.includes('Önceliği, müdahaleyi veya nakil kararını değiştirebilecek bulgular.'),'Acil uyarı açıklaması eksik');
 assert(css.includes('.app-shell.detail-open>.context-panel'),'Detay görünümünde üst bağlam paneli gizlenmiyor');
 assert(html.includes('aria-haspopup="dialog"')&&html.includes('aria-controls="sourceSheet"'),'Kaynak dialog erişilebilirlik ilişkisi eksik');
+assert(app.includes('function priorityRank(c)')&&app.includes("state.density==='compact'"),'Hızlı Saha öncelik sıralaması eksik');
+assert(app.includes("disabled")&&app.includes("Yakında")&&app.includes("populationCount"),'Boş hasta grupları pasif/Yakında davranışı eksik');
+assert(css.includes('/* V0.7 field workflow */'),'Hızlı Saha görsel hiyerarşi bloğu eksik');
+assert(css.includes(":root[data-density='compact'] .dose")&&css.includes('font-size:16px'),'Hızlı Saha doz vurgusu eksik');
+assert(css.includes(":root[data-density='compact'] .critical-section")&&css.includes(":root[data-density='compact'] .decision-section")&&css.includes(":root[data-density='compact'] .meds-section"),'Hızlı Saha kritik bölüm vurguları eksik');
 
 console.log(`Saha112 UI audit: ${errors.length} hata`);
 for(const e of errors)console.error('ERROR '+e);
