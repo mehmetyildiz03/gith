@@ -42,8 +42,9 @@ for(const [i,c] of (CASES||[]).entries()){
     if(!allowedAuthority.has(m.authority))err(`${mt}: authority geçersiz (${m.authority})`);
     if(!Array.isArray(m.routes)||!m.routes.length)err(`${mt}: routes eksik`);
     for(const route of m.routes||[])if(!allowedRoutes.has(route))err(`${mt}: geçersiz route ${route}`);
-    if(!/[0-9%]|infüzyon/i.test(m.dose))warn(`${mt}: doz sayısal birim içermiyor (${m.dose})`);
-    if(/[0-9]\s*(mg|mcg|g|ml|mL)/i.test(m.dose)===false&&/infüzyon/i.test(m.dose)===false&&m.dose.includes('%')===false)warn(`${mt}: doz birimi gözden geçir (${m.dose})`);
+    const doseText=String(m.dose||'');const doseLower=doseText.toLocaleLowerCase('tr-TR');const nonNumericInfusion=doseLower.includes('infüzyon');
+    if(!/[0-9%]/.test(doseText)&&!nonNumericInfusion)warn(`${mt}: doz sayısal birim içermiyor (${m.dose})`);
+    if(/[0-9]\s*(mg|mcg|g|ml|mL)/i.test(doseText)===false&&!nonNumericInfusion&&!doseText.includes('%'))warn(`${mt}: doz birimi gözden geçir (${m.dose})`);
   }
 }
 
