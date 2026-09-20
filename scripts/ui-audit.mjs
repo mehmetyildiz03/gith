@@ -2,6 +2,7 @@ import fs from 'node:fs';
 
 const css=fs.readFileSync('styles.css','utf8');
 const html=fs.readFileSync('index.html','utf8');
+const sw=fs.readFileSync('sw.js','utf8');
 const errors=[];
 const assert=(ok,msg)=>{if(!ok)errors.push(msg)};
 
@@ -23,6 +24,12 @@ assert(!html.includes('17 doğrulanmış yetişkin vaka'),'Hero içinde statik v
 assert(html.indexOf('id="populationTabs"')>html.indexOf('</header>'),'Hasta grubu sekmeleri sticky header içinde olmamalı');
 assert(html.includes('class="library-strip"'),'Kompakt kütüphane özeti eksik');
 assert(!css.includes('.corner-arrow{'),'Dekoratif corner arrow kuralı temizlenmemiş');
+assert(css.includes("/* V0.6.1 dark surface hardening */"),'Koyu mod yüzey hardening bloğu eksik');
+assert(css.includes(":root[data-theme='dark'] .quick-step")&&css.includes("background:var(--detail-panel-deep)!important"),'Koyu mod algoritma adımı explicit yüzeyi eksik');
+assert(css.includes(":root[data-theme='dark'] .red-flag")&&css.includes("background:#2b202a!important"),'Koyu mod kırmızı bayrak yüzeyi eksik');
+assert(css.includes(":root[data-theme='dark'] .branch.yes")&&css.includes(":root[data-theme='dark'] .branch.no"),'Koyu mod karar kutuları explicit değil');
+assert(html.includes('styles.css?v=0.6.1')&&html.includes('app-core.js?v=0.6.1')&&html.includes('cases-data.js?v=0.6.1'),'Kritik asset cache-bust sürümü eksik');
+assert(sw.includes("saha112-v061")&&sw.includes('NETWORK_FIRST_DESTINATIONS'),'Service worker kritik asset güncelleme stratejisi eksik');
 
 console.log(`Saha112 UI audit: ${errors.length} hata`);
 for(const e of errors)console.error('ERROR '+e);

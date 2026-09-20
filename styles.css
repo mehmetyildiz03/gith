@@ -31,3 +31,140 @@
 @media(max-width:620px){.context-panel{padding-top:8px}.library-strip{padding:5px 2px}.insight-card{padding:6px 8px}.insight-card p{font-size:9.5px}.featured-grid{grid-auto-columns:minmax(174px,58vw)}.shortcut-grid{grid-template-columns:1fr}.desktop-pill{display:none}.population-tab{font-size:10.5px;padding-inline:4px}.population-tab small{font-size:8.5px}.protocol-strip{flex-basis:185px}.hero-card h2{font-size:21px}.hero-card p{font-size:11.5px}}
 @media(max-width:390px){.brand-copy p{display:none}.brand-copy h1{font-size:20px}.top-actions{gap:5px}.icon-btn{width:40px;height:40px}.hero-card h2{font-size:20px}.source-ribbon{max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*::before,*::after{transition:none!important;animation:none!important}}
+
+
+/* V0.6.1 dark surface hardening
+   Explicit surfaces prevent pale/white cards when cached or mixed theme rules are present. */
+:root{
+  --surface-solid:var(--solid);
+  --surface-soft:var(--soft);
+  --ink-2:var(--ink2);
+  --navy-2:var(--navy2);
+  --green-soft:var(--greenSoft);
+  --amber-soft:var(--amberSoft);
+  --red-soft:var(--redSoft);
+  --violet-soft:var(--violetSoft);
+}
+:root[data-theme='dark']{
+  --detail-panel:#182634;
+  --detail-panel-deep:#132130;
+  --detail-panel-raised:#1c2c3d;
+  --detail-border:#2b4358;
+  --detail-border-soft:#253a4d;
+}
+:root[data-theme='dark'] .detail-section,
+:root[data-theme='dark'] .case-summary{
+  background:var(--detail-panel)!important;
+  border-color:var(--detail-border-soft)!important;
+  color:var(--ink)!important;
+}
+:root[data-theme='dark'] .detail-section.emphasis{
+  background:linear-gradient(180deg,#1d2939 0%,#162331 100%)!important;
+  border-color:#344e65!important;
+}
+:root[data-theme='dark'] .first30-card{
+  background:linear-gradient(180deg,#2a2331 0%,#172332 100%)!important;
+  border-color:#69485a!important;
+  border-left-color:#f1848b!important;
+  color:var(--ink)!important;
+}
+:root[data-theme='dark'] .first30-card li,
+:root[data-theme='dark'] .quick-step{
+  background:var(--detail-panel-deep)!important;
+  border-color:var(--detail-border)!important;
+  color:#f4f8fc!important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.025);
+}
+:root[data-theme='dark'] .quick-step *,
+:root[data-theme='dark'] .first30-card li *{
+  color:inherit!important;
+}
+:root[data-theme='dark'] .quick-step::before,
+:root[data-theme='dark'] .first30-card li::before{
+  background:#245071!important;
+  color:#fff!important;
+}
+:root[data-theme='dark'] .critical-section{
+  background:linear-gradient(180deg,#251f2a 0%,#192431 100%)!important;
+  border-color:#563d4b!important;
+}
+:root[data-theme='dark'] .red-flag{
+  background:#2b202a!important;
+  border-color:#5d4050!important;
+  border-left-color:#f1848b!important;
+  color:#f4f8fc!important;
+}
+:root[data-theme='dark'] .decision-section{
+  background:linear-gradient(180deg,#24271f 0%,#192431 100%)!important;
+  border-color:#544b31!important;
+}
+:root[data-theme='dark'] .branch{
+  color:#f4f8fc!important;
+}
+:root[data-theme='dark'] .branch.yes{
+  background:#14332d!important;
+  border-color:#2b5c50!important;
+}
+:root[data-theme='dark'] .branch.no{
+  background:#352b1d!important;
+  border-color:#66512b!important;
+}
+:root[data-theme='dark'] .meds-section{
+  background:linear-gradient(180deg,#172936 0%,#182634 100%)!important;
+  border-color:#2a4d5c!important;
+}
+:root[data-theme='dark'] .med-card,
+:root[data-theme='dark'] .source-grid>div,
+:root[data-theme='dark'] .severity-tabs,
+:root[data-theme='dark'] .action-box{
+  background:var(--detail-panel-deep)!important;
+  border-color:var(--detail-border-soft)!important;
+  color:var(--ink)!important;
+}
+:root[data-theme='dark'] .severity-card.mild{
+  background:#153229!important;
+  border-color:#285442!important;
+}
+:root[data-theme='dark'] .severity-card.moderate{
+  background:#352b1d!important;
+  border-color:#66512b!important;
+}
+:root[data-theme='dark'] .severity-card.severe{
+  background:#2d2028!important;
+  border-color:#60404d!important;
+}
+:root[data-theme='dark'] .med-meta span,
+:root[data-theme='dark'] .authority.algorithm{
+  background:var(--detail-panel-raised)!important;
+  border-color:var(--detail-border)!important;
+  color:#cbd8e4!important;
+}
+:root[data-theme='dark'] .source-actions a{
+  background:#172a3c!important;
+  border-color:#31516e!important;
+  color:#9bc0ff!important;
+}
+:root[data-theme='dark'] .field-banner,
+:root[data-theme='dark'] .authority-warning{
+  background:#3a2b14!important;
+  border-color:#6d5329!important;
+}
+:root[data-theme='dark'] .field-banner span,
+:root[data-theme='dark'] .authority-warning,
+:root[data-theme='dark'] .med-card>p,
+:root[data-theme='dark'] .source-disclaimer,
+:root[data-theme='dark'] .detail-heading p,
+:root[data-theme='dark'] .source-grid span,
+:root[data-theme='dark'] .case-summary p{
+  color:#cbd8e4!important;
+}
+:root[data-theme='dark'] .detail-heading h3,
+:root[data-theme='dark'] .decision-box>strong,
+:root[data-theme='dark'] .med-main strong,
+:root[data-theme='dark'] .source-grid strong{
+  color:#f4f8fc!important;
+}
+:root[data-theme='dark'] ::selection{
+  background:#315fbd;
+  color:#fff;
+}
