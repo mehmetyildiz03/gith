@@ -33,8 +33,8 @@
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*::before,*::after{transition:none!important;animation:none!important}}
 
 
-/* V0.6.1 dark surface hardening
-   Explicit surfaces prevent pale/white cards when cached or mixed theme rules are present. */
+/* V0.6.1 dark surface hardening */
+/* Explicit surfaces prevent pale/white cards when cached or mixed theme rules are present. */
 :root{
   --surface-solid:var(--solid);
   --surface-soft:var(--soft);
