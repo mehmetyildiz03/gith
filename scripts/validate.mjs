@@ -22,6 +22,13 @@ if(APP_META){
 }
 if(!Array.isArray(CASES)||!CASES.length)err('CASES boş veya dizi değil');
 
+const roscCase=(CASES||[]).find(c=>c.code==='SB-ASH-Y-12');
+if(!roscCase)err('SB-ASH-Y-12 Resüsitasyon Sonrası Bakım vakası eksik');
+else{
+  if(roscCase.title!=='Resüsitasyon Sonrası Bakım')err('SB-ASH-Y-12 resmî başlığı "Resüsitasyon Sonrası Bakım" olmalı');
+  if(!String(roscCase.subtitle||'').includes('ROSC')||!String(roscCase.subtitle||'').toLocaleLowerCase('tr-TR').includes('spontan dolaşım'))err('SB-ASH-Y-12 kullanıcı açıklaması ROSC ve spontan dolaşımı açıklamalı');
+}
+
 const ids=new Set();const allowedAuthority=new Set(['DIRECT','SKKM','ALGORITHM']);const allowedRoutes=new Set(APP_META?.routes||[]);const allowedPop=new Set((APP_META?.populations||[]).map(p=>p.id));
 for(const [i,c] of (CASES||[]).entries()){
   const at=`CASES[${i}] ${c?.id||'(id yok)'}`;

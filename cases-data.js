@@ -1,7 +1,7 @@
 const APP_META = {
   "schemaVersion": 2,
   "contentVersion": "2026.09.20-v0.5",
-  "productVersion": "0.7",
+  "productVersion": "0.7.1",
   "populations": [
     {
       "id": "adult",
@@ -1001,8 +1001,8 @@ const CASES = [
   },
   {
     "id": "rosc",
-    "title": "ROSC Sonrası Bakım",
-    "subtitle": "MAP • ısı • oksijenasyon • ritim",
+    "title": "Resüsitasyon Sonrası Bakım",
+    "subtitle": "Spontan dolaşım geri döndükten sonra (ROSC)",
     "category": "Resüsitasyon",
     "icon": "🔄",
     "accent": "#288a73",
@@ -1018,7 +1018,7 @@ const CASES = [
       "documentTitle": "Hastane Öncesi Acil Tıbbi Yardım ve Bakım Akış Şemaları",
       "effectiveDate": "2026-08-25",
       "officialPageDate": "2026-09-11",
-      "reviewedAt": "2026-09-20",
+      "reviewedAt": "2026-09-21",
       "officialPageUrl": "https://acilafet.saglik.gov.tr/TR-119840/hastane-oncesi-acil-tibbi-yardim-ve-bakim-akis-semalari.html",
       "officialPdfUrl": "https://dosyamerkez.saglik.gov.tr/Eklenti/55773/0/ek-2-hastane-oncesi-acil-tibbi-yardim-ve-bakim-akis-semalaripdf.pdf",
       "section": "adult",
