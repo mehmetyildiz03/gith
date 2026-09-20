@@ -1,21 +1,14 @@
 {
-  "id": "./",
-  "name": "Saha112 — Vaka Rehberi",
-  "short_name": "Saha112",
-  "description": "Hastane öncesi acil sağlık için vaka bazlı eğitim ve hızlı hatırlatma rehberi.",
-  "start_url": "./",
-  "scope": "./",
-  "display": "standalone",
-  "orientation": "portrait-primary",
-  "background_color": "#f2f5f9",
-  "theme_color": "#0b1f3a",
-  "lang": "tr-TR",
-  "icons": [
-    {
-      "src": "./icon.svg",
-      "sizes": "any",
-      "type": "image/svg+xml",
-      "purpose": "any maskable"
-    }
-  ]
+  "id":"./",
+  "name":"Saha112 — Vaka Rehberi",
+  "short_name":"Saha112",
+  "description":"Hastane öncesi acil sağlık için vaka bazlı eğitim ve hızlı hatırlatma rehberi.",
+  "start_url":"./",
+  "scope":"./",
+  "display":"standalone",
+  "orientation":"portrait-primary",
+  "background_color":"#edf4f8",
+  "theme_color":"#edf4f8",
+  "lang":"tr-TR",
+  "icons":[{"src":"./icon.svg","sizes":"any","type":"image/svg+xml","purpose":"any maskable"}]
 }
