@@ -43,7 +43,7 @@
         <div class="protocol-strip">
           <span class="status-dot"></span>
           <span><strong>25.08.2026</strong> güncel akış şemaları bazlı</span>
-          <span class="protocol-chip">V0.3</span>
+          <span class="protocol-chip">V0.4</span>
         </div>
         <div class="theme-pill" id="modePill">Standart görünüm</div>
         <div class="theme-pill" id="themePill">Açık mod</div>
@@ -84,7 +84,7 @@
       <section id="shortcutSection" class="shortcut-section hidden" aria-labelledby="shortcutTitle">
         <div class="section-head">
           <div><span class="mini-label">KISAYOLLAR</span><h3 id="shortcutTitle">Sık kullandıkların</h3></div>
-          <button class="text-btn" data-action="clear-recents">Geçmişi temizle</button>
+          <button id="clearRecentsBtn" class="text-btn" data-action="clear-recents" type="button">Geçmişi temizle</button>
         </div>
         <div id="shortcutGrid" class="shortcut-grid"></div>
       </section>
@@ -124,15 +124,16 @@
       <div class="sheet-head"><div><span class="mini-label">DOĞRULAMA</span><h2 id="sourceTitle">Kaynak ve sürüm</h2></div><button class="icon-btn" data-action="close-sheet" aria-label="Kapat">×</button></div>
       <div class="source-card primary-source">
         <div class="source-icon">SB</div>
-        <div><strong>T.C. Sağlık Bakanlığı — Hastane Öncesi Acil Tıbbi Yardım ve Bakım Akış Şemaları</strong><p>25 Ağustos 2026 tarihli güncelleme • Yetişkin algoritmaları</p></div>
+        <div><strong>T.C. Sağlık Bakanlığı — Hastane Öncesi Acil Tıbbi Yardım ve Bakım Akış Şemaları</strong><p>25 Ağustos 2026 tarihli Tebliğ eki • ASHGM yayın sayfası 11 Eylül 2026</p></div>
       </div>
-      <a class="source-link" href="https://acilafet.saglik.gov.tr/TR-120033/hastane-oncesi-acil-tibbi-yardim-ve-bakim-akis-semalari-yayimlandi.html" target="_blank" rel="noopener">Bakanlık duyurusunu aç <span>↗</span></a>
-      <a class="source-link" href="https://dosyaism.saglik.gov.tr/Eklenti/285023/0/hastane-oncesi-acil-tibbi-yardim-ve-bakim-akis-semalari--yetiskin.pdf" target="_blank" rel="noopener">Yetişkin algoritmaları PDF <span>↗</span></a>
-      <div class="source-meta"><span>İçerik sürümü: 20.09.2026</span><span>Uygulama: V0.3</span><span>Tema: kalıcı tercih</span><span>Hızlı Saha: kalıcı tercih</span></div>
+      <a class="source-link" href="https://acilafet.saglik.gov.tr/TR-119840/hastane-oncesi-acil-tibbi-yardim-ve-bakim-akis-semalari.html" target="_blank" rel="noopener">Resmî algoritma sayfasını aç <span>↗</span></a>
+      <a class="source-link" href="https://dosyamerkez.saglik.gov.tr/Eklenti/55773/0/ek-2-hastane-oncesi-acil-tibbi-yardim-ve-bakim-akis-semalaripdf.pdf" target="_blank" rel="noopener">Ek-2 algoritma PDF <span>↗</span></a>
+      <div class="source-meta"><span>İçerik sürümü: 20.09.2026</span><span>Uygulama: V0.4</span><span>Tema: kalıcı tercih</span><span>Hızlı Saha: kalıcı tercih</span></div><p class="authority-note">Yetki etiketleri, resmî akış şemalarındaki yetki/komuta kararlarının arayüz özetidir; kurum talimatı ve SKKM/ÇM kararı önceliklidir.</p>
       <p class="sheet-disclaimer">Bu ürün resmî Sağlık Bakanlığı uygulaması değildir; resmî kaynakları sahada okunabilir bir eğitim arayüzüne dönüştüren prototiptir.</p>
     </section>
   </div>
 
-  <script src="./cases-data.js"></script>\n  <script src="./app-core.js"></script>
+  <script src="./cases-data.js"></script>
+  <script src="./app-core.js"></script>
 </body>
 </html>
