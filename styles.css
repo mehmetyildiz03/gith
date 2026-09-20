@@ -276,3 +276,57 @@ html.dialog-open,html.dialog-open body{overflow:hidden}
 .severity-tabs{grid-template-columns:repeat(3,minmax(0,1fr))}
 .severity-tab{line-height:1.2}
 @media(max-width:620px){.mode-pill{font-size:9.5px;padding-inline:8px}.update-banner{bottom:calc(76px + env(safe-area-inset-bottom))}}
+
+
+/* V0.8.1 touch target hardening */
+/* Keep dense visuals while making primary touch controls at least 44 CSS px tall. */
+.icon-btn,
+.back-btn,
+.fav-btn{
+  width:44px;
+  height:44px;
+  min-width:44px;
+  min-height:44px;
+}
+.search-wrap input{
+  min-height:44px;
+  line-height:44px;
+}
+.filter-chip{
+  min-height:44px;
+  padding-block:9px;
+}
+.text-btn{
+  min-height:44px;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  padding-block:8px;
+}
+.jump-chip{
+  min-height:44px;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  padding:9px 10px;
+}
+.detail-jumps{
+  margin-top:5px;
+}
+.severity-tab{
+  min-height:44px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:8px 6px;
+}
+.source-actions a{
+  min-height:44px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:8px 10px;
+}
+@media(max-width:390px){
+  .icon-btn{width:44px;height:44px}
+}
