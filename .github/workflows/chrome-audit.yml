@@ -27,5 +27,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: chrome-responsive-audit
-          path: chrome-audit-results.json
+          path: |
+            chrome-audit-results.json
+            chrome-audit-screenshots/
           if-no-files-found: warn

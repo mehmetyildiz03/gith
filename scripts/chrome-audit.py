@@ -13,7 +13,7 @@ from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.support.ui import WebDriverWait
 
 ROOT=Path(__file__).resolve().parents[1]
-OUT=ROOT/"chrome-audit-results.json"
+OUT=ROOT/"chrome-audit-results.json"\nSCREEN_DIR=ROOT/"chrome-audit-screenshots"
 
 SCENARIOS=[
   {"name":"phone-360-dark-standard-home","width":360,"height":800,"theme":"dark","mode":"standard","case":""},
@@ -199,12 +199,17 @@ def run_scenario(browser,sc,url):
     WebDriverWait(driver,12).until(
       lambda d: d.execute_script("return (document.getElementById('chromeAuditResult')?.textContent?.length||0)>2")
     )
-    return driver.execute_script("return JSON.parse(document.getElementById('chromeAuditResult').textContent)")
+    payload=driver.execute_script("return JSON.parse(document.getElementById('chromeAuditResult').textContent)")
+    SCREEN_DIR.mkdir(parents=True,exist_ok=True)
+    driver.save_screenshot(str(SCREEN_DIR/(sc["name"]+".png")))
+    return payload
   finally:
     driver.quit()
 
 def run():
   browser=browser_path()
+  if SCREEN_DIR.exists(): shutil.rmtree(SCREEN_DIR)
+  SCREEN_DIR.mkdir(parents=True,exist_ok=True)
   results=[]
   with tempfile.TemporaryDirectory(prefix="saha112-chrome-") as tmp:
     site=prepare_site(tmp)
