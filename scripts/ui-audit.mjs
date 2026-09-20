@@ -3,6 +3,7 @@ import fs from 'node:fs';
 const css=fs.readFileSync('styles.css','utf8');
 const html=fs.readFileSync('index.html','utf8');
 const sw=fs.readFileSync('sw.js','utf8');
+const app=fs.readFileSync('app-core.js','utf8');
 const errors=[];
 const assert=(ok,msg)=>{if(!ok)errors.push(msg)};
 
@@ -28,8 +29,13 @@ assert(css.includes("/* V0.6.1 dark surface hardening */"),'Koyu mod yüzey hard
 assert(css.includes(":root[data-theme='dark'] .quick-step")&&css.includes("background:var(--detail-panel-deep)!important"),'Koyu mod algoritma adımı explicit yüzeyi eksik');
 assert(css.includes(":root[data-theme='dark'] .red-flag")&&css.includes("background:#2b202a!important"),'Koyu mod kırmızı bayrak yüzeyi eksik');
 assert(css.includes(":root[data-theme='dark'] .branch.yes")&&css.includes(":root[data-theme='dark'] .branch.no"),'Koyu mod karar kutuları explicit değil');
-assert(html.includes('styles.css?v=0.6.1')&&html.includes('app-core.js?v=0.6.1')&&html.includes('cases-data.js?v=0.6.1'),'Kritik asset cache-bust sürümü eksik');
-assert(sw.includes("saha112-v061")&&sw.includes('NETWORK_FIRST_DESTINATIONS'),'Service worker kritik asset güncelleme stratejisi eksik');
+assert(html.includes('styles.css?v=0.6.2')&&html.includes('app-core.js?v=0.6.2')&&html.includes('cases-data.js?v=0.6.2'),'Kritik asset cache-bust sürümü eksik');
+assert(sw.includes("saha112-v062")&&sw.includes('NETWORK_FIRST_DESTINATIONS'),'Service worker kritik asset güncelleme stratejisi eksik');
+assert(!app.includes('Kırmızı bayrak'),'Eski kullanıcı terimi hâlâ UI içinde');
+assert(app.includes('Acil Uyarı Bulguları'),'Acil Uyarı Bulguları başlığı eksik');
+assert(app.includes('Önceliği, müdahaleyi veya nakil kararını değiştirebilecek bulgular.'),'Acil uyarı açıklaması eksik');
+assert(css.includes('.app-shell.detail-open>.context-panel'),'Detay görünümünde üst bağlam paneli gizlenmiyor');
+assert(html.includes('aria-haspopup="dialog"')&&html.includes('aria-controls="sourceSheet"'),'Kaynak dialog erişilebilirlik ilişkisi eksik');
 
 console.log(`Saha112 UI audit: ${errors.length} hata`);
 for(const e of errors)console.error('ERROR '+e);
