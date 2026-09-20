@@ -29,7 +29,12 @@ function detectTheme(){if(['light','dark'].includes(state.theme))return state.th
 function applyTheme(theme){const t=theme||detectTheme();document.documentElement.dataset.theme=t;el.themeToggle?.setAttribute('aria-pressed',String(t==='dark'));el.themeToggle?.setAttribute('aria-label',t==='dark'?'Açık moda geç':'Koyu moda geç');if(el.themePill)el.themePill.textContent=t==='dark'?'Koyu':'Açık';el.themeMeta?.setAttribute('content',t==='dark'?'#0f1722':'#edf4f8')}
 function toggleTheme(){state.theme=document.documentElement.dataset.theme==='dark'?'light':'dark';localStorage.setItem(STORAGE.theme,state.theme);applyTheme(state.theme)}
 function applyDensity(){const compact=state.density==='compact';document.documentElement.dataset.density=compact?'compact':'standard';el.fieldToggle?.classList.toggle('active',compact);el.fieldToggle?.setAttribute('aria-pressed',String(compact));el.fieldToggle?.setAttribute('aria-label',compact?'Hızlı Saha modunu kapat':'Hızlı Saha modunu aç');if(el.modePill)el.modePill.textContent=compact?'Hızlı Saha':'Standart'}
-function toggleDensity(){state.density=state.density==='compact'?'standard':'compact';localStorage.setItem(STORAGE.density,state.density);applyDensity()}
+function toggleDensity(){
+  state.density=state.density==='compact'?'standard':'compact';
+  localStorage.setItem(STORAGE.density,state.density);
+  applyDensity();
+  if(!state.current)renderCases();
+}
 function updateNetwork(){const online=navigator.onLine;el.network.dataset.state=online?'online':'offline';el.network.querySelector('span:last-child').textContent=online?'Çevrimiçi':'Çevrimdışı';el.offline.classList.toggle('hidden',online)}
 
 function searchText(c){
@@ -37,15 +42,31 @@ function searchText(c){
   const meds=(c.meds||[]).flatMap(m=>[m.name,m.dose,(m.routes||[]).join(' '),m.repeat,m.maxDose,m.note,APP_META.authority[m.authority]?.label]);
   return [c.title,c.subtitle,c.category,c.code,c.summary,...c.first30,...c.quick,...c.redFlags,c.decision?.q,c.decision?.yes,c.decision?.no,...sev,...meds].filter(Boolean).map(strip).join(' ').toLocaleLowerCase('tr-TR');
 }
+function priorityRank(c){return ({critical:0,high:1,standard:2}[c.priority]??9)}
 function visibleCases(){
   const q=state.query.trim().toLocaleLowerCase('tr-TR');
   let list=casesForPopulation().filter(c=>state.category==='Tümü'||c.category===state.category);
   if(state.view==='favorites')list=list.filter(c=>state.favorites.has(c.id));
   if(q)list=list.filter(c=>searchText(c).includes(q));
+  if(state.density==='compact')list=[...list].sort((a,b)=>priorityRank(a)-priorityRank(b)||a.title.localeCompare(b.title,'tr'));
   return list;
 }
+function populationCount(id){return CASES.filter(c=>c.population===id&&c.clinicalStatus==='reviewed').length}
+function ensurePopulationAvailable(){
+  if(populationCount(state.population)>0)return;
+  const fallback=APP_META.populations.find(p=>populationCount(p.id)>0);
+  if(fallback){
+    state.population=fallback.id;
+    localStorage.setItem(STORAGE.population,fallback.id);
+  }
+}
 function renderPopulations(){
-  el.populations.innerHTML=APP_META.populations.map(p=>{const n=CASES.filter(c=>c.population===p.id&&c.clinicalStatus==='reviewed').length;const active=state.population===p.id;return `<button type="button" role="tab" aria-selected="${active}" class="population-tab ${active?'active':''}" data-population="${p.id}"><span>${esc(p.label)}</span><small>${n||'QA'}</small></button>`}).join('');
+  el.populations.innerHTML=APP_META.populations.map(p=>{
+    const n=populationCount(p.id);
+    const available=n>0;
+    const active=available&&state.population===p.id;
+    return `<button type="button" role="tab" aria-selected="${active}" aria-disabled="${!available}" ${available?'':'disabled'} class="population-tab ${active?'active':''} ${available?'':'pending'}" data-population="${p.id}"><span>${esc(p.label)}</span><small>${available?n:'Yakında'}</small></button>`;
+  }).join('');
 }
 function renderFilters(){const cats=categories();if(!cats.includes(state.category))state.category='Tümü';el.filters.innerHTML=cats.map(c=>`<button type="button" role="tab" aria-selected="${state.category===c}" class="filter-chip ${state.category===c?'active':''}" data-filter="${esc(c)}">${esc(c)}</button>`).join('')}
 function renderStats(){const all=casesForPopulation();el.statCases.textContent=String(all.length);el.statCategories.textContent=String(new Set(all.map(c=>c.category)).size);el.statCasesText.textContent=all.length?'Doğrulanmış içerik':`${popMeta(state.population).algorithmRange} • QA bekliyor`}
@@ -57,8 +78,7 @@ function renderCases(){
   el.list.innerHTML=list.map(c=>`<button type="button" class="case-row ${c.priority==='critical'?'priority-critical':''}" style="${caseStyle(c)}" data-open="${c.id}"><span class="case-accent"></span><div class="case-icon">${c.icon}</div><div class="row-copy"><div class="row-title"><h4>${esc(c.title)}</h4>${c.priority==='critical'?'<span class="priority-badge">KRİTİK</span>':''}</div><p>${esc(c.subtitle)}</p><div class="row-meta"><span class="tag">${esc(c.category)}</span><span class="source-code">${esc(c.code)}</span></div></div><span class="chev">›</span></button>`).join('');
 }
 function renderFeatured(){
-  const rank={critical:0,high:1,standard:2};
-  const f=casesForPopulation().filter(c=>c.featured).sort((a,b)=>(rank[a.priority]??9)-(rank[b.priority]??9)).slice(0,4);
+  const f=casesForPopulation().filter(c=>c.featured).sort((a,b)=>priorityRank(a)-priorityRank(b)).slice(0,4);
   el.featuredSection.classList.toggle('hidden',f.length===0||state.view==='favorites');
   el.featured.innerHTML=f.map((c,i)=>`<button type="button" class="featured-card ${c.priority==='critical'?'critical':''} ${i===0?'primary':''}" style="${caseStyle(c)}" data-open="${c.id}"><div class="featured-top"><div class="case-icon">${c.icon}</div>${c.priority==='critical'?'<span class="featured-priority">KRİTİK</span>':''}</div><span class="featured-kicker">${esc(c.category)}</span><h4>${esc(c.title)}</h4><p>${esc(c.subtitle)}</p><span class="code">${esc(c.code)}</span></button>`).join('');
 }
@@ -70,7 +90,7 @@ function renderShortcuts(){
   el.shortcutSection.classList.toggle('hidden',items.length===0||state.view==='favorites');el.clearRecents.classList.toggle('hidden',state.recent.length===0);
   el.shortcuts.innerHTML=items.map(({c,kind})=>`<button type="button" class="shortcut-card" style="${caseStyle(c)}" data-open="${c.id}"><span class="shortcut-kind">${kind}</span><div class="case-icon">${c.icon}</div><div class="shortcut-copy"><strong>${esc(c.title)}</strong><span>${esc(c.category)} • ${esc(c.code)}</span></div></button>`).join('');
 }
-function renderAll(){renderPopulations();renderFilters();renderStats();renderFeatured();renderShortcuts();renderCases()}
+function renderAll(){ensurePopulationAvailable();renderPopulations();renderFilters();renderStats();renderFeatured();renderShortcuts();renderCases()}
 
 function authorityBadge(m){const a=APP_META.authority[m.authority]||APP_META.authority.ALGORITHM;const cls=m.authority==='DIRECT'?'direct':m.authority==='SKKM'?'skkm':'algorithm';return `<span class="authority ${cls}" title="${esc(a.description)}">${esc(a.label)}</span>`}
 function renderMeds(c){if(!c.meds?.length)return '';return `<section class="detail-section meds-section" id="medications"><div class="detail-heading"><span class="tiny-icon">Rx</span><div><h3>İlaç / uygulama özeti</h3><p>Doz, yol, tekrar ve yetki işaretini birlikte kontrol et.</p></div></div><div class="med-list">${c.meds.map(m=>`<article class="med-card"><div class="med-main"><div><strong>${esc(m.name)}</strong><span class="dose">${esc(m.dose)}</span></div>${authorityBadge(m)}</div><div class="med-meta"><span>Yol: <b>${esc((m.routes||[]).join(' / '))}</b></span>${m.repeat?`<span>Tekrar: <b>${esc(m.repeat)}</b></span>`:''}${m.maxDose?`<span>Maks: <b>${esc(m.maxDose)}</b></span>`:''}</div><p>${esc(m.note)}</p></article>`).join('')}</div><div class="authority-warning">Yetki etiketi arayüz özetidir; güncel resmî şema, kurum talimatı ve SKKM/ÇM kararı önceliklidir.</div></section>`}
@@ -80,7 +100,7 @@ function openCase(id){
   const c=CASES.find(x=>x.id===id&&x.population===state.population);if(!c)return;state.current=id;state.returnScrollY=scrollY;state.returnNav=state.nav;addRecent(id);renderShortcuts();const fav=state.favorites.has(id);
   const jumps=[['first30','İlk 30 sn','critical'],['algorithm','Algoritma',''],...(c.severity?[['severity','Şiddet','']]:[]),['red-flags','Acil uyarılar','critical'],...(c.meds?.length?[['medications','İlaçlar','']]:[]),['decision','Karar',''],['source','Kaynak','']];
   el.detail.innerHTML=`<header class="detail-top"><div class="detail-bar"><button type="button" class="back-btn" data-action="back" aria-label="Geri">‹</button><div class="detail-title"><div class="kicker">${esc(popMeta(c.population).label.toUpperCase())} • ${esc(c.category.toUpperCase())}</div><h2>${esc(c.title)}</h2></div><button type="button" class="fav-btn ${fav?'active':''}" data-action="favorite" aria-label="${fav?'Favorilerden çıkar':'Favorilere ekle'}" aria-pressed="${fav}">${fav?'★':'☆'}</button></div><div class="source-ribbon"><span>§</span><span>${esc(c.code)} • s.${esc(c.page)} • gözden geçirme ${esc(c.source.reviewedAt)}</span></div><div class="detail-jumps">${jumps.map(j=>`<button type="button" class="jump-chip ${j[2]}" data-jump="${j[0]}">${j[1]}</button>`).join('')}</div></header>
-  <div class="field-banner"><strong>⚡ Hızlı Saha aktif</strong><span>Kritik eylemler ve karar noktaları öne alındı.</span></div>
+  <div class="field-banner"><strong>⚡ Hızlı Saha</strong><span>İlk 30 saniye, acil uyarılar, karar ve dozlar önde; açıklayıcı bölümler geri planda.</span></div>
   <div class="detail-body" style="${caseStyle(c)}">
     <section class="first30-card" id="first30"><div class="first30-head"><span>00:30</span><div><strong>İlk 30 saniye</strong><p>Önce bunları gör; sonra algoritmaya ilerle.</p></div></div><ol>${c.first30.map(x=>`<li>${esc(x)}</li>`).join('')}</ol></section>
     <section class="case-summary"><span class="case-category">${esc(c.category)}</span><p>${esc(c.summary)}</p></section>
@@ -96,7 +116,11 @@ function setNav(name){state.nav=name;$$('.nav-item').forEach(b=>b.classList.togg
 function showHome(top=true){state.view='home';state.current=null;el.detail.classList.add('hidden');el.main.classList.remove('hidden');el.shell.classList.remove('detail-open');setNav('home');renderAll();if(top)scrollTo(0,0)}
 function showCases(){state.view='home';setNav('cases');renderAll();requestAnimationFrame(()=>el.filterTitle.scrollIntoView({behavior:'smooth',block:'start'}))}
 function showFavorites(){state.view='favorites';state.category='Tümü';state.query='';el.search.value='';setNav('favorites');renderAll();requestAnimationFrame(()=>el.filterTitle.scrollIntoView({behavior:'smooth',block:'start'}))}
-function selectPopulation(id){if(!APP_META.populations.some(p=>p.id===id))return;state.population=id;state.category='Tümü';state.query='';state.view='home';el.search.value='';localStorage.setItem(STORAGE.population,id);renderAll();scrollTo(0,0)}
+function selectPopulation(id){
+  if(!APP_META.populations.some(p=>p.id===id)||populationCount(id)===0)return;
+  state.population=id;state.category='Tümü';state.query='';state.view='home';el.search.value='';
+  localStorage.setItem(STORAGE.population,id);renderAll();scrollTo(0,0);
+}
 
 applyTheme();applyDensity();updateNetwork();renderAll();
 matchMedia('(prefers-color-scheme: dark)').addEventListener?.('change',()=>{if(!localStorage.getItem(STORAGE.theme))applyTheme()});
