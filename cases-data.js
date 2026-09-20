@@ -1,7 +1,7 @@
 const APP_META = {
   "schemaVersion": 2,
   "contentVersion": "2026.09.20-v0.5",
-  "productVersion": "0.6.2",
+  "productVersion": "0.7",
   "populations": [
     {
       "id": "adult",
