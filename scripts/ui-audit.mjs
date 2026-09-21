@@ -30,8 +30,8 @@ assert(css.includes("/* V0.6.1 dark surface hardening */"),'Koyu mod yüzey hard
 assert(css.includes(":root[data-theme='dark'] .quick-step")&&css.includes("background:var(--detail-panel-deep)!important"),'Koyu mod algoritma adımı explicit yüzeyi eksik');
 assert(css.includes(":root[data-theme='dark'] .red-flag")&&css.includes("background:#2b202a!important"),'Koyu mod kırmızı bayrak yüzeyi eksik');
 assert(css.includes(":root[data-theme='dark'] .branch.yes")&&css.includes(":root[data-theme='dark'] .branch.no"),'Koyu mod karar kutuları explicit değil');
-assert(html.includes('styles.css?v=0.9')&&html.includes('app-core.js?v=0.9')&&html.includes('cases-data.js?v=0.9'),'Kritik asset cache-bust sürümü eksik');
-assert(sw.includes("saha112-v09")&&sw.includes('NETWORK_FIRST_DESTINATIONS'),'Service worker kritik asset güncelleme stratejisi eksik');
+assert(html.includes('styles.css?v=0.9.1')&&html.includes('app-core.js?v=0.9.1')&&html.includes('cases-data.js?v=0.9.1'),'Kritik asset cache-bust sürümü eksik');
+assert(sw.includes("saha112-v091")&&sw.includes('NETWORK_FIRST_DESTINATIONS'),'Service worker kritik asset güncelleme stratejisi eksik');
 assert(!app.includes('Kırmızı bayrak'),'Eski kullanıcı terimi hâlâ UI içinde');
 assert(app.includes('Acil Uyarı Bulguları'),'Acil Uyarı Bulguları başlığı eksik');
 assert(app.includes('Önceliği, müdahaleyi veya nakil kararını değiştirebilecek bulgular.'),'Acil uyarı açıklaması eksik');
@@ -55,6 +55,11 @@ assert(app.includes('sourceFocusable')&&app.includes("e.key==='Tab'")&&css.inclu
 assert(data.includes('"title": "İnme / SVO"'),'İnme / SVO başlığı korunmamış');
 assert(data.includes('"title": "Nabızlı Taşikardi"'),'Nabızlı Taşikardi başlığı eksik');
 assert(data.includes('"contentVersion": "EK2-2026.08.25-clinical-audit-2026.09.21"'),'V0.9 klinik audit içerik sürümü eksik');
+assert(html.includes('id="authorityLegend"')&&!html.includes('<span class="authority direct">Doğrudan</span>'),'Yetki legendi dinamik veri kaynağına bağlı değil');
+assert(app.includes("authorityMarkup")&&app.includes("authority-symbol")&&app.includes("✓ Yeşil: doğrudan")&&app.includes("◆ Sarı: SKKM/ÇM"),'Yetki sembol/yazı eşlemesi eksik');
+assert(css.includes('.authority.direct{')&&css.includes('var(--greenSoft)')&&css.includes('.authority.skkm{')&&css.includes('var(--amberSoft)'),'Yeşil/sarı yetki renk semantiği eksik');
+assert(data.includes('"symbol": "✓"')&&data.includes('"symbol": "◆"')&&data.includes('"symbol": "•"'),'Yetki sembol metası eksik');
+assert(app.includes('Renk tek başına yetki anlamı taşımaz'),'Renk körlüğü/erişilebilirlik güvenlik açıklaması eksik');
 assert(data.includes('"title": "Nöbet / Status Epileptikus"'),'Status Epileptikus başlığı eksik');
 assert(!app.includes("'severity','Şiddet'")&&app.includes("'severity','Klinik ayrım'"),'Arı sokması hızlı geçiş etiketi Klinik ayrım olmalı');
 assert(css.includes('/* V0.8.1 touch target hardening */'),'Dokunma hedefi hardening bloğu eksik');

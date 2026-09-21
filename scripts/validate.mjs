@@ -31,6 +31,9 @@ else{
 
 const ids=new Set();const allowedAuthority=new Set(['DIRECT','SKKM','ALGORITHM']);const allowedRoutes=new Set(APP_META?.routes||[]);const allowedPop=new Set((APP_META?.populations||[]).map(p=>p.id));
 if(APP_META?.routeLabels?.NEB!=='Nebülizasyon')err('NEB kullanıcı etiketi Nebülizasyon olmalı');
+if(APP_META?.authority?.DIRECT?.symbol!=='✓'||APP_META?.authority?.DIRECT?.visualLabel!=='Onay gerektirmez')err('DIRECT yeşil/doğrudan sembol metası eksik');
+if(APP_META?.authority?.SKKM?.symbol!=='◆'||APP_META?.authority?.SKKM?.visualLabel!=='Onay/karar gerekli')err('SKKM sarı/onay sembol metası eksik');
+if(APP_META?.authority?.ALGORITHM?.symbol!=='•'||APP_META?.authority?.ALGORITHM?.visualLabel!=='Yetki ayrıca doğrulanmadı')err('ALGORITHM nötr sembol metası eksik');
 if(APP_META?.contentVersion!=='EK2-2026.08.25-clinical-audit-2026.09.21')err('contentVersion klinik audit sürümüyle eşleşmiyor');
 const strokeCase=(CASES||[]).find(c=>c.id==='stroke');
 if(!strokeCase||strokeCase.title!=='İnme / SVO')err('İnme / SVO başlığı korunmalı');

@@ -2,7 +2,7 @@
 
 Mobil-first, offline çekirdekli, vaka bazlı hastane öncesi acil sağlık eğitim ve hızlı hatırlatma uygulaması.
 
-## V0.9 mimarisi
+## V0.9.1 mimarisi
 
 - **Kaynak:** T.C. Sağlık Bakanlığı 25.08.2026 tarihli Ek-2 Hastane Öncesi Acil Tıbbi Yardım ve Bakım Akış Şemaları.
 - **17 yetişkin vaka klinik audit:** 21.09.2026 tarihinde güncel Ek-2 kaynak setiyle başlık, doz, yol, tekrar, yetki, algoritma sırası ve kaynak izi yeniden kontrol edildi; yalnız doğrulanabilen değişiklikler işlendi.
@@ -17,6 +17,7 @@ Mobil-first, offline çekirdekli, vaka bazlı hastane öncesi acil sağlık eği
 - **Hasta grupları:** Yetişkin / Çocuk / Doğum & Yenidoğan mimaride kalıcıdır. Doğrulanmış kartı olmayan grup `Yakında` olarak pasif görünür ve ilk onaylı kart geldiğinde otomatik açılır.
 - **İlaç modeli:** ad, doz, uygulama yolu, tekrar, maksimum doz ve standart yetki enumu.
 - **Yetki enumları:** `DIRECT`, `SKKM`, `ALGORITHM`.
+- **Yetki işaretleri:** `✓` yeşil = doğrulanmış doğrudan uygulama; `◆` sarı = SKKM/ÇM onay/kararı gereken uygulama; `•` gri = yetki ayrımı ayrıca doğrulanmamış akış şeması basamağı. Renk tek başına anlam taşımaz.
 - **Kaynak izi:** belge, yürürlük tarihi, kod/sayfa, son içerik inceleme tarihi ve resmî bağlantılar vaka ile birlikte tutulur.
 - **PWA:** offline çekirdek, 192/512 PNG ikon, Apple touch icon, service worker.
 - **QA kapısı:** JavaScript syntax + veri şeması + duplicate ID + PWA varlık kontrolleri geçmeden Pages deploy edilmez.

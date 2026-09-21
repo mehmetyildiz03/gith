@@ -1,7 +1,7 @@
 const APP_META = {
   "schemaVersion": 3,
   "contentVersion": "EK2-2026.08.25-clinical-audit-2026.09.21",
-  "productVersion": "0.9",
+  "productVersion": "0.9.1",
   "populations": [
     {
       "id": "adult",
@@ -25,15 +25,21 @@ const APP_META = {
   "authority": {
     "DIRECT": {
       "label": "Doğrudan",
-      "description": "Akış şemasında SKKM/ÇM onayı gerektirmeyen basamak olarak doğrulanmış."
+      "description": "Akış şemasında SKKM/ÇM onayı gerektirmeyen basamak olarak doğrulanmış.",
+      "symbol": "✓",
+      "visualLabel": "Onay gerektirmez"
     },
     "SKKM": {
       "label": "SKKM/ÇM",
-      "description": "Uygulama/ileri basamak için SKKM/ÇM kararı veya onayı gerekir."
+      "description": "Uygulama/ileri basamak için SKKM/ÇM kararı veya onayı gerekir.",
+      "symbol": "◆",
+      "visualLabel": "Onay/karar gerekli"
     },
     "ALGORITHM": {
       "label": "Akış şeması",
-      "description": "İlaç/doz şemada yer alır; yetki ayrımı bu sürümde ayrıca doğrulanmadığından resmî şema ve kurum talimatı kontrol edilmelidir."
+      "description": "İlaç/doz şemada yer alır; yetki ayrımı bu sürümde ayrıca doğrulanmadığından resmî şema ve kurum talimatı kontrol edilmelidir.",
+      "symbol": "•",
+      "visualLabel": "Yetki ayrıca doğrulanmadı"
     }
   },
   "routes": [
