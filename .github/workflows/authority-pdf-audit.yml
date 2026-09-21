@@ -1,0 +1,37 @@
+name: Official PDF authority audit
+on:
+  push:
+    branches: [qa/authority-pdf-audit]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Download official 2026 Ek-2 PDF
+        run: |
+          set -e
+          URL="https://dosyamerkez.saglik.gov.tr/Eklenti/55773/0/ek-2-hastane-oncesi-acil-tibbi-yardim-ve-bakim-akis-semalaripdf.pdf"
+          curl -fL --retry 3 --retry-delay 2 -A "Mozilla/5.0" "$URL" -o ek2.pdf
+          pdfinfo ek2.pdf | head -30
+          pdftotext -layout ek2.pdf ek2.txt
+          echo "=== TARGET TEXT ==="
+          grep -n -E "BRADİKARDİ|Bradikardi|KARDİYAK ARREST|ASİSTOLİ|NABIZSIZ|RESÜSİTASYON SONRASI|NÖBET|KONVÜLZİYON|DOPAMİN|LEVETİRASETAM|VALPROİK" ek2.txt | head -220 || true
+      - name: Render target pages
+        run: |
+          mkdir -p renders
+          for p in 15 16 17 18 19 20 21 22 23 24 25 33 34 35; do
+            pdftoppm -f "$p" -l "$p" -png -r 180 -singlefile ek2.pdf "renders/pdf-page-$p" >/dev/null 2>&1 || true
+          done
+          ls -lh renders
+      - name: Upload target pages and text
+        uses: actions/upload-artifact@v4
+        with:
+          name: official-ek2-authority-audit
+          path: |
+            renders/
+            ek2.txt
