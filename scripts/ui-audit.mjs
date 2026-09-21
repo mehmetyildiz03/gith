@@ -62,7 +62,7 @@ assert(data.includes('"symbol": "✓"')&&data.includes('"symbol": "◆"')&&data.
 assert(!data.includes('"authority": "ALGORITHM"'),'17 yetişkin klinik kütüphanesinde gri/çözümlenmemiş ilaç yetkisi kalmamalı');
 assert(data.includes('"title": "Nöbet / Konvülziyon"'),'Nöbet resmî başlığı eksik');
 assert(app.includes('ATT/AABT uygulayıcı yetki renklerinin yerine geçmez'),'Yetki rengi yalnız SKKM/ÇM onayını göstermeli');
-assert(data.includes('"title": "Nöbet / Status Epileptikus"'),'Status Epileptikus başlığı eksik');
+assert(data.includes('"title": "Nöbet / Konvülziyon"'),'Nöbet / Konvülziyon resmî başlığı eksik');
 assert(!app.includes("'severity','Şiddet'")&&app.includes("'severity','Klinik ayrım'"),'Arı sokması hızlı geçiş etiketi Klinik ayrım olmalı');
 assert(css.includes('/* V0.8.1 touch target hardening */'),'Dokunma hedefi hardening bloğu eksik');
 for(const selector of ['.icon-btn,','.search-wrap input{','.filter-chip{','.text-btn{','.jump-chip{','.severity-tab{','.source-actions a{']){
