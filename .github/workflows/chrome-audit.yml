@@ -1,0 +1,33 @@
+name: Chrome responsive audit
+
+on:
+  push:
+    branches:
+      - qa/chrome-v09-clinical
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  chrome-audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Chrome availability
+        run: |
+          google-chrome --version || google-chrome-stable --version || chromium --version
+          chromedriver --version || true
+      - name: Install Selenium
+        run: python3 -m pip install --disable-pip-version-check selenium==4.35.0
+      - name: Smartphone and tablet Chrome audit
+        run: python3 scripts/chrome-audit.py
+      - name: Upload audit report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: chrome-responsive-audit
+          path: |
+            chrome-audit-results.json
+            chrome-audit-screenshots/
+          if-no-files-found: warn
