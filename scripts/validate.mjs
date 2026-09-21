@@ -31,9 +31,9 @@ else{
 
 const ids=new Set();const allowedAuthority=new Set(['DIRECT','SKKM','ALGORITHM']);const allowedRoutes=new Set(APP_META?.routes||[]);const allowedPop=new Set((APP_META?.populations||[]).map(p=>p.id));
 if(APP_META?.routeLabels?.NEB!=='Nebülizasyon')err('NEB kullanıcı etiketi Nebülizasyon olmalı');
-if(APP_META?.authority?.DIRECT?.symbol!=='✓'||APP_META?.authority?.DIRECT?.visualLabel!=='Onay gerektirmez')err('DIRECT yeşil/doğrudan sembol metası eksik');
-if(APP_META?.authority?.SKKM?.symbol!=='◆'||APP_META?.authority?.SKKM?.visualLabel!=='Onay/karar gerekli')err('SKKM sarı/onay sembol metası eksik');
-if(APP_META?.authority?.ALGORITHM?.symbol!=='•'||APP_META?.authority?.ALGORITHM?.visualLabel!=='Yetki ayrıca doğrulanmadı')err('ALGORITHM nötr sembol metası eksik');
+if(APP_META?.authority?.DIRECT?.symbol!=='✓'||APP_META?.authority?.DIRECT?.visualLabel!=='SKKM/ÇM onayı gerektirmez')err('DIRECT yeşil/doğrudan sembol metası eksik');
+if(APP_META?.authority?.SKKM?.symbol!=='◆'||APP_META?.authority?.SKKM?.visualLabel!=='SKKM/ÇM onayı gerekli')err('SKKM sarı/onay sembol metası eksik');
+if(APP_META?.authority?.ALGORITHM?.symbol!=='•'||APP_META?.authority?.ALGORITHM?.visualLabel!=='Yetki simgesi doğrulanmadı')err('ALGORITHM nötr sembol metası eksik');
 if(APP_META?.contentVersion!=='EK2-2026.08.25-clinical-audit-2026.09.21')err('contentVersion klinik audit sürümüyle eşleşmiyor');
 const strokeCase=(CASES||[]).find(c=>c.id==='stroke');
 if(!strokeCase||strokeCase.title!=='İnme / SVO')err('İnme / SVO başlığı korunmalı');
@@ -83,6 +83,21 @@ if(medByName(burnCase,'Fentanil')?.dose!=='1 mcg/kg'||medByName(burnCase,'Fentan
 const adultAuditCases=(CASES||[]).filter(c=>c.population==='adult');
 if(adultAuditCases.length!==17)err('Klinik audit kapsamı 17 yetişkin vaka olmalı');
 for(const c of adultAuditCases)if(c.source?.reviewedAt!=='2026-09-21')err(`${c.id}: klinik audit reviewedAt 2026-09-21 olmalı`);
+for(const c of adultAuditCases)for(const m of (c.meds||[]))if(!['DIRECT','SKKM'].includes(m.authority))err(`${c.id}/${m.name}: yetişkin ilaç yetkisi telefon simgesi auditinden sonra DIRECT veya SKKM olmalı`);
+
+const bradyCase=(CASES||[]).find(c=>c.id==='bradycardia');
+if(medByName(bradyCase,'Dopamin')?.authority!=='SKKM'||medByName(bradyCase,'Adrenalin')?.authority!=='SKKM')err('Bradikardi dopamin/adrenalin SKKM telefon simgesiyle eşleşmiyor');
+
+for(const name of ['Adrenalin','Amiodaron','Lidokain'])if(medByName(arrestCase,name)?.authority!=='DIRECT')err(`Kardiyak Arrest ${name} telefon simgesiz/doğrudan olmalı`);
+if(!String(medByName(arrestCase,'Lidokain')?.repeat||'').includes('0,5–0,75 mg/kg'))err('Arrest 5. şok sonrası lidokain tekrar dozu eksik');
+
+if(!['%0,9 NaCl','Adrenalin','Dopamin','Amiodaron','Lidokain'].every(name=>medByName(roscCase,name)?.authority==='SKKM'))err('ROSC telefon simgeli ilaçların tamamı SKKM olmalı');
+if(!JSON.stringify(roscCase).includes('2–10 mcg/dk')||!JSON.stringify(roscCase).includes('5–20 mcg/kg/dk'))err('ROSC hipotansiyon adrenalin/dopamin basamağı eksik');
+
+if(seizureCase?.title!=='Nöbet / Konvülziyon')err('SB-ASH-Y-19 resmî başlığı Nöbet / Konvülziyon olmalı');
+for(const name of ['Diazepam','Midazolam','Fenitoin','Valproik asit','Levetirasetam'])if(medByName(seizureCase,name)?.authority!=='SKKM')err(`Nöbet ${name} SKKM telefon simgesiyle eşleşmiyor`);
+if(!String(medByName(seizureCase,'Fenitoin')?.note||'').includes('25 mg/kg/dk'))err('Fenitoin resmî maksimum infüzyon hızı notu eksik');
+if(!JSON.stringify(seizureCase).includes('5 dk sonra'))err('Nöbet 5 dk benzodiazepin tekrar basamağı eksik');
 for(const [i,c] of (CASES||[]).entries()){
   const at=`CASES[${i}] ${c?.id||'(id yok)'}`;
   for(const f of ['id','title','subtitle','category','population','summary','code','page','clinicalStatus'])if(!c?.[f])err(`${at}: ${f} eksik`);

@@ -1,7 +1,7 @@
 const APP_META = {
   "schemaVersion": 3,
   "contentVersion": "EK2-2026.08.25-clinical-audit-2026.09.21",
-  "productVersion": "0.9.1",
+  "productVersion": "0.9.2",
   "populations": [
     {
       "id": "adult",
@@ -27,19 +27,19 @@ const APP_META = {
       "label": "Doğrudan",
       "description": "Akış şemasında SKKM/ÇM onayı gerektirmeyen basamak olarak doğrulanmış.",
       "symbol": "✓",
-      "visualLabel": "Onay gerektirmez"
+      "visualLabel": "SKKM/ÇM onayı gerektirmez"
     },
     "SKKM": {
       "label": "SKKM/ÇM",
       "description": "Uygulama/ileri basamak için SKKM/ÇM kararı veya onayı gerekir.",
       "symbol": "◆",
-      "visualLabel": "Onay/karar gerekli"
+      "visualLabel": "SKKM/ÇM onayı gerekli"
     },
     "ALGORITHM": {
       "label": "Akış şeması",
       "description": "İlaç/doz şemada yer alır; yetki ayrımı bu sürümde ayrıca doğrulanmadığından resmî şema ve kurum talimatı kontrol edilmelidir.",
       "symbol": "•",
-      "visualLabel": "Yetki ayrıca doğrulanmadı"
+      "visualLabel": "Yetki simgesi doğrulanmadı"
     }
   },
   "routes": [
@@ -80,6 +80,18 @@ const APP_META = {
     "effectiveDate": "2026-08-25",
     "officialPageDate": "2026-09-11",
     "reviewedAt": "2026-09-21"
+  },
+  "authorityAudit": {
+    "source": "25.08.2026 tarihli Ek-2 resmî PDF",
+    "reviewedAt": "2026-09-21",
+    "method": "Telefon/SKKM-ÇM simgesi görsel olarak doğrulandı",
+    "scope": [
+      "SB-ASH-Y-07",
+      "SB-ASH-Y-10",
+      "SB-ASH-Y-11",
+      "SB-ASH-Y-12",
+      "SB-ASH-Y-19"
+    ]
   }
 };
 
@@ -807,7 +819,7 @@ const CASES = [
       "<strong>Acil olgu yönetimi, oksijenizasyon, damar yolu ve monitörizasyon.</strong> 12 derivasyon EKG al.",
       "<strong>İnstabiliteyi değerlendir:</strong> senkop/bilinç değişikliği, iskemi, şok, akut kalp yetmezliği.",
       "<strong>Atropin 1 mg IV.</strong> Gerektiğinde 3–5 dk arayla tekrarla; toplam maksimum 3 mg.",
-      "Atropine yanıtsızlıkta veya yüksek dereceli AV blokta transkütan pacing; dopamin 5–20 mcg/kg/dk veya adrenalin 2–10 mcg/dk seçeneklerini değerlendir."
+      "Atropine yanıtsızlıkta veya yüksek dereceli AV blokta <strong>SKKM/ÇM ile</strong> transkütan pacing; dopamin 5–20 mcg/kg/dk veya adrenalin 2–10 mcg/dk."
     ],
     "warningFindings": [
       "Senkop veya akut bilinç değişikliği",
@@ -833,10 +845,10 @@ const CASES = [
         "routes": [
           "IV"
         ],
-        "authority": "ALGORITHM",
+        "authority": "SKKM",
         "repeat": "Titrasyon",
         "maxDose": "",
-        "note": "Atropine yanıtsız semptomatik bradikardide infüzyon seçeneği."
+        "note": "Atropine yanıtsız semptomatik bradikardide; resmî şemada SKKM/ÇM telefon simgeli ileri basamak."
       },
       {
         "name": "Adrenalin",
@@ -844,15 +856,15 @@ const CASES = [
         "routes": [
           "IV"
         ],
-        "authority": "ALGORITHM",
+        "authority": "SKKM",
         "repeat": "Titrasyon",
         "maxDose": "",
-        "note": "Atropine yanıtsız semptomatik bradikardide infüzyon seçeneği."
+        "note": "Atropine yanıtsız semptomatik bradikardide; resmî şemada SKKM/ÇM telefon simgeli ileri basamak."
       }
     ],
     "decision": {
       "q": "Bradikardi hemodinamik olarak instabil mi?",
-      "yes": "Atropin → yanıtsızsa pacing / vazopressör infüzyon basamağı.",
+      "yes": "Atropin → yanıtsızsa SKKM/ÇM ile pacing / dopamin / adrenalin infüzyon basamağı.",
       "no": "Monitörizasyon, nedenin araştırılması ve uygun merkeze nakil."
     }
   },
@@ -972,7 +984,7 @@ const CASES = [
     "quick": [
       "<strong>Yüksek kaliteli CPR</strong> ve ritim analizi; kompresyon kesintilerini en aza indir.",
       "Asistoli/NEA'da <strong>adrenalin 1 mg IV/IO</strong> erişim sağlanır sağlanmaz; atropin ve rutin NaHCO₃ 2026 algoritmasından çıkarılmıştır.",
-      "VF/pVT'de şok döngülerini sürdür; 2. şok sonrası adrenalin 1 mg, 3. şok sonrası amiodaron 300 mg (veya lidokain 1–1,5 mg/kg), 5. şok sonrası amiodaron 150 mg.",
+      "VF/nVT'de şok döngülerini sürdür; <strong>2. şok sonrası adrenalin 1 mg</strong>, <strong>3. şok sonrası amiodaron 300 mg veya lidokain 1–1,5 mg/kg</strong>, <strong>5. şok sonrası amiodaron 150 mg veya lidokain 0,5–0,75 mg/kg</strong>.",
       "Endotrakeal ilaç yolu kaldırılmıştır; ilaç yolu IV/IO'dur. ROSC olursa Resüsitasyon Sonrası Bakım algoritmasına geç."
     ],
     "warningFindings": [
@@ -989,10 +1001,10 @@ const CASES = [
           "IV",
           "IO"
         ],
-        "authority": "ALGORITHM",
+        "authority": "DIRECT",
         "repeat": "3–5 dk arayla; ritim koluna göre başlangıç zamanı",
         "maxDose": "",
-        "note": "Asistoli/NEA'da erken; VF/pVT'de şema sırasına göre."
+        "note": "Asistoli/NEA'da damar yolu açılır açılmaz; VF/nVT'de 2. şok sonrası. Resmî arrest şemalarında SKKM/ÇM telefon simgesi yoktur."
       },
       {
         "name": "Amiodaron",
@@ -1001,10 +1013,10 @@ const CASES = [
           "IV",
           "IO"
         ],
-        "authority": "ALGORITHM",
-        "repeat": "3. şok sonrası",
-        "maxDose": "150 mg ek doz",
-        "note": "5. şok sonrası 150 mg ek doz; lidokain alternatif olarak şemada yer alır."
+        "authority": "DIRECT",
+        "repeat": "3. şok sonrası 300 mg; 5. şok sonrası 150 mg",
+        "maxDose": "",
+        "note": "300 mg: 20 ml %5 dekstroz içinde 2–3 dk; 150 mg tekrar: 10 ml %5 dekstroz içinde 2–3 dk. Telefon simgesi yok."
       },
       {
         "name": "Lidokain",
@@ -1013,10 +1025,10 @@ const CASES = [
           "IV",
           "IO"
         ],
-        "authority": "ALGORITHM",
-        "repeat": "3. şok sonrası alternatif",
+        "authority": "DIRECT",
+        "repeat": "3. şok sonrası 1–1,5 mg/kg; 5. şok sonrası 0,5–0,75 mg/kg tekrar",
         "maxDose": "",
-        "note": "Amiodarona alternatif seçenek olarak."
+        "note": "Amiodarona alternatif; 2% lidokain IV/IO. Resmî şemada SKKM/ÇM telefon simgesi yok."
       }
     ],
     "decision": {
@@ -1054,17 +1066,17 @@ const CASES = [
       "page": "24",
       "codeStatus": "verified"
     },
-    "summary": "Spontan dolaşım geri döndüğünde oksijenasyon, hemodinami, ısı ve disritmi kontrolünü bağımsız bir post-arrest algoritmasıyla yönet.",
+    "summary": "Spontan dolaşım geri döndüğünde oksijenasyon, hemodinami, ısı ve disritmi kontrolünü bağımsız resüsitasyon sonrası bakım algoritmasıyla yönet.",
     "criticalActions": [
       "Hava yolu/ventilasyonu yeniden değerlendir, SpO₂ ve kapnografiyi uygun şekilde izle.",
       "12 derivasyon EKG, kan basıncı ve ritim monitörizasyonunu başlat.",
       "Hipotansiyonu hızla tanı; 2026 şemasındaki hedef MAP ≥65 mmHg ve vücut ısısı 32–37,5°C aralığını gözet."
     ],
     "quick": [
-      "Spontan solunum yoksa ventilasyon/oksijenizasyonu sürdür; seri nabız ve ritim değerlendirmesi yap.",
-      "<strong>12 derivasyon EKG ve vital bulguları değerlendir.</strong>",
-      "2026 şeması post-arrest bakımında <strong>MAP ≥65 mmHg</strong> hedefini ve <strong>32–37,5°C</strong> vücut ısısı aralığını vurgular.",
-      "Bradikardi/taşikardi/nöbet veya ventriküler ektopi gelişirse ilgili algoritmaya geç; yeniden arrestte ritim algoritmasına dön."
+      "Yeniden değerlendir: monitörizasyon, 12 derivasyon EKG; spontan solunum yoksa oksijenizasyon/ventilasyonu sürdür. <strong>SpO₂ %94–98</strong>, ateş <strong>32–37,5°C</strong>, 2 dk'da bir nabız ve ritim kontrolü.",
+      "Hipotansiyonda nedeni araştır; hedef <strong>MAP ≥65 mmHg</strong>. Hipotansiyon sürerse SKKM/ÇM ile %0,9 NaCl infüzyonu ve/veya adrenalin 2–10 mcg/dk ya da dopamin 5–20 mcg/kg/dk IV infüzyonu.",
+      "Prematür ventriküler kontraksiyon / bigemini / couplet / triplet / R-on-T / sürekli olmayan VT varsa SKKM/ÇM ile <strong>lidokain 1–1,5 mg/kg IV bolus</strong> veya <strong>amiodaron 150 mg IV, %5 dekstroz ile 10 dk</strong>.",
+      "Bradiaritmi, hipo/hiperglisemi, taşiaritmi veya nöbette ilgili algoritmaya; tekrar arrestte ilgili ritim algoritmasına geç."
     ],
     "warningFindings": [
       "MAP <65 mmHg / devam eden hipotansiyon",
@@ -1075,15 +1087,48 @@ const CASES = [
     ],
     "meds": [
       {
+        "name": "%0,9 NaCl",
+        "dose": "İnfüzyon",
+        "routes": [
+          "IV"
+        ],
+        "authority": "SKKM",
+        "repeat": "Hipotansiyon devam ediyorsa",
+        "maxDose": "",
+        "note": "ROSC sonrası MAP <65 mmHg / devam eden hipotansiyonda, resmî şemadaki telefon simgeli basamakta."
+      },
+      {
+        "name": "Adrenalin",
+        "dose": "2–10 mcg/dk",
+        "routes": [
+          "IV"
+        ],
+        "authority": "SKKM",
+        "repeat": "Titrasyon",
+        "maxDose": "",
+        "note": "ROSC sonrası devam eden hipotansiyonda infüzyon; SKKM/ÇM telefon simgeli basamak."
+      },
+      {
+        "name": "Dopamin",
+        "dose": "5–20 mcg/kg/dk",
+        "routes": [
+          "IV"
+        ],
+        "authority": "SKKM",
+        "repeat": "Titrasyon",
+        "maxDose": "",
+        "note": "ROSC sonrası devam eden hipotansiyonda alternatif infüzyon; SKKM/ÇM telefon simgeli basamak."
+      },
+      {
         "name": "Amiodaron",
         "dose": "150 mg",
         "routes": [
           "IV"
         ],
-        "authority": "ALGORITHM",
+        "authority": "SKKM",
         "repeat": "10 dakikada",
         "maxDose": "",
-        "note": "Uygun ventriküler disritmi durumunda şemadaki seçeneklerden biri."
+        "note": "Ventriküler ektopi/sürekli olmayan VT basamağında; %5 dekstroz ile 10 dk. SKKM/ÇM telefon simgeli."
       },
       {
         "name": "Lidokain",
@@ -1091,16 +1136,16 @@ const CASES = [
         "routes": [
           "IV"
         ],
-        "authority": "ALGORITHM",
-        "repeat": "Bolus",
+        "authority": "SKKM",
+        "repeat": "IV bolus",
         "maxDose": "",
-        "note": "Uygun ventriküler disritmi durumunda alternatif."
+        "note": "Ventriküler ektopi/sürekli olmayan VT basamağında amiodarona alternatif; SKKM/ÇM telefon simgeli."
       }
     ],
     "decision": {
-      "q": "Spontan dolaşım geri döndükten (ROSC) sonra hipotansiyon veya disritmi var mı?",
-      "yes": "Hedef MAP/ritim yönetimini başlat; ilgili algoritma basamaklarına geç.",
-      "no": "Oksijenasyon, ısı, EKG ve vital takibi sürdür; uygun merkeze nakil."
+      "q": "ROSC sonrası MAP <65 mmHg, ventriküler ektopi veya başka bir komplikasyon var mı?",
+      "yes": "Telefon simgeli ilaç basamaklarında SKKM/ÇM kararıyla ilerle; bradi/taşiaritmi, glisemi ve nöbet için ilgili algoritmaya geç.",
+      "no": "SpO₂ %94–98, MAP ≥65 mmHg, 32–37,5°C ısı aralığı, EKG ve vital takibi sürdür."
     }
   },
   {
@@ -1226,8 +1271,8 @@ const CASES = [
   },
   {
     "id": "seizure",
-    "title": "Nöbet / Status Epileptikus",
-    "subtitle": "Benzodiazepin • ikinci basamak antiepileptik",
+    "title": "Nöbet / Konvülziyon",
+    "subtitle": "Status epileptikus yönetimi • SKKM/ÇM ilaç basamakları",
     "category": "Nörolojik",
     "icon": "〽️",
     "accent": "#7556a8",
@@ -1253,17 +1298,17 @@ const CASES = [
       "page": "34",
       "codeStatus": "verified"
     },
-    "summary": "Nöbeti güvenli ABC yaklaşımıyla yönet; 2026 şemasında valproik asit ve levetirasetam ikinci basamak seçenekler arasına eklenmiştir.",
+    "summary": "Nöbeti güvenli ABC yaklaşımıyla yönet; devam eden nöbette resmî şemadaki benzodiazepin ve ikinci basamak antiepileptiklerin tamamı SKKM/ÇM telefon simgelidir.",
     "criticalActions": [
       "Hastayı yaralanmadan koru; hava yolunu aç, oksijenasyon/ventilasyonu değerlendir.",
       "Kan glikozunu ölç ve düzeltilebilir nedeni ara.",
       "Devam eden nöbette ilk benzodiazepin basamağını geciktirme; dirençliyse 2026 ikinci basamak seçeneklerine geç."
     ],
     "quick": [
-      "ABC, oksijenasyon, monitörizasyon ve glukoz değerlendirmesini yap.",
-      "Devam eden nöbette <strong>diazepam 5 mg IV</strong> veya <strong>midazolam 5 mg IV / 10 mg IM</strong> şemada ilk ilaç basamağıdır.",
-      "Dirençli nöbette <strong>fenitoin 20 mg/kg</strong> veya <strong>valproik asit 40 mg/kg</strong> veya <strong>levetirasetam 60 mg/kg IV</strong> seçenekleri yer alır.",
-      "Pentothal/fenobarbital önceki algoritmadan çıkarılmıştır; seri solunum ve bilinç değerlendirmesi yap."
+      "Acil olgu yönetimi; hava yolunu sağla, <strong>SpO₂ %94–98</strong> hedefle, damar yolu (DAKŞ), kan glikozu ve kardiyak monitörizasyonu yap.",
+      "Nöbet sürüyorsa <strong>SKKM/ÇM ile diazepam 5 mg IV yavaş puşe</strong> veya <strong>midazolam 5 mg IV / 10 mg IM</strong>.",
+      "Ardından SKKM/ÇM ile <strong>fenitoin 20 mg/kg</strong> (infüzyon hızı resmî şemada en fazla 25 mg/kg/dk) veya <strong>valproik asit 40 mg/kg IV infüzyon</strong> veya <strong>levetirasetam 60 mg/kg IV infüzyon</strong>.",
+      "5 dk sonra nöbet devam ediyorsa SKKM/ÇM ile <strong>diazepam 5 mg IV yavaş puşe</strong> veya <strong>midazolam 5 mg IV / 10 mg IM</strong> tekrar; devam ederse ileri hava yolu için hazırlan."
     ],
     "warningFindings": [
       "Status epileptikus / tekrarlayan nöbet",
@@ -1279,10 +1324,10 @@ const CASES = [
         "routes": [
           "IV"
         ],
-        "authority": "ALGORITHM",
-        "repeat": "Şemaya göre",
+        "authority": "SKKM",
+        "repeat": "İkinci basamak sonrası 5 dk sonra nöbet sürerse 5 mg IV tekrar",
         "maxDose": "",
-        "note": "İlk benzodiazepin seçeneklerinden."
+        "note": "IV yavaş puşe; ilk ve 5 dk sonraki tekrar basamakları resmî şemada SKKM/ÇM telefon simgelidir."
       },
       {
         "name": "Midazolam",
@@ -1291,10 +1336,10 @@ const CASES = [
           "IV",
           "IM"
         ],
-        "authority": "ALGORITHM",
-        "repeat": "Şemaya göre",
+        "authority": "SKKM",
+        "repeat": "İkinci basamak sonrası 5 dk sonra nöbet sürerse 5 mg IV / 10 mg IM tekrar",
         "maxDose": "",
-        "note": "İlk benzodiazepin seçeneklerinden."
+        "note": "İlk ve 5 dk sonraki tekrar basamakları resmî şemada SKKM/ÇM telefon simgelidir."
       },
       {
         "name": "Fenitoin",
@@ -1302,10 +1347,10 @@ const CASES = [
         "routes": [
           "IV"
         ],
-        "authority": "ALGORITHM",
+        "authority": "SKKM",
         "repeat": "İkinci basamak",
         "maxDose": "",
-        "note": "Dirençli nöbet seçeneği."
+        "note": "20 mg/kg IV; resmî şemada infüzyon hızı en fazla 25 mg/kg/dk olarak yazılıdır. SKKM/ÇM telefon simgeli."
       },
       {
         "name": "Valproik asit",
@@ -1313,10 +1358,10 @@ const CASES = [
         "routes": [
           "IV"
         ],
-        "authority": "ALGORITHM",
+        "authority": "SKKM",
         "repeat": "İkinci basamak",
         "maxDose": "",
-        "note": "2026'da eklenen seçeneklerden."
+        "note": "40 mg/kg IV infüzyon; ikinci basamak ve SKKM/ÇM telefon simgeli."
       },
       {
         "name": "Levetirasetam",
@@ -1324,16 +1369,16 @@ const CASES = [
         "routes": [
           "IV"
         ],
-        "authority": "ALGORITHM",
+        "authority": "SKKM",
         "repeat": "İkinci basamak",
         "maxDose": "",
-        "note": "2026'da eklenen seçeneklerden."
+        "note": "60 mg/kg IV infüzyon; ikinci basamak ve SKKM/ÇM telefon simgeli."
       }
     ],
     "decision": {
-      "q": "Nöbet ilk benzodiazepin basamağına rağmen sürüyor mu?",
-      "yes": "İkinci basamak antiepileptik seçeneklerinden uygun olanı şemaya/SKKM kararına göre uygula.",
-      "no": "ABC ve bilinç takibini sürdür; nedeni değerlendir ve naklet."
+      "q": "İlk benzodiazepin ve ikinci basamak antiepileptik sonrası nöbet sürüyor mu?",
+      "yes": "5 dk sonra SKKM/ÇM ile diazepam veya midazolam tekrarını uygula; nöbet sürerse ileri hava yolu uygulaması için hazırlan.",
+      "no": "Postiktal dönemde hava yolu açıklığına dikkat et ve nakli sürdür."
     }
   },
   {
