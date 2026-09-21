@@ -38,7 +38,7 @@ if(APP_META?.contentVersion!=='EK2-2026.08.25-clinical-audit-2026.09.21')err('co
 const strokeCase=(CASES||[]).find(c=>c.id==='stroke');
 if(!strokeCase||strokeCase.title!=='İnme / SVO')err('İnme / SVO başlığı korunmalı');
 const seizureCase=(CASES||[]).find(c=>c.id==='seizure');
-if(!seizureCase||seizureCase.title!=='Nöbet / Status Epileptikus')err('Nöbet başlığı Status Epileptikus olarak açık yazılmalı');
+if(!seizureCase||seizureCase.title!=='Nöbet / Konvülziyon')err('Nöbet başlığı resmî SB-ASH-Y-19 adıyla Nöbet / Konvülziyon olmalı');
 const beeCase=(CASES||[]).find(c=>c.id==='bee');
 if(!beeCase||beeCase.severity?.mild?.label!=='Lokal reaksiyon'||beeCase.severity?.moderate?.label!=='Sistemik bulgu'||beeCase.severity?.severe?.label!=='Anafilaksi')err('Arı sokması klinik görünüm etiketleri eksik');
 const medByName=(c,name)=>(c?.meds||[]).find(m=>m.name===name);
