@@ -59,7 +59,7 @@ const acsCase=(CASES||[]).find(c=>c.id==='acs'), nitrate=medByName(acsCase,'İzo
 if(!String(nitrate?.repeat||'').includes('3–5 dk')||!String(nitrate?.maxDose||'').includes('3 doz'))err('AKS nitrat tekrar/maksimum doz bilgisi eksik');
 
 const tachyCase=(CASES||[]).find(c=>c.id==='tachycardia');
-if(tachyCase?.title!=='Nabızlı Taşikardi'||tachyCase?.page!=='18')err('Nabızlı Taşikardi başlık/sayfa sabiti bozuldu');
+if(tachyCase?.title!=='Nabızlı Taşikardi'||tachyCase?.page!=='17')err('Nabızlı Taşikardi başlık/sayfa sabiti bozuldu');
 const tachyText=JSON.stringify([tachyCase?.quick,tachyCase?.decision]);
 for(const required of ['dar düzenli 100 J','dar düzensiz 200 J','geniş düzenli 100 J','defibrilasyon dozu'])if(!tachyText.includes(required))err(`Taşikardi enerji bilgisi eksik: ${required}`);
 if(medByName(tachyCase,'Amiodaron')?.dose!=='150 mg'||!String(medByName(tachyCase,'Amiodaron')?.repeat||'').includes('10 dakika'))err('Taşikardi amiodaron 150 mg / 10 dk sabiti bozuldu');
@@ -68,13 +68,13 @@ const arrestCase=(CASES||[]).find(c=>c.id==='cardiac-arrest');
 const arrestText=JSON.stringify([arrestCase?.quick,arrestCase?.meds]);
 for(const forbidden of ['Atropin 3 mg','NaHCO₃ 1 mEq/kg'])if(arrestText.includes(forbidden))err(`2026 arrest algoritmasında kaldırılmış içerik var: ${forbidden}`);
 
-if(roscCase?.page!=='24'||!JSON.stringify(roscCase).includes('MAP ≥65 mmHg')||!JSON.stringify(roscCase).includes('32–37,5°C'))err('Resüsitasyon Sonrası Bakım sayfa/hedef sabitleri bozuldu');
+if(roscCase?.page!=='23'||!JSON.stringify(roscCase).includes('MAP ≥65 mmHg')||!JSON.stringify(roscCase).includes('32–37,5°C'))err('Resüsitasyon Sonrası Bakım sayfa/hedef sabitleri bozuldu');
 
 const hypoCase=(CASES||[]).find(c=>c.id==='hypoglycemia');
-if(hypoCase?.page!=='32'||medByName(hypoCase,'Dekstroz')?.authority!=='DIRECT'||!String(medByName(hypoCase,'Dekstroz')?.repeat||'').includes('5–10 dk'))err('Hipoglisemi 2026 dekstroz sabitleri bozuldu');
+if(hypoCase?.page!=='31'||medByName(hypoCase,'Dekstroz')?.authority!=='DIRECT'||!String(medByName(hypoCase,'Dekstroz')?.repeat||'').includes('5–10 dk')||!JSON.stringify(hypoCase).includes('15 dk'))err('Hipoglisemi sayfa/15 dk oral tekrar/dekstroz sabitleri bozuldu');
 
-if(strokeCase?.page!=='33'||!JSON.stringify(strokeCase).includes('BEFAST'))err('İnme / SVO sayfa veya BEFAST sabiti bozuldu');
-if(seizureCase?.page!=='34'||medByName(seizureCase,'Valproik asit')?.dose!=='40 mg/kg'||medByName(seizureCase,'Levetirasetam')?.dose!=='60 mg/kg')err('Nöbet 2026 ikinci basamak dozları bozuldu');
+if(strokeCase?.page!=='32'||!JSON.stringify(strokeCase).includes('BEFAST')||!JSON.stringify(strokeCase).includes('%94–98')||!JSON.stringify(strokeCase).includes('30°'))err('İnme / SVO sayfa/BEFAST/O2/30° sabitleri bozuldu');
+if(seizureCase?.page!=='33'||medByName(seizureCase,'Valproik asit')?.dose!=='40 mg/kg'||medByName(seizureCase,'Levetirasetam')?.dose!=='60 mg/kg')err('Nöbet sayfa/2026 ikinci basamak dozları bozuldu');
 
 const burnCase=(CASES||[]).find(c=>c.id==='burn');
 if(!JSON.stringify(burnCase?.quick||[]).includes('(2 × VYA% × kg) / 16 mL/saat'))err('Yanık Parkland/Ringer Laktat 2026 formülü eksik');
@@ -98,6 +98,19 @@ if(seizureCase?.title!=='Nöbet / Konvülziyon')err('SB-ASH-Y-19 resmî başlı�
 for(const name of ['Diazepam','Midazolam','Fenitoin','Valproik asit','Levetirasetam'])if(medByName(seizureCase,name)?.authority!=='SKKM')err(`Nöbet ${name} SKKM telefon simgesiyle eşleşmiyor`);
 if(!String(medByName(seizureCase,'Fenitoin')?.note||'').includes('25 mg/kg/dk'))err('Fenitoin resmî maksimum infüzyon hızı notu eksik');
 if(!JSON.stringify(seizureCase).includes('5 dk sonra'))err('Nöbet 5 dk benzodiazepin tekrar basamağı eksik');
+
+const airwayCase=(CASES||[]).find(c=>c.id==='airway');
+if(airwayCase?.title!=='Hava Yolu Tıkanıklıkları'||airwayCase?.page!=='8')err('Hava Yolu Tıkanıklıkları resmî başlık/sayfa bozuldu');
+if(asthmaCase?.title==='Astım Atağı')err('Astım resmî başlığı eski kaldı');
+if(bradyCase?.title!=='Bradikardi'||bradyCase?.page!=='16')err('Bradikardi resmî başlık/sayfa bozuldu');
+if(JSON.stringify(arrestCase?.source?.algorithmCodes)!==JSON.stringify(['SB-ASH-Y-09','SB-ASH-Y-10','SB-ASH-Y-11'])||arrestCase?.page!=='18–22')err('Kardiyak Arrest Y-09/Y-10/Y-11 kaynak izi bozuldu');
+const drowningCase=(CASES||[]).find(c=>c.id==='drowning');
+if(!String(drowningCase?.criticalActions?.[0]||'').includes('suya girme')||!String(drowningCase?.criticalActions?.[0]||'').includes('at-çek-uzat'))err('Suda Boğulma at-çek-uzat güvenlik kuralı eksik');
+const hypothermiaCase=(CASES||[]).find(c=>c.id==='hypothermia');
+if(!hypothermiaCase?.source?.algorithmCodes?.includes('SB-ASH-Y-25')||!JSON.stringify(hypothermiaCase).includes('60 sn'))err('Hipotermi Y-25/60 sn kaynak izi eksik');
+if(burnCase?.title!=='Termal Yanık'||burnCase?.page!=='50'||burnCase?.source?.page!=='48–50'||!JSON.stringify(burnCase).includes('1 saatten kısa nakilde 500 mL'))err('Termal Yanık başlık/sayfa/kısa nakil sıvı basamağı bozuldu');
+const traumaCase=(CASES||[]).find(c=>c.id==='trauma');
+if(traumaCase?.title!=='Travmalı Hastada Acil Olgu Yönetimi'||traumaCase?.code!=='SB-ASH-Y-38'||traumaCase?.page!=='67'||!traumaCase?.source?.algorithmCodes?.includes('SB-ASH-Y-38')||!traumaCase?.source?.algorithmCodes?.includes('SB-ASH-Y-02'))err('Travma Y-38/Y-02 başlık-kod-sayfa kaynak izi bozuldu');
 for(const [i,c] of (CASES||[]).entries()){
   const at=`CASES[${i}] ${c?.id||'(id yok)'}`;
   for(const f of ['id','title','subtitle','category','population','summary','code','page','clinicalStatus'])if(!c?.[f])err(`${at}: ${f} eksik`);

@@ -30,8 +30,8 @@ assert(css.includes("/* V0.6.1 dark surface hardening */"),'Koyu mod yüzey hard
 assert(css.includes(":root[data-theme='dark'] .quick-step")&&css.includes("background:var(--detail-panel-deep)!important"),'Koyu mod algoritma adımı explicit yüzeyi eksik');
 assert(css.includes(":root[data-theme='dark'] .red-flag")&&css.includes("background:#2b202a!important"),'Koyu mod kırmızı bayrak yüzeyi eksik');
 assert(css.includes(":root[data-theme='dark'] .branch.yes")&&css.includes(":root[data-theme='dark'] .branch.no"),'Koyu mod karar kutuları explicit değil');
-assert(html.includes('styles.css?v=0.9.2')&&html.includes('app-core.js?v=0.9.2')&&html.includes('cases-data.js?v=0.9.2'),'Kritik asset cache-bust sürümü eksik');
-assert(sw.includes("saha112-v092")&&sw.includes('NETWORK_FIRST_DESTINATIONS'),'Service worker kritik asset güncelleme stratejisi eksik');
+assert(html.includes('styles.css?v=0.9.3')&&html.includes('app-core.js?v=0.9.3')&&html.includes('cases-data.js?v=0.9.3'),'Kritik asset cache-bust sürümü eksik');
+assert(sw.includes("saha112-v093")&&sw.includes('NETWORK_FIRST_DESTINATIONS'),'Service worker kritik asset güncelleme stratejisi eksik');
 assert(!app.includes('Kırmızı bayrak'),'Eski kullanıcı terimi hâlâ UI içinde');
 assert(app.includes('Acil Uyarı Bulguları'),'Acil Uyarı Bulguları başlığı eksik');
 assert(app.includes('Önceliği, müdahaleyi veya nakil kararını değiştirebilecek bulgular.'),'Acil uyarı açıklaması eksik');
@@ -61,6 +61,10 @@ assert(css.includes('.authority.direct{')&&css.includes('var(--greenSoft)')&&css
 assert(data.includes('"symbol": "✓"')&&data.includes('"symbol": "◆"')&&data.includes('"symbol": "•"'),'Yetki sembol metası eksik');
 assert(!data.includes('"authority": "ALGORITHM"'),'17 yetişkin klinik kütüphanesinde gri/çözümlenmemiş ilaç yetkisi kalmamalı');
 assert(data.includes('"title": "Nöbet / Konvülziyon"'),'Nöbet resmî başlığı eksik');
+assert(data.includes('"title": "Hava Yolu Tıkanıklıkları"')&&data.includes('"title": "Astım"')&&data.includes('"title": "Bradikardi"'),'Resmî mevcut vaka başlıklarından biri eski');
+assert(data.includes('"title": "Termal Yanık"')&&data.includes('"title": "Travmalı Hastada Acil Olgu Yönetimi"'),'Yanık/travma resmî başlıkları eksik');
+assert(data.includes('"code": "SB-ASH-Y-38"')&&data.includes('"page": "67"'),'Travma Y-38/s.67 kaynak düzeltmesi eksik');
+assert(!data.includes('"code": "Ek-2 • Travma"'),'Eski travma kaynak kodu kaldı');
 assert(app.includes('ATT/AABT uygulayıcı yetki renklerinin yerine geçmez'),'Yetki rengi yalnız SKKM/ÇM onayını göstermeli');
 assert(data.includes('"title": "Nöbet / Konvülziyon"'),'Nöbet / Konvülziyon resmî başlığı eksik');
 assert(!app.includes("'severity','Şiddet'")&&app.includes("'severity','Klinik ayrım'"),'Arı sokması hızlı geçiş etiketi Klinik ayrım olmalı');
