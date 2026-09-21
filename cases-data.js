@@ -1,7 +1,7 @@
 const APP_META = {
   "schemaVersion": 3,
-  "contentVersion": "EK2-2026.08.25-review-2026.09.21",
-  "productVersion": "0.8.2",
+  "contentVersion": "EK2-2026.08.25-clinical-audit-2026.09.21",
+  "productVersion": "0.9",
   "populations": [
     {
       "id": "adult",
@@ -67,6 +67,13 @@ const APP_META = {
     "officialPdfUrl": "https://dosyamerkez.saglik.gov.tr/Eklenti/55773/0/ek-2-hastane-oncesi-acil-tibbi-yardim-ve-bakim-akis-semalaripdf.pdf",
     "effectiveDate": "2026-08-25",
     "officialPageDate": "2026-09-11"
+  },
+  "clinicalAudit": {
+    "scope": "17 yetişkin vaka",
+    "source": "T.C. Sağlık Bakanlığı Ek-2 Hastane Öncesi Acil Tıbbi Yardım ve Bakım Akış Şemaları",
+    "effectiveDate": "2026-08-25",
+    "officialPageDate": "2026-09-11",
+    "reviewedAt": "2026-09-21"
   }
 };
 
@@ -79,7 +86,7 @@ const CASES = [
     "icon": "🐝",
     "accent": "#b77708",
     "soft": "#fff3d4",
-    "code": "SB-ASH-Y-26 + Y-22",
+    "code": "SB-ASH-Y-26 + SB-ASH-Y-22",
     "page": "44–45 / 37",
     "uiFeatured": true,
     "summary": "İğneyi, lokal bakımı ve sistemik reaksiyona geçişi tek ekranda ayır. Lokal reaksiyon, sistemik bulgu ve anafilaksiye geçiş eğitim amaçlı ayrılır; resmî şema ayrı bir üçlü tedavi sınıflaması tanımlamaz.",
@@ -130,7 +137,7 @@ const CASES = [
           "IM"
         ],
         "authority": "DIRECT",
-        "repeat": "",
+        "repeat": "Hipoperfüzyon sürerse 5 dk içinde",
         "maxDose": "",
         "note": "Akut başlangıç + yaşamı tehdit eden bulguda. Hipoperfüzyon sürerse 5 dk içinde tekrar."
       },
@@ -181,7 +188,7 @@ const CASES = [
     ],
     "decision": {
       "q": "Sokma sonrası sistemik alerjik bulgu var mı?",
-      "yes": "Anafilaksi bulgularını kontrol et → gerekiyorsa Y-22 algoritmasına geç.",
+      "yes": "Anafilaksi bulgularını kontrol et → gerekiyorsa SB-ASH-Y-22 Anafilaksi algoritmasına geç.",
       "no": "Lokal bakım + seri yeniden değerlendirme + nakil."
     },
     "population": "adult",
@@ -197,13 +204,13 @@ const CASES = [
       "documentTitle": "Hastane Öncesi Acil Tıbbi Yardım ve Bakım Akış Şemaları",
       "effectiveDate": "2026-08-25",
       "officialPageDate": "2026-09-11",
-      "reviewedAt": "2026-09-20",
+      "reviewedAt": "2026-09-21",
       "officialPageUrl": "https://acilafet.saglik.gov.tr/TR-119840/hastane-oncesi-acil-tibbi-yardim-ve-bakim-akis-semalari.html",
       "officialPdfUrl": "https://dosyamerkez.saglik.gov.tr/Eklenti/55773/0/ek-2-hastane-oncesi-acil-tibbi-yardim-ve-bakim-akis-semalaripdf.pdf",
       "section": "adult",
       "algorithmCodes": [
         "SB-ASH-Y-26",
-        "Y-22"
+        "SB-ASH-Y-22"
       ],
       "page": "44–45 / 37",
       "codeStatus": "verified"
@@ -240,9 +247,9 @@ const CASES = [
           "IM"
         ],
         "authority": "DIRECT",
-        "repeat": "",
+        "repeat": "Hipoperfüzyon sürerse 5 dk içinde",
         "maxDose": "",
-        "note": "İlk kritik ilaç."
+        "note": "İlk kritik ilaç; 2026 Ek-2'de doğrudan uygulama basamağı."
       },
       {
         "name": "Adrenalin infüzyon",
@@ -318,7 +325,7 @@ const CASES = [
       "documentTitle": "Hastane Öncesi Acil Tıbbi Yardım ve Bakım Akış Şemaları",
       "effectiveDate": "2026-08-25",
       "officialPageDate": "2026-09-11",
-      "reviewedAt": "2026-09-20",
+      "reviewedAt": "2026-09-21",
       "officialPageUrl": "https://acilafet.saglik.gov.tr/TR-119840/hastane-oncesi-acil-tibbi-yardim-ve-bakim-akis-semalari.html",
       "officialPdfUrl": "https://dosyamerkez.saglik.gov.tr/Eklenti/55773/0/ek-2-hastane-oncesi-acil-tibbi-yardim-ve-bakim-akis-semalaripdf.pdf",
       "section": "adult",
@@ -343,7 +350,7 @@ const CASES = [
     "summary": "Rahat pozisyon, SpO₂ hedefi, bronkodilatörler ve ağır/ölümcül atakta erken hava yolu hazırlığı.",
     "quick": [
       "<strong>Acil olgu yönetimini uygula</strong>; hastayı rahat ettiği, tercihen oturur pozisyonda tut.",
-      "<strong>SpO₂ > %93</strong> olacak şekilde titre ederek O₂ ver; gerekirse PBV ile destekle.",
+      "<strong>SpO₂ %94–98</strong> hedefleyerek O₂ ver; gerekirse PBV ile destekle.",
       "<strong>Damar yolu aç ve %0,9 NaCl (DAKŞ).</strong> Atağın derecesini belirle.",
       "<strong>Hafif-orta:</strong> salbutamol 4–8 puf veya 2,5–5 mg nebül. <strong>Ağır:</strong> salbutamol 2,5–5 mg + ipratropium 500 mcg nebül."
     ],
@@ -360,20 +367,20 @@ const CASES = [
           "NEB"
         ],
         "authority": "DIRECT",
-        "repeat": "",
-        "maxDose": "",
-        "note": "Hafif-orta atak."
+        "repeat": "20 dk arayla",
+        "maxDose": "maksimum 3 uygulama",
+        "note": "4–8 puf inhaler veya 2,5–5 mg nebül; 2026 Ek-2 tekrar aralığına göre."
       },
       {
         "name": "İpratropium bromür",
         "dose": "500 mcg",
         "routes": [
-          "OTHER"
+          "NEB"
         ],
-        "authority": "SKKM",
+        "authority": "DIRECT",
         "repeat": "",
         "maxDose": "",
-        "note": "Yanıt yoksa / ağır atakta kombinasyon."
+        "note": "Salbutamol ile kombine nebül; 2026 Ek-2 başlangıç bronkodilatör basamağında doğrudan."
       },
       {
         "name": "Metilprednizolon",
@@ -408,7 +415,7 @@ const CASES = [
     "clinicalStatus": "reviewed",
     "criticalActions": [
       "Hastayı rahat, tercihen oturur pozisyona al ve atağın ağırlığını değerlendir.",
-      "SpO₂ >%93 hedefli O₂ ver; gerekirse PBV ile destekle.",
+      "SpO₂ %94–98 hedefli O₂ ver; gerekirse PBV ile destekle.",
       "Bronkodilatörü geciktirme; ağır/ölümcül atakta sessiz toraks ve bilinç değişikliğini kırmızı bayrak kabul et."
     ],
     "source": {
@@ -416,7 +423,7 @@ const CASES = [
       "documentTitle": "Hastane Öncesi Acil Tıbbi Yardım ve Bakım Akış Şemaları",
       "effectiveDate": "2026-08-25",
       "officialPageDate": "2026-09-11",
-      "reviewedAt": "2026-09-20",
+      "reviewedAt": "2026-09-21",
       "officialPageUrl": "https://acilafet.saglik.gov.tr/TR-119840/hastane-oncesi-acil-tibbi-yardim-ve-bakim-akis-semalari.html",
       "officialPdfUrl": "https://dosyamerkez.saglik.gov.tr/Eklenti/55773/0/ek-2-hastane-oncesi-acil-tibbi-yardim-ve-bakim-akis-semalaripdf.pdf",
       "section": "adult",
@@ -470,8 +477,8 @@ const CASES = [
           "SL"
         ],
         "authority": "SKKM",
-        "repeat": "",
-        "maxDose": "",
+        "repeat": "3–5 dk arayla",
+        "maxDose": "toplam 3 doz",
         "note": "Hipotansiyon ve bradikardi yoksa; 3–5 dk arayla toplam 3 doz."
       },
       {
@@ -504,7 +511,7 @@ const CASES = [
       "documentTitle": "Hastane Öncesi Acil Tıbbi Yardım ve Bakım Akış Şemaları",
       "effectiveDate": "2026-08-25",
       "officialPageDate": "2026-09-11",
-      "reviewedAt": "2026-09-20",
+      "reviewedAt": "2026-09-21",
       "officialPageUrl": "https://acilafet.saglik.gov.tr/TR-119840/hastane-oncesi-acil-tibbi-yardim-ve-bakim-akis-semalari.html",
       "officialPdfUrl": "https://dosyamerkez.saglik.gov.tr/Eklenti/55773/0/ek-2-hastane-oncesi-acil-tibbi-yardim-ve-bakim-akis-semalaripdf.pdf",
       "section": "adult",
@@ -558,7 +565,7 @@ const CASES = [
       "documentTitle": "Hastane Öncesi Acil Tıbbi Yardım ve Bakım Akış Şemaları",
       "effectiveDate": "2026-08-25",
       "officialPageDate": "2026-09-11",
-      "reviewedAt": "2026-09-20",
+      "reviewedAt": "2026-09-21",
       "officialPageUrl": "https://acilafet.saglik.gov.tr/TR-119840/hastane-oncesi-acil-tibbi-yardim-ve-bakim-akis-semalari.html",
       "officialPdfUrl": "https://dosyamerkez.saglik.gov.tr/Eklenti/55773/0/ek-2-hastane-oncesi-acil-tibbi-yardim-ve-bakim-akis-semalaripdf.pdf",
       "section": "adult",
@@ -624,7 +631,7 @@ const CASES = [
       "documentTitle": "Hastane Öncesi Acil Tıbbi Yardım ve Bakım Akış Şemaları",
       "effectiveDate": "2026-08-25",
       "officialPageDate": "2026-09-11",
-      "reviewedAt": "2026-09-20",
+      "reviewedAt": "2026-09-21",
       "officialPageUrl": "https://acilafet.saglik.gov.tr/TR-119840/hastane-oncesi-acil-tibbi-yardim-ve-bakim-akis-semalari.html",
       "officialPdfUrl": "https://dosyamerkez.saglik.gov.tr/Eklenti/55773/0/ek-2-hastane-oncesi-acil-tibbi-yardim-ve-bakim-akis-semalaripdf.pdf",
       "section": "adult",
@@ -678,7 +685,7 @@ const CASES = [
       "documentTitle": "Hastane Öncesi Acil Tıbbi Yardım ve Bakım Akış Şemaları",
       "effectiveDate": "2026-08-25",
       "officialPageDate": "2026-09-11",
-      "reviewedAt": "2026-09-20",
+      "reviewedAt": "2026-09-21",
       "officialPageUrl": "https://acilafet.saglik.gov.tr/TR-119840/hastane-oncesi-acil-tibbi-yardim-ve-bakim-akis-semalari.html",
       "officialPdfUrl": "https://dosyamerkez.saglik.gov.tr/Eklenti/55773/0/ek-2-hastane-oncesi-acil-tibbi-yardim-ve-bakim-akis-semalaripdf.pdf",
       "section": "adult",
@@ -744,7 +751,7 @@ const CASES = [
       "documentTitle": "Hastane Öncesi Acil Tıbbi Yardım ve Bakım Akış Şemaları",
       "effectiveDate": "2026-08-25",
       "officialPageDate": "2026-09-11",
-      "reviewedAt": "2026-09-20",
+      "reviewedAt": "2026-09-21",
       "officialPageUrl": "https://acilafet.saglik.gov.tr/TR-119840/hastane-oncesi-acil-tibbi-yardim-ve-bakim-akis-semalari.html",
       "officialPdfUrl": "https://dosyamerkez.saglik.gov.tr/Eklenti/55773/0/ek-2-hastane-oncesi-acil-tibbi-yardim-ve-bakim-akis-semalaripdf.pdf",
       "section": "adult",
@@ -774,7 +781,7 @@ const CASES = [
       "documentTitle": "Hastane Öncesi Acil Tıbbi Yardım ve Bakım Akış Şemaları",
       "effectiveDate": "2026-08-25",
       "officialPageDate": "2026-09-11",
-      "reviewedAt": "2026-09-20",
+      "reviewedAt": "2026-09-21",
       "officialPageUrl": "https://acilafet.saglik.gov.tr/TR-119840/hastane-oncesi-acil-tibbi-yardim-ve-bakim-akis-semalari.html",
       "officialPdfUrl": "https://dosyamerkez.saglik.gov.tr/Eklenti/55773/0/ek-2-hastane-oncesi-acil-tibbi-yardim-ve-bakim-akis-semalaripdf.pdf",
       "section": "adult",
@@ -845,7 +852,7 @@ const CASES = [
   },
   {
     "id": "tachycardia",
-    "title": "Taşikardi",
+    "title": "Nabızlı Taşikardi",
     "subtitle": "Stabilite • QRS • kardiyoversiyon",
     "category": "Kardiyak",
     "icon": "📈",
@@ -862,7 +869,7 @@ const CASES = [
       "documentTitle": "Hastane Öncesi Acil Tıbbi Yardım ve Bakım Akış Şemaları",
       "effectiveDate": "2026-08-25",
       "officialPageDate": "2026-09-11",
-      "reviewedAt": "2026-09-20",
+      "reviewedAt": "2026-09-21",
       "officialPageUrl": "https://acilafet.saglik.gov.tr/TR-119840/hastane-oncesi-acil-tibbi-yardim-ve-bakim-akis-semalari.html",
       "officialPdfUrl": "https://dosyamerkez.saglik.gov.tr/Eklenti/55773/0/ek-2-hastane-oncesi-acil-tibbi-yardim-ve-bakim-akis-semalaripdf.pdf",
       "section": "adult",
@@ -872,16 +879,16 @@ const CASES = [
       "page": "18",
       "codeStatus": "verified"
     },
-    "summary": "Önce instabiliteyi belirle; instabil taşikardide elektriksel tedavi, stabil hastada QRS genişliği ve düzenine göre algoritmik yaklaşım.",
+    "summary": "Önce instabiliteyi belirle; instabil hastada ritim tipine göre 2026 elektriksel tedavi enerjilerini kullan, stabil hastada QRS genişliği ve düzenine göre ilerle.",
     "criticalActions": [
       "Monitörizasyon, damar yolu ve 12 derivasyon EKG'yi başlat.",
       "Senkop/bilinç değişikliği, iskemi, şok veya akut kalp yetmezliği varsa hastayı instabil kabul et.",
-      "İnstabil hastada senkronize kardiyoversiyonu geciktirme; stabil hastada QRS genişliği ve düzenine göre ilerle."
+      "İnstabil hastada ritim tipine göre elektriksel tedaviyi geciktirme; stabil hastada QRS genişliği ve düzenine göre ilerle."
     ],
     "quick": [
       "<strong>Stabiliteyi değerlendir.</strong> Senkop/bilinç değişikliği, iskemi, şok veya akut kalp yetmezliği instabilite bulgusudur.",
-      "İnstabil hastada <strong>senkronize kardiyoversiyon</strong>; 2026 şemasında enerji ritim tipine göre ayrılır.",
-      "Stabil, düzenli geniş kompleks taşikardide <strong>amiodaron 150 mg IV, 10 dakikada</strong> yaklaşımı yer alır.",
+      "İnstabil hastada elektriksel tedavi: <strong>dar düzenli 100 J, dar düzensiz 200 J, geniş düzenli 100 J; geniş düzensizde defibrilasyon dozu.</strong>",
+      "Stabil, uygun geniş kompleks/VT basamağında <strong>amiodaron 150 mg IV, %5 dekstroz içinde 10 dakikada</strong> (SKKM/ÇM).",
       "Dar kompleks ritimlerde düzenlilik, vagal manevra ve uygun antiaritmik basamakları şemaya göre değerlendir."
     ],
     "warningFindings": [
@@ -901,7 +908,7 @@ const CASES = [
         "authority": "SKKM",
         "repeat": "10 dakikada infüzyon",
         "maxDose": "",
-        "note": "Stabil VT / uygun geniş kompleks ritim basamağında."
+        "note": "Stabil VT / uygun geniş kompleks ritim basamağında; %5 dekstroz içinde 10 dakikada (SKKM/ÇM)."
       },
       {
         "name": "Midazolam",
@@ -917,7 +924,7 @@ const CASES = [
     ],
     "decision": {
       "q": "Taşikardi instabilite bulgusu oluşturuyor mu?",
-      "yes": "Senkronize kardiyoversiyon; sedasyon/analjezi ve enerji seçimini şemaya göre uygula.",
+      "yes": "Ritim tipine göre elektriksel tedavi: dar düzenli 100 J; dar düzensiz 200 J; geniş düzenli 100 J; geniş düzensizde defibrilasyon dozu. Kardiyoversiyon gereken hastada sedasyonu şemaya göre uygula.",
       "no": "QRS genişliği ve düzenine göre stabil taşikardi koluna geç."
     }
   },
@@ -940,7 +947,7 @@ const CASES = [
       "documentTitle": "Hastane Öncesi Acil Tıbbi Yardım ve Bakım Akış Şemaları",
       "effectiveDate": "2026-08-25",
       "officialPageDate": "2026-09-11",
-      "reviewedAt": "2026-09-20",
+      "reviewedAt": "2026-09-21",
       "officialPageUrl": "https://acilafet.saglik.gov.tr/TR-119840/hastane-oncesi-acil-tibbi-yardim-ve-bakim-akis-semalari.html",
       "officialPdfUrl": "https://dosyamerkez.saglik.gov.tr/Eklenti/55773/0/ek-2-hastane-oncesi-acil-tibbi-yardim-ve-bakim-akis-semalaripdf.pdf",
       "section": "adult",
@@ -1109,7 +1116,7 @@ const CASES = [
       "documentTitle": "Hastane Öncesi Acil Tıbbi Yardım ve Bakım Akış Şemaları",
       "effectiveDate": "2026-08-25",
       "officialPageDate": "2026-09-11",
-      "reviewedAt": "2026-09-20",
+      "reviewedAt": "2026-09-21",
       "officialPageUrl": "https://acilafet.saglik.gov.tr/TR-119840/hastane-oncesi-acil-tibbi-yardim-ve-bakim-akis-semalari.html",
       "officialPdfUrl": "https://dosyamerkez.saglik.gov.tr/Eklenti/55773/0/ek-2-hastane-oncesi-acil-tibbi-yardim-ve-bakim-akis-semalaripdf.pdf",
       "section": "adult",
@@ -1175,7 +1182,7 @@ const CASES = [
       "documentTitle": "Hastane Öncesi Acil Tıbbi Yardım ve Bakım Akış Şemaları",
       "effectiveDate": "2026-08-25",
       "officialPageDate": "2026-09-11",
-      "reviewedAt": "2026-09-20",
+      "reviewedAt": "2026-09-21",
       "officialPageUrl": "https://acilafet.saglik.gov.tr/TR-119840/hastane-oncesi-acil-tibbi-yardim-ve-bakim-akis-semalari.html",
       "officialPdfUrl": "https://dosyamerkez.saglik.gov.tr/Eklenti/55773/0/ek-2-hastane-oncesi-acil-tibbi-yardim-ve-bakim-akis-semalaripdf.pdf",
       "section": "adult",
@@ -1230,7 +1237,7 @@ const CASES = [
       "documentTitle": "Hastane Öncesi Acil Tıbbi Yardım ve Bakım Akış Şemaları",
       "effectiveDate": "2026-08-25",
       "officialPageDate": "2026-09-11",
-      "reviewedAt": "2026-09-20",
+      "reviewedAt": "2026-09-21",
       "officialPageUrl": "https://acilafet.saglik.gov.tr/TR-119840/hastane-oncesi-acil-tibbi-yardim-ve-bakim-akis-semalari.html",
       "officialPdfUrl": "https://dosyamerkez.saglik.gov.tr/Eklenti/55773/0/ek-2-hastane-oncesi-acil-tibbi-yardim-ve-bakim-akis-semalaripdf.pdf",
       "section": "adult",
@@ -1342,7 +1349,7 @@ const CASES = [
       "documentTitle": "Hastane Öncesi Acil Tıbbi Yardım ve Bakım Akış Şemaları",
       "effectiveDate": "2026-08-25",
       "officialPageDate": "2026-09-11",
-      "reviewedAt": "2026-09-20",
+      "reviewedAt": "2026-09-21",
       "officialPageUrl": "https://acilafet.saglik.gov.tr/TR-119840/hastane-oncesi-acil-tibbi-yardim-ve-bakim-akis-semalari.html",
       "officialPdfUrl": "https://dosyamerkez.saglik.gov.tr/Eklenti/55773/0/ek-2-hastane-oncesi-acil-tibbi-yardim-ve-bakim-akis-semalaripdf.pdf",
       "section": "adult",
@@ -1362,7 +1369,7 @@ const CASES = [
       "Yanma sürecini durdur; acil olgu yönetimini uygula.",
       "İnhalasyon yanığı/hava yolu ödemi riski varsa oksijenizasyon ve ventilasyonu destekle, erken ileri hava yolunu düşün.",
       "Yanık alanını değerlendirmek için uygun yüzdelik yöntem kullan; yanık yüzeyini steril örtüyle koru.",
-      "2026 güncellemesinde sıvı yaklaşımında Ringer Laktat/Parkland ve ağrıda fentanil öne çıkar; ayrıntıyı resmî şemadan doğrula."
+      "Sıvı resüsitasyonu gereken termal yanıkta <strong>Ringer Laktat</strong> ve 2026 Ek-2 Parkland yaklaşımı: <strong>(2 × VYA% × kg) / 16 mL/saat</strong>. Ağrı için fentanil 1 mcg/kg IV yavaş/IM, SKKM/ÇM ile."
     ],
     "warningFindings": [
       "Yüz/boyun yanığı, inhalasyon bulgusu, stridor",
@@ -1382,7 +1389,7 @@ const CASES = [
         "authority": "SKKM",
         "repeat": "Ağrıya/şemaya göre",
         "maxDose": "",
-        "note": "2026 karşılaştırmasında morfin yerine öne çıkan analjezik; uygulama öncesi resmî şema ve SKKM kararını kontrol et."
+        "note": "2026 Ek-2 yanık algoritmasında ağrı için 1 mcg/kg IV yavaş veya IM; SKKM/ÇM ile."
       }
     ],
     "decision": {
@@ -1410,7 +1417,7 @@ const CASES = [
       "documentTitle": "Hastane Öncesi Acil Tıbbi Yardım ve Bakım Akış Şemaları",
       "effectiveDate": "2026-08-25",
       "officialPageDate": "2026-09-11",
-      "reviewedAt": "2026-09-20",
+      "reviewedAt": "2026-09-21",
       "officialPageUrl": "https://acilafet.saglik.gov.tr/TR-119840/hastane-oncesi-acil-tibbi-yardim-ve-bakim-akis-semalari.html",
       "officialPdfUrl": "https://dosyamerkez.saglik.gov.tr/Eklenti/55773/0/ek-2-hastane-oncesi-acil-tibbi-yardim-ve-bakim-akis-semalaripdf.pdf",
       "section": "adult",

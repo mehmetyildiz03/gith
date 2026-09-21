@@ -2,9 +2,10 @@
 
 Mobil-first, offline çekirdekli, vaka bazlı hastane öncesi acil sağlık eğitim ve hızlı hatırlatma uygulaması.
 
-## V0.8.2 mimarisi
+## V0.9 mimarisi
 
 - **Kaynak:** T.C. Sağlık Bakanlığı 25.08.2026 tarihli Ek-2 Hastane Öncesi Acil Tıbbi Yardım ve Bakım Akış Şemaları.
+- **17 yetişkin vaka klinik audit:** 21.09.2026 tarihinde güncel Ek-2 kaynak setiyle başlık, doz, yol, tekrar, yetki, algoritma sırası ve kaynak izi yeniden kontrol edildi; yalnız doğrulanabilen değişiklikler işlendi.
 - **Hasta grubu katmanı:** Yetişkin / Çocuk / Doğum & Yenidoğan. Yalnız kaynak-kod-doz-yetki QA'sı tamamlanan kartlar yayımlanır.
 - **İlk Kritik Adımlar:** Her vaka için ayrı kritik ilk eylem katmanı; resmî algoritmada olmayan sabit bir 30 saniye süresi iddia edilmez.
 - **Terminoloji:** Resmî algoritma başlıkları korunur; örn. SB-ASH-Y-12 **Resüsitasyon Sonrası Bakım**. Kullanıcıya açıklayıcı alt başlıkta ROSC açılımı verilir.
@@ -12,7 +13,7 @@ Mobil-first, offline çekirdekli, vaka bazlı hastane öncesi acil sağlık eği
 - **UI/klinik ayrımı:** `uiPriority`, `uiFeatured`, `criticalActions` ve `warningFindings` Saha112 arayüz alanlarıdır; resmî algoritma sınıflaması olarak sunulmaz.
 - **Uygulama yolu etiketi:** Teknik `NEB` kodu kullanıcıya `Nebülizasyon` olarak gösterilir.
 - **Dokunma hedefleri:** Telefon/tablet Chrome testinde temel etkileşim kontrolleri en az 44 CSS px dokunma yüksekliğine sabitlenir.
-- **Hızlı Saha modu:** Kritik vakaları önceliklendirir; detayda ilk 30 saniye, acil uyarılar, karar ve ilaç dozlarını öne çıkarır; açıklayıcı/kaynak alanlarını geri çeker.
+- **Hızlı Saha modu:** Öncelikli vakaları öne alır; detayda İlk Kritik Adımlar, Acil Uyarı Bulguları, karar ve ilaç dozlarını öne çıkarır; açıklayıcı/kaynak alanlarını geri çeker.
 - **Hasta grupları:** Yetişkin / Çocuk / Doğum & Yenidoğan mimaride kalıcıdır. Doğrulanmış kartı olmayan grup `Yakında` olarak pasif görünür ve ilk onaylı kart geldiğinde otomatik açılır.
 - **İlaç modeli:** ad, doz, uygulama yolu, tekrar, maksimum doz ve standart yetki enumu.
 - **Yetki enumları:** `DIRECT`, `SKKM`, `ALGORITHM`.

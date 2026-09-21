@@ -31,13 +31,55 @@ else{
 
 const ids=new Set();const allowedAuthority=new Set(['DIRECT','SKKM','ALGORITHM']);const allowedRoutes=new Set(APP_META?.routes||[]);const allowedPop=new Set((APP_META?.populations||[]).map(p=>p.id));
 if(APP_META?.routeLabels?.NEB!=='Nebülizasyon')err('NEB kullanıcı etiketi Nebülizasyon olmalı');
-if(!String(APP_META?.contentVersion||'').startsWith('EK2-2026.08.25-review-'))err('contentVersion kaynak tarihinden bağımsız inceleme sürümünü içermeli');
+if(APP_META?.contentVersion!=='EK2-2026.08.25-clinical-audit-2026.09.21')err('contentVersion klinik audit sürümüyle eşleşmiyor');
 const strokeCase=(CASES||[]).find(c=>c.id==='stroke');
 if(!strokeCase||strokeCase.title!=='İnme / SVO')err('İnme / SVO başlığı korunmalı');
 const seizureCase=(CASES||[]).find(c=>c.id==='seizure');
 if(!seizureCase||seizureCase.title!=='Nöbet / Status Epileptikus')err('Nöbet başlığı Status Epileptikus olarak açık yazılmalı');
 const beeCase=(CASES||[]).find(c=>c.id==='bee');
 if(!beeCase||beeCase.severity?.mild?.label!=='Lokal reaksiyon'||beeCase.severity?.moderate?.label!=='Sistemik bulgu'||beeCase.severity?.severe?.label!=='Anafilaksi')err('Arı sokması klinik görünüm etiketleri eksik');
+const medByName=(c,name)=>(c?.meds||[]).find(m=>m.name===name);
+if(!beeCase?.source?.algorithmCodes?.includes('SB-ASH-Y-22')||beeCase?.source?.algorithmCodes?.includes('Y-22'))err('Arı sokması Anafilaksi kaynak kodu tam SB-ASH-Y-22 olmalı');
+if(!String(medByName(beeCase,'Adrenalin')?.repeat||'').includes('5 dk'))err('Arı sokması adrenalin 5 dk tekrar bilgisi eksik');
+
+const anaphylaxisCase=(CASES||[]).find(c=>c.id==='anaphylaxis');
+if(medByName(anaphylaxisCase,'Adrenalin')?.authority!=='DIRECT'||!String(medByName(anaphylaxisCase,'Adrenalin')?.repeat||'').includes('5 dk'))err('Anafilaksi adrenalin doğrudan/5 dk tekrar bilgisi eksik');
+
+const asthmaCase=(CASES||[]).find(c=>c.id==='asthma');
+const asthmaSal=medByName(asthmaCase,'Salbutamol'), asthmaIpr=medByName(asthmaCase,'İpratropium bromür');
+if(!(JSON.stringify(asthmaCase?.criticalActions||[])+JSON.stringify(asthmaCase?.quick||[])).includes('%94–98'))err('Astım SpO2 %94–98 hedefi eksik');
+if(!String(asthmaSal?.repeat||'').includes('20 dk')||!String(asthmaSal?.maxDose||'').includes('3'))err('Astım salbutamol 20 dk / maks 3 bilgisi eksik');
+if(asthmaIpr?.authority!=='DIRECT'||!(asthmaIpr?.routes||[]).includes('NEB')||(asthmaIpr?.routes||[]).includes('OTHER'))err('Astım ipratropium Nebülizasyon + DIRECT olmalı');
+if((asthmaCase?.meds||[]).some(m=>String(m.name).toLocaleLowerCase('tr-TR').includes('adrenalin')))err('Yetişkin astım algoritmasında adrenalin ilaç kartı bulunmamalı');
+
+const acsCase=(CASES||[]).find(c=>c.id==='acs'), nitrate=medByName(acsCase,'İzosorbid dinitrat');
+if(!String(nitrate?.repeat||'').includes('3–5 dk')||!String(nitrate?.maxDose||'').includes('3 doz'))err('AKS nitrat tekrar/maksimum doz bilgisi eksik');
+
+const tachyCase=(CASES||[]).find(c=>c.id==='tachycardia');
+if(tachyCase?.title!=='Nabızlı Taşikardi'||tachyCase?.page!=='18')err('Nabızlı Taşikardi başlık/sayfa sabiti bozuldu');
+const tachyText=JSON.stringify([tachyCase?.quick,tachyCase?.decision]);
+for(const required of ['dar düzenli 100 J','dar düzensiz 200 J','geniş düzenli 100 J','defibrilasyon dozu'])if(!tachyText.includes(required))err(`Taşikardi enerji bilgisi eksik: ${required}`);
+if(medByName(tachyCase,'Amiodaron')?.dose!=='150 mg'||!String(medByName(tachyCase,'Amiodaron')?.repeat||'').includes('10 dakika'))err('Taşikardi amiodaron 150 mg / 10 dk sabiti bozuldu');
+
+const arrestCase=(CASES||[]).find(c=>c.id==='cardiac-arrest');
+const arrestText=JSON.stringify([arrestCase?.quick,arrestCase?.meds]);
+for(const forbidden of ['Atropin 3 mg','NaHCO₃ 1 mEq/kg'])if(arrestText.includes(forbidden))err(`2026 arrest algoritmasında kaldırılmış içerik var: ${forbidden}`);
+
+if(roscCase?.page!=='24'||!JSON.stringify(roscCase).includes('MAP ≥65 mmHg')||!JSON.stringify(roscCase).includes('32–37,5°C'))err('Resüsitasyon Sonrası Bakım sayfa/hedef sabitleri bozuldu');
+
+const hypoCase=(CASES||[]).find(c=>c.id==='hypoglycemia');
+if(hypoCase?.page!=='32'||medByName(hypoCase,'Dekstroz')?.authority!=='DIRECT'||!String(medByName(hypoCase,'Dekstroz')?.repeat||'').includes('5–10 dk'))err('Hipoglisemi 2026 dekstroz sabitleri bozuldu');
+
+if(strokeCase?.page!=='33'||!JSON.stringify(strokeCase).includes('BEFAST'))err('İnme / SVO sayfa veya BEFAST sabiti bozuldu');
+if(seizureCase?.page!=='34'||medByName(seizureCase,'Valproik asit')?.dose!=='40 mg/kg'||medByName(seizureCase,'Levetirasetam')?.dose!=='60 mg/kg')err('Nöbet 2026 ikinci basamak dozları bozuldu');
+
+const burnCase=(CASES||[]).find(c=>c.id==='burn');
+if(!JSON.stringify(burnCase?.quick||[]).includes('(2 × VYA% × kg) / 16 mL/saat'))err('Yanık Parkland/Ringer Laktat 2026 formülü eksik');
+if(medByName(burnCase,'Fentanil')?.dose!=='1 mcg/kg'||medByName(burnCase,'Fentanil')?.authority!=='SKKM')err('Yanık fentanil doz/yetki sabiti bozuldu');
+
+const adultAuditCases=(CASES||[]).filter(c=>c.population==='adult');
+if(adultAuditCases.length!==17)err('Klinik audit kapsamı 17 yetişkin vaka olmalı');
+for(const c of adultAuditCases)if(c.source?.reviewedAt!=='2026-09-21')err(`${c.id}: klinik audit reviewedAt 2026-09-21 olmalı`);
 for(const [i,c] of (CASES||[]).entries()){
   const at=`CASES[${i}] ${c?.id||'(id yok)'}`;
   for(const f of ['id','title','subtitle','category','population','summary','code','page','clinicalStatus'])if(!c?.[f])err(`${at}: ${f} eksik`);
