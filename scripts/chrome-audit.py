@@ -27,6 +27,8 @@ SCENARIOS=[
   {"name":"tablet-800-dark-field-stroke","width":800,"height":1280,"theme":"dark","mode":"field","case":"stroke"},
   {"name":"tablet-1024-dark-standard-acs","width":1024,"height":768,"theme":"dark","mode":"standard","case":"acs"},
   {"name":"tablet-1280-light-field-bee","width":1280,"height":800,"theme":"light","mode":"field","case":"bee"},
+  {"name":"phone-390-dark-standard-tachycardia","width":390,"height":844,"theme":"dark","mode":"standard","case":"tachycardia"},
+  {"name":"tablet-768-light-standard-burn","width":768,"height":1024,"theme":"light","mode":"standard","case":"burn"},
 ]
 
 HARNESS=r'''
