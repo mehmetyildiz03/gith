@@ -59,7 +59,7 @@ assert(html.includes('id="authorityLegend"')&&!html.includes('<span class="autho
 assert(app.includes("authorityMarkup")&&app.includes("authority-symbol")&&app.includes("✓ Yeşil: SKKM/ÇM onayı yok")&&app.includes("◆ Sarı: SKKM/ÇM onayı"),'Yetki sembol/yazı eşlemesi eksik');
 assert(css.includes('.authority.direct{')&&css.includes('var(--greenSoft)')&&css.includes('.authority.skkm{')&&css.includes('var(--amberSoft)'),'Yeşil/sarı yetki renk semantiği eksik');
 assert(data.includes('"symbol": "✓"')&&data.includes('"symbol": "◆"')&&data.includes('"symbol": "•"'),'Yetki sembol metası eksik');
-assert(!data.includes('"authority": "ALGORITHM"'),'17 yetişkin klinik kütüphanesinde gri/çözümlenmemiş ilaç yetkisi kalmamalı');
+assert((data.match(/"authority": "ALGORITHM"/g)||[]).length===1&&data.includes('"sourceAuthorityStatus": "KEYPOINT_NO_SYMBOL"'),'Yalnız kaynakta yetki kodlaması bulunmayan Y-40 Midazolam nötr yetkide kalmalı');
 assert(data.includes('"title": "Nöbet / Konvülziyon"'),'Nöbet resmî başlığı eksik');
 assert(data.includes('"title": "Hava Yolu Tıkanıklıkları"')&&data.includes('"title": "Astım"')&&data.includes('"title": "Bradikardi"'),'Resmî mevcut vaka başlıklarından biri eski');
 assert(data.includes('"title": "Termal Yanık"')&&data.includes('"title": "Travmalı Hastada Acil Olgu Yönetimi"'),'Yanık/travma resmî başlıkları eksik');
@@ -70,7 +70,7 @@ assert(app.includes("c.severityView?.title")&&app.includes("c.severity.mild.labe
 for(const id of ['koah','hypovolemic-shock','acute-heart-failure-cardiogenic-shock','altered-consciousness'])assert(data.includes(`"id": "${id}"`),`Yeni yetişkin vaka eksik: ${id}`);
 assert(data.includes('"INHALER"')&&data.includes('"INHALER": "İnhaler"'),'İnhaler yol modeli eksik');
 assert(data.includes('SpO₂ >%93'),'Astım resmî SpO2 >%93 hedefi eksik');
-assert(app.includes('“Yalnız AABT” rozeti yalnız resmî turuncu kutu')&&app.includes("if(!legend&&resolved!=='AABT')return ''"),'Uygulayıcı kısıtı yalnız doğrulanmış AABT durumunda görünmeli');
+assert(app.includes("if(!legend&&resolved!=='AABT')return ''")&&app.includes("resolved==='AABT'?'Yalnız AABT':a.label"),'Uygulayıcı kısıtı yalnız doğrulanmış AABT durumunda görünmeli');
 assert(app.includes('practitionerMarkup')&&app.includes('practitionerBadge')&&app.includes("m.practitionerAuthority||'UNVERIFIED'"),'Uygulayıcı yetki veri katmanı korunmalı');
 assert(css.includes('.practitioner.aabt{')&&!css.includes('.practitioner.att-aabt{')&&!css.includes('.practitioner.unverified{'),'Kartlarda yalnız AABT kısıt rozeti stili kalmalı');
 assert(data.includes('"schemaVersion": 4')&&html.includes('Veri şeması: v4'),'Veri şeması v4 uygulayıcı yetki katmanına yükseltilmemiş');
@@ -88,7 +88,7 @@ assert(data.includes('Salbutamol tekrar dozu kutuda ayrıca sayısal olarak yaz�
 assert(data.includes('adrenalin infüzyonu sonrası 500 mL bolus basamağı tekrar yer alır'),'Anafilaksi ikinci NaCl 500 mL basamağı eksik');
 assert(data.includes('"actionAudit": {')&&data.includes('"algorithmSteps": [')&&data.includes('"verifiedCases": ['),'Adım bazlı uygulayıcı yetki pilot verisi eksik');
 for(const phrase of ['Ölümcül astım atağı','Asetilsalisilik asit 160–325 mg','yakın vital takibi'])assert(data.includes(phrase),`Lineer eylem yetki genişlemesi eksik: ${phrase}`);
-assert(app.includes('function renderAlgorithmSteps(c)')&&app.includes('quick-step-restriction'),'Yapılandırılmış algoritma adımı render katmanı eksik');
+assert(app.includes('function renderAlgorithmSteps(c)')&&app.includes('function renderActionStep')&&app.includes('action-step-badges'),'Yapılandırılmış algoritma adımı render katmanı eksik');
 assert(app.includes('function renderAlgorithmBranch')&&app.includes('function renderAlgorithmBranches')&&app.includes('algorithmBranchSearch'),'Dallı algoritma render/arama katmanı eksik');
 assert(css.includes('/* V0.21 branched algorithm flow */')&&css.includes('.algorithm-branches{')&&css.includes('.algo-branch-children{'),'Dallı algoritma mobil/masaüstü stilleri eksik');
 assert(css.includes('/* V0.23 branch layout hardening */')&&css.includes('.algo-depth-0>.algo-branch-children{grid-template-columns:repeat(2,minmax(0,1fr))}')&&!css.includes('.algorithm-branches{grid-template-columns:repeat(2,minmax(0,1fr))}'),'İç içe branch kolon sertleştirmesi eksik veya eski bozuk üst-seviye iki kolon kuralı kaldı');
