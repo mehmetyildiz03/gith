@@ -1,7 +1,7 @@
 const APP_META = {
   "schemaVersion": 3,
-  "contentVersion": "EK2-2026.08.25-adult-expansion-2-2026.09.22",
-  "productVersion": "0.11",
+  "contentVersion": "EK2-2026.08.25-adult-expansion-3-2026.09.22",
+  "productVersion": "0.12",
   "populations": [
     {
       "id": "adult",
@@ -113,7 +113,17 @@ const APP_META = {
       "SB-ASH-Y-14",
       "SB-ASH-Y-16"
     ],
-    "source": "25.08.2026 tarihli Ek-2 resmî PDF; algoritma ve anahtar nokta sayfaları görsel olarak doğrulandı"
+    "source": "25.08.2026 tarihli Ek-2 resmî PDF; algoritma ve anahtar nokta sayfaları görsel olarak doğrulandı",
+    "adultPack3": {
+      "reviewedAt": "2026-09-22",
+      "source": "25.08.2026 tarihli Ek-2 resmî PDF",
+      "algorithmCodes": [
+        "SB-ASH-Y-29",
+        "SB-ASH-Y-30",
+        "SB-ASH-Y-31",
+        "SB-ASH-Y-32"
+      ]
+    }
   },
   "adultExpansion2": {
     "reviewedAt": "2026-09-22",
@@ -2161,6 +2171,222 @@ const CASES = [
       "q": "Hava yolu tehdidi veya şok bulgusu var mı?",
       "yes": "Hava yolu/şok algoritmasını önceliklendir; yanık merkezine uygun nakil planla.",
       "no": "Alan/derinlik, ağrı ve sıvı gereksinimini değerlendirerek nakli sürdür."
+    }
+  },
+  {
+    "id": "electrical-burn",
+    "title": "Elektrik Yanıkları",
+    "subtitle": "Elektrik güvenliği • ritim • rabdomyoliz • travma",
+    "category": "Travma",
+    "icon": "⚡",
+    "accent": "#b86a2f",
+    "soft": "#fff0e4",
+    "code": "SB-ASH-Y-29",
+    "page": "51",
+    "uiFeatured": false,
+    "population": "adult",
+    "uiPriority": "high",
+    "clinicalStatus": "reviewed",
+    "summary": "Elektrik kaynağını güvenli biçimde kesmeden müdahaleye başlama; hava yolu-solunumu destekle, erken ritim monitörizasyonu yap, rabdomyoliz ve spinal yaralanma riskini gözet.",
+    "criticalActions": [
+      "Yaralının elektrik kaynağından ayrıldığından ve güç kaynağının kesildiğinden emin olmadan müdahaleye başlama.",
+      "Solunum sıkıntısı varsa hava yolunu açık tut; oksijenizasyon ve ventilasyonu destekle.",
+      "Erken monitörizasyon, nabız ve ritim kontrolü yap; arrest veya aritmide ilgili algoritmaya geç."
+    ],
+    "quick": [
+      "<strong>Elektrik güvenliği:</strong> yerdeki kabloların sıçrama/akım oluşturma riskine karşı en az 10 metre mesafede dur.",
+      "Rabdomyoliz riskine karşı resmî şemaya göre <strong>erken ve yeterli Ringer Laktat sıvı tedavisi</strong> başla.",
+      "Spinal immobilizasyonu sağla; eşlik eden travmayı değerlendir.",
+      "Yanık alanları için <strong>Termal Yanık</strong> algoritmasına geç."
+    ],
+    "warningFindings": [
+      "Elektrik kaynağının kesilmemiş olması veya yaralının kaynaktan ayrılmamış olması",
+      "Arrest veya aritmi",
+      "Solunum sıkıntısı / ventilasyon gereksinimi",
+      "Spinal yaralanma veya rabdomyoliz riski"
+    ],
+    "meds": [],
+    "decision": {
+      "q": "Arrest veya aritmi var mı?",
+      "yes": "İlgili ritim/arrest algoritmasına geç; elektrik güvenliği ve destek yaklaşımını sürdür.",
+      "no": "Erken monitörizasyon ve ritim takibini sürdür; Ringer Laktat sıvı tedavisi, spinal immobilizasyon ve yanık alanları için Termal Yanık algoritmasına geç."
+    },
+    "source": {
+      "documentId": "EK2-2026",
+      "documentTitle": "Hastane Öncesi Acil Tıbbi Yardım ve Bakım Akış Şemaları",
+      "effectiveDate": "2026-08-25",
+      "officialPageDate": "2026-09-11",
+      "reviewedAt": "2026-09-22",
+      "officialPageUrl": "https://acilafet.saglik.gov.tr/TR-119840/hastane-oncesi-acil-tibbi-yardim-ve-bakim-akis-semalari.html",
+      "officialPdfUrl": "https://dosyamerkez.saglik.gov.tr/Eklenti/55773/0/ek-2-hastane-oncesi-acil-tibbi-yardim-ve-bakim-akis-semalaripdf.pdf",
+      "section": "adult",
+      "codeStatus": "verified",
+      "algorithmCodes": [
+        "SB-ASH-Y-29"
+      ],
+      "page": "51"
+    }
+  },
+  {
+    "id": "chemical-burn",
+    "title": "Kimyasal Yanıklar",
+    "subtitle": "KBRN farkındalığı • dekontaminasyon • 20 dk yıkama",
+    "category": "Travma",
+    "icon": "🧪",
+    "accent": "#5f7a42",
+    "soft": "#eef5e5",
+    "code": "SB-ASH-Y-30",
+    "page": "52",
+    "uiFeatured": false,
+    "population": "adult",
+    "uiPriority": "high",
+    "clinicalStatus": "reviewed",
+    "summary": "Olay yeri ve olası KBRN riskini yönet; kimyasal maruziyeti kes, görülebilen partikül/kalıntıları uzaklaştır ve bol su veya %0,9 NaCl ile 20 dakika nazikçe yıka.",
+    "criticalActions": [
+      "Olay yeri yönetimini uygula ve olası KBRN durumuna hazırlıklı ol.",
+      "Acil olgu yönetimini uygula; kimyasal maruziyeti kes.",
+      "Görülebilen partikül ve kalıntıları temizle; bol su veya %0,9 NaCl ile 20 dk boyunca nazikçe yıka."
+    ],
+    "quick": [
+      "<strong>Kontaminasyonu sonlandır:</strong> kimyasalla teması kes ve görülebilen partikül/kalıntıları uzaklaştır.",
+      "<strong>Dekontaminasyon:</strong> bol su veya %0,9 NaCl ile <strong>20 dk</strong> boyunca nazikçe yıka.",
+      "Olası KBRN maruziyetinde olay yeri güvenliği ve kişisel korunmayı önceliklendir.",
+      "Dekontaminasyon sonrası <strong>Termal Yanık</strong> algoritmasına geç."
+    ],
+    "warningFindings": [
+      "Devam eden kimyasal kontaminasyon",
+      "Olası KBRN olayı / güvenli olmayan olay yeri",
+      "Ciltte veya giyside görünür partikül ve kimyasal kalıntı",
+      "Dekontaminasyon tamamlanmadan ikincil maruziyet riski"
+    ],
+    "meds": [],
+    "decision": {
+      "q": "Kimyasal maruziyet kesildi ve 20 dk dekontaminasyon tamamlandı mı?",
+      "yes": "Termal Yanık algoritmasına geç ve hastaneye nakli sürdür.",
+      "no": "Olay yeri/KBRN güvenliğini koruyarak görülebilen kalıntıları uzaklaştır ve bol su veya %0,9 NaCl ile 20 dk yıkamayı tamamla."
+    },
+    "source": {
+      "documentId": "EK2-2026",
+      "documentTitle": "Hastane Öncesi Acil Tıbbi Yardım ve Bakım Akış Şemaları",
+      "effectiveDate": "2026-08-25",
+      "officialPageDate": "2026-09-11",
+      "reviewedAt": "2026-09-22",
+      "officialPageUrl": "https://acilafet.saglik.gov.tr/TR-119840/hastane-oncesi-acil-tibbi-yardim-ve-bakim-akis-semalari.html",
+      "officialPdfUrl": "https://dosyamerkez.saglik.gov.tr/Eklenti/55773/0/ek-2-hastane-oncesi-acil-tibbi-yardim-ve-bakim-akis-semalaripdf.pdf",
+      "section": "adult",
+      "codeStatus": "verified",
+      "algorithmCodes": [
+        "SB-ASH-Y-30"
+      ],
+      "page": "52"
+    }
+  },
+  {
+    "id": "poisoning-general",
+    "title": "Zehirlenmelere Genel Yaklaşım",
+    "subtitle": "Maddeyi tanı • ABC desteği • SKKM / UZEM",
+    "category": "Zehirlenme",
+    "icon": "🧪",
+    "accent": "#6659a8",
+    "soft": "#efedfa",
+    "code": "SB-ASH-Y-31",
+    "page": "54",
+    "uiFeatured": false,
+    "population": "adult",
+    "uiPriority": "high",
+    "clinicalStatus": "reviewed",
+    "summary": "Olay yeri ve acil olgu yönetimini uygula; maddeyi ve maruziyet ayrıntılarını tanımla, bilinç kapalıysa hava yolu-solunum-dolaşımı destekle, SKKM ile temas kurup UZEM yönergelerine göre hareket et.",
+    "criticalActions": [
+      "Olay yeri ve acil olgu yönetimini uygula; kişisel koruyucu ekipmana dikkat et.",
+      "Maddeyi tanımla: ne/nasıl/ne kadar/ne zaman alındı, kusma oldu mu; bilinç kapalıysa hava yolunu güvenceye al ve solunum-dolaşımı destekle.",
+      "SpO₂ %94–98 hedefli oksijenizasyon/ventilasyonu sürdür, damar yolu aç (DAKŞ) ve SKKM ile temas kurarak UZEM yönergelerine göre hareket et."
+    ],
+    "quick": [
+      "<strong>Maruziyeti tanımla:</strong> alınan madde, yol, miktar, zaman ve kusma bilgisini öğren.",
+      "Bilinç kapalıysa hava yolu güvenliğini sağla; solunum ve dolaşımı destekle. <strong>SpO₂ %94–98</strong> olacak şekilde oksijenizasyon/ventilasyonu sürdür.",
+      "Damar yolu aç (DAKŞ); <strong>SKKM ile temas kur ve UZEM yönergelerine göre hareket et.</strong>",
+      "Sürekli gözlem yap. Zehirlenme olgularının adli vaka olduğunu ve dekontaminasyon/tedavide SKKM hekiminin Zehir Danışma Merkezi önerisi alabileceğini unutma."
+    ],
+    "warningFindings": [
+      "Bilinç bozukluğu, konfüzyon, konvülziyon veya koma",
+      "Solunum frekansında belirgin değişiklik",
+      "Bradikardi/taşikardi veya hipotansiyon/hipertansiyon",
+      "Pupil değişikliği, aşırı terleme-tükürük/lakrimasyon veya belirgin gastrointestinal bulgular"
+    ],
+    "meds": [],
+    "decision": {
+      "q": "Spesifik toksidrom veya ilgili zehirlenme algoritmasına yönlendiren bulgu var mı?",
+      "yes": "İlgili özel zehirlenme algoritmasına geç; SKKM/UZEM yönlendirmesini ve sürekli gözlemi sürdür.",
+      "no": "Genel destek, SpO₂ %94–98, damar yolu, SKKM/UZEM yönlendirmesi ve sürekli gözlemle hastaneye naklet."
+    },
+    "source": {
+      "documentId": "EK2-2026",
+      "documentTitle": "Hastane Öncesi Acil Tıbbi Yardım ve Bakım Akış Şemaları",
+      "effectiveDate": "2026-08-25",
+      "officialPageDate": "2026-09-11",
+      "reviewedAt": "2026-09-22",
+      "officialPageUrl": "https://acilafet.saglik.gov.tr/TR-119840/hastane-oncesi-acil-tibbi-yardim-ve-bakim-akis-semalari.html",
+      "officialPdfUrl": "https://dosyamerkez.saglik.gov.tr/Eklenti/55773/0/ek-2-hastane-oncesi-acil-tibbi-yardim-ve-bakim-akis-semalaripdf.pdf",
+      "section": "adult",
+      "codeStatus": "verified",
+      "algorithmCodes": [
+        "SB-ASH-Y-31"
+      ],
+      "page": "53–54"
+    }
+  },
+  {
+    "id": "high-dose-drug",
+    "title": "Yüksek Doz İlaç Alımı",
+    "subtitle": "İlacı tanı • vital/EKG • toksidroma göre yönlen",
+    "category": "Zehirlenme",
+    "icon": "💊",
+    "accent": "#875e73",
+    "soft": "#f5eaf0",
+    "code": "SB-ASH-Y-32",
+    "page": "55",
+    "uiFeatured": false,
+    "population": "adult",
+    "uiPriority": "high",
+    "clinicalStatus": "reviewed",
+    "summary": "İlacın ne/nasıl/ne kadar/ne zaman alındığını ve kusma olup olmadığını belirle; vital bulgular, EKG ve fizik muayene sonrası yönlendirici toksidroma göre ilgili algoritmaya geç.",
+    "criticalActions": [
+      "Acil olgu yönetimini uygula.",
+      "İlacı tanımla: ne, nasıl, ne kadar ve ne zaman alındı; kusma oldu mu öğren.",
+      "Vital bulguları al, EKG'yi değerlendir ve fizik muayene yap; yönlendirici klinik bulguya göre ilgili algoritmaya geç."
+    ],
+    "quick": [
+      "Tüm vücut salgılarında artma ve tarım ilacı olasılığında dekontamine et → <strong>Kolinerjik Ajanlarla Zehirlenme</strong> algoritmasına geç.",
+      "Nöbette <strong>Nöbet / Konvülziyon</strong>; hipo/hiperglisemide <strong>Diyabetik Aciller</strong> algoritmasına geç.",
+      "Koma + bradipne + pinpoint pupil varsa <strong>Narkotik / Opioid Zehirlenmeleri</strong> algoritmasına geç.",
+      "Hipotermi varsa <strong>Hipotermi</strong> algoritmasına geç; spesifik bulgu yoksa seri vital/EKG/fizik değerlendirmeyi sürdür."
+    ],
+    "warningFindings": [
+      "Koma, bradipne ve pinpoint pupil",
+      "Nöbet",
+      "Tüm vücut salgılarında artış / tarım ilacı maruziyeti",
+      "Hipotermi veya belirgin glisemik bozukluk"
+    ],
+    "meds": [],
+    "decision": {
+      "q": "Spesifik yönlendirici toksidrom/bulgu var mı?",
+      "yes": "Kolinerjik ajan, Nöbet/Konvülziyon, Diyabetik Aciller, Narkotik/Opioid veya Hipotermi algoritmalarından uygun olana geç.",
+      "no": "Seri vital bulgular, EKG ve fizik muayeneyle destek yaklaşımını sürdür ve hastaneye naklet."
+    },
+    "source": {
+      "documentId": "EK2-2026",
+      "documentTitle": "Hastane Öncesi Acil Tıbbi Yardım ve Bakım Akış Şemaları",
+      "effectiveDate": "2026-08-25",
+      "officialPageDate": "2026-09-11",
+      "reviewedAt": "2026-09-22",
+      "officialPageUrl": "https://acilafet.saglik.gov.tr/TR-119840/hastane-oncesi-acil-tibbi-yardim-ve-bakim-akis-semalari.html",
+      "officialPdfUrl": "https://dosyamerkez.saglik.gov.tr/Eklenti/55773/0/ek-2-hastane-oncesi-acil-tibbi-yardim-ve-bakim-akis-semalaripdf.pdf",
+      "section": "adult",
+      "codeStatus": "verified",
+      "algorithmCodes": [
+        "SB-ASH-Y-32"
+      ],
+      "page": "55"
     }
   },
   {
