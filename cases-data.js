@@ -1,7 +1,7 @@
 const APP_META = {
   "schemaVersion": 4,
-  "contentVersion": "EK2-2026.08.25-practitioner-authority-4-2026.09.22",
-  "productVersion": "0.18",
+  "contentVersion": "EK2-2026.08.25-action-authority-1-2026.09.22",
+  "productVersion": "0.19",
   "populations": [
     {
       "id": "adult",
@@ -203,6 +203,15 @@ const APP_META = {
       "SB-ASH-Y-39"
     ],
     "adultMedicationCardsComplete": true
+  },
+  "actionAudit": {
+    "reviewedAt": "2026-09-22",
+    "source": "25.08.2026 tarihli Ek-2 resmî PDF",
+    "method": "Resmî turkuaz/turuncu kutular ve SKKM/ÇM telefon simgesi adım bazında ayrı alanlarda görsel olarak doğrulandı",
+    "verifiedCases": [
+      "SB-ASH-Y-04"
+    ],
+    "pilot": true
   },
   "adultCoverage": {
     "reviewedAt": "2026-09-22",
@@ -994,7 +1003,29 @@ const CASES = [
         "SB-ASH-Y-04"
       ],
       "page": "9–10"
-    }
+    },
+    "algorithmSteps": [
+      {
+        "html": "<strong>Başlangıç:</strong> acil olgu yönetimini uygula; hastayı rahat ettiği (tercihen oturur) pozisyonda tut. <strong>SpO₂ %88–92</strong> olacak şekilde O₂ titre et; gerekirse PBV ile solunumu destekle.",
+        "approvalAuthority": "DIRECT",
+        "practitionerAuthority": "ATT_AABT"
+      },
+      {
+        "html": "<strong>Hafif-orta / ağır ilk tedavi:</strong> salbutamol 4–8 puf veya 2,5–5 mg nebül + ipratropium bromür 500 mcg nebül birlikte.",
+        "approvalAuthority": "DIRECT",
+        "practitionerAuthority": "AABT"
+      },
+      {
+        "html": "<strong>20 dk sonra SKKM/ÇM:</strong> salbutamol 2,5 mg + ipratropium bromür 500 mcg; 20 dk arayla en fazla 3 kez + metilprednizolon 40 mg IV.",
+        "approvalAuthority": "SKKM",
+        "practitionerAuthority": "AABT"
+      },
+      {
+        "html": "<strong>Tedaviye yanıt vermeyen ağır hasta:</strong> SKKM/ÇM ile ileri hava yolu için hazırlıklı ol; tolere eden hastada non-invaziv mekanik ventilasyonu değerlendir.",
+        "approvalAuthority": "SKKM",
+        "practitionerAuthority": "AABT"
+      }
+    ]
   },
   {
     "id": "hypothermia",
