@@ -30,8 +30,8 @@ assert(css.includes("/* V0.6.1 dark surface hardening */"),'Koyu mod yüzey hard
 assert(css.includes(":root[data-theme='dark'] .quick-step")&&css.includes("background:var(--detail-panel-deep)!important"),'Koyu mod algoritma adımı explicit yüzeyi eksik');
 assert(css.includes(":root[data-theme='dark'] .red-flag")&&css.includes("background:#2b202a!important"),'Koyu mod kırmızı bayrak yüzeyi eksik');
 assert(css.includes(":root[data-theme='dark'] .branch.yes")&&css.includes(":root[data-theme='dark'] .branch.no"),'Koyu mod karar kutuları explicit değil');
-assert(html.includes('styles.css?v=0.15')&&html.includes('app-core.js?v=0.15')&&html.includes('cases-data.js?v=0.15'),'Kritik asset cache-bust sürümü eksik');
-assert(sw.includes("saha112-v015")&&sw.includes('NETWORK_FIRST_DESTINATIONS'),'Service worker kritik asset güncelleme stratejisi eksik');
+assert(html.includes('styles.css?v=0.15.1')&&html.includes('app-core.js?v=0.15.1')&&html.includes('cases-data.js?v=0.15.1'),'Kritik asset cache-bust sürümü eksik');
+assert(sw.includes("saha112-v0151")&&sw.includes('NETWORK_FIRST_DESTINATIONS'),'Service worker kritik asset güncelleme stratejisi eksik');
 assert(!app.includes('Kırmızı bayrak'),'Eski kullanıcı terimi hâlâ UI içinde');
 assert(app.includes('Acil Uyarı Bulguları'),'Acil Uyarı Bulguları başlığı eksik');
 assert(app.includes('Önceliği, müdahaleyi veya nakil kararını değiştirebilecek bulgular.'),'Acil uyarı açıklaması eksik');
@@ -70,9 +70,9 @@ assert(app.includes("c.severityView?.title")&&app.includes("c.severity.mild.labe
 for(const id of ['koah','hypovolemic-shock','acute-heart-failure-cardiogenic-shock','altered-consciousness'])assert(data.includes(`"id": "${id}"`),`Yeni yetişkin vaka eksik: ${id}`);
 assert(data.includes('"INHALER"')&&data.includes('"INHALER": "İnhaler"'),'İnhaler yol modeli eksik');
 assert(data.includes('SpO₂ >%93'),'Astım resmî SpO2 >%93 hedefi eksik');
-assert(app.includes('SKKM/ÇM onayı ve uygulayıcı yetkisi iki ayrı göstergedir'),'SKKM/ÇM ve ATT/AABT yetki katmanları açıkça ayrılmalı');
-assert(app.includes('practitionerMarkup')&&app.includes('practitionerBadge')&&app.includes("m.practitionerAuthority||'UNVERIFIED'"),'Uygulayıcı yetki UI fallback katmanı eksik');
-assert(css.includes('.practitioner.att-aabt{')&&css.includes('.practitioner.aabt{')&&css.includes('.practitioner.unverified{'),'ATT/AABT uygulayıcı rozet stilleri eksik');
+assert(app.includes('“Yalnız AABT” rozeti yalnız resmî turuncu kutu')&&app.includes("if(!legend&&resolved!=='AABT')return ''"),'Uygulayıcı kısıtı yalnız doğrulanmış AABT durumunda görünmeli');
+assert(app.includes('practitionerMarkup')&&app.includes('practitionerBadge')&&app.includes("m.practitionerAuthority||'UNVERIFIED'"),'Uygulayıcı yetki veri katmanı korunmalı');
+assert(css.includes('.practitioner.aabt{')&&!css.includes('.practitioner.att-aabt{')&&!css.includes('.practitioner.unverified{'),'Kartlarda yalnız AABT kısıt rozeti stili kalmalı');
 assert(data.includes('"schemaVersion": 4')&&html.includes('Veri şeması: v4'),'Veri şeması v4 uygulayıcı yetki katmanına yükseltilmemiş');
 assert(data.includes('"officialLabel": "Acil Tıp Teknisyeni / Teknikeri"')&&data.includes('"officialLabel": "Acil Tıp Teknikeri"'),'Resmî uygulayıcı lejant metaları eksik');
 assert(data.includes('"title": "Nöbet / Konvülziyon"'),'Nöbet / Konvülziyon resmî başlığı eksik');
