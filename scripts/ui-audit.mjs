@@ -30,8 +30,8 @@ assert(css.includes("/* V0.6.1 dark surface hardening */"),'Koyu mod yüzey hard
 assert(css.includes(":root[data-theme='dark'] .quick-step")&&css.includes("background:var(--detail-panel-deep)!important"),'Koyu mod algoritma adımı explicit yüzeyi eksik');
 assert(css.includes(":root[data-theme='dark'] .red-flag")&&css.includes("background:#2b202a!important"),'Koyu mod kırmızı bayrak yüzeyi eksik');
 assert(css.includes(":root[data-theme='dark'] .branch.yes")&&css.includes(":root[data-theme='dark'] .branch.no"),'Koyu mod karar kutuları explicit değil');
-assert(html.includes('styles.css?v=0.21')&&html.includes('app-core.js?v=0.21')&&html.includes('cases-data.js?v=0.21'),'Kritik asset cache-bust sürümü eksik');
-assert(sw.includes("saha112-v021")&&sw.includes('NETWORK_FIRST_DESTINATIONS'),'Service worker kritik asset güncelleme stratejisi eksik');
+assert(html.includes('styles.css?v=0.22')&&html.includes('app-core.js?v=0.22')&&html.includes('cases-data.js?v=0.22'),'Kritik asset cache-bust sürümü eksik');
+assert(sw.includes("saha112-v022")&&sw.includes('NETWORK_FIRST_DESTINATIONS'),'Service worker kritik asset güncelleme stratejisi eksik');
 assert(!app.includes('Kırmızı bayrak'),'Eski kullanıcı terimi hâlâ UI içinde');
 assert(app.includes('Acil Uyarı Bulguları'),'Acil Uyarı Bulguları başlığı eksik');
 assert(app.includes('Önceliği, müdahaleyi veya nakil kararını değiştirebilecek bulgular.'),'Acil uyarı açıklaması eksik');
@@ -54,7 +54,7 @@ assert(html.includes('updateBanner')&&app.includes('controllerchange')&&app.incl
 assert(app.includes('sourceFocusable')&&app.includes("e.key==='Tab'")&&css.includes('html.dialog-open'),'Kaynak dialog focus trap/scroll kilidi eksik');
 assert(data.includes('"title": "İnme / SVO"'),'İnme / SVO başlığı korunmamış');
 assert(data.includes('"title": "Nabızlı Taşikardi"'),'Nabızlı Taşikardi başlığı eksik');
-assert(data.includes('"contentVersion": "EK2-2026.08.25-action-authority-3-2026.09.23"'),'V0.21 dallı eylem yetki sürümü eksik');
+assert(data.includes('"contentVersion": "EK2-2026.08.25-action-authority-4-2026.09.23"'),'V0.22 arrest dallı eylem yetki sürümü eksik');
 assert(html.includes('id="authorityLegend"')&&!html.includes('<span class="authority direct">Doğrudan</span>'),'Yetki legendi dinamik veri kaynağına bağlı değil');
 assert(app.includes("authorityMarkup")&&app.includes("authority-symbol")&&app.includes("✓ Yeşil: SKKM/ÇM onayı yok")&&app.includes("◆ Sarı: SKKM/ÇM onayı"),'Yetki sembol/yazı eşlemesi eksik');
 assert(css.includes('.authority.direct{')&&css.includes('var(--greenSoft)')&&css.includes('.authority.skkm{')&&css.includes('var(--amberSoft)'),'Yeşil/sarı yetki renk semantiği eksik');
@@ -82,6 +82,8 @@ assert(app.includes('function renderAlgorithmSteps(c)')&&app.includes('quick-ste
 assert(app.includes('function renderAlgorithmBranch')&&app.includes('function renderAlgorithmBranches')&&app.includes('algorithmBranchSearch'),'Dallı algoritma render/arama katmanı eksik');
 assert(css.includes('/* V0.21 branched algorithm flow */')&&css.includes('.algorithm-branches{')&&css.includes('.algo-branch-children{'),'Dallı algoritma mobil/masaüstü stilleri eksik');
 assert(data.includes('"verifiedBranchCases": [')&&data.includes('"label": "Stabil"')&&data.includes('"label": "Anstabil"')&&data.includes('"label": "Geniş QRS"')&&data.includes('"label": "Dar QRS"'),'Y-08 dallı algoritma verisi eksik');
+assert(data.includes('"label": "Nabız yok"')&&data.includes('"label": "Nabız var; solunum yok / gasping"')&&data.includes('"label": "Şoklanır — VF / nVT"')&&data.includes('"label": "Şoklanamaz — NEA / Asistoli"'),'Y-09/Y-10/Y-11 arrest dallı algoritma verisi eksik');
+for(const phrase of ['1. defibrilasyon','2. defibrilasyon','3. defibrilasyon','Adrenalin 1 mg IV/IO'])assert(data.includes(phrase),`Arrest dallı akış öğesi eksik: ${phrase}`);
 assert(data.includes('<strong>Vagal manevra uygula.</strong>')&&data.includes('<strong>Senkronize kardiyoversiyon:</strong>'),'Y-08 kritik dallı eylemleri eksik');
 assert(css.includes('/* V0.19 structured action authority pilot */')&&css.includes('.quick-step-restriction'),'Algoritma adımı AABT kısıt stili eksik');
 for(const medName of ['Ringer Laktat','%0,9 NaCl / Ringer Laktat','%0,9 NaCl — hipotansiyon'])assert(data.includes(`"name": "${medName}"`),`Eksik resmî sıvı ilaç kartı: ${medName}`);

@@ -1,7 +1,7 @@
 const APP_META = {
   "schemaVersion": 4,
-  "contentVersion": "EK2-2026.08.25-action-authority-3-2026.09.23",
-  "productVersion": "0.21",
+  "contentVersion": "EK2-2026.08.25-action-authority-4-2026.09.23",
+  "productVersion": "0.22",
   "populations": [
     {
       "id": "adult",
@@ -213,10 +213,16 @@ const APP_META = {
       "SB-ASH-Y-05",
       "SB-ASH-Y-06",
       "SB-ASH-Y-07",
-      "SB-ASH-Y-08"
+      "SB-ASH-Y-08",
+      "SB-ASH-Y-09",
+      "SB-ASH-Y-10",
+      "SB-ASH-Y-11"
     ],
     "verifiedBranchCases": [
-      "SB-ASH-Y-08"
+      "SB-ASH-Y-08",
+      "SB-ASH-Y-09",
+      "SB-ASH-Y-10",
+      "SB-ASH-Y-11"
     ],
     "pilot": true
   },
@@ -1705,7 +1711,7 @@ const CASES = [
       "documentTitle": "Hastane Öncesi Acil Tıbbi Yardım ve Bakım Akış Şemaları",
       "effectiveDate": "2026-08-25",
       "officialPageDate": "2026-09-11",
-      "reviewedAt": "2026-09-22",
+      "reviewedAt": "2026-09-23",
       "officialPageUrl": "https://acilafet.saglik.gov.tr/TR-119840/hastane-oncesi-acil-tibbi-yardim-ve-bakim-akis-semalari.html",
       "officialPdfUrl": "https://dosyamerkez.saglik.gov.tr/Eklenti/55773/0/ek-2-hastane-oncesi-acil-tibbi-yardim-ve-bakim-akis-semalaripdf.pdf",
       "section": "adult",
@@ -1780,7 +1786,101 @@ const CASES = [
       "q": "Ritim şoklanabilir mi (VF/pVT)?",
       "yes": "Defibrilasyon + 2 dk CPR döngüleri; ilaçları 2026 şok sırasına göre uygula.",
       "no": "Asistoli/NEA: CPR + erken adrenalin + geri döndürülebilir nedenler."
-    }
+    },
+    "algorithmSteps": [
+      {
+        "html": "<strong>Bilinç kapalı / yanıtsız hastada</strong> nabız ve solunumu eş zamanlı kontrol et; değerlendirmeyi en fazla 10 saniyede tamamla.",
+        "approvalAuthority": "DIRECT",
+        "practitionerAuthority": "ATT_AABT"
+      }
+    ],
+    "algorithmBranches": [
+      {
+        "label": "Nabız var; solunum yok / gasping",
+        "steps": [
+          {
+            "html": "<strong>5–6 saniyede bir soluk ver.</strong> Her 2 dakikada bir nabız kontrolü yap.",
+            "approvalAuthority": "DIRECT",
+            "practitionerAuthority": "ATT_AABT"
+          }
+        ]
+      },
+      {
+        "label": "Nabız yok",
+        "note": "30:2 KPR + BVM ile başla, defibrilatör hazır olana kadar sürdür; ritim ve nabzı değerlendir.",
+        "steps": [
+          {
+            "html": "<strong>30 kalp masajı / 2 solunum (BVM)</strong> ile KPR uygula; defibrilatör hazır olana kadar devam et.",
+            "approvalAuthority": "DIRECT",
+            "practitionerAuthority": "ATT_AABT"
+          }
+        ],
+        "branches": [
+          {
+            "label": "Şoklanamaz — NEA / Asistoli",
+            "note": "Ritmi ve nabzı 2 dk arayla yeniden değerlendir; ritim değişirse uygun kola geç.",
+            "steps": [
+              {
+                "html": "Göğüs basısına başla; <strong>oksijenizasyonu ve ventilasyonu sağla.</strong>",
+                "approvalAuthority": "DIRECT",
+                "practitionerAuthority": "ATT_AABT"
+              },
+              {
+                "html": "<strong>Adrenalin 1 mg IV/IO</strong>; 3–5 dk arayla tekrarla (1/10000).",
+                "approvalAuthority": "DIRECT",
+                "practitionerAuthority": "AABT"
+              },
+              {
+                "html": "Uygun zamanda <strong>ileri hava yolu uygulaması</strong> yap.",
+                "approvalAuthority": "DIRECT",
+                "practitionerAuthority": "ATT_AABT"
+              },
+              {
+                "html": "<strong>2 dk arayla ritmi ve nabzı değerlendir.</strong> Nabız yok ve ritim NEA/Asistoli ise 2 dk KPR'ye devam et; VF/nVT'ye dönerse şoklanır ritim koluna geç. Nabız varsa Resüsitasyon Sonrası Bakım algoritmasına geç.",
+                "approvalAuthority": "DIRECT",
+                "practitionerAuthority": "ATT_AABT"
+              }
+            ]
+          },
+          {
+            "label": "Şoklanır — VF / nVT",
+            "note": "Şoklar arasında yüksek kaliteli KPR'yi kesintisiz sürdür; ritim değişirse uygun kola geç.",
+            "steps": [
+              {
+                "html": "Göğüs basısına başla; oksijenizasyonu ve ventilasyonu sağla. <strong>Şok hazır olana kadar KPR'ye ara verme.</strong>",
+                "approvalAuthority": "DIRECT",
+                "practitionerAuthority": "ATT_AABT"
+              },
+              {
+                "html": "<strong>1. defibrilasyon:</strong> 120–360 J, firma önerisine göre; şok sonrası ara vermeden göğüs basısına devam et.",
+                "approvalAuthority": "DIRECT",
+                "practitionerAuthority": "AABT"
+              },
+              {
+                "html": "<strong>2 dk arayla ritmi ve nabzı değerlendir; IV veya IO yol aç.</strong>",
+                "approvalAuthority": "DIRECT",
+                "practitionerAuthority": "ATT_AABT"
+              },
+              {
+                "html": "<strong>2. defibrilasyon</strong>; şok sonrası ara vermeden göğüs basısına devam et. <strong>Adrenalin 1 mg IV/IO</strong>; 3–5 dk'da bir ver.",
+                "approvalAuthority": "DIRECT",
+                "practitionerAuthority": "AABT"
+              },
+              {
+                "html": "<strong>2 dk arayla ritmi ve nabzı değerlendir; ileri hava yolu uygulaması yap.</strong>",
+                "approvalAuthority": "DIRECT",
+                "practitionerAuthority": "ATT_AABT"
+              },
+              {
+                "html": "<strong>3. defibrilasyon</strong>; ardından <strong>amiodaron 300 mg IV/IO bolus</strong> (2–3 dk; 20 mL %5 dekstroz içinde) veya <strong>%2 lidokain 1–1,5 mg/kg IV/IO bolus</strong>. Tekrarlayan/dirençli VF/nVT'de 5. şok sonrası amiodaron 150 mg veya lidokain 0,5–0,75 mg/kg IV/IO tekrar ver.",
+                "approvalAuthority": "DIRECT",
+                "practitionerAuthority": "AABT"
+              }
+            ]
+          }
+        ]
+      }
+    ]
   },
   {
     "id": "rosc",

@@ -2,9 +2,11 @@
 
 Mobil-first, offline çekirdekli, vaka bazlı hastane öncesi acil sağlık eğitim ve hızlı hatırlatma uygulaması.
 
-## V0.21 mimarisi
+## V0.22 mimarisi
 
 - **Kaynak:** T.C. Sağlık Bakanlığı 25.08.2026 tarihli Ek-2 Hastane Öncesi Acil Tıbbi Yardım ve Bakım Akış Şemaları.
+- **V0.22 Kardiyak Arrest dallı modeli — Y-09/Y-10/Y-11:** Arrest Yönetimi ortak başlangıcı, nabız var/solunum yok-gasping ve nabız yok dalları; nabız yok altında Şoklanamaz NEA/Asistoli ile Şoklanır VF/nVT kolları `algorithmBranches[]` ile yapılandırıldı.
+- **Arrest yetki ayrımı:** Resmî Y-10/Y-11'de adrenalin, defibrilasyon ve amiodaron/lidokain kutuları turuncu `AABT` fakat telefon simgesiz `DIRECT`; KPR, oksijenizasyon/ventilasyon, ritim-nabız değerlendirme ve ileri hava yolu kutuları turkuaz `ATT_AABT` + `DIRECT`. Bu ayrım regresyon testleriyle kilitlendi.
 - **V0.21 dallı algoritma modeli — Nabızlı Taşikardi Y-08:** `algorithmBranches[]` eklendi. Ortak başlangıçtan sonra Stabil/Anstabil, stabil kolda Geniş/Dar QRS ve Düzenli/Düzensiz alt dalları ayrı yapılandırıldı. Her eylemde SKKM/ÇM telefon simgesi ve ATT/AABT kutu rengi bağımsız alan olarak korunur.
 - **Y-08 kritik yetki ayrımı:** Resmî şemada vagal manevra ve ilk anstabil senkronize kardiyoversiyon turuncu `AABT` kutusudur ancak telefon simgesi taşımaz (`DIRECT`). Fentanil, midazolam, antiaritmik ilaç basamakları ve ilgili yanıtsızlık kardiyoversiyonları ise telefon simgelidir (`SKKM`). Bu kombinasyonlar regresyon testleriyle kilitlendi.
 - **V0.20 lineer eylem yetki genişlemesi:** `algorithmSteps[]` pilotu Astım Y-05, Akut Koroner Sendrom Y-06 ve Bradikardi Y-07'ye genişletildi. Turkuaz ortak ATT/AABT basamakları rozet üretmez; resmî turuncu basamaklarda yalnız `Yalnız AABT` gösterilir. SKKM/ÇM telefon simgesi bilgisi `approvalAuthority` alanında renk katmanından bağımsız tutulur. Nabızlı Taşikardi gibi çok dallı şemalar düz listeye zorlanmadan ayrı dal modeliyle ele alınacaktır.
