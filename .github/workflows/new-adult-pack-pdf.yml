@@ -1,0 +1,37 @@
+name: New adult pack official PDF audit
+on:
+  push:
+    branches: [qa/new-adult-pack-pdf]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install PDF tools
+        run: sudo apt-get update && sudo apt-get install -y poppler-utils
+      - name: Download official Ek-2 and extract target pages
+        run: |
+          set -e
+          URL="https://dosyamerkez.saglik.gov.tr/Eklenti/55773/0/ek-2-hastane-oncesi-acil-tibbi-yardim-ve-bakim-akis-semalaripdf.pdf"
+          curl -fL --retry 4 --retry-delay 2 -A "Mozilla/5.0" "$URL" -o ek2.pdf
+          pdfinfo ek2.pdf | head -40
+          pdftotext -layout ek2.pdf ek2.txt
+          echo "=== TARGET HEADINGS ==="
+          grep -n -E "KOAH|HİPOVOLEMİK|Hipovolemik|KALP YETMEZLİĞİ|AKUT AKCİĞER ÖDEMİ|KARDİYOJENİK|BİLİNÇ DEĞİŞİKLİĞİ|Bilinç Değişikliği|SB-ASH-Y-04|SB-ASH-Y-13|SB-ASH-Y-14|SB-ASH-Y-16" ek2.txt | head -300 || true
+          mkdir -p renders
+          for p in $(seq 8 16) $(seq 23 31); do
+            pdftoppm -f "$p" -l "$p" -png -r 220 -singlefile ek2.pdf "renders/pdf-page-$p" >/dev/null 2>&1 || true
+          done
+          ls -lh renders
+      - name: Upload target pages and text
+        uses: actions/upload-artifact@v4
+        with:
+          name: new-adult-pack-official-pages
+          path: |
+            renders/
+            ek2.txt
