@@ -1,7 +1,7 @@
 const APP_META = {
   "schemaVersion": 3,
-  "contentVersion": "EK2-2026.08.25-adult-expansion-3-2026.09.22",
-  "productVersion": "0.12",
+  "contentVersion": "EK2-2026.08.25-adult-expansion-4-2026.09.22",
+  "productVersion": "0.13",
   "populations": [
     {
       "id": "adult",
@@ -54,6 +54,7 @@ const APP_META = {
     "BUCCAL",
     "RECTAL",
     "TOPICAL",
+    "SC",
     "OTHER"
   ],
   "routeLabels": {
@@ -68,7 +69,8 @@ const APP_META = {
     "RECTAL": "Rektal",
     "TOPICAL": "Topikal",
     "OTHER": "Şemaya göre",
-    "INHALER": "İnhaler"
+    "INHALER": "İnhaler",
+    "SC": "Subkutan (SC)"
   },
   "source": {
     "officialPageUrl": "https://acilafet.saglik.gov.tr/TR-119840/hastane-oncesi-acil-tibbi-yardim-ve-bakim-akis-semalari.html",
@@ -122,6 +124,17 @@ const APP_META = {
         "SB-ASH-Y-30",
         "SB-ASH-Y-31",
         "SB-ASH-Y-32"
+      ]
+    },
+    "adultPack4": {
+      "reviewedAt": "2026-09-22",
+      "source": "25.08.2026 tarihli Ek-2 resmî PDF",
+      "algorithmCodes": [
+        "SB-ASH-Y-33",
+        "SB-ASH-Y-34",
+        "SB-ASH-Y-35",
+        "SB-ASH-Y-36",
+        "SB-ASH-Y-37"
       ]
     }
   },
@@ -2387,6 +2400,328 @@ const CASES = [
         "SB-ASH-Y-32"
       ],
       "page": "55"
+    }
+  },
+  {
+    "id": "carbon-monoxide",
+    "title": "Karbonmonoksit Zehirlenmesi",
+    "subtitle": "≥10 L/dk O₂ • vital/ritim takibi • ileri hava yolu",
+    "category": "Zehirlenme",
+    "icon": "☁️",
+    "accent": "#5e7080",
+    "soft": "#edf1f4",
+    "code": "SB-ASH-Y-33",
+    "page": "56",
+    "uiFeatured": false,
+    "population": "adult",
+    "uiPriority": "high",
+    "clinicalStatus": "reviewed",
+    "summary": "Olay yeri güvenliğini sağla; karbonmonoksit maruziyetini sonlandır, rezervuarlı maske ile 10 L/dk'dan yüksek O₂ ver, vital/ritim takibini ve gerektiğinde ventilasyon desteğini sürdür.",
+    "criticalActions": [
+      "Olay yeri ve kişisel güvenliği sağla; özellikle kapalı alan yangınlarında dumana maruziyeti en aza indir.",
+      "Acil olgu yönetimini uygula ve rezervuarlı maske ile 10 L/dk'dan yüksek O₂ ver.",
+      "Vital bulguları takip et; gerekirse PBV uygula, ileri hava yolu yönetimi için hazırlıklı ol."
+    ],
+    "quick": [
+      "<strong>O₂:</strong> rezervuarlı maske ile <strong>10 L/dk'dan yüksek</strong> akım kullan.",
+      "Vital bulguları takip et; gerektiğinde <strong>PBV</strong> ve semptomatik tedavi uygula.",
+      "İleri hava yolu yönetimi için hazırlıklı ol.",
+      "Nöbet gelişirse <strong>Nöbet / Konvülziyon</strong> algoritmasına geç."
+    ],
+    "warningFindings": [
+      "Kapalı alan yangını / yoğun duman maruziyeti",
+      "PBV veya ileri hava yolu gereksinimi",
+      "Nöbet",
+      "Vital bulgularda klinik kötüleşme"
+    ],
+    "meds": [],
+    "decision": {
+      "q": "Nöbet veya solunum desteği gerektiren klinik kötüleşme var mı?",
+      "yes": "Nöbette Nöbet / Konvülziyon algoritmasına geç; ventilasyon yetersizliğinde PBV ve ileri hava yolu hazırlığını sürdür.",
+      "no": "10 L/dk'dan yüksek O₂, vital takip ve semptomatik destekle hastaneye nakli sürdür."
+    },
+    "source": {
+      "documentId": "EK2-2026",
+      "documentTitle": "Hastane Öncesi Acil Tıbbi Yardım ve Bakım Akış Şemaları",
+      "effectiveDate": "2026-08-25",
+      "officialPageDate": "2026-09-11",
+      "reviewedAt": "2026-09-22",
+      "officialPageUrl": "https://acilafet.saglik.gov.tr/TR-119840/hastane-oncesi-acil-tibbi-yardim-ve-bakim-akis-semalari.html",
+      "officialPdfUrl": "https://dosyamerkez.saglik.gov.tr/Eklenti/55773/0/ek-2-hastane-oncesi-acil-tibbi-yardim-ve-bakim-akis-semalaripdf.pdf",
+      "section": "adult",
+      "codeStatus": "verified",
+      "algorithmCodes": [
+        "SB-ASH-Y-33"
+      ],
+      "page": "56"
+    }
+  },
+  {
+    "id": "ccb-beta-blocker-poisoning",
+    "title": "Kalsiyum Kanal Blokerleri / Beta Blokerler ile Zehirlenme",
+    "subtitle": "Bradiaritmi • hipotansiyon • hipoglisemi",
+    "category": "Zehirlenme",
+    "icon": "💊",
+    "accent": "#6574a8",
+    "soft": "#edf0fa",
+    "code": "SB-ASH-Y-34",
+    "page": "58",
+    "uiFeatured": false,
+    "population": "adult",
+    "uiPriority": "high",
+    "clinicalStatus": "reviewed",
+    "summary": "Zehirlenmelere genel yaklaşımı uygula; SpO₂ %94–98 hedefle, damar yolu/monitörizasyonu sağla ve bradiaritmi, hipotansiyon ile hipoglisemiye göre ilgili kola ilerle.",
+    "criticalActions": [
+      "Zehirlenmelere Genel Yaklaşım algoritmasını uygula.",
+      "SpO₂ %94–98 olacak şekilde O₂ ver; gerekirse PBV uygula, damar yolu aç (DAKŞ) ve monitörize et.",
+      "Bradiaritmi, ciddi hipotansiyon ve hipoglisemiyi hızla değerlendir."
+    ],
+    "quick": [
+      "Bradiaritmi varsa <strong>Bradikardi</strong> algoritmasına geç.",
+      "Ciddi bulgu ve hipotansiyonda <strong>SKB >90 mmHg</strong> olacak şekilde %0,9 NaCl / Ringer Laktat IV hidrasyona başla.",
+      "Kalsiyum kanal blokeri zehirlenmesinden emin olunan hipotansif hastada <strong>SKKM/ÇM ile 3 ampul kalsiyum glukonat</strong>, 100 mL %0,9 NaCl içinde 10 dk'da IV verilebilir.",
+      "Hipoglisemi varsa <strong>Diyabetik Aciller</strong> algoritmasına geç."
+    ],
+    "warningFindings": [
+      "Bilinç kaybı veya solunum depresyonu",
+      "Bradikardi / bradiaritmi",
+      "Hipotansiyon",
+      "Bronkospazm veya hipoglisemi"
+    ],
+    "meds": [
+      {
+        "name": "Kalsiyum glukonat",
+        "dose": "3 ampul (30 mL)",
+        "routes": [
+          "IV"
+        ],
+        "authority": "SKKM",
+        "repeat": "100 mL %0,9 NaCl içinde 10 dakikada",
+        "maxDose": "",
+        "note": "Kalsiyum kanal blokeri zehirlenmesinden emin olunan ve hipotansiyonu eşlik eden hastada; resmî şemada SKKM/ÇM telefon simgeli basamak."
+      }
+    ],
+    "decision": {
+      "q": "Bradiaritmi, ciddi hipotansiyon veya hipoglisemi var mı?",
+      "yes": "Bradiaritmide Bradikardi; hipoglisemide Diyabetik Aciller algoritmasına geç. Hipotansiyonda SKB >90 hedefli IV hidrasyon; KKB zehirlenmesi kesin ve hipotansiyon eşlik ediyorsa SKKM/ÇM ile kalsiyum glukonat değerlendir.",
+      "no": "Oksijenizasyon, DAKŞ, monitörizasyon ve seri klinik değerlendirmeyle nakli sürdür."
+    },
+    "source": {
+      "documentId": "EK2-2026",
+      "documentTitle": "Hastane Öncesi Acil Tıbbi Yardım ve Bakım Akış Şemaları",
+      "effectiveDate": "2026-08-25",
+      "officialPageDate": "2026-09-11",
+      "reviewedAt": "2026-09-22",
+      "officialPageUrl": "https://acilafet.saglik.gov.tr/TR-119840/hastane-oncesi-acil-tibbi-yardim-ve-bakim-akis-semalari.html",
+      "officialPdfUrl": "https://dosyamerkez.saglik.gov.tr/Eklenti/55773/0/ek-2-hastane-oncesi-acil-tibbi-yardim-ve-bakim-akis-semalaripdf.pdf",
+      "section": "adult",
+      "codeStatus": "verified",
+      "algorithmCodes": [
+        "SB-ASH-Y-34"
+      ],
+      "page": "57–58"
+    }
+  },
+  {
+    "id": "cholinergic-poisoning",
+    "title": "Kolinerjik Ajanlarla Zehirlenme",
+    "subtitle": "Dekontaminasyon • SLUDGE-BBB • atropin",
+    "category": "Zehirlenme",
+    "icon": "☣️",
+    "accent": "#5f7d50",
+    "soft": "#edf5e9",
+    "code": "SB-ASH-Y-35",
+    "page": "60",
+    "uiFeatured": false,
+    "population": "adult",
+    "uiPriority": "critical",
+    "clinicalStatus": "reviewed",
+    "summary": "Kişisel korunmayı ve dekontaminasyonu öncele; Zehirlenmelere Genel Yaklaşım algoritmasını uygula, SpO₂ >%94 hedefle ve ciddi kolinerjik bulgularda atropini sekresyonlar azalıncaya kadar tekrarla.",
+    "criticalActions": [
+      "Müdahaleden önce kişisel koruyucu ekipmanı kullan; dekontaminasyon yap ve cilt emilimini önle.",
+      "Zehirlenmelere Genel Yaklaşım algoritmasını uygula; SpO₂ >%94 olacak şekilde O₂ ver, gerekirse PBV uygula.",
+      "Ciddi kolinerjik bulguları değerlendir ve atropin basamağını geciktirme."
+    ],
+    "quick": [
+      "<strong>Ciddi bulgular (SLUDGE-BBB):</strong> salivasyon, lakrimasyon, ürinasyon, defekasyon, GİS krampları, emezis, bradikardi, bronkore ve bronkospazm.",
+      "<strong>Atropin:</strong> 1–2 mg IV; IV yol açılamıyorsa 2–5 mg IM.",
+      "Trakeobronşiyal sekresyonlar azalıncaya kadar <strong>5 dk'da bir tekrarla</strong>.",
+      "Kolinerjik etkili ajanlar arasında sinir gazları ve tarım ilaçları bulunur."
+    ],
+    "warningFindings": [
+      "Yoğun sekresyon / bronkore ve bronkospazm",
+      "Bradikardi",
+      "Bilinç değişikliği, ajitasyon veya koma",
+      "Devam eden kontaminasyon / ikincil maruziyet riski"
+    ],
+    "meds": [
+      {
+        "name": "Atropin",
+        "dose": "1–2 mg IV / 2–5 mg IM",
+        "routes": [
+          "IV",
+          "IM"
+        ],
+        "authority": "DIRECT",
+        "repeat": "Trakeobronşiyal sekresyonlar azalıncaya kadar 5 dk'da bir",
+        "maxDose": "",
+        "note": "Resmî Y-35 algoritmasında SKKM/ÇM telefon simgesi yoktur; anahtar noktalarda maksimum doz belirtilmemiştir."
+      }
+    ],
+    "decision": {
+      "q": "Ciddi kolinerjik bulgu ve semptomlar var mı?",
+      "yes": "Atropin 1–2 mg IV; IV yol açılamıyorsa 2–5 mg IM. Trakeobronşiyal sekresyonlar azalıncaya kadar 5 dk'da bir tekrarla.",
+      "no": "Dekontaminasyon, oksijenizasyon/ventilasyon ve genel zehirlenme yaklaşımıyla seri değerlendirmeyi sürdür."
+    },
+    "source": {
+      "documentId": "EK2-2026",
+      "documentTitle": "Hastane Öncesi Acil Tıbbi Yardım ve Bakım Akış Şemaları",
+      "effectiveDate": "2026-08-25",
+      "officialPageDate": "2026-09-11",
+      "reviewedAt": "2026-09-22",
+      "officialPageUrl": "https://acilafet.saglik.gov.tr/TR-119840/hastane-oncesi-acil-tibbi-yardim-ve-bakim-akis-semalari.html",
+      "officialPdfUrl": "https://dosyamerkez.saglik.gov.tr/Eklenti/55773/0/ek-2-hastane-oncesi-acil-tibbi-yardim-ve-bakim-akis-semalaripdf.pdf",
+      "section": "adult",
+      "codeStatus": "verified",
+      "algorithmCodes": [
+        "SB-ASH-Y-35"
+      ],
+      "page": "59–60"
+    }
+  },
+  {
+    "id": "opioid-poisoning",
+    "title": "Narkotik / Opioid Zehirlenmeleri",
+    "subtitle": "Solunum depresyonu • nalokson • ileri hava yolu",
+    "category": "Zehirlenme",
+    "icon": "💉",
+    "accent": "#6c5c94",
+    "soft": "#f0ecf8",
+    "code": "SB-ASH-Y-36",
+    "page": "62",
+    "uiFeatured": false,
+    "population": "adult",
+    "uiPriority": "critical",
+    "clinicalStatus": "reviewed",
+    "summary": "Zehirlenmelere genel yaklaşımı uygula; SpO₂ >%94 hedefle, solunum depresyonunda ventilasyon ve ileri hava yolunu hazırla, kan şekerini kontrol et ve SKKM/ÇM ile nalokson uygula.",
+    "criticalActions": [
+      "Zehirlenmelere Genel Yaklaşım algoritmasını uygula; SpO₂ >%94 olacak şekilde O₂ ver ve gerekirse PBV uygula.",
+      "Solunum depresyonu varsa ileri hava yolu uygulaması için hazırlan; kan şekeri ölçümü yap.",
+      "Solunum depresyonunda SKKM/ÇM ile nalokson basamağına geç; hipoglisemide Diyabetik Aciller algoritmasını uygula."
+    ],
+    "quick": [
+      "<strong>Nalokson:</strong> SKKM/ÇM ile başlangıç 0,4–2 mg IM / IV / IO / SC; maksimum 10 mg.",
+      "Algoritmada düzelme olmazsa <strong>2–3 dk'da bir tekrar</strong>; anahtar noktalarda istenen etkiye kadar 0,1–0,4 mg titrasyon belirtilir.",
+      "Apne veya siyanoz varsa anahtar noktalarda <strong>2 mg IV</strong> belirtilir.",
+      "Hipotansiyonda %0,9 NaCl IV yüklemesi yap; solunum depresyonu sürerse ileri hava yolu uygulaması için hazırlan."
+    ],
+    "warningFindings": [
+      "Solunum depresyonu / apne / siyanoz",
+      "Koma ve pinpoint pupil",
+      "Hipotansiyon",
+      "Hipoglisemi"
+    ],
+    "meds": [
+      {
+        "name": "Nalokson",
+        "dose": "0,4–2 mg",
+        "routes": [
+          "IM",
+          "IV",
+          "IO",
+          "SC"
+        ],
+        "authority": "SKKM",
+        "repeat": "Düzelme olmazsa 2–3 dk; anahtar noktalarda yanıta göre 0,1–0,4 mg titrasyon",
+        "maxDose": "10 mg",
+        "note": "Resmî Y-36 telefon simgeli basamak. Anahtar noktada apne/siyanozda 2 mg IV; 0,4–2 mg başlangıç dozu opioid bağımlısı olmayan hasta için belirtilmiştir."
+      }
+    ],
+    "decision": {
+      "q": "Solunum depresyonu var mı?",
+      "yes": "SKKM/ÇM ile nalokson uygula; PBV/oksijenizasyonu sürdür, yanıtsız solunum depresyonunda ileri hava yoluna hazırlan.",
+      "no": "Kan şekeri ve hemodinamiyi değerlendir; hipoglisemide Diyabetik Aciller, hipotansiyonda %0,9 NaCl yüklemesi ve seri gözlemle nakli sürdür."
+    },
+    "source": {
+      "documentId": "EK2-2026",
+      "documentTitle": "Hastane Öncesi Acil Tıbbi Yardım ve Bakım Akış Şemaları",
+      "effectiveDate": "2026-08-25",
+      "officialPageDate": "2026-09-11",
+      "reviewedAt": "2026-09-22",
+      "officialPageUrl": "https://acilafet.saglik.gov.tr/TR-119840/hastane-oncesi-acil-tibbi-yardim-ve-bakim-akis-semalari.html",
+      "officialPdfUrl": "https://dosyamerkez.saglik.gov.tr/Eklenti/55773/0/ek-2-hastane-oncesi-acil-tibbi-yardim-ve-bakim-akis-semalaripdf.pdf",
+      "section": "adult",
+      "codeStatus": "verified",
+      "algorithmCodes": [
+        "SB-ASH-Y-36"
+      ],
+      "page": "61–62"
+    }
+  },
+  {
+    "id": "tca-poisoning",
+    "title": "Trisiklik Antidepresan Zehirlenmesi",
+    "subtitle": "QRS genişliği • disritmi • NaHCO₃",
+    "category": "Zehirlenme",
+    "icon": "💊",
+    "accent": "#8b596e",
+    "soft": "#f7eaf0",
+    "code": "SB-ASH-Y-37",
+    "page": "64",
+    "uiFeatured": false,
+    "population": "adult",
+    "uiPriority": "critical",
+    "clinicalStatus": "reviewed",
+    "summary": "Zehirlenmelere genel yaklaşımı uygula; erken solunum ve ritim desteğini sağla, QRS genişliğini değerlendir ve QRS >0,10 sn ise SKKM/ÇM ile sodyum bikarbonat uygula.",
+    "criticalActions": [
+      "Zehirlenmelere Genel Yaklaşım algoritmasını uygula; SpO₂ >%94 olacak şekilde O₂ ver, gerekirse PBV uygula.",
+      "Erken damar yolu ve monitörizasyonu sağla; QRS süresini, disritmi, nöbet, hipertermi ve hipotansiyonu değerlendir.",
+      "QRS >0,10 sn ise SKKM/ÇM ile sodyum bikarbonat basamağına geç."
+    ],
+    "quick": [
+      "Disritmi varsa ilgili ritim algoritmasına geç.",
+      "<strong>QRS >0,10 sn:</strong> SKKM/ÇM ile sodyum bikarbonat (NaHCO₃) 1–2 mEq/kg IV puşe; 3–5 dk'da bir tekrarla.",
+      "Hipotansiyonda %0,9 NaCl yüklemesi yap.",
+      "Hipertermide Hipertermi; nöbette Nöbet / Konvülziyon algoritmasına geç. Anahtar noktalarda QRS >100 ms nöbet, >160 ms ventriküler aritmi açısından uyarıcıdır."
+    ],
+    "warningFindings": [
+      "QRS genişliği >0,10 sn",
+      "Disritmi / ventriküler aritmi",
+      "Nöbet",
+      "Hipotansiyon veya hipertermi"
+    ],
+    "meds": [
+      {
+        "name": "Sodyum bikarbonat (NaHCO₃)",
+        "dose": "1–2 mEq/kg",
+        "routes": [
+          "IV"
+        ],
+        "authority": "SKKM",
+        "repeat": "3–5 dk'da bir",
+        "maxDose": "",
+        "note": "QRS süresi >0,10 sn olduğunda IV puşe; resmî Y-37 algoritmasında SKKM/ÇM telefon simgeli basamak."
+      }
+    ],
+    "decision": {
+      "q": "QRS >0,10 sn veya ciddi disritmi/nöbet/hipertermi var mı?",
+      "yes": "QRS >0,10 sn ise SKKM/ÇM ile NaHCO₃ 1–2 mEq/kg IV puşe ve 3–5 dk tekrar; disritmi, nöbet ve hipertermi için ilgili algoritmaya geç.",
+      "no": "Erken monitörizasyon, solunum desteği ve seri EKG/vital değerlendirmeyle nakli sürdür."
+    },
+    "source": {
+      "documentId": "EK2-2026",
+      "documentTitle": "Hastane Öncesi Acil Tıbbi Yardım ve Bakım Akış Şemaları",
+      "effectiveDate": "2026-08-25",
+      "officialPageDate": "2026-09-11",
+      "reviewedAt": "2026-09-22",
+      "officialPageUrl": "https://acilafet.saglik.gov.tr/TR-119840/hastane-oncesi-acil-tibbi-yardim-ve-bakim-akis-semalari.html",
+      "officialPdfUrl": "https://dosyamerkez.saglik.gov.tr/Eklenti/55773/0/ek-2-hastane-oncesi-acil-tibbi-yardim-ve-bakim-akis-semalaripdf.pdf",
+      "section": "adult",
+      "codeStatus": "verified",
+      "algorithmCodes": [
+        "SB-ASH-Y-37"
+      ],
+      "page": "63–64"
     }
   },
   {
