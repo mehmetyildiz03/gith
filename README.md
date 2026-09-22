@@ -2,7 +2,7 @@
 
 Mobil-first, offline çekirdekli, vaka bazlı hastane öncesi acil sağlık eğitim ve hızlı hatırlatma uygulaması.
 
-## V0.10 mimarisi
+## V0.10.1 mimarisi
 
 - **Kaynak:** T.C. Sağlık Bakanlığı 25.08.2026 tarihli Ek-2 Hastane Öncesi Acil Tıbbi Yardım ve Bakım Akış Şemaları.
 - **17 yetişkin vaka klinik audit:** 21.09.2026 tarihinde güncel Ek-2 kaynak setiyle başlık, doz, yol, tekrar, yetki, algoritma sırası ve kaynak izi yeniden kontrol edildi; yalnız doğrulanabilen değişiklikler işlendi.
@@ -40,3 +40,5 @@ node scripts/validate.mjs
 ## Güvenlik
 
 Saha112 resmî Sağlık Bakanlığı uygulaması değildir. Eğitim/hızlı hatırlatma amacı taşır. Güncel resmî akış şeması, kurum talimatı, ekip yetkisi, SKKM/ÇM kararı ve hastanın klinik durumu her zaman önceliklidir.
+
+- **KOAH ileri hava yolu/NIMV:** Yanıtsız ağır KOAH'taki ileri hava yolu hazırlığı ve NIMV basamağı resmî telefon simgesine uygun olarak SKKM/ÇM şeklinde işaretlendi.

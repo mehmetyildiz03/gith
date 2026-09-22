@@ -124,6 +124,7 @@ if(medByName(koahCase,'Salbutamol (ilk basamak)')?.authority!=='DIRECT'||medByNa
 const koahRepeat=medByName(koahCase,'Salbutamol + İpratropium (20 dk sonrası)');
 if(koahRepeat?.authority!=='SKKM'||!String(koahRepeat?.repeat||'').includes('20 dk')||!String(koahRepeat?.maxDose||'').includes('3'))err('KOAH 20 dk tekrar basamağı SKKM/maks 3 olmalı');
 if(medByName(koahCase,'Metilprednizolon')?.dose!=='40 mg'||medByName(koahCase,'Metilprednizolon')?.authority!=='SKKM')err('KOAH metilprednizolon 40 mg SKKM olmalı');
+if(!JSON.stringify(koahCase).includes('SKKM/ÇM ile ileri hava yolu')||!JSON.stringify(koahCase).includes('non-invaziv mekanik ventilasyonu'))err('Y-04 yanıtsız ağır KOAH telefon simgeli ileri hava yolu/NIMV basamağı eksik');
 
 const hypovolemicCase=(CASES||[]).find(c=>c.id==='hypovolemic-shock');
 if(hypovolemicCase?.code!=='SB-ASH-Y-13'||hypovolemicCase?.page!=='24'||hypovolemicCase?.source?.page!=='24')err('Hipovolemik Şok Y-13/s.24 kaynak izi bozuldu');

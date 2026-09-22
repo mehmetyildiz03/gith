@@ -1,7 +1,7 @@
 const APP_META = {
   "schemaVersion": 3,
   "contentVersion": "EK2-2026.08.25-adult-expansion-2026.09.22",
-  "productVersion": "0.10",
+  "productVersion": "0.10.1",
   "populations": [
     {
       "id": "adult",
@@ -681,7 +681,7 @@ const CASES = [
           "Aksesuar solunum kası kullanımı var",
           "Bilinç değişikliği mevcut"
         ],
-        "action": "Bronkodilatörleri uygula; 20 dk yanıtsızlıkta SKKM/ÇM basamağına geç. Tedaviye yanıt yoksa ileri hava yolu hazırlığı ve tolere ediyorsa NIMV düşün."
+        "action": "Bronkodilatörleri uygula; 20 dk yanıtsızlıkta SKKM/ÇM basamağına geç. Tedaviye yanıt yoksa SKKM/ÇM ile ileri hava yolu hazırlığı ve tolere ediyorsa NIMV değerlendir."
       }
     },
     "criticalActions": [
@@ -693,7 +693,7 @@ const CASES = [
       "Rahat/tercihen oturur pozisyon; <strong>SpO₂ %88–92</strong> hedefli O₂, gerekirse PBV.",
       "<strong>İlk basamak:</strong> salbutamol 4–8 puf veya 2,5–5 mg nebül + ipratropium bromür 500 mcg nebül birlikte.",
       "<strong>20 dk sonra yanıt yoksa SKKM/ÇM:</strong> salbutamol 2,5 mg + ipratropium bromür 500 mcg; 20 dk arayla en fazla 3 kez + metilprednizolon 40 mg IV.",
-      "<strong>Ağır ve yanıtsız:</strong> ileri hava yolu için hazırlık; tolere eden hastada non-invaziv mekanik ventilasyonu değerlendir."
+      "<strong>Ağır ve yanıtsız:</strong> SKKM/ÇM ile ileri hava yolu için hazırlık; tolere eden hastada non-invaziv mekanik ventilasyonu değerlendir."
     ],
     "warningFindings": [
       "O₂ desteğine rağmen hipokseminin düzelmemesi",
@@ -751,7 +751,7 @@ const CASES = [
     "decision": {
       "q": "20 dk sonra klinik düzelme yeterli mi?",
       "yes": "Oksijen hedefi ve seri değerlendirmeyi sürdür; her aşamada hastaneye nakil.",
-      "no": "SKKM/ÇM ile salbutamol + ipratropium tekrarları ve metilprednizolon; ağır yanıtsız hastada ileri hava yolu/NIMV basamağı."
+      "no": "SKKM/ÇM ile salbutamol + ipratropium tekrarları ve metilprednizolon; ağır yanıtsız hastada SKKM/ÇM ile ileri hava yolu/NIMV basamağı."
     },
     "source": {
       "documentId": "EK2-2026",
