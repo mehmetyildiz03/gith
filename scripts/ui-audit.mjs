@@ -30,8 +30,8 @@ assert(css.includes("/* V0.6.1 dark surface hardening */"),'Koyu mod yüzey hard
 assert(css.includes(":root[data-theme='dark'] .quick-step")&&css.includes("background:var(--detail-panel-deep)!important"),'Koyu mod algoritma adımı explicit yüzeyi eksik');
 assert(css.includes(":root[data-theme='dark'] .red-flag")&&css.includes("background:#2b202a!important"),'Koyu mod kırmızı bayrak yüzeyi eksik');
 assert(css.includes(":root[data-theme='dark'] .branch.yes")&&css.includes(":root[data-theme='dark'] .branch.no"),'Koyu mod karar kutuları explicit değil');
-assert(html.includes('styles.css?v=0.23')&&html.includes('app-core.js?v=0.23')&&html.includes('cases-data.js?v=0.23'),'Kritik asset cache-bust sürümü eksik');
-assert(sw.includes("saha112-v023")&&sw.includes('NETWORK_FIRST_DESTINATIONS'),'Service worker kritik asset güncelleme stratejisi eksik');
+assert(html.includes('styles.css?v=0.24')&&html.includes('app-core.js?v=0.24')&&html.includes('cases-data.js?v=0.24'),'Kritik asset cache-bust sürümü eksik');
+assert(sw.includes("saha112-v024")&&sw.includes('NETWORK_FIRST_DESTINATIONS'),'Service worker kritik asset güncelleme stratejisi eksik');
 assert(!app.includes('Kırmızı bayrak'),'Eski kullanıcı terimi hâlâ UI içinde');
 assert(app.includes('Acil Uyarı Bulguları'),'Acil Uyarı Bulguları başlığı eksik');
 assert(app.includes('Önceliği, müdahaleyi veya nakil kararını değiştirebilecek bulgular.'),'Acil uyarı açıklaması eksik');
@@ -54,7 +54,7 @@ assert(html.includes('updateBanner')&&app.includes('controllerchange')&&app.incl
 assert(app.includes('sourceFocusable')&&app.includes("e.key==='Tab'")&&css.includes('html.dialog-open'),'Kaynak dialog focus trap/scroll kilidi eksik');
 assert(data.includes('"title": "İnme / SVO"'),'İnme / SVO başlığı korunmamış');
 assert(data.includes('"title": "Nabızlı Taşikardi"'),'Nabızlı Taşikardi başlığı eksik');
-assert(data.includes('"contentVersion": "EK2-2026.08.25-action-authority-4-2026.09.23"'),'V0.23 dallı algoritma yerleşim düzeltmesi eksik');
+assert(data.includes('"contentVersion": "EK2-2026.08.25-medication-content-audit-1-2026.09.23"'),'V0.24 yetişkin ilaç içerik auditi eksik');
 assert(html.includes('id="authorityLegend"')&&!html.includes('<span class="authority direct">Doğrudan</span>'),'Yetki legendi dinamik veri kaynağına bağlı değil');
 assert(app.includes("authorityMarkup")&&app.includes("authority-symbol")&&app.includes("✓ Yeşil: SKKM/ÇM onayı yok")&&app.includes("◆ Sarı: SKKM/ÇM onayı"),'Yetki sembol/yazı eşlemesi eksik');
 assert(css.includes('.authority.direct{')&&css.includes('var(--greenSoft)')&&css.includes('.authority.skkm{')&&css.includes('var(--amberSoft)'),'Yeşil/sarı yetki renk semantiği eksik');
@@ -76,6 +76,11 @@ assert(css.includes('.practitioner.aabt{')&&!css.includes('.practitioner.att-aab
 assert(data.includes('"schemaVersion": 4')&&html.includes('Veri şeması: v4'),'Veri şeması v4 uygulayıcı yetki katmanına yükseltilmemiş');
 assert(data.includes('"officialLabel": "Acil Tıp Teknisyeni / Teknikeri"')&&data.includes('"officialLabel": "Acil Tıp Teknikeri"'),'Resmî uygulayıcı lejant metaları eksik');
 assert(data.includes('"adultMedicationCardsComplete": true'),'Yetişkin ilaç uygulayıcı auditi tamamlanmış olarak işaretlenmemiş');
+assert(data.includes('"medicationContentAudit": {')&&data.includes('"status": "complete"'),'Yetişkin ilaç içerik audit metası eksik');
+assert(data.includes('"name": "Adrenalin — şoklanır ritim"')&&data.includes('"name": "Adrenalin — şoklanamaz ritim"'),'Arrest Y-10/Y-11 adrenalin yolları ayrı kartlara ayrılmamış');
+assert(data.includes('"name": "%0,9 NaCl — ısı stresi"')&&data.includes('"name": "%0,9 NaCl — ısı çarpması"'),'Hipertermi sıvı dalları ayrı ilaç kartlarına ayrılmamış');
+assert(data.includes('Salbutamol tekrar dozu kutuda ayrıca sayısal olarak yazılmadığından türetilmemiştir.'),'Astım 20 dk tekrar dozu çıkarım koruması eksik');
+assert(data.includes('adrenalin infüzyonu sonrası 500 mL bolus basamağı tekrar yer alır'),'Anafilaksi ikinci NaCl 500 mL basamağı eksik');
 assert(data.includes('"actionAudit": {')&&data.includes('"algorithmSteps": [')&&data.includes('"verifiedCases": ['),'Adım bazlı uygulayıcı yetki pilot verisi eksik');
 for(const phrase of ['Ölümcül astım atağı','Asetilsalisilik asit 160–325 mg','yakın vital takibi'])assert(data.includes(phrase),`Lineer eylem yetki genişlemesi eksik: ${phrase}`);
 assert(app.includes('function renderAlgorithmSteps(c)')&&app.includes('quick-step-restriction'),'Yapılandırılmış algoritma adımı render katmanı eksik');

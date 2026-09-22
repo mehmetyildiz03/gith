@@ -1,7 +1,7 @@
 const APP_META = {
   "schemaVersion": 4,
-  "contentVersion": "EK2-2026.08.25-action-authority-4-2026.09.23",
-  "productVersion": "0.23",
+  "contentVersion": "EK2-2026.08.25-medication-content-audit-1-2026.09.23",
+  "productVersion": "0.24",
   "populations": [
     {
       "id": "adult",
@@ -225,6 +225,20 @@ const APP_META = {
       "SB-ASH-Y-11"
     ],
     "pilot": true
+  },
+  "medicationContentAudit": {
+    "reviewedAt": "2026-09-23",
+    "source": "25.08.2026 tarihli Ek-2 resmî PDF",
+    "scope": "Tüm yetişkin ilaç/sıvı kartları resmî algoritma ve anahtar nokta sayfalarına karşı yeniden kontrol edildi",
+    "correctedCases": [
+      "SB-ASH-Y-05",
+      "SB-ASH-Y-09",
+      "SB-ASH-Y-10",
+      "SB-ASH-Y-11",
+      "SB-ASH-Y-22",
+      "SB-ASH-Y-23"
+    ],
+    "status": "complete"
   },
   "adultCoverage": {
     "reviewedAt": "2026-09-22",
@@ -501,7 +515,9 @@ const CASES = [
       "<strong>Acil olgu yönetimini uygula.</strong> Akut başlangıç + yaşamı tehdit eden bulguları ara.",
       "<strong>Adrenalin 0,3–0,5 mg IM.</strong>",
       "<strong>Hava yolu açıklığını sağla; SpO₂ %94–98 hedefli O₂.</strong> Damar yolu aç, anjiyoödemde erken ileri hava yolu hazırlığı yap; SpO₂, EKG ve KB izle.",
-      "<strong>Hipoperfüzyon sürüyorsa</strong> IM adrenalin 5 dk içinde tekrarla ve %0,9 NaCl 500 ml bolus uygula."
+      "<strong>Hipoperfüzyon sürüyorsa</strong> adrenalin 0,3–0,5 mg IM'yi 5 dk içinde tekrarla + %0,9 NaCl 500 mL bolus.",
+      "<strong>Düzelme olmazsa SKKM/ÇM:</strong> adrenalin 1 mcg/dk IV infüzyonu yavaş uygula; ardından %0,9 NaCl 500 mL bolus.",
+      "<strong>SKKM/ÇM ileri basamak:</strong> difenhidramin 25–50 mg veya feniramin 45,5 mg IV yavaş; bronkospazm için salbutamol 2,5–5 mg; profilaktik metilprednizolon 1–2 mg/kg IV (maks. 125 mg)."
     ],
     "warningFindings": [
       "Anjiyoödem, stridor, hırıltılı solunum",
@@ -540,9 +556,9 @@ const CASES = [
           "IV"
         ],
         "authority": "DIRECT",
-        "repeat": "",
+        "repeat": "Hipoperfüzyonda 500 mL; düzelme olmazsa adrenalin infüzyonu sonrası 500 mL bolus basamağı tekrar yer alır",
         "maxDose": "",
-        "note": "Dolaşım desteği.",
+        "note": "Resmî Y-22'de 500 mL bolus, devam eden hipoperfüzyonda tekrarlanan IM adrenalin ile birlikte ve düzelme olmazsa IV adrenalin infüzyonundan sonra yeniden yer alır.",
         "practitionerAuthority": "AABT"
       },
       {
@@ -600,7 +616,7 @@ const CASES = [
       "documentTitle": "Hastane Öncesi Acil Tıbbi Yardım ve Bakım Akış Şemaları",
       "effectiveDate": "2026-08-25",
       "officialPageDate": "2026-09-11",
-      "reviewedAt": "2026-09-22",
+      "reviewedAt": "2026-09-23",
       "officialPageUrl": "https://acilafet.saglik.gov.tr/TR-119840/hastane-oncesi-acil-tibbi-yardim-ve-bakim-akis-semalari.html",
       "officialPdfUrl": "https://dosyamerkez.saglik.gov.tr/Eklenti/55773/0/ek-2-hastane-oncesi-acil-tibbi-yardim-ve-bakim-akis-semalaripdf.pdf",
       "section": "adult",
@@ -662,15 +678,14 @@ const CASES = [
       },
       {
         "name": "Salbutamol + İpratropium (20 dk sonrası)",
-        "dose": "Salbutamol ilk doz şemasına göre + İpratropium 500 mcg",
+        "dose": "Hafif-orta: 2. salbutamol uygulaması + ipratropium 500 mcg inhaler; ağır: 2. salbutamol uygulaması + ipratropium 500 mcg nebül",
         "routes": [
-          "INHALER",
-          "NEB"
+          "OTHER"
         ],
         "authority": "SKKM",
-        "repeat": "20 dk arayla",
+        "repeat": "Düzelme yoksa her iki ilaç 20 dk arayla",
         "maxDose": "maksimum 3 uygulama",
-        "note": "20 dk sonra düzelme yoksa telefon simgeli basamak. Hafif-ortada ipratropium inhaler; ağır atakta nebül.",
+        "note": "Resmî Y-05, 20 dk sonra düzelme yoksa hafif-ortada ipratropium 500 mcg inhaler; ağır atakta ipratropium 500 mcg nebül ile ikinci salbutamol uygulamasını belirtir. Salbutamol tekrar dozu kutuda ayrıca sayısal olarak yazılmadığından türetilmemiştir.",
         "practitionerAuthority": "AABT"
       },
       {
@@ -716,7 +731,7 @@ const CASES = [
       "documentTitle": "Hastane Öncesi Acil Tıbbi Yardım ve Bakım Akış Şemaları",
       "effectiveDate": "2026-08-25",
       "officialPageDate": "2026-09-11",
-      "reviewedAt": "2026-09-22",
+      "reviewedAt": "2026-09-23",
       "officialPageUrl": "https://acilafet.saglik.gov.tr/TR-119840/hastane-oncesi-acil-tibbi-yardim-ve-bakim-akis-semalari.html",
       "officialPdfUrl": "https://dosyamerkez.saglik.gov.tr/Eklenti/55773/0/ek-2-hastane-oncesi-acil-tibbi-yardim-ve-bakim-akis-semalaripdf.pdf",
       "section": "adult",
@@ -1286,15 +1301,27 @@ const CASES = [
     ],
     "meds": [
       {
-        "name": "%0,9 NaCl",
-        "dose": "1000 ml bolus",
+        "name": "%0,9 NaCl — ısı stresi",
+        "dose": "1000–2000 mL bolus",
         "routes": [
           "IV"
         ],
         "authority": "DIRECT",
         "repeat": "",
         "maxDose": "",
-        "note": "Isı çarpması şemasında; ısı stresinde 1000–2000 ml bolus.",
+        "note": "Resmî Y-23 ısı stresi kolunda damar yolu açıldıktan ve ortam ısısı düşürüldükten sonra.",
+        "practitionerAuthority": "AABT"
+      },
+      {
+        "name": "%0,9 NaCl — ısı çarpması",
+        "dose": "1000 mL bolus",
+        "routes": [
+          "IV"
+        ],
+        "authority": "DIRECT",
+        "repeat": "",
+        "maxDose": "",
+        "note": "Resmî Y-23 ısı çarpması kolunda; eş zamanlı soğutma ve seri yeniden değerlendirme ile.",
         "practitionerAuthority": "AABT"
       }
     ],
@@ -1316,7 +1343,7 @@ const CASES = [
       "documentTitle": "Hastane Öncesi Acil Tıbbi Yardım ve Bakım Akış Şemaları",
       "effectiveDate": "2026-08-25",
       "officialPageDate": "2026-09-11",
-      "reviewedAt": "2026-09-22",
+      "reviewedAt": "2026-09-23",
       "officialPageUrl": "https://acilafet.saglik.gov.tr/TR-119840/hastane-oncesi-acil-tibbi-yardim-ve-bakim-akis-semalari.html",
       "officialPdfUrl": "https://dosyamerkez.saglik.gov.tr/Eklenti/55773/0/ek-2-hastane-oncesi-acil-tibbi-yardim-ve-bakim-akis-semalaripdf.pdf",
       "section": "adult",
@@ -1726,14 +1753,15 @@ const CASES = [
     "summary": "Yüksek kaliteli CPR, ritim ayrımı, erken IV/IO yol ve 2026 ilaç sıralamasına göre şoklanabilir/şoklanamaz arrest yönetimi.",
     "criticalActions": [
       "Yanıtsızlık, anormal/olmayan solunum ve nabızsızlığı tanı; yüksek kaliteli CPR'ı başlat.",
-      "Defibrilatörü bağla ve ritmi şoklanabilir (VF/pVT) / şoklanamaz (asistoli/NEA) olarak ayır.",
+      "Defibrilatörü bağla ve ritmi şoklanabilir (VF/nVT) / şoklanamaz (asistoli/NEA) olarak ayır.",
       "IV/IO yolu geciktirme; şoklanamaz ritimde adrenalin erişim sağlanır sağlanmaz, şoklanabilir ritimde şema sırasına göre uygula."
     ],
     "quick": [
-      "<strong>Yüksek kaliteli CPR</strong> ve ritim analizi; kompresyon kesintilerini en aza indir.",
-      "Asistoli/NEA'da <strong>adrenalin 1 mg IV/IO</strong> erişim sağlanır sağlanmaz; atropin ve rutin NaHCO₃ 2026 algoritmasından çıkarılmıştır.",
-      "VF/nVT'de şok döngülerini sürdür; <strong>2. şok sonrası adrenalin 1 mg</strong>, <strong>3. şok sonrası amiodaron 300 mg veya lidokain 1–1,5 mg/kg</strong>, <strong>5. şok sonrası amiodaron 150 mg veya lidokain 0,5–0,75 mg/kg</strong>.",
-      "Endotrakeal ilaç yolu kaldırılmıştır; ilaç yolu IV/IO'dur. ROSC olursa Resüsitasyon Sonrası Bakım algoritmasına geç."
+      "<strong>Yüksek kaliteli KPR</strong> ve ritim analizi; kompresyon kesintilerini en aza indir.",
+      "<strong>Asistoli/NEA:</strong> adrenalin 1 mg IV/IO, 3–5 dk arayla. Güncel Y-10/Y-11 arrest akışında atropin veya rutin NaHCO₃ arrest ilacı olarak yer almıyor.",
+      "<strong>VF/nVT:</strong> 2. defibrilasyon sonrası adrenalin 1 mg IV, 3–5 dk arayla; 3. defibrilasyon sonrası amiodaron 300 mg IV/IO veya %2 lidokain 1–1,5 mg/kg IV/IO; tekrarlayan/dirençli VF/nVT'de 5. şok sonrası amiodaron 150 mg IV/IO veya lidokain 0,5–0,75 mg/kg IV/IO.",
+      "<strong>Şok enerjisi:</strong> firma önerisine göre; anahtar noktalarda bifazik 120–200 J, monofazik 360 J, cihaz tipi bilinmiyorsa en yüksek enerji. Sonraki şoklar aynı veya artan doz; 4. şoktan sonra en yüksek enerji.",
+      "ROSC olursa Resüsitasyon Sonrası Bakım algoritmasına geç."
     ],
     "warningFindings": [
       "Kompresyon kesintilerinin uzaması",
@@ -1743,16 +1771,28 @@ const CASES = [
     ],
     "meds": [
       {
-        "name": "Adrenalin",
+        "name": "Adrenalin — şoklanamaz ritim",
         "dose": "1 mg",
         "routes": [
           "IV",
           "IO"
         ],
         "authority": "DIRECT",
-        "repeat": "3–5 dk arayla; ritim koluna göre başlangıç zamanı",
+        "repeat": "3–5 dk arayla",
         "maxDose": "",
-        "note": "Asistoli/NEA'da damar yolu açılır açılmaz; VF/nVT'de 2. şok sonrası. Resmî arrest şemalarında SKKM/ÇM telefon simgesi yoktur.",
+        "note": "Y-10 Asistoli/NEA: 1 mg IV/IO (1/10000), 3–5 dk arayla. Telefon simgesi yok.",
+        "practitionerAuthority": "AABT"
+      },
+      {
+        "name": "Adrenalin — şoklanır ritim",
+        "dose": "1 mg",
+        "routes": [
+          "IV"
+        ],
+        "authority": "DIRECT",
+        "repeat": "2. defibrilasyon sonrası; 3–5 dk arayla",
+        "maxDose": "",
+        "note": "Y-11 VF/nVT: 2. defibrilasyon sonrası 1 mg 1/10000 IV. Y-11 kutusu IO yazmadığından IO bu karta eklenmemiştir.",
         "practitionerAuthority": "AABT"
       },
       {
@@ -1765,7 +1805,7 @@ const CASES = [
         "authority": "DIRECT",
         "repeat": "3. şok sonrası 300 mg; 5. şok sonrası 150 mg",
         "maxDose": "",
-        "note": "300 mg: 20 ml %5 dekstroz içinde 2–3 dk; 150 mg tekrar: 10 ml %5 dekstroz içinde 2–3 dk. Telefon simgesi yok.",
+        "note": "Y-11: 300 mg, 20 mL %5 dekstroz içinde IV/IO bolus 2–3 dk; tekrarlayan/dirençli VF/nVT'de 5. şok sonrası 150 mg, 10 mL %5 dekstroz içinde IV/IO bolus 2–3 dk. Lidokaine alternatiftir.",
         "practitionerAuthority": "AABT"
       },
       {
@@ -1776,14 +1816,14 @@ const CASES = [
           "IO"
         ],
         "authority": "DIRECT",
-        "repeat": "3. şok sonrası 1–1,5 mg/kg; 5. şok sonrası 0,5–0,75 mg/kg tekrar",
+        "repeat": "3. şok sonrası; 5. şok sonrası 0,5–0,75 mg/kg tekrar",
         "maxDose": "",
-        "note": "Amiodarona alternatif; 2% lidokain IV/IO. Resmî şemada SKKM/ÇM telefon simgesi yok.",
+        "note": "Y-11: %2 lidokain IV/IO bolus; amiodarona alternatif. 5. şok sonrası 0,5–0,75 mg/kg IV/IO bolus tekrar verilebilir.",
         "practitionerAuthority": "AABT"
       }
     ],
     "decision": {
-      "q": "Ritim şoklanabilir mi (VF/pVT)?",
+      "q": "Ritim şoklanabilir mi (VF/nVT)?",
       "yes": "Defibrilasyon + 2 dk CPR döngüleri; ilaçları 2026 şok sırasına göre uygula.",
       "no": "Asistoli/NEA: CPR + erken adrenalin + geri döndürülebilir nedenler."
     },
@@ -1852,7 +1892,7 @@ const CASES = [
                 "practitionerAuthority": "ATT_AABT"
               },
               {
-                "html": "<strong>1. defibrilasyon:</strong> 120–360 J, firma önerisine göre; şok sonrası ara vermeden göğüs basısına devam et.",
+                "html": "<strong>1. defibrilasyon:</strong> firma önerisine göre. Anahtar noktalarda bifazik 120–200 J, monofazik 360 J; cihaz tipi bilinmiyorsa en yüksek enerji düzeyi. Şok sonrası ara vermeden göğüs basısına devam et.",
                 "approvalAuthority": "DIRECT",
                 "practitionerAuthority": "AABT"
               },
@@ -1862,7 +1902,7 @@ const CASES = [
                 "practitionerAuthority": "ATT_AABT"
               },
               {
-                "html": "<strong>2. defibrilasyon</strong>; şok sonrası ara vermeden göğüs basısına devam et. <strong>Adrenalin 1 mg IV/IO</strong>; 3–5 dk'da bir ver.",
+                "html": "<strong>2. defibrilasyon</strong>; şok sonrası ara vermeden göğüs basısına devam et. <strong>Adrenalin 1 mg IV</strong>; 3–5 dk'da bir ver.",
                 "approvalAuthority": "DIRECT",
                 "practitionerAuthority": "AABT"
               },
@@ -1872,7 +1912,7 @@ const CASES = [
                 "practitionerAuthority": "ATT_AABT"
               },
               {
-                "html": "<strong>3. defibrilasyon</strong>; ardından <strong>amiodaron 300 mg IV/IO bolus</strong> (2–3 dk; 20 mL %5 dekstroz içinde) veya <strong>%2 lidokain 1–1,5 mg/kg IV/IO bolus</strong>. Tekrarlayan/dirençli VF/nVT'de 5. şok sonrası amiodaron 150 mg veya lidokain 0,5–0,75 mg/kg IV/IO tekrar ver.",
+                "html": "<strong>3. defibrilasyon</strong>; ardından <strong>amiodaron 300 mg IV/IO bolus</strong> (2–3 dk; 20 mL %5 dekstroz içinde) veya <strong>%2 lidokain 1–1,5 mg/kg IV/IO bolus</strong>. Tekrarlayan/dirençli VF/nVT'de 5. şok sonrası amiodaron 150 mg IV/IO (2–3 dk; 10 mL %5 dekstroz içinde) veya lidokain 0,5–0,75 mg/kg IV/IO bolus tekrar ver.",
                 "approvalAuthority": "DIRECT",
                 "practitionerAuthority": "AABT"
               }

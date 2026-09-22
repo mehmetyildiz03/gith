@@ -36,14 +36,16 @@ if(!APP_META?.routes?.includes('SC')||APP_META?.routeLabels?.SC!=='Subkutan (SC)
 if(APP_META?.authority?.DIRECT?.symbol!=='✓'||APP_META?.authority?.DIRECT?.visualLabel!=='SKKM/ÇM onayı gerektirmez')err('DIRECT yeşil/doğrudan sembol metası eksik');
 if(APP_META?.authority?.SKKM?.symbol!=='◆'||APP_META?.authority?.SKKM?.visualLabel!=='SKKM/ÇM onayı gerekli')err('SKKM sarı/onay sembol metası eksik');
 if(APP_META?.authority?.ALGORITHM?.symbol!=='•'||APP_META?.authority?.ALGORITHM?.visualLabel!=='Yetki simgesi doğrulanmadı')err('ALGORITHM nötr sembol metası eksik');
-if(APP_META?.contentVersion!=='EK2-2026.08.25-action-authority-4-2026.09.23')err('contentVersion arrest dallı eylem yetki modeliyle eşleşmiyor');
-if(APP_META?.productVersion!=='0.23')err('productVersion V0.23 olmalı');
+if(APP_META?.contentVersion!=='EK2-2026.08.25-medication-content-audit-1-2026.09.23')err('contentVersion yetişkin ilaç içerik auditiyle eşleşmiyor');
+if(APP_META?.productVersion!=='0.24')err('productVersion V0.24 olmalı');
 if(APP_META?.practitionerAuthority?.ATT_AABT?.officialLabel!=='Acil Tıp Teknisyeni / Teknikeri'||APP_META?.practitionerAuthority?.AABT?.officialLabel!=='Acil Tıp Teknikeri'||APP_META?.practitionerAuthority?.UNVERIFIED?.symbol!=='□')err('ATT/AABT uygulayıcı yetki metası eksik veya bozuk');
 for(const code of ['SB-ASH-Y-04','SB-ASH-Y-05','SB-ASH-Y-06','SB-ASH-Y-07','SB-ASH-Y-08','SB-ASH-Y-09','SB-ASH-Y-10','SB-ASH-Y-11','SB-ASH-Y-12','SB-ASH-Y-13','SB-ASH-Y-14','SB-ASH-Y-15','SB-ASH-Y-17','SB-ASH-Y-19','SB-ASH-Y-21','SB-ASH-Y-22','SB-ASH-Y-23','SB-ASH-Y-24','SB-ASH-Y-28','SB-ASH-Y-34','SB-ASH-Y-35','SB-ASH-Y-36','SB-ASH-Y-37','SB-ASH-Y-39'])if(!APP_META?.practitionerAudit?.verifiedMedicationCases?.includes(code))err(`Uygulayıcı yetki görsel audit izi eksik: ${code}`);
 if(APP_META?.practitionerAudit?.adultMedicationCardsComplete!==true)err('Yetişkin ilaç kartları uygulayıcı audit tamamlama işareti eksik');
 for(const code of ['SB-ASH-Y-04','SB-ASH-Y-05','SB-ASH-Y-06','SB-ASH-Y-07','SB-ASH-Y-08','SB-ASH-Y-09','SB-ASH-Y-10','SB-ASH-Y-11'])if(!APP_META?.actionAudit?.verifiedCases?.includes(code))err(`Adım bazlı eylem yetki audit izi eksik: ${code}`);
 for(const code of ['SB-ASH-Y-08','SB-ASH-Y-09','SB-ASH-Y-10','SB-ASH-Y-11'])if(!APP_META?.actionAudit?.verifiedBranchCases?.includes(code))err(`Dallı algoritma audit izi eksik: ${code}`);
 if(APP_META?.actionAudit?.reviewedAt!=='2026-09-23')err('Dallı eylem yetki audit tarihi 2026-09-23 olmalı');
+if(APP_META?.medicationContentAudit?.status!=='complete'||APP_META?.medicationContentAudit?.reviewedAt!=='2026-09-23')err('Yetişkin ilaç içerik audit metası eksik');
+for(const code of ['SB-ASH-Y-05','SB-ASH-Y-09','SB-ASH-Y-10','SB-ASH-Y-11','SB-ASH-Y-22','SB-ASH-Y-23'])if(!APP_META?.medicationContentAudit?.correctedCases?.includes(code))err(`İlaç içerik audit düzeltme izi eksik: ${code}`);
 if(APP_META?.actionAudit?.pilot!==true)err('Adım bazlı eylem yetki katmanı pilot/incremental işareti eksik');
 const strokeCase=(CASES||[]).find(c=>c.id==='stroke');
 if(!strokeCase||strokeCase.title!=='İnme / SVO')err('İnme / SVO başlığı korunmalı');
@@ -58,6 +60,8 @@ if(!String(medByName(beeCase,'Adrenalin')?.repeat||'').includes('5 dk'))err('Ar�
 const anaphylaxisCase=(CASES||[]).find(c=>c.id==='anaphylaxis');
 if(JSON.stringify(medByName(anaphylaxisCase,'Salbutamol')?.routes)!==JSON.stringify(['OTHER']))err('Anafilaksi salbutamol yolu resmî Y-22 kutusunda belirtilmediğinden OTHER/Şemaya göre olmalı');
 if(medByName(anaphylaxisCase,'Adrenalin')?.authority!=='DIRECT'||!String(medByName(anaphylaxisCase,'Adrenalin')?.repeat||'').includes('5 dk'))err('Anafilaksi adrenalin doğrudan/5 dk tekrar bilgisi eksik');
+const anaNaCl=medByName(anaphylaxisCase,'%0,9 NaCl');
+if(anaNaCl?.dose!=='500 ml bolus'||!String(anaNaCl?.repeat||'').includes('adrenalin infüzyonu sonrası')||!JSON.stringify(anaphylaxisCase?.quick||[]).includes('1 mcg/dk IV infüzyonu'))err('Anafilaksi NaCl tekrar / IV adrenalin ileri basamak sırası eksik');
 
 const asthmaCase=(CASES||[]).find(c=>c.id==='asthma');
 const asthmaInitialSal=medByName(asthmaCase,'Salbutamol (ilk basamak)');
@@ -67,6 +71,8 @@ if(!(JSON.stringify(asthmaCase?.criticalActions||[])+JSON.stringify(asthmaCase?.
 if(asthmaInitialSal?.authority!=='DIRECT'||!(asthmaInitialSal?.routes||[]).includes('INHALER')||!(asthmaInitialSal?.routes||[]).includes('NEB'))err('Astım ilk salbutamol INHALER/NEB + DIRECT olmalı');
 if(asthmaInitialIpr?.authority!=='DIRECT'||!(asthmaInitialIpr?.routes||[]).includes('NEB'))err('Astım ağır ilk ipratropium NEB + DIRECT olmalı');
 if(asthmaRepeat?.authority!=='SKKM'||!String(asthmaRepeat?.repeat||'').includes('20 dk')||!String(asthmaRepeat?.maxDose||'').includes('3'))err('Astım 20 dk tekrar bronkodilatör basamağı SKKM / maks 3 olmalı');
+if(JSON.stringify(asthmaRepeat?.routes)!==JSON.stringify(['OTHER'])||!String(asthmaRepeat?.dose||'').includes('ipratropium 500 mcg inhaler')||!String(asthmaRepeat?.dose||'').includes('ipratropium 500 mcg nebül'))err('Astım 20 dk hafif-orta/ağır yol ayrımı tek INHALER/NEB genellemesine dönmemeli');
+if(/2,5\s*mg/.test(String(asthmaRepeat?.dose||'')))err('Astım 20 dk salbutamol tekrar dozuna resmî Y-05 kutusunda olmayan 2,5 mg çıkarımı eklenmemeli');
 if(medByName(asthmaCase,'Metilprednizolon')?.authority!=='SKKM'||medByName(asthmaCase,'Magnezyum sülfat')?.authority!=='SKKM')err('Astım steroid/magnezyum SKKM olmalı');
 if((asthmaCase?.meds||[]).some(m=>String(m.name).toLocaleLowerCase('tr-TR').includes('adrenalin')))err('Yetişkin astım algoritmasında adrenalin ilaç kartı bulunmamalı');
 
@@ -116,6 +122,13 @@ if(stableCv?.approvalAuthority!=='SKKM'||stableCv?.practitionerAuthority!=='AABT
 
 const arrestCase=(CASES||[]).find(c=>c.id==='cardiac-arrest');
 const arrestText=JSON.stringify([arrestCase?.quick,arrestCase?.meds]);
+const arrestAdrNonShock=medByName(arrestCase,'Adrenalin — şoklanamaz ritim');
+const arrestAdrShock=medByName(arrestCase,'Adrenalin — şoklanır ritim');
+if(JSON.stringify(arrestAdrNonShock?.routes)!==JSON.stringify(['IV','IO'])||arrestAdrNonShock?.dose!=='1 mg')err('Y-10 adrenalin 1 mg IV/IO kartı bozuk');
+if(JSON.stringify(arrestAdrShock?.routes)!==JSON.stringify(['IV'])||arrestAdrShock?.dose!=='1 mg'||!String(arrestAdrShock?.repeat||'').includes('2. defibrilasyon sonrası'))err('Y-11 adrenalin 1 mg yalnız IV / 2. şok sonrası kartı bozuk');
+if(medByName(arrestCase,'Amiodaron')?.dose!=='300 mg'||JSON.stringify(medByName(arrestCase,'Amiodaron')?.routes)!==JSON.stringify(['IV','IO'])||!String(medByName(arrestCase,'Amiodaron')?.repeat||'').includes('150 mg'))err('Y-11 amiodaron 300 mg + 150 mg IV/IO sırası bozuk');
+if(medByName(arrestCase,'Lidokain')?.dose!=='1–1,5 mg/kg'||!String(medByName(arrestCase,'Lidokain')?.repeat||'').includes('0,5–0,75 mg/kg'))err('Y-11 lidokain başlangıç/5. şok tekrar dozu bozuk');
+if(!JSON.stringify(arrestCase?.quick||[]).includes('bifazik 120–200 J')||!JSON.stringify(arrestCase?.quick||[]).includes('monofazik 360 J'))err('Arrest şok enerji anahtar noktaları eksik');
 for(const forbidden of ['Atropin 3 mg','NaHCO₃ 1 mEq/kg'])if(arrestText.includes(forbidden))err(`2026 arrest algoritmasında kaldırılmış içerik var: ${forbidden}`);
 
 if(roscCase?.page!=='23'||!JSON.stringify(roscCase).includes('MAP ≥65 mmHg')||!JSON.stringify(roscCase).includes('32–37,5°C'))err('Resüsitasyon Sonrası Bakım sayfa/hedef sabitleri bozuldu');
@@ -133,6 +146,9 @@ const burnCase=(CASES||[]).find(c=>c.id==='burn');
 if(!JSON.stringify(burnCase?.quick||[]).includes('(2 × VYA% × kg) / 16 mL/saat'))err('Yanık Parkland/Ringer Laktat 2026 formülü eksik');
 if(medByName(burnCase,'Fentanil')?.dose!=='1 mcg/kg'||medByName(burnCase,'Fentanil')?.authority!=='SKKM')err('Yanık fentanil doz/yetki sabiti bozuldu');
 if(medByName(burnCase,'Ringer Laktat')?.authority!=='DIRECT'||medByName(burnCase,'Ringer Laktat')?.practitionerAuthority!=='AABT'||!String(medByName(burnCase,'Ringer Laktat')?.repeat||'').includes('(2 × VYA% × kg) / 16 mL/saat'))err('Yanık Ringer Laktat doğrudan/AABT/formül kartı eksik');
+
+const hyperthermiaCase=(CASES||[]).find(c=>c.id==='hyperthermia');
+if(medByName(hyperthermiaCase,'%0,9 NaCl — ısı stresi')?.dose!=='1000–2000 mL bolus'||medByName(hyperthermiaCase,'%0,9 NaCl — ısı çarpması')?.dose!=='1000 mL bolus')err('Y-23 ısı stresi / ısı çarpması NaCl doz ayrımı bozuk');
 
 const adultAuditCases=(CASES||[]).filter(c=>c.population==='adult');
 if(adultAuditCases.length!==37)err('Yetişkin kütüphanesi 37 doğrulanmış vaka olmalı');
@@ -181,6 +197,7 @@ for(const s of shockableBranch?.steps||[])if(s.approvalAuthority!=='DIRECT')err(
 for(const s of nonShockBranch?.steps||[])if(s.approvalAuthority!=='DIRECT')err('Y-10 şoklanamaz ritimde telefon simgesiz basamak SKKM olarak işaretlenmiş');
 const firstShock=(shockableBranch?.steps||[]).find(s=>String(s.html).includes('1. defibrilasyon'));
 const secondShock=(shockableBranch?.steps||[]).find(s=>String(s.html).includes('2. defibrilasyon'));
+if(!String(secondShock?.html||'').includes('Adrenalin 1 mg IV')||String(secondShock?.html||'').includes('IV/IO'))err('Y-11 2. şok sonrası adrenalin yolu IV olmalı, IV/IO genellenmemeli');
 const thirdShock=(shockableBranch?.steps||[]).find(s=>String(s.html).includes('3. defibrilasyon'));
 if(firstShock?.practitionerAuthority!=='AABT'||secondShock?.practitionerAuthority!=='AABT'||thirdShock?.practitionerAuthority!=='AABT')err('Y-11 defibrilasyon/ilaç kutuları turuncu AABT olarak kilitlenmeli');
 const nonShockAdrenaline=(nonShockBranch?.steps||[]).find(s=>String(s.html).includes('Adrenalin 1 mg'));

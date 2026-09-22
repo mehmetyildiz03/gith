@@ -2,9 +2,11 @@
 
 Mobil-first, offline çekirdekli, vaka bazlı hastane öncesi acil sağlık eğitim ve hızlı hatırlatma uygulaması.
 
-## V0.23 mimarisi
+## V0.24 mimarisi
 
 - **Kaynak:** T.C. Sağlık Bakanlığı 25.08.2026 tarihli Ek-2 Hastane Öncesi Acil Tıbbi Yardım ve Bakım Akış Şemaları.
+- **V0.24 yetişkin ilaç içerik auditi:** Tüm yetişkin ilaç/sıvı kartları resmî algoritma ve “Anahtar Noktalar” sayfalarına karşı yeniden kontrol edildi. Dört kaynak-sadakati düzeltmesi yapıldı: Y-11 şoklanır ritimde adrenalin yolu IV olarak ayrıldı; Y-23 ısı stresi/ısı çarpması NaCl dozları iki karta ayrıldı; Y-05 20 dk tekrar bronkodilatör kartındaki INHALER/NEB genellemesi kaldırıldı; Y-22 anafilakside ikinci 500 mL NaCl basamağı ve ileri ilaç sırası görünür hale getirildi.
+- **Arrest doğrulaması:** Güncel Y-11'de amiodaron açıkça yer alır: 3. şok sonrası 300 mg IV/IO; tekrarlayan/dirençli VF/nVT'de 5. şok sonrası 150 mg IV/IO. %2 lidokain 1–1,5 mg/kg IV/IO ve 5. şok sonrası 0,5–0,75 mg/kg IV/IO alternatiftir. Y-10 adrenalin IV/IO iken Y-11 2. şok sonrası adrenalin kutusu yalnız IV yazar; veri modeli bu farkı artık ayrı kartlarla korur.
 - **V0.23 dallı algoritma yerleşim düzeltmesi:** Üst seviye dallar artık masaüstünde de tam genişlik ve alt alta akar. Yalnız tam genişlikteki bir ana dalın ilk alt dalları ≥980 px görünümde iki kolona çıkabilir; daha derin dallar ve tablet/mobil görünüm tek kolonda kalır. Böylece Arrest ve Taşikardi kartlarında iç içe iki-kolon nedeniyle oluşan dar, okunamaz kartlar engellendi.
 - **V0.22 Kardiyak Arrest dallı modeli — Y-09/Y-10/Y-11:** Arrest Yönetimi ortak başlangıcı, nabız var/solunum yok-gasping ve nabız yok dalları; nabız yok altında Şoklanamaz NEA/Asistoli ile Şoklanır VF/nVT kolları `algorithmBranches[]` ile yapılandırıldı.
 - **Arrest yetki ayrımı:** Resmî Y-10/Y-11'de adrenalin, defibrilasyon ve amiodaron/lidokain kutuları turuncu `AABT` fakat telefon simgesiz `DIRECT`; KPR, oksijenizasyon/ventilasyon, ritim-nabız değerlendirme ve ileri hava yolu kutuları turkuaz `ATT_AABT` + `DIRECT`. Bu ayrım regresyon testleriyle kilitlendi.
