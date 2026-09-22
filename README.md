@@ -2,7 +2,7 @@
 
 Mobil-first, offline çekirdekli, vaka bazlı hastane öncesi acil sağlık eğitim ve hızlı hatırlatma uygulaması.
 
-## V0.11 mimarisi
+## V0.12 mimarisi
 
 - **Kaynak:** T.C. Sağlık Bakanlığı 25.08.2026 tarihli Ek-2 Hastane Öncesi Acil Tıbbi Yardım ve Bakım Akış Şemaları.
 - **17 yetişkin vaka klinik audit:** 21.09.2026 tarihinde güncel Ek-2 kaynak setiyle başlık, doz, yol, tekrar, yetki, algoritma sırası ve kaynak izi yeniden kontrol edildi; yalnız doğrulanabilen değişiklikler işlendi.
@@ -10,6 +10,7 @@ Mobil-first, offline çekirdekli, vaka bazlı hastane öncesi acil sağlık eği
 - **Kaynak bütünlüğü düzeltmesi:** V0.9.3'te mevcut 17 kartın resmî PDF sayfa izleri yeniden kilitlendi; Taşikardi s.17, ROSC s.23, Diyabetik Aciller s.31, İnme/SVO s.32, Nöbet/Konvülziyon s.33 ve Travmalı Hastada Acil Olgu Yönetimi Y-38 s.67 düzeltildi. Suda Boğulma at-çek-uzat, Hipoglisemi 15 dk yeniden değerlendirme, İnme %94–98/30° ve Termal Yanık kısa nakil 500 mL basamakları resmî metne göre tamamlandı.
 - **İlk yetişkin genişleme paketi:** V0.10'da resmî PDF'nin algoritma + anahtar nokta sayfaları doğrudan incelenerek KOAH (Y-04), Hipovolemik Şok (Y-13), Kalp Yetmezliğine Bağlı Akut Akciğer Ödemi ve Kardiyojenik Şok (Y-14) ve Bilinç Değişikliği (Y-16) eklendi. Astım Y-05 yeniden kontrol edilerek SpO₂ >%93 ve ilk/20 dk sonrası SKKM yetki ayrımı düzeltildi.
 - **İkinci yetişkin genişleme paketi:** V0.11'de Ajite Hastaya Yaklaşım (Y-15), Vertigo (Y-20), Alerjik Reaksiyon (Y-21) ve Hipotermide Arrest Yönetimi (Y-25) resmî PDF sayfalarından eklendi; telefon/SKKM simgeleri ve dozlar sayfa görüntülerinden doğrulandı.
+- **Üçüncü yetişkin genişleme paketi:** V0.12'de Elektrik Yanıkları (Y-29), Kimyasal Yanıklar (Y-30), Zehirlenmelere Genel Yaklaşım (Y-31) ve Yüksek Doz İlaç Alımı (Y-32) resmî PDF sayfalarından eklendi. Kaynakta doz veya uygulama yolu açık yazmayan tedaviler için ilaç kartında çıkarım yapılmadı.
 - **Severity ve tema sağlamlaştırması:** Şiddet sekmeleri vaka verisinden üretilir; case-local renk artık global `--soft` temasını ezmez (`--case-soft`).
 - **Hasta grubu katmanı:** Yetişkin / Çocuk / Doğum & Yenidoğan. Yalnız kaynak-kod-doz-yetki QA'sı tamamlanan kartlar yayımlanır.
 - **İlk Kritik Adımlar:** Her vaka için ayrı kritik ilk eylem katmanı; resmî algoritmada olmayan sabit bir 30 saniye süresi iddia edilmez.
