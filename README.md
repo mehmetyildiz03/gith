@@ -2,7 +2,7 @@
 
 Mobil-first, offline çekirdekli, vaka bazlı hastane öncesi acil sağlık eğitim ve hızlı hatırlatma uygulaması.
 
-## V0.12 mimarisi
+## V0.13 mimarisi
 
 - **Kaynak:** T.C. Sağlık Bakanlığı 25.08.2026 tarihli Ek-2 Hastane Öncesi Acil Tıbbi Yardım ve Bakım Akış Şemaları.
 - **17 yetişkin vaka klinik audit:** 21.09.2026 tarihinde güncel Ek-2 kaynak setiyle başlık, doz, yol, tekrar, yetki, algoritma sırası ve kaynak izi yeniden kontrol edildi; yalnız doğrulanabilen değişiklikler işlendi.
@@ -11,13 +11,14 @@ Mobil-first, offline çekirdekli, vaka bazlı hastane öncesi acil sağlık eği
 - **İlk yetişkin genişleme paketi:** V0.10'da resmî PDF'nin algoritma + anahtar nokta sayfaları doğrudan incelenerek KOAH (Y-04), Hipovolemik Şok (Y-13), Kalp Yetmezliğine Bağlı Akut Akciğer Ödemi ve Kardiyojenik Şok (Y-14) ve Bilinç Değişikliği (Y-16) eklendi. Astım Y-05 yeniden kontrol edilerek SpO₂ >%93 ve ilk/20 dk sonrası SKKM yetki ayrımı düzeltildi.
 - **İkinci yetişkin genişleme paketi:** V0.11'de Ajite Hastaya Yaklaşım (Y-15), Vertigo (Y-20), Alerjik Reaksiyon (Y-21) ve Hipotermide Arrest Yönetimi (Y-25) resmî PDF sayfalarından eklendi; telefon/SKKM simgeleri ve dozlar sayfa görüntülerinden doğrulandı.
 - **Üçüncü yetişkin genişleme paketi:** V0.12'de Elektrik Yanıkları (Y-29), Kimyasal Yanıklar (Y-30), Zehirlenmelere Genel Yaklaşım (Y-31) ve Yüksek Doz İlaç Alımı (Y-32) resmî PDF sayfalarından eklendi. Kaynakta doz veya uygulama yolu açık yazmayan tedaviler için ilaç kartında çıkarım yapılmadı.
+- **Dördüncü yetişkin genişleme paketi:** V0.13'te Karbonmonoksit Zehirlenmesi (Y-33), Kalsiyum Kanal Blokerleri / Beta Blokerler ile Zehirlenme (Y-34), Kolinerjik Ajanlarla Zehirlenme (Y-35), Narkotik / Opioid Zehirlenmeleri (Y-36) ve Trisiklik Antidepresan Zehirlenmesi (Y-37) resmî PDF'nin algoritma ve anahtar nokta sayfalarından eklendi. Telefon/SKKM simgeleri, dozlar ve tekrar aralıkları görüntüden doğrulandı.
 - **Severity ve tema sağlamlaştırması:** Şiddet sekmeleri vaka verisinden üretilir; case-local renk artık global `--soft` temasını ezmez (`--case-soft`).
 - **Hasta grubu katmanı:** Yetişkin / Çocuk / Doğum & Yenidoğan. Yalnız kaynak-kod-doz-yetki QA'sı tamamlanan kartlar yayımlanır.
 - **İlk Kritik Adımlar:** Her vaka için ayrı kritik ilk eylem katmanı; resmî algoritmada olmayan sabit bir 30 saniye süresi iddia edilmez.
 - **Terminoloji:** Resmî algoritma başlıkları korunur; örn. SB-ASH-Y-12 **Resüsitasyon Sonrası Bakım**. Kullanıcıya açıklayıcı alt başlıkta ROSC açılımı verilir.
 - **Acil Uyarı Bulguları:** Önceliği, müdahaleyi veya nakil kararını değiştirebilecek bulgular için standart kullanıcı terimi.
 - **UI/klinik ayrımı:** `uiPriority`, `uiFeatured`, `criticalActions` ve `warningFindings` Saha112 arayüz alanlarıdır; resmî algoritma sınıflaması olarak sunulmaz.
-- **Uygulama yolu etiketi:** Teknik `NEB` kodu kullanıcıya `Nebülizasyon` olarak gösterilir.
+- **Uygulama yolu etiketi:** Teknik `NEB` kodu kullanıcıya `Nebülizasyon`, `SC` kodu `Subkutan (SC)` olarak gösterilir.
 - **Dokunma hedefleri:** Telefon/tablet Chrome testinde temel etkileşim kontrolleri en az 44 CSS px dokunma yüksekliğine sabitlenir.
 - **Hızlı Saha modu:** Öncelikli vakaları öne alır; detayda İlk Kritik Adımlar, Acil Uyarı Bulguları, karar ve ilaç dozlarını öne çıkarır; açıklayıcı/kaynak alanlarını geri çeker.
 - **Hasta grupları:** Yetişkin / Çocuk / Doğum & Yenidoğan mimaride kalıcıdır. Doğrulanmış kartı olmayan grup `Yakında` olarak pasif görünür ve ilk onaylı kart geldiğinde otomatik açılır.
