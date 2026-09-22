@@ -237,8 +237,8 @@ if(!String(drowningCase?.criticalActions?.[0]||'').includes('suya girme')||!Stri
 const hypothermiaCase=(CASES||[]).find(c=>c.id==='hypothermia');
 if(!hypothermiaCase?.source?.algorithmCodes?.includes('SB-ASH-Y-25')||!JSON.stringify(hypothermiaCase).includes('60 sn'))err('Hipotermi Y-25/60 sn kaynak izi eksik');
 if(burnCase?.title!=='Termal Yanık'||burnCase?.page!=='50'||burnCase?.source?.page!=='48–50'||!JSON.stringify(burnCase).includes('1 saatten kısa nakilde 500 mL'))err('Termal Yanık başlık/sayfa/kısa nakil sıvı basamağı bozuldu');
-const electricalBurnCase=(CASES||[]).find(c=>c.id==='electrical-burn');
-const electricalRl=medByName(electricalBurnCase,'Ringer Laktat — rabdomiyoliz riski');
+const electricalBurnAuditCase=(CASES||[]).find(c=>c.id==='electrical-burn');
+const electricalRl=medByName(electricalBurnAuditCase,'Ringer Laktat — rabdomiyoliz riski');
 if(electricalRl?.authority!=='DIRECT'||electricalRl?.practitionerAuthority!=='AABT'||JSON.stringify(electricalRl?.routes)!==JSON.stringify(['OTHER'])||!String(electricalRl?.dose||'').includes('Erken ve yeterli'))err('Y-29 Ringer Laktat turuncu/DIRECT ve kaynakta miktar-yol türetmeme kartı eksik');
 
 const traumaCase=(CASES||[]).find(c=>c.id==='trauma');
