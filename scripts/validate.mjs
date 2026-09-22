@@ -183,7 +183,7 @@ if(coveredAdultCodes.has(1))warn('SB-ASH-Y-01 vaka kartına dönüştürülmüş
 const bradyCase=(CASES||[]).find(c=>c.id==='bradycardia');
 if(medByName(bradyCase,'Dopamin')?.authority!=='SKKM'||medByName(bradyCase,'Adrenalin')?.authority!=='SKKM')err('Bradikardi dopamin/adrenalin SKKM telefon simgesiyle eşleşmiyor');
 
-for(const name of ['Adrenalin','Amiodaron','Lidokain'])if(medByName(arrestCase,name)?.authority!=='DIRECT')err(`Kardiyak Arrest ${name} telefon simgesiz/doğrudan olmalı`);
+for(const name of ['Adrenalin — şoklanamaz ritim','Adrenalin — şoklanır ritim','Amiodaron','Lidokain'])if(medByName(arrestCase,name)?.authority!=='DIRECT')err(`Kardiyak Arrest ${name} telefon simgesiz/doğrudan olmalı`);
 if(!String(medByName(arrestCase,'Lidokain')?.repeat||'').includes('0,5–0,75 mg/kg'))err('Arrest 5. şok sonrası lidokain tekrar dozu eksik');
 if((arrestCase?.algorithmSteps||[]).length!==1)err('Arrest ortak başlangıç algorithmSteps sayısı 1 olmalı');
 if(arrestCase?.algorithmSteps?.[0]?.approvalAuthority!=='DIRECT'||arrestCase?.algorithmSteps?.[0]?.practitionerAuthority!=='ATT_AABT')err('Arrest ortak nabız/solunum kontrolü turkuaz/DIRECT olmalı');
