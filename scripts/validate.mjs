@@ -35,7 +35,7 @@ if(!APP_META?.routes?.includes('INHALER')||APP_META?.routeLabels?.INHALER!=='İn
 if(APP_META?.authority?.DIRECT?.symbol!=='✓'||APP_META?.authority?.DIRECT?.visualLabel!=='SKKM/ÇM onayı gerektirmez')err('DIRECT yeşil/doğrudan sembol metası eksik');
 if(APP_META?.authority?.SKKM?.symbol!=='◆'||APP_META?.authority?.SKKM?.visualLabel!=='SKKM/ÇM onayı gerekli')err('SKKM sarı/onay sembol metası eksik');
 if(APP_META?.authority?.ALGORITHM?.symbol!=='•'||APP_META?.authority?.ALGORITHM?.visualLabel!=='Yetki simgesi doğrulanmadı')err('ALGORITHM nötr sembol metası eksik');
-if(APP_META?.contentVersion!=='EK2-2026.08.25-adult-expansion-2-2026.09.22')err('contentVersion ikinci yetişkin genişleme sürümüyle eşleşmiyor');
+if(APP_META?.contentVersion!=='EK2-2026.08.25-adult-expansion-3-2026.09.22')err('contentVersion üçüncü yetişkin genişleme sürümüyle eşleşmiyor');
 const strokeCase=(CASES||[]).find(c=>c.id==='stroke');
 if(!strokeCase||strokeCase.title!=='İnme / SVO')err('İnme / SVO başlığı korunmalı');
 const seizureCase=(CASES||[]).find(c=>c.id==='seizure');
@@ -86,7 +86,7 @@ if(!JSON.stringify(burnCase?.quick||[]).includes('(2 × VYA% × kg) / 16 mL/saat
 if(medByName(burnCase,'Fentanil')?.dose!=='1 mcg/kg'||medByName(burnCase,'Fentanil')?.authority!=='SKKM')err('Yanık fentanil doz/yetki sabiti bozuldu');
 
 const adultAuditCases=(CASES||[]).filter(c=>c.population==='adult');
-if(adultAuditCases.length!==25)err('Yetişkin kütüphanesi 25 doğrulanmış vaka olmalı');
+if(adultAuditCases.length!==29)err('Yetişkin kütüphanesi 29 doğrulanmış vaka olmalı');
 for(const c of adultAuditCases)if(!['2026-09-21','2026-09-22'].includes(c.source?.reviewedAt))err(`${c.id}: beklenmeyen reviewedAt ${c.source?.reviewedAt}`);
 for(const c of adultAuditCases)for(const m of (c.meds||[]))if(!['DIRECT','SKKM'].includes(m.authority))err(`${c.id}/${m.name}: yetişkin ilaç yetkisi telefon simgesi auditinden sonra DIRECT veya SKKM olmalı`);
 
@@ -162,6 +162,22 @@ if(!JSON.stringify(allergicCase).includes('Anafilaksi algoritmasına geç'))err(
 const hypothermicArrestCase=(CASES||[]).find(c=>c.id==='hypothermic-arrest');
 if(hypothermicArrestCase?.code!=='SB-ASH-Y-25'||hypothermicArrestCase?.page!=='43'||hypothermicArrestCase?.source?.page!=='42–43'||(hypothermicArrestCase?.meds||[]).length)err('Hipotermide Arrest Y-25 kaynak/ilaç yapısı bozuldu');
 for(const term of ['60 sn','<28°C: 5 dk KPR / 5 dk KPR\'siz','<20°C: 5 dk KPR / 10 dk KPR\'siz','<30°C','≥35°C','ECMO'])if(!JSON.stringify(hypothermicArrestCase).includes(term))err(`Y-25 hipotermi arrest kuralı eksik: ${term}`);
+
+const electricalBurnCase=(CASES||[]).find(c=>c.id==='electrical-burn');
+if(electricalBurnCase?.code!=='SB-ASH-Y-29'||electricalBurnCase?.page!=='51'||electricalBurnCase?.source?.page!=='51'||(electricalBurnCase?.meds||[]).length)err('Elektrik Yanıkları Y-29 kaynak/ilaç yapısı bozuldu');
+for(const term of ['10 metre','Ringer Laktat','Spinal immobilizasyon','Termal Yanık'])if(!JSON.stringify(electricalBurnCase).includes(term))err(`Y-29 Elektrik Yanıkları öğesi eksik: ${term}`);
+
+const chemicalBurnCase=(CASES||[]).find(c=>c.id==='chemical-burn');
+if(chemicalBurnCase?.code!=='SB-ASH-Y-30'||chemicalBurnCase?.page!=='52'||chemicalBurnCase?.source?.page!=='52'||(chemicalBurnCase?.meds||[]).length)err('Kimyasal Yanıklar Y-30 kaynak/ilaç yapısı bozuldu');
+for(const term of ['KBRN','%0,9 NaCl','20 dk','Termal Yanık'])if(!JSON.stringify(chemicalBurnCase).includes(term))err(`Y-30 Kimyasal Yanık öğesi eksik: ${term}`);
+
+const poisoningGeneralCase=(CASES||[]).find(c=>c.id==='poisoning-general');
+if(poisoningGeneralCase?.code!=='SB-ASH-Y-31'||poisoningGeneralCase?.page!=='54'||poisoningGeneralCase?.source?.page!=='53–54'||(poisoningGeneralCase?.meds||[]).length)err('Zehirlenmelere Genel Yaklaşım Y-31 kaynak/ilaç yapısı bozuldu');
+for(const term of ['SpO₂ %94–98','UZEM','DAKŞ','Sürekli gözlem'])if(!JSON.stringify(poisoningGeneralCase).includes(term))err(`Y-31 Genel Zehirlenme öğesi eksik: ${term}`);
+
+const highDoseCase=(CASES||[]).find(c=>c.id==='high-dose-drug');
+if(highDoseCase?.code!=='SB-ASH-Y-32'||highDoseCase?.page!=='55'||highDoseCase?.source?.page!=='55'||(highDoseCase?.meds||[]).length)err('Yüksek Doz İlaç Alımı Y-32 kaynak/ilaç yapısı bozuldu');
+for(const term of ['Kolinerjik Ajanlarla Zehirlenme','Nöbet / Konvülziyon','Diyabetik Aciller','Narkotik / Opioid Zehirlenmeleri','Hipotermi'])if(!JSON.stringify(highDoseCase).includes(term))err(`Y-32 yönlendirme eksik: ${term}`);
 
 for(const [i,c] of (CASES||[]).entries()){
   const at=`CASES[${i}] ${c?.id||'(id yok)'}`;
