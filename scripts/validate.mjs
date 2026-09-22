@@ -150,7 +150,7 @@ if(!JSON.stringify(agitatedCase).includes('kolluk'))err('Y-15 kolluk desteği ba
 
 const vertigoCase=(CASES||[]).find(c=>c.id==='vertigo');
 if(vertigoCase?.code!=='SB-ASH-Y-20'||vertigoCase?.page!=='34'||vertigoCase?.source?.page!=='34'||(vertigoCase?.meds||[]).length)err('Vertigo Y-20 kaynak/ilaç yapısı bozuldu');
-for(const term of ['BEFAST','vertikal','pür torsiyonel','bağımsız ayakta duramama','İnme / SVO'])if(!JSON.stringify(vertigoCase).includes(term))err(`Y-20 Vertigo ana karar öğesi eksik: ${term}`);
+for(const term of ['BEFAST','vertikal','pür torsiyonel','Bağımsız ayakta duramama','İnme / SVO'])if(!JSON.stringify(vertigoCase).includes(term))err(`Y-20 Vertigo ana karar öğesi eksik: ${term}`);
 
 const allergicCase=(CASES||[]).find(c=>c.id==='allergic-reaction');
 if(allergicCase?.code!=='SB-ASH-Y-21'||allergicCase?.page!=='35'||allergicCase?.source?.page!=='35')err('Alerjik Reaksiyon Y-21 kaynak izi bozuldu');
