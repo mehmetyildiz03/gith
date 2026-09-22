@@ -2496,9 +2496,9 @@ const CASES = [
           "IV"
         ],
         "authority": "SKKM",
-        "repeat": "100 mL %0,9 NaCl içinde 10 dakikada",
+        "repeat": "",
         "maxDose": "",
-        "note": "Kalsiyum kanal blokeri zehirlenmesinden emin olunan ve hipotansiyonu eşlik eden hastada; resmî şemada SKKM/ÇM telefon simgeli basamak."
+        "note": "Kalsiyum kanal blokeri zehirlenmesinden emin olunan ve hipotansiyonu eşlik eden hastada; 3 ampul (30 mL), 100 mL %0,9 NaCl içinde 10 dakikada IV. Resmî şemada SKKM/ÇM telefon simgeli basamak."
       }
     ],
     "decision": {
