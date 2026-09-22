@@ -31,10 +31,11 @@ else{
 
 const ids=new Set();const allowedAuthority=new Set(['DIRECT','SKKM','ALGORITHM']);const allowedRoutes=new Set(APP_META?.routes||[]);const allowedPop=new Set((APP_META?.populations||[]).map(p=>p.id));
 if(APP_META?.routeLabels?.NEB!=='Nebülizasyon')err('NEB kullanıcı etiketi Nebülizasyon olmalı');
+if(!APP_META?.routes?.includes('INHALER')||APP_META?.routeLabels?.INHALER!=='İnhaler')err('INHALER/İnhaler yol tanımı eksik');
 if(APP_META?.authority?.DIRECT?.symbol!=='✓'||APP_META?.authority?.DIRECT?.visualLabel!=='SKKM/ÇM onayı gerektirmez')err('DIRECT yeşil/doğrudan sembol metası eksik');
 if(APP_META?.authority?.SKKM?.symbol!=='◆'||APP_META?.authority?.SKKM?.visualLabel!=='SKKM/ÇM onayı gerekli')err('SKKM sarı/onay sembol metası eksik');
 if(APP_META?.authority?.ALGORITHM?.symbol!=='•'||APP_META?.authority?.ALGORITHM?.visualLabel!=='Yetki simgesi doğrulanmadı')err('ALGORITHM nötr sembol metası eksik');
-if(APP_META?.contentVersion!=='EK2-2026.08.25-clinical-audit-2026.09.21')err('contentVersion klinik audit sürümüyle eşleşmiyor');
+if(APP_META?.contentVersion!=='EK2-2026.08.25-adult-expansion-2026.09.22')err('contentVersion yetişkin genişleme sürümüyle eşleşmiyor');
 const strokeCase=(CASES||[]).find(c=>c.id==='stroke');
 if(!strokeCase||strokeCase.title!=='İnme / SVO')err('İnme / SVO başlığı korunmalı');
 const seizureCase=(CASES||[]).find(c=>c.id==='seizure');
@@ -49,10 +50,14 @@ const anaphylaxisCase=(CASES||[]).find(c=>c.id==='anaphylaxis');
 if(medByName(anaphylaxisCase,'Adrenalin')?.authority!=='DIRECT'||!String(medByName(anaphylaxisCase,'Adrenalin')?.repeat||'').includes('5 dk'))err('Anafilaksi adrenalin doğrudan/5 dk tekrar bilgisi eksik');
 
 const asthmaCase=(CASES||[]).find(c=>c.id==='asthma');
-const asthmaSal=medByName(asthmaCase,'Salbutamol'), asthmaIpr=medByName(asthmaCase,'İpratropium bromür');
-if(!(JSON.stringify(asthmaCase?.criticalActions||[])+JSON.stringify(asthmaCase?.quick||[])).includes('%94–98'))err('Astım SpO2 %94–98 hedefi eksik');
-if(!String(asthmaSal?.repeat||'').includes('20 dk')||!String(asthmaSal?.maxDose||'').includes('3'))err('Astım salbutamol 20 dk / maks 3 bilgisi eksik');
-if(asthmaIpr?.authority!=='DIRECT'||!(asthmaIpr?.routes||[]).includes('NEB')||(asthmaIpr?.routes||[]).includes('OTHER'))err('Astım ipratropium Nebülizasyon + DIRECT olmalı');
+const asthmaInitialSal=medByName(asthmaCase,'Salbutamol (ilk basamak)');
+const asthmaInitialIpr=medByName(asthmaCase,'İpratropium bromür (ağır ilk basamak)');
+const asthmaRepeat=medByName(asthmaCase,'Salbutamol + İpratropium (20 dk sonrası)');
+if(!(JSON.stringify(asthmaCase?.criticalActions||[])+JSON.stringify(asthmaCase?.quick||[])).includes('>%93'))err('Astım resmî SpO2 >%93 hedefi eksik');
+if(asthmaInitialSal?.authority!=='DIRECT'||!(asthmaInitialSal?.routes||[]).includes('INHALER')||!(asthmaInitialSal?.routes||[]).includes('NEB'))err('Astım ilk salbutamol INHALER/NEB + DIRECT olmalı');
+if(asthmaInitialIpr?.authority!=='DIRECT'||!(asthmaInitialIpr?.routes||[]).includes('NEB'))err('Astım ağır ilk ipratropium NEB + DIRECT olmalı');
+if(asthmaRepeat?.authority!=='SKKM'||!String(asthmaRepeat?.repeat||'').includes('20 dk')||!String(asthmaRepeat?.maxDose||'').includes('3'))err('Astım 20 dk tekrar bronkodilatör basamağı SKKM / maks 3 olmalı');
+if(medByName(asthmaCase,'Metilprednizolon')?.authority!=='SKKM'||medByName(asthmaCase,'Magnezyum sülfat')?.authority!=='SKKM')err('Astım steroid/magnezyum SKKM olmalı');
 if((asthmaCase?.meds||[]).some(m=>String(m.name).toLocaleLowerCase('tr-TR').includes('adrenalin')))err('Yetişkin astım algoritmasında adrenalin ilaç kartı bulunmamalı');
 
 const acsCase=(CASES||[]).find(c=>c.id==='acs'), nitrate=medByName(acsCase,'İzosorbid dinitrat');
@@ -81,8 +86,8 @@ if(!JSON.stringify(burnCase?.quick||[]).includes('(2 × VYA% × kg) / 16 mL/saat
 if(medByName(burnCase,'Fentanil')?.dose!=='1 mcg/kg'||medByName(burnCase,'Fentanil')?.authority!=='SKKM')err('Yanık fentanil doz/yetki sabiti bozuldu');
 
 const adultAuditCases=(CASES||[]).filter(c=>c.population==='adult');
-if(adultAuditCases.length!==17)err('Klinik audit kapsamı 17 yetişkin vaka olmalı');
-for(const c of adultAuditCases)if(c.source?.reviewedAt!=='2026-09-21')err(`${c.id}: klinik audit reviewedAt 2026-09-21 olmalı`);
+if(adultAuditCases.length!==21)err('Yetişkin kütüphanesi 21 doğrulanmış vaka olmalı');
+for(const c of adultAuditCases)if(!['2026-09-21','2026-09-22'].includes(c.source?.reviewedAt))err(`${c.id}: beklenmeyen reviewedAt ${c.source?.reviewedAt}`);
 for(const c of adultAuditCases)for(const m of (c.meds||[]))if(!['DIRECT','SKKM'].includes(m.authority))err(`${c.id}/${m.name}: yetişkin ilaç yetkisi telefon simgesi auditinden sonra DIRECT veya SKKM olmalı`);
 
 const bradyCase=(CASES||[]).find(c=>c.id==='bradycardia');
@@ -111,6 +116,30 @@ if(!hypothermiaCase?.source?.algorithmCodes?.includes('SB-ASH-Y-25')||!JSON.stri
 if(burnCase?.title!=='Termal Yanık'||burnCase?.page!=='50'||burnCase?.source?.page!=='48–50'||!JSON.stringify(burnCase).includes('1 saatten kısa nakilde 500 mL'))err('Termal Yanık başlık/sayfa/kısa nakil sıvı basamağı bozuldu');
 const traumaCase=(CASES||[]).find(c=>c.id==='trauma');
 if(traumaCase?.title!=='Travmalı Hastada Acil Olgu Yönetimi'||traumaCase?.code!=='SB-ASH-Y-38'||traumaCase?.page!=='67'||!traumaCase?.source?.algorithmCodes?.includes('SB-ASH-Y-38')||!traumaCase?.source?.algorithmCodes?.includes('SB-ASH-Y-02'))err('Travma Y-38/Y-02 başlık-kod-sayfa kaynak izi bozuldu');
+
+const koahCase=(CASES||[]).find(c=>c.id==='koah');
+if(koahCase?.code!=='SB-ASH-Y-04'||koahCase?.page!=='10'||koahCase?.source?.page!=='9–10')err('KOAH Y-04 kaynak izi bozuldu');
+if(!JSON.stringify(koahCase).includes('%88–92'))err('KOAH SpO2 %88–92 hedefi eksik');
+if(medByName(koahCase,'Salbutamol (ilk basamak)')?.authority!=='DIRECT'||medByName(koahCase,'İpratropium bromür (ilk basamak)')?.authority!=='DIRECT')err('KOAH ilk bronkodilatörler DIRECT olmalı');
+const koahRepeat=medByName(koahCase,'Salbutamol + İpratropium (20 dk sonrası)');
+if(koahRepeat?.authority!=='SKKM'||!String(koahRepeat?.repeat||'').includes('20 dk')||!String(koahRepeat?.maxDose||'').includes('3'))err('KOAH 20 dk tekrar basamağı SKKM/maks 3 olmalı');
+if(medByName(koahCase,'Metilprednizolon')?.dose!=='40 mg'||medByName(koahCase,'Metilprednizolon')?.authority!=='SKKM')err('KOAH metilprednizolon 40 mg SKKM olmalı');
+
+const hypovolemicCase=(CASES||[]).find(c=>c.id==='hypovolemic-shock');
+if(hypovolemicCase?.code!=='SB-ASH-Y-13'||hypovolemicCase?.page!=='24'||hypovolemicCase?.source?.page!=='24')err('Hipovolemik Şok Y-13/s.24 kaynak izi bozuldu');
+if(!JSON.stringify(hypovolemicCase).includes('80–90 mmHg')||!JSON.stringify(hypovolemicCase).includes('MAP 65–70 mmHg'))err('Hipovolemik Şok SKB/MAP hedefleri eksik');
+if(medByName(hypovolemicCase,'Kristalloid — hemorajik şok')?.authority!=='DIRECT'||medByName(hypovolemicCase,'Kristalloid — non-hemorajik şok')?.authority!=='DIRECT')err('Hipovolemik Şok kristalloid basamakları DIRECT olmalı');
+if(medByName(hypovolemicCase,'Adrenalin')?.authority!=='SKKM'||medByName(hypovolemicCase,'Dopamin')?.authority!=='SKKM')err('Hipovolemik Şok vazopressör basamağı SKKM olmalı');
+
+const heartFailureCase=(CASES||[]).find(c=>c.id==='acute-heart-failure-cardiogenic-shock');
+if(heartFailureCase?.code!=='SB-ASH-Y-14'||heartFailureCase?.page!=='26'||heartFailureCase?.source?.page!=='25–26')err('Y-14 kaynak izi bozuldu');
+if(!JSON.stringify(heartFailureCase).includes('%94–98'))err('Y-14 SpO2 %94–98 hedefi eksik');
+for(const name of ['Furosemid','İzosorbid dinitrat','%0,9 NaCl','Dopamin'])if(medByName(heartFailureCase,name)?.authority!=='SKKM')err(`Y-14 ${name} SKKM telefon simgesiyle eşleşmiyor`);
+if(medByName(heartFailureCase,'Furosemid')?.dose!=='20–40 mg'||medByName(heartFailureCase,'İzosorbid dinitrat')?.dose!=='5 mg'||medByName(heartFailureCase,'Dopamin')?.dose!=='2–5 mcg/kg/dk'||medByName(heartFailureCase,'Dopamin')?.maxDose!=='20 mcg/kg/dk')err('Y-14 ilaç doz sabitlerinden biri bozuldu');
+
+const consciousnessCase=(CASES||[]).find(c=>c.id==='altered-consciousness');
+if(consciousnessCase?.code!=='SB-ASH-Y-16'||consciousnessCase?.page!=='30'||consciousnessCase?.source?.page!=='29–30'||(consciousnessCase?.meds||[]).length)err('Bilinç Değişikliği Y-16 kaynak/ilaç yapısı bozuldu');
+for(const term of ['Travmalı Hastada Acil Olgu Yönetimi','İnme / SVO','Nöbet / Konvülziyon','Zehirlenmelere Genel Yaklaşım','Diyabetik Aciller'])if(!JSON.stringify(consciousnessCase).includes(term))err(`Bilinç Değişikliği yönlendirmesi eksik: ${term}`);
 for(const [i,c] of (CASES||[]).entries()){
   const at=`CASES[${i}] ${c?.id||'(id yok)'}`;
   for(const f of ['id','title','subtitle','category','population','summary','code','page','clinicalStatus'])if(!c?.[f])err(`${at}: ${f} eksik`);

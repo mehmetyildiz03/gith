@@ -1,7 +1,7 @@
 const APP_META = {
   "schemaVersion": 3,
-  "contentVersion": "EK2-2026.08.25-clinical-audit-2026.09.21",
-  "productVersion": "0.9.3",
+  "contentVersion": "EK2-2026.08.25-adult-expansion-2026.09.22",
+  "productVersion": "0.10",
   "populations": [
     {
       "id": "adult",
@@ -48,6 +48,7 @@ const APP_META = {
     "IO",
     "SL",
     "PO",
+    "INHALER",
     "NEB",
     "IN",
     "BUCCAL",
@@ -66,7 +67,8 @@ const APP_META = {
     "BUCCAL": "Bukkal",
     "RECTAL": "Rektal",
     "TOPICAL": "Topikal",
-    "OTHER": "Şemaya göre"
+    "OTHER": "Şemaya göre",
+    "INHALER": "İnhaler"
   },
   "source": {
     "officialPageUrl": "https://acilafet.saglik.gov.tr/TR-119840/hastane-oncesi-acil-tibbi-yardim-ve-bakim-akis-semalari.html",
@@ -75,29 +77,43 @@ const APP_META = {
     "officialPageDate": "2026-09-11"
   },
   "clinicalAudit": {
-    "scope": "17 yetişkin vaka",
+    "scope": "21 yetişkin vaka",
     "source": "T.C. Sağlık Bakanlığı Ek-2 Hastane Öncesi Acil Tıbbi Yardım ve Bakım Akış Şemaları",
     "effectiveDate": "2026-08-25",
     "officialPageDate": "2026-09-11",
-    "reviewedAt": "2026-09-21"
+    "reviewedAt": "2026-09-22"
   },
   "authorityAudit": {
     "source": "25.08.2026 tarihli Ek-2 resmî PDF",
-    "reviewedAt": "2026-09-21",
+    "reviewedAt": "2026-09-22",
     "method": "Telefon/SKKM-ÇM simgesi görsel olarak doğrulandı",
     "scope": [
       "SB-ASH-Y-07",
       "SB-ASH-Y-10",
       "SB-ASH-Y-11",
       "SB-ASH-Y-12",
-      "SB-ASH-Y-19"
+      "SB-ASH-Y-19",
+      "SB-ASH-Y-04",
+      "SB-ASH-Y-05",
+      "SB-ASH-Y-13",
+      "SB-ASH-Y-14"
     ]
   },
   "integrityAudit": {
     "source": "25.08.2026 tarihli Ek-2 resmî PDF",
-    "reviewedAt": "2026-09-21",
-    "scope": "Mevcut 17 yetişkin kartında başlık/kod/PDF sayfa izi ve doğrudan görülen eksik basamaklar",
+    "reviewedAt": "2026-09-22",
+    "scope": "21 yetişkin kartında başlık/kod/PDF sayfa izi ve kaynakla doğrulanan klinik basamaklar",
     "status": "verified"
+  },
+  "expansionAudit": {
+    "reviewedAt": "2026-09-22",
+    "added": [
+      "SB-ASH-Y-04",
+      "SB-ASH-Y-13",
+      "SB-ASH-Y-14",
+      "SB-ASH-Y-16"
+    ],
+    "source": "25.08.2026 tarihli Ek-2 resmî PDF; algoritma ve anahtar nokta sayfaları görsel olarak doğrulandı"
   }
 };
 
@@ -238,6 +254,10 @@ const CASES = [
       ],
       "page": "44–45 / 37",
       "codeStatus": "verified"
+    },
+    "severityView": {
+      "title": "Klinik görünüm",
+      "note": "Bu ayrım hızlı eğitim görünümüdür; resmî arı sokması şemasında ayrı bir üçlü tedavi sınıflaması değildir."
     }
   },
   {
@@ -374,9 +394,9 @@ const CASES = [
     "summary": "Rahat pozisyon, SpO₂ hedefi, bronkodilatörler ve ağır/ölümcül atakta erken hava yolu hazırlığı.",
     "quick": [
       "<strong>Acil olgu yönetimini uygula</strong>; hastayı rahat ettiği, tercihen oturur pozisyonda tut.",
-      "<strong>SpO₂ %94–98</strong> hedefleyerek O₂ ver; gerekirse PBV ile destekle.",
+      "<strong>SpO₂ >%93</strong> olacak şekilde titre ederek O₂ ver; gerekirse PBV ile destekle.",
       "<strong>Damar yolu aç ve %0,9 NaCl (DAKŞ).</strong> Atağın derecesini belirle.",
-      "<strong>Hafif-orta:</strong> salbutamol 4–8 puf veya 2,5–5 mg nebül. <strong>Ağır:</strong> salbutamol 2,5–5 mg + ipratropium 500 mcg nebül."
+      "<strong>Hafif-orta:</strong> salbutamol 4–8 puf inhaler veya 2,5–5 mg nebül. <strong>Ağır:</strong> salbutamol 2,5–5 mg + ipratropium bromür 500 mcg nebül. 20 dk sonra düzelme yoksa SKKM/ÇM basamağına geç."
     ],
     "warningFindings": [
       "Cümle kuramama, ortopne",
@@ -385,18 +405,19 @@ const CASES = [
     ],
     "meds": [
       {
-        "name": "Salbutamol",
-        "dose": "4–8 puf veya 2,5–5 mg nebül",
+        "name": "Salbutamol (ilk basamak)",
+        "dose": "4–8 puf veya 2,5–5 mg",
         "routes": [
+          "INHALER",
           "NEB"
         ],
         "authority": "DIRECT",
-        "repeat": "20 dk arayla",
-        "maxDose": "maksimum 3 uygulama",
-        "note": "4–8 puf inhaler veya 2,5–5 mg nebül; 2026 Ek-2 tekrar aralığına göre."
+        "repeat": "",
+        "maxDose": "",
+        "note": "Hafif-orta atakta ilk bronkodilatör; ağır atakta nebül 2,5–5 mg. İlk basamakta SKKM/ÇM telefon simgesi yok."
       },
       {
-        "name": "İpratropium bromür",
+        "name": "İpratropium bromür (ağır ilk basamak)",
         "dose": "500 mcg",
         "routes": [
           "NEB"
@@ -404,29 +425,41 @@ const CASES = [
         "authority": "DIRECT",
         "repeat": "",
         "maxDose": "",
-        "note": "Salbutamol ile kombine nebül; 2026 Ek-2 başlangıç bronkodilatör basamağında doğrudan."
+        "note": "Ağır atakta ilk salbutamol nebülü ile birlikte; ilk basamakta SKKM/ÇM telefon simgesi yok."
+      },
+      {
+        "name": "Salbutamol + İpratropium (20 dk sonrası)",
+        "dose": "Salbutamol ilk doz şemasına göre + İpratropium 500 mcg",
+        "routes": [
+          "INHALER",
+          "NEB"
+        ],
+        "authority": "SKKM",
+        "repeat": "20 dk arayla",
+        "maxDose": "maksimum 3 uygulama",
+        "note": "20 dk sonra düzelme yoksa telefon simgeli basamak. Hafif-ortada ipratropium inhaler; ağır atakta nebül."
       },
       {
         "name": "Metilprednizolon",
-        "dose": "40 mg IV",
+        "dose": "40 mg",
         "routes": [
           "IV"
         ],
         "authority": "SKKM",
         "repeat": "",
         "maxDose": "",
-        "note": "Resmî şemadaki 20 dk sonrası basamak."
+        "note": "20 dk sonra düzelme yoksa resmî şemadaki telefon simgeli basamak."
       },
       {
         "name": "Magnezyum sülfat",
-        "dose": "1–2 g IV",
+        "dose": "1–2 g",
         "routes": [
           "IV"
         ],
         "authority": "SKKM",
-        "repeat": "",
+        "repeat": "%0,9 NaCl içinde 20–30 dk",
         "maxDose": "",
-        "note": "Ölümcül atakta %0,9 NaCl içinde 20–30 dakikada."
+        "note": "Ölümcül astım atağında, ileri hava yolu hazırlığı ile birlikte telefon simgeli basamak."
       }
     ],
     "decision": {
@@ -439,15 +472,15 @@ const CASES = [
     "clinicalStatus": "reviewed",
     "criticalActions": [
       "Hastayı rahat, tercihen oturur pozisyona al ve atağın ağırlığını değerlendir.",
-      "SpO₂ %94–98 hedefli O₂ ver; gerekirse PBV ile destekle.",
-      "Bronkodilatörü geciktirme; ağır/ölümcül atakta sessiz toraks ve bilinç değişikliğini kırmızı bayrak kabul et."
+      "SpO₂ >%93 olacak şekilde titre ederek O₂ ver; gerekirse PBV ile destekle.",
+      "İlk bronkodilatörü geciktirme; 20 dk sonra düzelme yoksa SKKM/ÇM telefon simgeli tekrar/steroid basamağına geç."
     ],
     "source": {
       "documentId": "EK2-2026",
       "documentTitle": "Hastane Öncesi Acil Tıbbi Yardım ve Bakım Akış Şemaları",
       "effectiveDate": "2026-08-25",
       "officialPageDate": "2026-09-11",
-      "reviewedAt": "2026-09-21",
+      "reviewedAt": "2026-09-22",
       "officialPageUrl": "https://acilafet.saglik.gov.tr/TR-119840/hastane-oncesi-acil-tibbi-yardim-ve-bakim-akis-semalari.html",
       "officialPdfUrl": "https://dosyamerkez.saglik.gov.tr/Eklenti/55773/0/ek-2-hastane-oncesi-acil-tibbi-yardim-ve-bakim-akis-semalaripdf.pdf",
       "section": "adult",
@@ -598,6 +631,142 @@ const CASES = [
       ],
       "page": "8",
       "codeStatus": "verified"
+    }
+  },
+  {
+    "id": "koah",
+    "title": "KOAH",
+    "subtitle": "Hafif-orta / ağır • SpO₂ %88–92",
+    "category": "Solunum",
+    "icon": "🫁",
+    "accent": "#347fa0",
+    "soft": "#e3f4f8",
+    "code": "SB-ASH-Y-04",
+    "page": "10",
+    "uiFeatured": false,
+    "population": "adult",
+    "uiPriority": "high",
+    "clinicalStatus": "reviewed",
+    "summary": "KOAH alevlenmesinde hastayı rahat pozisyonda tut, SpO₂ %88–92 hedefle; ilk bronkodilatörü uygula ve 20 dk yanıta göre SKKM/ÇM ileri basamağına geç.",
+    "severityView": {
+      "title": "KOAH atak şiddeti",
+      "note": "Resmî KOAH Anahtar Noktalarındaki hafif, orta ve ağır akut solunum yetmezliği ölçütleri."
+    },
+    "severity": {
+      "mild": {
+        "label": "Hafif",
+        "bullets": [
+          "Solunum sayısı <24/dk",
+          "Kalp hızı <95/dk",
+          "Oda havasında SpO₂ ≥%92 veya hastanın rutin O₂ seviyesinde",
+          "Aksesuar solunum kası kullanımı ve bilinç değişikliği yok"
+        ],
+        "action": "Rahat pozisyon + SpO₂ %88–92 hedefli O₂; salbutamol + ipratropium ilk basamak tedavisini uygula ve 20 dk sonra değerlendir."
+      },
+      "moderate": {
+        "label": "Orta",
+        "bullets": [
+          "Solunum sayısı >24/dk",
+          "Kalp hızı >95/dk",
+          "Oda havasında veya rutin O₂ seviyesinde SpO₂ <%92",
+          "Oksijen desteği ile hipoksemi görülebilir; aksesuar kas kullanımı vardır, bilinç değişikliği yoktur"
+        ],
+        "action": "İlk bronkodilatörleri uygula; 20 dk sonra yanıt yoksa SKKM/ÇM telefon simgeli tekrar + metilprednizolon basamağına geç."
+      },
+      "severe": {
+        "label": "Ağır",
+        "bullets": [
+          "Solunum sayısı >24/dk ve kalp hızı >95/dk",
+          "SpO₂ <%92 ve O₂ desteği ile hipoksemi düzelmiyor",
+          "Aksesuar solunum kası kullanımı var",
+          "Bilinç değişikliği mevcut"
+        ],
+        "action": "Bronkodilatörleri uygula; 20 dk yanıtsızlıkta SKKM/ÇM basamağına geç. Tedaviye yanıt yoksa ileri hava yolu hazırlığı ve tolere ediyorsa NIMV düşün."
+      }
+    },
+    "criticalActions": [
+      "Acil olgu yönetimini uygula; hastayı rahat ettiği, tercihen oturur pozisyonda tut.",
+      "SpO₂ %88–92 olacak şekilde titre ederek O₂ ver; gerekirse PBV ile solunumu destekle.",
+      "Hafif-orta/ağır ayrımını yap ve salbutamol + ipratropium ilk basamağını geciktirme."
+    ],
+    "quick": [
+      "Rahat/tercihen oturur pozisyon; <strong>SpO₂ %88–92</strong> hedefli O₂, gerekirse PBV.",
+      "<strong>İlk basamak:</strong> salbutamol 4–8 puf veya 2,5–5 mg nebül + ipratropium bromür 500 mcg nebül birlikte.",
+      "<strong>20 dk sonra yanıt yoksa SKKM/ÇM:</strong> salbutamol 2,5 mg + ipratropium bromür 500 mcg; 20 dk arayla en fazla 3 kez + metilprednizolon 40 mg IV.",
+      "<strong>Ağır ve yanıtsız:</strong> ileri hava yolu için hazırlık; tolere eden hastada non-invaziv mekanik ventilasyonu değerlendir."
+    ],
+    "warningFindings": [
+      "O₂ desteğine rağmen hipokseminin düzelmemesi",
+      "Aksesuar solunum kası kullanımı / solunum kas yorgunluğu",
+      "Bilinç değişikliği",
+      "Hemodinamik instabilite veya ventriküler/supraventriküler aritmi"
+    ],
+    "meds": [
+      {
+        "name": "Salbutamol (ilk basamak)",
+        "dose": "4–8 puf veya 2,5–5 mg",
+        "routes": [
+          "INHALER",
+          "NEB"
+        ],
+        "authority": "DIRECT",
+        "repeat": "",
+        "maxDose": "",
+        "note": "İpratropium bromür 500 mcg nebül ile birlikte; ilk basamakta SKKM/ÇM telefon simgesi yok."
+      },
+      {
+        "name": "İpratropium bromür (ilk basamak)",
+        "dose": "500 mcg",
+        "routes": [
+          "NEB"
+        ],
+        "authority": "DIRECT",
+        "repeat": "",
+        "maxDose": "",
+        "note": "İlk salbutamol uygulamasıyla birlikte; SKKM/ÇM telefon simgesi yok."
+      },
+      {
+        "name": "Salbutamol + İpratropium (20 dk sonrası)",
+        "dose": "2,5 mg + 500 mcg",
+        "routes": [
+          "NEB"
+        ],
+        "authority": "SKKM",
+        "repeat": "20 dk arayla",
+        "maxDose": "en fazla 3 tekrar",
+        "note": "20 dk sonra yanıtsızlıkta resmî şemadaki telefon simgeli basamak."
+      },
+      {
+        "name": "Metilprednizolon",
+        "dose": "40 mg",
+        "routes": [
+          "IV"
+        ],
+        "authority": "SKKM",
+        "repeat": "",
+        "maxDose": "",
+        "note": "20 dk sonrası telefon simgeli basamak."
+      }
+    ],
+    "decision": {
+      "q": "20 dk sonra klinik düzelme yeterli mi?",
+      "yes": "Oksijen hedefi ve seri değerlendirmeyi sürdür; her aşamada hastaneye nakil.",
+      "no": "SKKM/ÇM ile salbutamol + ipratropium tekrarları ve metilprednizolon; ağır yanıtsız hastada ileri hava yolu/NIMV basamağı."
+    },
+    "source": {
+      "documentId": "EK2-2026",
+      "documentTitle": "Hastane Öncesi Acil Tıbbi Yardım ve Bakım Akış Şemaları",
+      "effectiveDate": "2026-08-25",
+      "officialPageDate": "2026-09-11",
+      "reviewedAt": "2026-09-22",
+      "officialPageUrl": "https://acilafet.saglik.gov.tr/TR-119840/hastane-oncesi-acil-tibbi-yardim-ve-bakim-akis-semalari.html",
+      "officialPdfUrl": "https://dosyamerkez.saglik.gov.tr/Eklenti/55773/0/ek-2-hastane-oncesi-acil-tibbi-yardim-ve-bakim-akis-semalaripdf.pdf",
+      "section": "adult",
+      "codeStatus": "verified",
+      "algorithmCodes": [
+        "SB-ASH-Y-04"
+      ],
+      "page": "9–10"
     }
   },
   {
@@ -1155,6 +1324,258 @@ const CASES = [
       "q": "ROSC sonrası MAP <65 mmHg, ventriküler ektopi veya başka bir komplikasyon var mı?",
       "yes": "Telefon simgeli ilaç basamaklarında SKKM/ÇM kararıyla ilerle; bradi/taşiaritmi, glisemi ve nöbet için ilgili algoritmaya geç.",
       "no": "SpO₂ %94–98, MAP ≥65 mmHg, 32–37,5°C ısı aralığı, EKG ve vital takibi sürdür."
+    }
+  },
+  {
+    "id": "hypovolemic-shock",
+    "title": "Hipovolemik Şok",
+    "subtitle": "Hemorajik / non-hemorajik • sıvı • MAP",
+    "category": "Dolaşım",
+    "icon": "🩸",
+    "accent": "#b65454",
+    "soft": "#faeaea",
+    "code": "SB-ASH-Y-13",
+    "page": "24",
+    "uiFeatured": false,
+    "population": "adult",
+    "uiPriority": "critical",
+    "clinicalStatus": "reviewed",
+    "summary": "Hemodinamik monitörizasyonu başlat; hemorajik şokta kanamayı kontrol edip düşük hacimli titrasyon, non-hemorajik şokta bolus ve yanıtsız hipotansiyonda SKKM/ÇM vazopressör basamağını uygula.",
+    "criticalActions": [
+      "Acil olgu yönetimi + hemodinamik monitörizasyon; EKG, tansiyon, pulse oksimetri, yüksek doz O₂, geniş damar yolu ve şok pozisyonu.",
+      "Şoku hemorajik / non-hemorajik olarak ayır; hemorajik tabloda kanama kontrolünü geciktirme.",
+      "Sıvı sonrası perfüzyon ve MAP'ı yeniden değerlendir; MAP <65 mmHg ve hipovolemi sürüyorsa SKKM/ÇM vazopressör basamağına geç."
+    ],
+    "quick": [
+      "<strong>Hemorajik şok:</strong> direkt bası, sıkı bandaj/arter bası noktaları, turnike veya kanama durdurucu ajan ile kanama kontrolü.",
+      "Hipotansif hemorajik hastada <strong>%0,9 NaCl veya Ringer Laktat 250–500 mL hızlı infüzyon</strong>; maksimum 1000 mL, SKB <strong>80–90 mmHg</strong> olacak şekilde titre et.",
+      "<strong>Non-hemorajik şok:</strong> %0,9 NaCl veya Ringer Laktat 500–1000 mL bolusu 5–10 dk; sonra volüm durumunu kontrol et ve nedeni tanı/tedavi et. Hedef MAP 65–70 mmHg.",
+      "MAP <65 mmHg ve hipovolemi sürüyor, yanıtsızsa <strong>SKKM/ÇM ile adrenalin 2–10 mcg/dk veya dopamin 5–20 mcg/kg/dk IV infüzyon.</strong>"
+    ],
+    "warningFindings": [
+      "Taşikardi ve hipotansiyon",
+      "Soğuk ekstremiteler / zayıf periferik nabızlar",
+      "Kapiller geri dolum >2 sn",
+      "Artan solunum hızı veya soluk-siyanotik cilt"
+    ],
+    "meds": [
+      {
+        "name": "Kristalloid — hemorajik şok",
+        "dose": "250–500 mL",
+        "routes": [
+          "IV"
+        ],
+        "authority": "DIRECT",
+        "repeat": "Hızlı infüzyon; yanıta göre titre et",
+        "maxDose": "1000 mL",
+        "note": "%0,9 NaCl veya Ringer Laktat; hedef SKB 80–90 mmHg."
+      },
+      {
+        "name": "Kristalloid — non-hemorajik şok",
+        "dose": "500–1000 mL",
+        "routes": [
+          "IV"
+        ],
+        "authority": "DIRECT",
+        "repeat": "5–10 dk bolus",
+        "maxDose": "",
+        "note": "%0,9 NaCl veya Ringer Laktat; bolus sonrası volüm durumunu yeniden değerlendir."
+      },
+      {
+        "name": "Adrenalin",
+        "dose": "2–10 mcg/dk",
+        "routes": [
+          "IV"
+        ],
+        "authority": "SKKM",
+        "repeat": "Titrasyon",
+        "maxDose": "",
+        "note": "MAP <65 mmHg ve hipovolemi devam ediyor, sıvıya yanıt alınamıyorsa telefon simgeli basamak."
+      },
+      {
+        "name": "Dopamin",
+        "dose": "5–20 mcg/kg/dk",
+        "routes": [
+          "IV"
+        ],
+        "authority": "SKKM",
+        "repeat": "Titrasyon",
+        "maxDose": "",
+        "note": "Adrenaline alternatif; MAP <65 mmHg ve devam eden hipovolemide telefon simgeli basamak."
+      }
+    ],
+    "decision": {
+      "q": "Şok hemorajik mi?",
+      "yes": "Kanama kontrolü + 250–500 mL kristalloid hızlı infüzyon; maksimum 1000 mL ve SKB 80–90 mmHg hedefli titrasyon.",
+      "no": "500–1000 mL kristalloid 5–10 dk bolus; nedeni tanı/tedavi et, MAP 65–70 mmHg hedefle; yanıtsız MAP <65'te SKKM/ÇM vazopressör."
+    },
+    "source": {
+      "documentId": "EK2-2026",
+      "documentTitle": "Hastane Öncesi Acil Tıbbi Yardım ve Bakım Akış Şemaları",
+      "effectiveDate": "2026-08-25",
+      "officialPageDate": "2026-09-11",
+      "reviewedAt": "2026-09-22",
+      "officialPageUrl": "https://acilafet.saglik.gov.tr/TR-119840/hastane-oncesi-acil-tibbi-yardim-ve-bakim-akis-semalari.html",
+      "officialPdfUrl": "https://dosyamerkez.saglik.gov.tr/Eklenti/55773/0/ek-2-hastane-oncesi-acil-tibbi-yardim-ve-bakim-akis-semalaripdf.pdf",
+      "section": "adult",
+      "codeStatus": "verified",
+      "algorithmCodes": [
+        "SB-ASH-Y-13"
+      ],
+      "page": "24"
+    }
+  },
+  {
+    "id": "acute-heart-failure-cardiogenic-shock",
+    "title": "Kalp Yetmezliğine Bağlı Akut Akciğer Ödemi ve Kardiyojenik Şok",
+    "subtitle": "Normotansif / hipertansif / kardiyojenik şok",
+    "category": "Kardiyak",
+    "icon": "🫀",
+    "accent": "#4e67b5",
+    "soft": "#e9edfb",
+    "code": "SB-ASH-Y-14",
+    "page": "26",
+    "uiFeatured": false,
+    "population": "adult",
+    "uiPriority": "critical",
+    "clinicalStatus": "reviewed",
+    "summary": "Oksijenasyon ve 12 derivasyon EKG sonrası hemodinamik profile göre normotansif dekompansasyon, hipertansif kalp yetmezliği veya kardiyojenik şok kolunda ilerle.",
+    "criticalActions": [
+      "Acil olgu yönetimini uygula; SpO₂ %94–98 hedefli O₂ ver, gerekirse PBV ile destekle.",
+      "Kardiyak monitörizasyon ve 12 derivasyon EKG yap; yeni iskemi ve aritmiyi ara.",
+      "Hastayı normotansif dekompanse kalp yetmezliği, hipertansif kalp yetmezliği veya kardiyojenik şok profiline ayır."
+    ],
+    "quick": [
+      "<strong>Normotansif dekompanse kalp yetmezliği:</strong> SKKM/ÇM ile furosemid 20–40 mg IV.",
+      "<strong>Hipertansif kalp yetmezliği:</strong> SKKM/ÇM ile izosorbid dinitrat 5 mg SL (maks. 3 doz) + furosemid 20–40 mg IV; non-invaziv mekanik ventilasyon/CPAP düşün.",
+      "<strong>Kardiyojenik şok:</strong> SKKM/ÇM ile hipotansiyon için 250 mL %0,9 NaCl verilebilir.",
+      "Kardiyojenik şokta SKKM/ÇM ile <strong>dopamin 2–5 mcg/kg/dk IV</strong>; gerektiğinde <strong>20 mcg/kg/dk</strong>'ya kadar titre edilebilir."
+    ],
+    "warningFindings": [
+      "Şok bulguları, soğuk terleme ve hipotansiyon",
+      "Pembe köpüklü balgam / bilateral ince raller",
+      "Göğüs ağrısı veya yeni iskemi/aritmi",
+      "Belirgin juguler venöz dolgunluk, periferik ödem ve ağır dispne"
+    ],
+    "meds": [
+      {
+        "name": "Furosemid",
+        "dose": "20–40 mg",
+        "routes": [
+          "IV"
+        ],
+        "authority": "SKKM",
+        "repeat": "",
+        "maxDose": "",
+        "note": "Normotansif dekompanse veya hipertansif kalp yetmezliği kolunda telefon simgeli basamak."
+      },
+      {
+        "name": "İzosorbid dinitrat",
+        "dose": "5 mg",
+        "routes": [
+          "SL"
+        ],
+        "authority": "SKKM",
+        "repeat": "",
+        "maxDose": "maksimum 3 doz",
+        "note": "Hipertansif kalp yetmezliği kolunda telefon simgeli basamak."
+      },
+      {
+        "name": "%0,9 NaCl",
+        "dose": "250 mL",
+        "routes": [
+          "IV"
+        ],
+        "authority": "SKKM",
+        "repeat": "Hipotansiyon için",
+        "maxDose": "",
+        "note": "Kardiyojenik şok kolunda 'verilebilir' şeklinde telefon simgeli basamak."
+      },
+      {
+        "name": "Dopamin",
+        "dose": "2–5 mcg/kg/dk",
+        "routes": [
+          "IV"
+        ],
+        "authority": "SKKM",
+        "repeat": "Titrasyon",
+        "maxDose": "20 mcg/kg/dk",
+        "note": "Kardiyojenik şok kolunda telefon simgeli IV infüzyon."
+      }
+    ],
+    "decision": {
+      "q": "Kardiyojenik şok / hipotansiyon profili var mı?",
+      "yes": "SKKM/ÇM ile 250 mL %0,9 NaCl değerlendir; dopamin 2–5 mcg/kg/dk IV, gerektiğinde 20 mcg/kg/dk'ya kadar titre et.",
+      "no": "Normotansif dekompansasyonda furosemid; hipertansif profilde izosorbid dinitrat + furosemid ve CPAP/NIMV değerlendirmesi."
+    },
+    "source": {
+      "documentId": "EK2-2026",
+      "documentTitle": "Hastane Öncesi Acil Tıbbi Yardım ve Bakım Akış Şemaları",
+      "effectiveDate": "2026-08-25",
+      "officialPageDate": "2026-09-11",
+      "reviewedAt": "2026-09-22",
+      "officialPageUrl": "https://acilafet.saglik.gov.tr/TR-119840/hastane-oncesi-acil-tibbi-yardim-ve-bakim-akis-semalari.html",
+      "officialPdfUrl": "https://dosyamerkez.saglik.gov.tr/Eklenti/55773/0/ek-2-hastane-oncesi-acil-tibbi-yardim-ve-bakim-akis-semalaripdf.pdf",
+      "section": "adult",
+      "codeStatus": "verified",
+      "algorithmCodes": [
+        "SB-ASH-Y-14"
+      ],
+      "page": "25–26"
+    }
+  },
+  {
+    "id": "altered-consciousness",
+    "title": "Bilinç Değişikliği",
+    "subtitle": "Nedeni hızla ayır • ilgili algoritmaya yönlen",
+    "category": "Genel",
+    "icon": "🧠",
+    "accent": "#6c62b7",
+    "soft": "#efedfb",
+    "code": "SB-ASH-Y-16",
+    "page": "30",
+    "uiFeatured": false,
+    "population": "adult",
+    "uiPriority": "high",
+    "clinicalStatus": "reviewed",
+    "summary": "Solunum ve dolaşımı destekle; vital bulgular, EKG ve kan glikozunu değerlendir, ardından travma, inme, nöbet, zehirlenme, dolaşımsal, hipoksi veya glisemik nedenlere yönlen.",
+    "criticalActions": [
+      "Acil olgu yönetimini uygula; solunum ve dolaşımı destekle.",
+      "Vital bulguları ve EKG'yi değerlendir; kan şekerini ölç.",
+      "Nedeni araştır ve saptanan ana nedene ait resmî algoritmaya gecikmeden geç."
+    ],
+    "quick": [
+      "<strong>Öykü:</strong> diyabet, ilaç/toksik maruziyet, tıbbi geçmiş ve travmayı sorgula.",
+      "<strong>Olası nedenler:</strong> kafa travması; SSS (inme, tümör, nöbet, enfeksiyon); kardiyovasküler; enfeksiyon; metabolik; hipoksi; hipo/hiperglisemi; çevresel/zehirlenme; psikiyatrik.",
+      "Travmada Travmalı Hastada Acil Olgu Yönetimi; inmede <strong>İnme / SVO</strong>; nöbette <strong>Nöbet / Konvülziyon</strong>; zehirlenmede <strong>Zehirlenmelere Genel Yaklaşım</strong> algoritmasına geç.",
+      "Dolaşımsal nedende ritim analizi ve ilgili algoritma; hipokside oksijenizasyon/ventilasyon; hipo/hiperglisemide <strong>Diyabetik Aciller</strong> algoritmasına geç."
+    ],
+    "warningFindings": [
+      "Solunum veya dolaşım desteği gerektiren bilinç değişikliği",
+      "Travma, fokal nörolojik bulgu veya nöbet",
+      "Ritim bozukluğu / dolaşımsal neden şüphesi",
+      "Hipoksi, belirgin glukoz bozukluğu veya toksik maruziyet"
+    ],
+    "meds": [],
+    "decision": {
+      "q": "Bilinç değişikliğinin yönlendirdiği belirgin bir neden/algoritma saptandı mı?",
+      "yes": "Travma, İnme/SVO, Nöbet/Konvülziyon, Zehirlenmelere Genel Yaklaşım, ritim algoritmaları veya Diyabetik Acillerden uygun olana geç.",
+      "no": "Oksijenizasyon/ventilasyon ve dolaşım desteğini sürdür; seri vital-EKG-glukoz değerlendirmesiyle nedeni araştırarak hastaneye naklet."
+    },
+    "source": {
+      "documentId": "EK2-2026",
+      "documentTitle": "Hastane Öncesi Acil Tıbbi Yardım ve Bakım Akış Şemaları",
+      "effectiveDate": "2026-08-25",
+      "officialPageDate": "2026-09-11",
+      "reviewedAt": "2026-09-22",
+      "officialPageUrl": "https://acilafet.saglik.gov.tr/TR-119840/hastane-oncesi-acil-tibbi-yardim-ve-bakim-akis-semalari.html",
+      "officialPdfUrl": "https://dosyamerkez.saglik.gov.tr/Eklenti/55773/0/ek-2-hastane-oncesi-acil-tibbi-yardim-ve-bakim-akis-semalaripdf.pdf",
+      "section": "adult",
+      "codeStatus": "verified",
+      "algorithmCodes": [
+        "SB-ASH-Y-16"
+      ],
+      "page": "29–30"
     }
   },
   {
