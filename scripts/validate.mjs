@@ -144,7 +144,7 @@ if(!JSON.stringify(koahCase).includes('%88–92'))err('KOAH SpO2 %88–92 hedefi
 if(!JSON.stringify(koahCase?.severity?.mild?.bullets||[]).includes('O₂ desteğine ihtiyaç olmaması'))err('KOAH hafif kriterinde O₂ desteğine ihtiyaç olmaması eksik');
 if(!JSON.stringify(koahCase?.severity?.moderate?.bullets||[]).includes('Oksijen desteği ile hipoksemi görülmemesi'))err('KOAH orta kriterinde oksijen desteğiyle hipoksemi görülmemesi eksik');
 if(JSON.stringify(koahCase).includes('hipoksemi görülebilir'))err('KOAH orta kriterinde resmî anlamı tersine çeviren hipoksemi ifadesi var');
-if(JSON.stringify(koahCase).includes('20 dk sonra yanıt yoksa'))err('KOAH 20 dk SKKM basamağına resmî şemada olmayan yanıtsızlık koşulu eklenmiş');
+if(JSON.stringify(koahCase).includes('20 dk sonra yanıt yoksa')||JSON.stringify(koahCase).includes('20 dk sonra yanıtsızlıkta'))err('KOAH 20 dk SKKM basamağına resmî şemada olmayan yanıtsızlık koşulu eklenmiş');
 if(koahCase?.decision?.q!=='Ağır akut solunum yetmezliği bulguları var mı?')err('KOAH karar sorusu resmî hafif-orta/ağır ayrımıyla eşleşmiyor');
 if(medByName(koahCase,'Salbutamol (ilk basamak)')?.authority!=='DIRECT'||medByName(koahCase,'İpratropium bromür (ilk basamak)')?.authority!=='DIRECT')err('KOAH ilk bronkodilatörler DIRECT olmalı');
 const koahRepeat=medByName(koahCase,'Salbutamol + İpratropium (20 dk sonrası)');

@@ -790,7 +790,7 @@ const CASES = [
           "Aksesuar solunum kasları kullanımı yok",
           "Bilinç değişikliği yok"
         ],
-        "action": "Rahat pozisyon + SpO₂ %88–92 hedefli O₂; salbutamol + ipratropium ilk basamak tedavisini uygula ve 20 dk sonra değerlendir."
+        "action": "Rahat pozisyon + SpO₂ %88–92 hedefli O₂; salbutamol + ipratropium ilk basamak tedavisini uygula. 20 dk sonraki telefon simgeli tedavi basamağı SKKM/ÇM ile uygulanır."
       },
       "moderate": {
         "label": "Orta",
@@ -867,7 +867,7 @@ const CASES = [
         "authority": "SKKM",
         "repeat": "20 dk arayla",
         "maxDose": "en fazla 3 tekrar",
-        "note": "20 dk sonra yanıtsızlıkta resmî şemadaki telefon simgeli basamak."
+        "note": "20 dk sonraki resmî telefon simgeli basamak; SKKM/ÇM ile uygulanır."
       },
       {
         "name": "Metilprednizolon",
