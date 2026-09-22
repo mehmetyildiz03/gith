@@ -36,10 +36,11 @@ if(!APP_META?.routes?.includes('SC')||APP_META?.routeLabels?.SC!=='Subkutan (SC)
 if(APP_META?.authority?.DIRECT?.symbol!=='✓'||APP_META?.authority?.DIRECT?.visualLabel!=='SKKM/ÇM onayı gerektirmez')err('DIRECT yeşil/doğrudan sembol metası eksik');
 if(APP_META?.authority?.SKKM?.symbol!=='◆'||APP_META?.authority?.SKKM?.visualLabel!=='SKKM/ÇM onayı gerekli')err('SKKM sarı/onay sembol metası eksik');
 if(APP_META?.authority?.ALGORITHM?.symbol!=='•'||APP_META?.authority?.ALGORITHM?.visualLabel!=='Yetki simgesi doğrulanmadı')err('ALGORITHM nötr sembol metası eksik');
-if(APP_META?.contentVersion!=='EK2-2026.08.25-practitioner-authority-3-2026.09.22')err('contentVersion üçüncü uygulayıcı yetki audit paketiyle eşleşmiyor');
-if(APP_META?.productVersion!=='0.17')err('productVersion V0.17 olmalı');
+if(APP_META?.contentVersion!=='EK2-2026.08.25-practitioner-authority-4-2026.09.22')err('contentVersion tamamlanmış yetişkin ilaç uygulayıcı auditiyle eşleşmiyor');
+if(APP_META?.productVersion!=='0.18')err('productVersion V0.18 olmalı');
 if(APP_META?.practitionerAuthority?.ATT_AABT?.officialLabel!=='Acil Tıp Teknisyeni / Teknikeri'||APP_META?.practitionerAuthority?.AABT?.officialLabel!=='Acil Tıp Teknikeri'||APP_META?.practitionerAuthority?.UNVERIFIED?.symbol!=='□')err('ATT/AABT uygulayıcı yetki metası eksik veya bozuk');
-for(const code of ['SB-ASH-Y-04','SB-ASH-Y-05','SB-ASH-Y-06','SB-ASH-Y-07','SB-ASH-Y-08','SB-ASH-Y-09','SB-ASH-Y-10','SB-ASH-Y-11','SB-ASH-Y-12','SB-ASH-Y-13','SB-ASH-Y-14','SB-ASH-Y-15','SB-ASH-Y-17','SB-ASH-Y-19','SB-ASH-Y-21','SB-ASH-Y-22'])if(!APP_META?.practitionerAudit?.verifiedMedicationCases?.includes(code))err(`Uygulayıcı yetki görsel audit izi eksik: ${code}`);
+for(const code of ['SB-ASH-Y-04','SB-ASH-Y-05','SB-ASH-Y-06','SB-ASH-Y-07','SB-ASH-Y-08','SB-ASH-Y-09','SB-ASH-Y-10','SB-ASH-Y-11','SB-ASH-Y-12','SB-ASH-Y-13','SB-ASH-Y-14','SB-ASH-Y-15','SB-ASH-Y-17','SB-ASH-Y-19','SB-ASH-Y-21','SB-ASH-Y-22','SB-ASH-Y-23','SB-ASH-Y-24','SB-ASH-Y-28','SB-ASH-Y-34','SB-ASH-Y-35','SB-ASH-Y-36','SB-ASH-Y-37','SB-ASH-Y-39'])if(!APP_META?.practitionerAudit?.verifiedMedicationCases?.includes(code))err(`Uygulayıcı yetki görsel audit izi eksik: ${code}`);
+if(APP_META?.practitionerAudit?.adultMedicationCardsComplete!==true)err('Yetişkin ilaç kartları uygulayıcı audit tamamlama işareti eksik');
 const strokeCase=(CASES||[]).find(c=>c.id==='stroke');
 if(!strokeCase||strokeCase.title!=='İnme / SVO')err('İnme / SVO başlığı korunmalı');
 const seizureCase=(CASES||[]).find(c=>c.id==='seizure');
@@ -51,6 +52,7 @@ if(!beeCase?.source?.algorithmCodes?.includes('SB-ASH-Y-22')||beeCase?.source?.a
 if(!String(medByName(beeCase,'Adrenalin')?.repeat||'').includes('5 dk'))err('Arı sokması adrenalin 5 dk tekrar bilgisi eksik');
 
 const anaphylaxisCase=(CASES||[]).find(c=>c.id==='anaphylaxis');
+if(JSON.stringify(medByName(anaphylaxisCase,'Salbutamol')?.routes)!==JSON.stringify(['OTHER']))err('Anafilaksi salbutamol yolu resmî Y-22 kutusunda belirtilmediğinden OTHER/Şemaya göre olmalı');
 if(medByName(anaphylaxisCase,'Adrenalin')?.authority!=='DIRECT'||!String(medByName(anaphylaxisCase,'Adrenalin')?.repeat||'').includes('5 dk'))err('Anafilaksi adrenalin doğrudan/5 dk tekrar bilgisi eksik');
 
 const asthmaCase=(CASES||[]).find(c=>c.id==='asthma');
@@ -106,12 +108,14 @@ if(seizureCase?.page!=='33'||medByName(seizureCase,'Valproik asit')?.dose!=='40 
 const burnCase=(CASES||[]).find(c=>c.id==='burn');
 if(!JSON.stringify(burnCase?.quick||[]).includes('(2 × VYA% × kg) / 16 mL/saat'))err('Yanık Parkland/Ringer Laktat 2026 formülü eksik');
 if(medByName(burnCase,'Fentanil')?.dose!=='1 mcg/kg'||medByName(burnCase,'Fentanil')?.authority!=='SKKM')err('Yanık fentanil doz/yetki sabiti bozuldu');
+if(medByName(burnCase,'Ringer Laktat')?.authority!=='DIRECT'||medByName(burnCase,'Ringer Laktat')?.practitionerAuthority!=='AABT'||!String(medByName(burnCase,'Ringer Laktat')?.repeat||'').includes('(2 × VYA% × kg) / 16 mL/saat'))err('Yanık Ringer Laktat doğrudan/AABT/formül kartı eksik');
 
 const adultAuditCases=(CASES||[]).filter(c=>c.population==='adult');
 if(adultAuditCases.length!==37)err('Yetişkin kütüphanesi 37 doğrulanmış vaka olmalı');
 for(const c of adultAuditCases)if(!['2026-09-21','2026-09-22'].includes(c.source?.reviewedAt))err(`${c.id}: beklenmeyen reviewedAt ${c.source?.reviewedAt}`);
 for(const c of adultAuditCases)for(const m of (c.meds||[]))if(!['DIRECT','SKKM'].includes(m.authority))err(`${c.id}/${m.name}: yetişkin ilaç yetkisi telefon simgesi auditinden sonra DIRECT veya SKKM olmalı`);
-for(const id of ['koah','asthma','acs','bradycardia','tachycardia','cardiac-arrest','rosc','hypovolemic-shock','acute-heart-failure-cardiogenic-shock','agitated-patient','hypoglycemia','seizure','allergic-reaction','anaphylaxis']){
+for(const c of adultAuditCases)for(const m of (c.meds||[]))if(!m.practitionerAuthority||m.practitionerAuthority==='UNVERIFIED')err(`${c.id}/${m.name}: yetişkin ilaç kartında uygulayıcı yetki audit sonucu eksik`);
+for(const id of ['koah','asthma','acs','bradycardia','tachycardia','cardiac-arrest','rosc','hypovolemic-shock','acute-heart-failure-cardiogenic-shock','agitated-patient','hypoglycemia','seizure','allergic-reaction','anaphylaxis','bee','hypothermia','hyperthermia','burn','ccb-beta-blocker-poisoning','cholinergic-poisoning','opioid-poisoning','tca-poisoning','crush-syndrome']){
   const c=(CASES||[]).find(x=>x.id===id);
   for(const m of c?.meds||[])if(m.practitionerAuthority!=='AABT')err(`${id}/${m.name}: resmî turuncu kutu AABT uygulayıcı kısıtı olarak kilitlenmeli`);
 }
@@ -249,12 +253,14 @@ if(!JSON.stringify(cholinergicCase).includes('SLUDGE-BBB'))err('Y-35 SLUDGE-BBB 
 
 const opioidCase=(CASES||[]).find(c=>c.id==='opioid-poisoning');
 if(opioidCase?.code!=='SB-ASH-Y-36'||opioidCase?.page!=='62'||opioidCase?.source?.page!=='61–62')err('Opioid Y-36 kaynak izi bozuldu');
+if(medByName(opioidCase,'%0,9 NaCl — hipotansiyon')?.authority!=='DIRECT')err('Opioid hipotansiyon %0,9 NaCl doğrudan basamağı eksik');
 const naloxone=medByName(opioidCase,'Nalokson');
 if(naloxone?.authority!=='SKKM'||naloxone?.dose!=='0,4–2 mg'||naloxone?.maxDose!=='10 mg'||!(naloxone?.routes||[]).includes('SC')||!String(naloxone?.repeat||'').includes('2–3 dk'))err('Y-36 nalokson doz/yol/tekrar/yetki sabiti bozuldu');
 for(const term of ['2 mg IV','0,1–0,4 mg','Diyabetik Aciller'])if(!JSON.stringify(opioidCase).includes(term))err(`Y-36 öğesi eksik: ${term}`);
 
 const tcaCase=(CASES||[]).find(c=>c.id==='tca-poisoning');
 if(tcaCase?.code!=='SB-ASH-Y-37'||tcaCase?.page!=='64'||tcaCase?.source?.page!=='63–64')err('TCA Y-37 kaynak izi bozuldu');
+if(medByName(tcaCase,'%0,9 NaCl — hipotansiyon')?.authority!=='DIRECT')err('TCA hipotansiyon %0,9 NaCl doğrudan basamağı eksik');
 const bicarbonate=medByName(tcaCase,'Sodyum bikarbonat (NaHCO₃)');
 if(bicarbonate?.authority!=='SKKM'||bicarbonate?.dose!=='1–2 mEq/kg'||!String(bicarbonate?.repeat||'').includes('3–5 dk'))err('Y-37 NaHCO3 doz/tekrar/yetki sabiti bozuldu');
 for(const term of ['QRS >0,10 sn','>100 ms','>160 ms'])if(!JSON.stringify(tcaCase).includes(term))err(`Y-37 QRS öğesi eksik: ${term}`);

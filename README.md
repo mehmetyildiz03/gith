@@ -2,9 +2,11 @@
 
 Mobil-first, offline çekirdekli, vaka bazlı hastane öncesi acil sağlık eğitim ve hızlı hatırlatma uygulaması.
 
-## V0.17 mimarisi
+## V0.18 mimarisi
 
 - **Kaynak:** T.C. Sağlık Bakanlığı 25.08.2026 tarihli Ek-2 Hastane Öncesi Acil Tıbbi Yardım ve Bakım Akış Şemaları.
+- **V0.18 yetişkin ilaç uygulayıcı auditi tamamlandı:** Hipertermi Y-23, Hipotermi Y-24, Termal Yanık Y-28, Kalsiyum Kanal/Beta Bloker Zehirlenmesi Y-34, Kolinerjik Zehirlenme Y-35, Opioid Y-36, TCA Y-37 ve Crush Y-39 resmî kutu renkleri de görsel olarak doğrulandı. Mevcut yetişkin ilaç/sıvı kartlarının tamamında uygulayıcı sonucu artık açıkça veri alanında bulunur.
+- **Kaynak sadakati düzeltmeleri:** Termal Yanık Ringer Laktat, Y-34 IV %0,9 NaCl/RL hidrasyon, Y-36 hipotansiyon %0,9 NaCl ve Y-37 hipotansiyon %0,9 NaCl basamakları ilaç/sıvı kartlarına eklendi. Arı Sokması kartındaki Y-22 anafilaksi ilaç setine salbutamol eklendi. Y-22 salbutamol kutusunda uygulama yolu yazmadığı için önceki NEB çıkarımı kaldırılarak `Şemaya göre` yapıldı.
 - **V0.17 uygulayıcı audit paketi:** ROSC Y-12, Hipovolemik Şok Y-13, Kalp Yetmezliğine Bağlı Akut Akciğer Ödemi ve Kardiyojenik Şok Y-14, Ajite Hastaya Yaklaşım Y-15, Diyabetik Aciller Y-17, Nöbet/Konvülziyon Y-19, Alerjik Reaksiyon Y-21 ve Anafilaksi Y-22 ilaç/sıvı kutuları resmî PDF görüntülerinden doğrulandı ve turuncu kutular `Yalnız AABT` olarak işlendi.
 - **Y-17 kapsam düzeltmesi:** Önceki “Hipoglisemi” kartı resmî “Diyabetik Aciller” kapsamına geri getirildi. Glukoz >300 mg/dL kolundaki %0,9 NaCl IV infüzyon ve şok/dehidratasyonda Hipovolemik Şok algoritmasına geçiş eklendi; resmî şemada belirtilmeyen sıvı hacmi/hızı türetilmedi.
 - **V0.16 uygulayıcı audit paketi:** Astım Y-05, AKS Y-06, Bradikardi Y-07, Nabızlı Taşikardi Y-08 ve Kardiyak Arrest Y-09/Y-10/Y-11 ilaç kutuları resmî PDF sayfa görüntülerinden renk bazında doğrulandı; bu paketteki ilaç basamakları turuncu “Acil Tıp Teknikeri” kutusuyla eşleştiği için `Yalnız AABT` kısıtı veri modeline işlendi.

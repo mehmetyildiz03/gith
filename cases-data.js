@@ -1,7 +1,7 @@
 const APP_META = {
   "schemaVersion": 4,
-  "contentVersion": "EK2-2026.08.25-practitioner-authority-3-2026.09.22",
-  "productVersion": "0.17",
+  "contentVersion": "EK2-2026.08.25-practitioner-authority-4-2026.09.22",
+  "productVersion": "0.18",
   "populations": [
     {
       "id": "adult",
@@ -192,8 +192,17 @@ const APP_META = {
       "SB-ASH-Y-17",
       "SB-ASH-Y-19",
       "SB-ASH-Y-21",
-      "SB-ASH-Y-22"
-    ]
+      "SB-ASH-Y-22",
+      "SB-ASH-Y-23",
+      "SB-ASH-Y-24",
+      "SB-ASH-Y-28",
+      "SB-ASH-Y-34",
+      "SB-ASH-Y-35",
+      "SB-ASH-Y-36",
+      "SB-ASH-Y-37",
+      "SB-ASH-Y-39"
+    ],
+    "adultMedicationCardsComplete": true
   },
   "adultCoverage": {
     "reviewedAt": "2026-09-22",
@@ -265,7 +274,8 @@ const CASES = [
         "authority": "DIRECT",
         "repeat": "Hipoperfüzyon sürerse 5 dk içinde",
         "maxDose": "",
-        "note": "Akut başlangıç + yaşamı tehdit eden bulguda. Hipoperfüzyon sürerse 5 dk içinde tekrar."
+        "note": "Akut başlangıç + yaşamı tehdit eden bulguda. Hipoperfüzyon sürerse 5 dk içinde tekrar.",
+        "practitionerAuthority": "AABT"
       },
       {
         "name": "%0,9 NaCl",
@@ -276,7 +286,8 @@ const CASES = [
         "authority": "DIRECT",
         "repeat": "",
         "maxDose": "",
-        "note": "Anafilakside dolaşım desteği; şemadaki sıraya göre."
+        "note": "Anafilakside dolaşım desteği; şemadaki sıraya göre.",
+        "practitionerAuthority": "AABT"
       },
       {
         "name": "Adrenalin infüzyon",
@@ -287,7 +298,8 @@ const CASES = [
         "authority": "SKKM",
         "repeat": "",
         "maxDose": "",
-        "note": "Düzelme olmazsa resmî şemada SKKM/ÇM simgesiyle gösterilmiş."
+        "note": "Düzelme olmazsa resmî şemada SKKM/ÇM simgesiyle gösterilmiş.",
+        "practitionerAuthority": "AABT"
       },
       {
         "name": "Difenhidramin / Feniramin",
@@ -298,7 +310,20 @@ const CASES = [
         "authority": "SKKM",
         "repeat": "",
         "maxDose": "",
-        "note": "Bronkospazm varsa salbutamol 2,5–5 mg; resmî şemadaki ileri basamak."
+        "note": "Anafilaksi Y-22 ileri basamağındaki antihistaminikler; resmî telefon simgeli basamak.",
+        "practitionerAuthority": "AABT"
+      },
+      {
+        "name": "Salbutamol",
+        "dose": "2,5–5 mg",
+        "routes": [
+          "OTHER"
+        ],
+        "authority": "SKKM",
+        "repeat": "",
+        "maxDose": "",
+        "note": "Anafilaksi Y-22'de bronkospazm için; resmî kutu uygulama yolunu belirtmediğinden yol türetilmemiştir.",
+        "practitionerAuthority": "AABT"
       },
       {
         "name": "Metilprednizolon",
@@ -309,7 +334,8 @@ const CASES = [
         "authority": "SKKM",
         "repeat": "",
         "maxDose": "",
-        "note": "Resmî şemada profilaktik basamak olarak gösterilmiş."
+        "note": "Resmî şemada profilaktik basamak olarak gösterilmiş.",
+        "practitionerAuthority": "AABT"
       }
     ],
     "decision": {
@@ -330,7 +356,7 @@ const CASES = [
       "documentTitle": "Hastane Öncesi Acil Tıbbi Yardım ve Bakım Akış Şemaları",
       "effectiveDate": "2026-08-25",
       "officialPageDate": "2026-09-11",
-      "reviewedAt": "2026-09-21",
+      "reviewedAt": "2026-09-22",
       "officialPageUrl": "https://acilafet.saglik.gov.tr/TR-119840/hastane-oncesi-acil-tibbi-yardim-ve-bakim-akis-semalari.html",
       "officialPdfUrl": "https://dosyamerkez.saglik.gov.tr/Eklenti/55773/0/ek-2-hastane-oncesi-acil-tibbi-yardim-ve-bakim-akis-semalaripdf.pdf",
       "section": "adult",
@@ -513,12 +539,12 @@ const CASES = [
         "name": "Salbutamol",
         "dose": "2,5–5 mg",
         "routes": [
-          "NEB"
+          "OTHER"
         ],
         "authority": "SKKM",
         "repeat": "",
         "maxDose": "",
-        "note": "Bronkospazm için.",
+        "note": "Bronkospazm için 2,5–5 mg; resmî Y-22 kutusu uygulama yolunu belirtmediğinden yol türetilmemiştir.",
         "practitionerAuthority": "AABT"
       },
       {
@@ -1004,7 +1030,8 @@ const CASES = [
         "authority": "DIRECT",
         "repeat": "",
         "maxDose": "",
-        "note": "Orta hipotermi basamağında resmî şemada yer alır."
+        "note": "Orta hipotermi basamağında resmî şemada yer alır.",
+        "practitionerAuthority": "AABT"
       }
     ],
     "decision": {
@@ -1025,7 +1052,7 @@ const CASES = [
       "documentTitle": "Hastane Öncesi Acil Tıbbi Yardım ve Bakım Akış Şemaları",
       "effectiveDate": "2026-08-25",
       "officialPageDate": "2026-09-11",
-      "reviewedAt": "2026-09-21",
+      "reviewedAt": "2026-09-22",
       "officialPageUrl": "https://acilafet.saglik.gov.tr/TR-119840/hastane-oncesi-acil-tibbi-yardim-ve-bakim-akis-semalari.html",
       "officialPdfUrl": "https://dosyamerkez.saglik.gov.tr/Eklenti/55773/0/ek-2-hastane-oncesi-acil-tibbi-yardim-ve-bakim-akis-semalaripdf.pdf",
       "section": "adult",
@@ -1179,7 +1206,8 @@ const CASES = [
         "authority": "DIRECT",
         "repeat": "",
         "maxDose": "",
-        "note": "Isı çarpması şemasında; ısı stresinde 1000–2000 ml bolus."
+        "note": "Isı çarpması şemasında; ısı stresinde 1000–2000 ml bolus.",
+        "practitionerAuthority": "AABT"
       }
     ],
     "decision": {
@@ -1200,7 +1228,7 @@ const CASES = [
       "documentTitle": "Hastane Öncesi Acil Tıbbi Yardım ve Bakım Akış Şemaları",
       "effectiveDate": "2026-08-25",
       "officialPageDate": "2026-09-11",
-      "reviewedAt": "2026-09-21",
+      "reviewedAt": "2026-09-22",
       "officialPageUrl": "https://acilafet.saglik.gov.tr/TR-119840/hastane-oncesi-acil-tibbi-yardim-ve-bakim-akis-semalari.html",
       "officialPdfUrl": "https://dosyamerkez.saglik.gov.tr/Eklenti/55773/0/ek-2-hastane-oncesi-acil-tibbi-yardim-ve-bakim-akis-semalaripdf.pdf",
       "section": "adult",
@@ -2329,7 +2357,7 @@ const CASES = [
       "documentTitle": "Hastane Öncesi Acil Tıbbi Yardım ve Bakım Akış Şemaları",
       "effectiveDate": "2026-08-25",
       "officialPageDate": "2026-09-11",
-      "reviewedAt": "2026-09-21",
+      "reviewedAt": "2026-09-22",
       "officialPageUrl": "https://acilafet.saglik.gov.tr/TR-119840/hastane-oncesi-acil-tibbi-yardim-ve-bakim-akis-semalari.html",
       "officialPdfUrl": "https://dosyamerkez.saglik.gov.tr/Eklenti/55773/0/ek-2-hastane-oncesi-acil-tibbi-yardim-ve-bakim-akis-semalaripdf.pdf",
       "section": "adult",
@@ -2360,6 +2388,18 @@ const CASES = [
     ],
     "meds": [
       {
+        "name": "Ringer Laktat",
+        "dose": "500 mL (<1 saat nakil)",
+        "routes": [
+          "OTHER"
+        ],
+        "authority": "DIRECT",
+        "repeat": "Daha uzun nakil: (2 × VYA% × kg) / 16 mL/saat",
+        "maxDose": "",
+        "note": "Resmî Y-28'de Ringer Laktat başla; şok yoksa 1 saatten kısa nakilde 500 mL, daha uzun nakilde erişkin Parkland saatlik başlangıç formülü. Uygulama yolu kutuda açık yazılmadığından türetilmemiştir.",
+        "practitionerAuthority": "AABT"
+      },
+      {
         "name": "Fentanil",
         "dose": "1 mcg/kg",
         "routes": [
@@ -2369,7 +2409,8 @@ const CASES = [
         "authority": "SKKM",
         "repeat": "Ağrıya/şemaya göre",
         "maxDose": "",
-        "note": "2026 Ek-2 yanık algoritmasında ağrı için 1 mcg/kg IV yavaş veya IM; SKKM/ÇM ile."
+        "note": "2026 Ek-2 yanık algoritmasında ağrı için 1 mcg/kg IV yavaş veya IM; SKKM/ÇM ile.",
+        "practitionerAuthority": "AABT"
       }
     ],
     "decision": {
@@ -2682,6 +2723,18 @@ const CASES = [
     ],
     "meds": [
       {
+        "name": "%0,9 NaCl / Ringer Laktat",
+        "dose": "IV hidrasyon",
+        "routes": [
+          "IV"
+        ],
+        "authority": "DIRECT",
+        "repeat": "SKB >90 mmHg hedefiyle",
+        "maxDose": "",
+        "note": "Ciddi bulgu ve hipotansiyonda resmî Y-34'te telefon simgesiz hidrasyon basamağı; hacim/hız belirtilmemiştir.",
+        "practitionerAuthority": "AABT"
+      },
+      {
         "name": "Kalsiyum glukonat",
         "dose": "3 ampul (30 mL)",
         "routes": [
@@ -2690,7 +2743,8 @@ const CASES = [
         "authority": "SKKM",
         "repeat": "",
         "maxDose": "",
-        "note": "Kalsiyum kanal blokeri zehirlenmesinden emin olunan ve hipotansiyonu eşlik eden hastada; 3 ampul (30 mL), 100 mL %0,9 NaCl içinde 10 dakikada IV. Resmî şemada SKKM/ÇM telefon simgeli basamak."
+        "note": "Kalsiyum kanal blokeri zehirlenmesinden emin olunan ve hipotansiyonu eşlik eden hastada; 3 ampul (30 mL), 100 mL %0,9 NaCl içinde 10 dakikada IV. Resmî şemada SKKM/ÇM telefon simgeli basamak.",
+        "practitionerAuthority": "AABT"
       }
     ],
     "decision": {
@@ -2757,7 +2811,8 @@ const CASES = [
         "authority": "DIRECT",
         "repeat": "Trakeobronşiyal sekresyonlar azalıncaya kadar 5 dk'da bir",
         "maxDose": "",
-        "note": "Resmî Y-35 algoritmasında SKKM/ÇM telefon simgesi yoktur; anahtar noktalarda maksimum doz belirtilmemiştir."
+        "note": "Resmî Y-35 algoritmasında SKKM/ÇM telefon simgesi yoktur; anahtar noktalarda maksimum doz belirtilmemiştir.",
+        "practitionerAuthority": "AABT"
       }
     ],
     "decision": {
@@ -2826,7 +2881,20 @@ const CASES = [
         "authority": "SKKM",
         "repeat": "Düzelme olmazsa 2–3 dk; anahtar noktalarda yanıta göre 0,1–0,4 mg titrasyon",
         "maxDose": "10 mg",
-        "note": "Resmî Y-36 telefon simgeli basamak. Anahtar noktada apne/siyanozda 2 mg IV; 0,4–2 mg başlangıç dozu opioid bağımlısı olmayan hasta için belirtilmiştir."
+        "note": "Resmî Y-36 telefon simgeli basamak. Anahtar noktada apne/siyanozda 2 mg IV; 0,4–2 mg başlangıç dozu opioid bağımlısı olmayan hasta için belirtilmiştir.",
+        "practitionerAuthority": "AABT"
+      },
+      {
+        "name": "%0,9 NaCl — hipotansiyon",
+        "dose": "IV yükleme",
+        "routes": [
+          "IV"
+        ],
+        "authority": "DIRECT",
+        "repeat": "",
+        "maxDose": "",
+        "note": "Hipotansiyon varlığında resmî Y-36'da telefon simgesiz %0,9 NaCl IV yükleme basamağı; hacim/hız belirtilmemiştir.",
+        "practitionerAuthority": "AABT"
       }
     ],
     "decision": {
@@ -2892,7 +2960,20 @@ const CASES = [
         "authority": "SKKM",
         "repeat": "3–5 dk'da bir",
         "maxDose": "",
-        "note": "QRS süresi >0,10 sn olduğunda IV puşe; resmî Y-37 algoritmasında SKKM/ÇM telefon simgeli basamak."
+        "note": "QRS süresi >0,10 sn olduğunda IV puşe; resmî Y-37 algoritmasında SKKM/ÇM telefon simgeli basamak.",
+        "practitionerAuthority": "AABT"
+      },
+      {
+        "name": "%0,9 NaCl — hipotansiyon",
+        "dose": "Yükleme",
+        "routes": [
+          "OTHER"
+        ],
+        "authority": "DIRECT",
+        "repeat": "",
+        "maxDose": "",
+        "note": "Hipotansiyon varlığında resmî Y-37'de telefon simgesiz %0,9 NaCl yüklemesi; yol, hacim ve hız açık yazılmadığından türetilmemiştir.",
+        "practitionerAuthority": "AABT"
       }
     ],
     "decision": {
@@ -3029,7 +3110,8 @@ const CASES = [
         "authority": "DIRECT",
         "repeat": "Kurtarma >2 saat: 500 mL/saat veya daha az",
         "maxDose": "",
-        "note": "Resmî algoritmada telefon simgesi olmayan ilk hidrasyon basamağı. Potasyum içeren sıvılar/Ringer Laktat kullanılmaz."
+        "note": "Resmî algoritmada telefon simgesi olmayan ilk hidrasyon basamağı. Potasyum içeren sıvılar/Ringer Laktat kullanılmaz.",
+        "practitionerAuthority": "AABT"
       },
       {
         "name": "%0,9 NaCl (ileri toplam sıvı)",
@@ -3040,7 +3122,8 @@ const CASES = [
         "authority": "SKKM",
         "repeat": "",
         "maxDose": "",
-        "note": "Çeşitli faktörlere göre miktar değişebilir; resmî algoritmada SKKM/ÇM telefon simgeli ileri basamak."
+        "note": "Çeşitli faktörlere göre miktar değişebilir; resmî algoritmada SKKM/ÇM telefon simgeli ileri basamak.",
+        "practitionerAuthority": "AABT"
       },
       {
         "name": "Kalsiyum glukonat %10",
@@ -3051,7 +3134,8 @@ const CASES = [
         "authority": "SKKM",
         "repeat": "",
         "maxDose": "",
-        "note": "Hiperkalemi bulguları varsa 2–3 dk içinde; resmî algoritmada SKKM/ÇM telefon simgeli."
+        "note": "Hiperkalemi bulguları varsa 2–3 dk içinde; resmî algoritmada SKKM/ÇM telefon simgeli.",
+        "practitionerAuthority": "AABT"
       }
     ],
     "decision": {
