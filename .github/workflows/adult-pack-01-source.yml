@@ -1,0 +1,43 @@
+name: Adult pack 01 official source extraction
+on:
+  push:
+    branches: [qa/adult-pack-01-source]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  extract:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install PDF tools
+        run: sudo apt-get update && sudo apt-get install -y poppler-utils
+      - name: Download official 2026 Ek-2 PDF
+        run: |
+          set -e
+          URL="https://dosyamerkez.saglik.gov.tr/Eklenti/55773/0/ek-2-hastane-oncesi-acil-tibbi-yardim-ve-bakim-akis-semalaripdf.pdf"
+          curl -fL --retry 3 --retry-delay 2 -A "Mozilla/5.0" "$URL" -o ek2.pdf
+          pdfinfo ek2.pdf | head -30
+      - name: Extract candidate pages
+        run: |
+          mkdir -p extracts renders
+          for p in $(seq 9 31); do
+            pdftotext -layout -f "$p" -l "$p" ek2.pdf "extracts/pdf-$p.txt" || true
+            echo ""
+            echo "===== PDF PHYSICAL PAGE $p ====="
+            sed -n '1,160p' "extracts/pdf-$p.txt" || true
+          done
+      - name: Render target range
+        run: |
+          for p in $(seq 9 31); do
+            pdftoppm -f "$p" -l "$p" -png -r 170 -singlefile ek2.pdf "renders/pdf-page-$p" >/dev/null 2>&1 || true
+          done
+      - name: Upload source audit
+        uses: actions/upload-artifact@v4
+        with:
+          name: adult-pack-01-official-source
+          path: |
+            extracts/
+            renders/
