@@ -36,10 +36,10 @@ if(!APP_META?.routes?.includes('SC')||APP_META?.routeLabels?.SC!=='Subkutan (SC)
 if(APP_META?.authority?.DIRECT?.symbol!=='✓'||APP_META?.authority?.DIRECT?.visualLabel!=='SKKM/ÇM onayı gerektirmez')err('DIRECT yeşil/doğrudan sembol metası eksik');
 if(APP_META?.authority?.SKKM?.symbol!=='◆'||APP_META?.authority?.SKKM?.visualLabel!=='SKKM/ÇM onayı gerekli')err('SKKM sarı/onay sembol metası eksik');
 if(APP_META?.authority?.ALGORITHM?.symbol!=='•'||APP_META?.authority?.ALGORITHM?.visualLabel!=='Yetki simgesi doğrulanmadı')err('ALGORITHM nötr sembol metası eksik');
-if(APP_META?.contentVersion!=='EK2-2026.08.25-practitioner-authority-1-2026.09.22')err('contentVersion uygulayıcı yetki katmanı sürümüyle eşleşmiyor');
-if(APP_META?.productVersion!=='0.15')err('productVersion V0.15 olmalı');
+if(APP_META?.contentVersion!=='EK2-2026.08.25-practitioner-authority-2-2026.09.22')err('contentVersion ikinci uygulayıcı yetki audit paketiyle eşleşmiyor');
+if(APP_META?.productVersion!=='0.16')err('productVersion V0.16 olmalı');
 if(APP_META?.practitionerAuthority?.ATT_AABT?.officialLabel!=='Acil Tıp Teknisyeni / Teknikeri'||APP_META?.practitionerAuthority?.AABT?.officialLabel!=='Acil Tıp Teknikeri'||APP_META?.practitionerAuthority?.UNVERIFIED?.symbol!=='□')err('ATT/AABT uygulayıcı yetki metası eksik veya bozuk');
-if(!APP_META?.practitionerAudit?.verifiedMedicationCases?.includes('SB-ASH-Y-04'))err('KOAH uygulayıcı yetki görsel audit izi eksik');
+for(const code of ['SB-ASH-Y-04','SB-ASH-Y-05','SB-ASH-Y-06','SB-ASH-Y-07','SB-ASH-Y-08','SB-ASH-Y-09','SB-ASH-Y-10','SB-ASH-Y-11'])if(!APP_META?.practitionerAudit?.verifiedMedicationCases?.includes(code))err(`Uygulayıcı yetki görsel audit izi eksik: ${code}`);
 const strokeCase=(CASES||[]).find(c=>c.id==='stroke');
 if(!strokeCase||strokeCase.title!=='İnme / SVO')err('İnme / SVO başlığı korunmalı');
 const seizureCase=(CASES||[]).find(c=>c.id==='seizure');
@@ -71,7 +71,22 @@ const tachyCase=(CASES||[]).find(c=>c.id==='tachycardia');
 if(tachyCase?.title!=='Nabızlı Taşikardi'||tachyCase?.page!=='17')err('Nabızlı Taşikardi başlık/sayfa sabiti bozuldu');
 const tachyText=JSON.stringify([tachyCase?.quick,tachyCase?.decision]);
 for(const required of ['dar düzenli 100 J','dar düzensiz 200 J','geniş düzenli 100 J','defibrilasyon dozu'])if(!tachyText.includes(required))err(`Taşikardi enerji bilgisi eksik: ${required}`);
-if(medByName(tachyCase,'Amiodaron')?.dose!=='150 mg'||!String(medByName(tachyCase,'Amiodaron')?.repeat||'').includes('10 dakika'))err('Taşikardi amiodaron 150 mg / 10 dk sabiti bozuldu');
+const tachyRequiredMeds=[
+  ['Fentanil','1 mcg/kg'],
+  ['Amiodaron — stabil geniş QRS','150 mg'],
+  ['Magnezyum sülfat','2 g'],
+  ['Adenozin','6 mg'],
+  ['Metoprolol','5 mg'],
+  ['Diltiazem','0,25 mg/kg'],
+  ['Midazolam','0,1 mg/kg'],
+  ['Amiodaron — kardiyoversiyon sonrası','300 mg']
+];
+for(const [name,dose] of tachyRequiredMeds){
+  const m=medByName(tachyCase,name);
+  if(!m||m.dose!==dose||m.authority!=='SKKM'||m.practitionerAuthority!=='AABT')err(`Taşikardi ilaç/doz/SKKM/AABT sabiti bozuldu: ${name}`);
+}
+if(!String(medByName(tachyCase,'Adenozin')?.repeat||'').includes('12 mg')||!String(medByName(tachyCase,'Adenozin')?.note||'').includes('20 mL'))err('Taşikardi adenozin ikinci doz / NaCl bolus bilgisi eksik');
+if(!String(medByName(tachyCase,'Metoprolol')?.repeat||'').includes('3 kez')||!String(medByName(tachyCase,'Diltiazem')?.repeat||'').includes('0,35 mg/kg'))err('Taşikardi metoprolol/diltiazem tekrar bilgisi eksik');
 
 const arrestCase=(CASES||[]).find(c=>c.id==='cardiac-arrest');
 const arrestText=JSON.stringify([arrestCase?.quick,arrestCase?.meds]);
@@ -93,6 +108,10 @@ const adultAuditCases=(CASES||[]).filter(c=>c.population==='adult');
 if(adultAuditCases.length!==37)err('Yetişkin kütüphanesi 37 doğrulanmış vaka olmalı');
 for(const c of adultAuditCases)if(!['2026-09-21','2026-09-22'].includes(c.source?.reviewedAt))err(`${c.id}: beklenmeyen reviewedAt ${c.source?.reviewedAt}`);
 for(const c of adultAuditCases)for(const m of (c.meds||[]))if(!['DIRECT','SKKM'].includes(m.authority))err(`${c.id}/${m.name}: yetişkin ilaç yetkisi telefon simgesi auditinden sonra DIRECT veya SKKM olmalı`);
+for(const id of ['koah','asthma','acs','bradycardia','tachycardia','cardiac-arrest']){
+  const c=(CASES||[]).find(x=>x.id===id);
+  for(const m of c?.meds||[])if(m.practitionerAuthority!=='AABT')err(`${id}/${m.name}: resmî turuncu kutu AABT uygulayıcı kısıtı olarak kilitlenmeli`);
+}
 
 const crushCase=(CASES||[]).find(c=>c.id==='crush-syndrome');
 if(!crushCase||crushCase.code!=='SB-ASH-Y-39'||crushCase.page!=='69'||crushCase.source?.page!=='68–69')err('Crush Sendromu Y-39 kaynak izi bozuk');

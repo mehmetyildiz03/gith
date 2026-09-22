@@ -1,7 +1,7 @@
 const APP_META = {
   "schemaVersion": 4,
-  "contentVersion": "EK2-2026.08.25-practitioner-authority-1-2026.09.22",
-  "productVersion": "0.15",
+  "contentVersion": "EK2-2026.08.25-practitioner-authority-2-2026.09.22",
+  "productVersion": "0.16",
   "populations": [
     {
       "id": "adult",
@@ -177,7 +177,14 @@ const APP_META = {
       "AABT": "Turuncu — Acil Tıp Teknikeri"
     },
     "verifiedMedicationCases": [
-      "SB-ASH-Y-04"
+      "SB-ASH-Y-04",
+      "SB-ASH-Y-05",
+      "SB-ASH-Y-06",
+      "SB-ASH-Y-07",
+      "SB-ASH-Y-08",
+      "SB-ASH-Y-09",
+      "SB-ASH-Y-10",
+      "SB-ASH-Y-11"
     ]
   },
   "adultCoverage": {
@@ -573,7 +580,8 @@ const CASES = [
         "authority": "DIRECT",
         "repeat": "",
         "maxDose": "",
-        "note": "Hafif-orta atakta ilk bronkodilatör; ağır atakta nebül 2,5–5 mg. İlk basamakta SKKM/ÇM telefon simgesi yok."
+        "note": "Hafif-orta atakta ilk bronkodilatör; ağır atakta nebül 2,5–5 mg. İlk basamakta SKKM/ÇM telefon simgesi yok.",
+        "practitionerAuthority": "AABT"
       },
       {
         "name": "İpratropium bromür (ağır ilk basamak)",
@@ -584,7 +592,8 @@ const CASES = [
         "authority": "DIRECT",
         "repeat": "",
         "maxDose": "",
-        "note": "Ağır atakta ilk salbutamol nebülü ile birlikte; ilk basamakta SKKM/ÇM telefon simgesi yok."
+        "note": "Ağır atakta ilk salbutamol nebülü ile birlikte; ilk basamakta SKKM/ÇM telefon simgesi yok.",
+        "practitionerAuthority": "AABT"
       },
       {
         "name": "Salbutamol + İpratropium (20 dk sonrası)",
@@ -596,7 +605,8 @@ const CASES = [
         "authority": "SKKM",
         "repeat": "20 dk arayla",
         "maxDose": "maksimum 3 uygulama",
-        "note": "20 dk sonra düzelme yoksa telefon simgeli basamak. Hafif-ortada ipratropium inhaler; ağır atakta nebül."
+        "note": "20 dk sonra düzelme yoksa telefon simgeli basamak. Hafif-ortada ipratropium inhaler; ağır atakta nebül.",
+        "practitionerAuthority": "AABT"
       },
       {
         "name": "Metilprednizolon",
@@ -607,7 +617,8 @@ const CASES = [
         "authority": "SKKM",
         "repeat": "",
         "maxDose": "",
-        "note": "20 dk sonra düzelme yoksa resmî şemadaki telefon simgeli basamak."
+        "note": "20 dk sonra düzelme yoksa resmî şemadaki telefon simgeli basamak.",
+        "practitionerAuthority": "AABT"
       },
       {
         "name": "Magnezyum sülfat",
@@ -618,7 +629,8 @@ const CASES = [
         "authority": "SKKM",
         "repeat": "%0,9 NaCl içinde 20–30 dk",
         "maxDose": "",
-        "note": "Ölümcül astım atağında, ileri hava yolu hazırlığı ile birlikte telefon simgeli basamak."
+        "note": "Ölümcül astım atağında, ileri hava yolu hazırlığı ile birlikte telefon simgeli basamak.",
+        "practitionerAuthority": "AABT"
       }
     ],
     "decision": {
@@ -684,7 +696,8 @@ const CASES = [
         "authority": "DIRECT",
         "repeat": "",
         "maxDose": "",
-        "note": "Alerji ve aktif kanama kontraendikasyonlarını kontrol et."
+        "note": "Alerji ve aktif kanama kontraendikasyonlarını kontrol et.",
+        "practitionerAuthority": "AABT"
       },
       {
         "name": "İzosorbid dinitrat",
@@ -695,7 +708,8 @@ const CASES = [
         "authority": "SKKM",
         "repeat": "3–5 dk arayla",
         "maxDose": "toplam 3 doz",
-        "note": "Hipotansiyon ve bradikardi yoksa; 3–5 dk arayla toplam 3 doz."
+        "note": "Hipotansiyon ve bradikardi yoksa; 3–5 dk arayla toplam 3 doz.",
+        "practitionerAuthority": "AABT"
       },
       {
         "name": "Fentanil",
@@ -706,7 +720,8 @@ const CASES = [
         "authority": "SKKM",
         "repeat": "",
         "maxDose": "",
-        "note": "Göğüs ağrısı devam ediyor ve hasta tarafından tolere edilemiyorsa."
+        "note": "Göğüs ağrısı devam ediyor ve hasta tarafından tolere edilemiyorsa.",
+        "practitionerAuthority": "AABT"
       }
     ],
     "decision": {
@@ -727,7 +742,7 @@ const CASES = [
       "documentTitle": "Hastane Öncesi Acil Tıbbi Yardım ve Bakım Akış Şemaları",
       "effectiveDate": "2026-08-25",
       "officialPageDate": "2026-09-11",
-      "reviewedAt": "2026-09-21",
+      "reviewedAt": "2026-09-22",
       "officialPageUrl": "https://acilafet.saglik.gov.tr/TR-119840/hastane-oncesi-acil-tibbi-yardim-ve-bakim-akis-semalari.html",
       "officialPdfUrl": "https://dosyamerkez.saglik.gov.tr/Eklenti/55773/0/ek-2-hastane-oncesi-acil-tibbi-yardim-ve-bakim-akis-semalaripdf.pdf",
       "section": "adult",
@@ -1198,7 +1213,7 @@ const CASES = [
       "documentTitle": "Hastane Öncesi Acil Tıbbi Yardım ve Bakım Akış Şemaları",
       "effectiveDate": "2026-08-25",
       "officialPageDate": "2026-09-11",
-      "reviewedAt": "2026-09-21",
+      "reviewedAt": "2026-09-22",
       "officialPageUrl": "https://acilafet.saglik.gov.tr/TR-119840/hastane-oncesi-acil-tibbi-yardim-ve-bakim-akis-semalari.html",
       "officialPdfUrl": "https://dosyamerkez.saglik.gov.tr/Eklenti/55773/0/ek-2-hastane-oncesi-acil-tibbi-yardim-ve-bakim-akis-semalaripdf.pdf",
       "section": "adult",
@@ -1236,7 +1251,8 @@ const CASES = [
         "authority": "DIRECT",
         "repeat": "3–5 dk arayla",
         "maxDose": "3 mg toplam",
-        "note": "2026 güncellemesinde başlangıç dozu 1 mg; doğrudan uygulama olarak özetlenmiştir."
+        "note": "2026 güncellemesinde başlangıç dozu 1 mg; doğrudan uygulama olarak özetlenmiştir.",
+        "practitionerAuthority": "AABT"
       },
       {
         "name": "Dopamin",
@@ -1247,7 +1263,8 @@ const CASES = [
         "authority": "SKKM",
         "repeat": "Titrasyon",
         "maxDose": "",
-        "note": "Atropine yanıtsız semptomatik bradikardide; resmî şemada SKKM/ÇM telefon simgeli ileri basamak."
+        "note": "Atropine yanıtsız semptomatik bradikardide; resmî şemada SKKM/ÇM telefon simgeli ileri basamak.",
+        "practitionerAuthority": "AABT"
       },
       {
         "name": "Adrenalin",
@@ -1258,7 +1275,8 @@ const CASES = [
         "authority": "SKKM",
         "repeat": "Titrasyon",
         "maxDose": "",
-        "note": "Atropine yanıtsız semptomatik bradikardide; resmî şemada SKKM/ÇM telefon simgeli ileri basamak."
+        "note": "Atropine yanıtsız semptomatik bradikardide; resmî şemada SKKM/ÇM telefon simgeli ileri basamak.",
+        "practitionerAuthority": "AABT"
       }
     ],
     "decision": {
@@ -1286,7 +1304,7 @@ const CASES = [
       "documentTitle": "Hastane Öncesi Acil Tıbbi Yardım ve Bakım Akış Şemaları",
       "effectiveDate": "2026-08-25",
       "officialPageDate": "2026-09-11",
-      "reviewedAt": "2026-09-21",
+      "reviewedAt": "2026-09-22",
       "officialPageUrl": "https://acilafet.saglik.gov.tr/TR-119840/hastane-oncesi-acil-tibbi-yardim-ve-bakim-akis-semalari.html",
       "officialPdfUrl": "https://dosyamerkez.saglik.gov.tr/Eklenti/55773/0/ek-2-hastane-oncesi-acil-tibbi-yardim-ve-bakim-akis-semalaripdf.pdf",
       "section": "adult",
@@ -1296,17 +1314,17 @@ const CASES = [
       "page": "17",
       "codeStatus": "verified"
     },
-    "summary": "Önce instabiliteyi belirle; instabil hastada ritim tipine göre 2026 elektriksel tedavi enerjilerini kullan, stabil hastada QRS genişliği ve düzenine göre ilerle.",
+    "summary": "Önce instabiliteyi belirle; devam eden tolere edilemeyen göğüs ağrısında fentanil basamağını, instabil hastada sedasyon + elektriksel tedaviyi, stabil hastada QRS genişliği ve düzenine göre resmî ilaç seçeneklerini uygula.",
     "criticalActions": [
       "Monitörizasyon, damar yolu ve 12 derivasyon EKG'yi başlat.",
       "Senkop/bilinç değişikliği, iskemi, şok veya akut kalp yetmezliği varsa hastayı instabil kabul et.",
       "İnstabil hastada ritim tipine göre elektriksel tedaviyi geciktirme; stabil hastada QRS genişliği ve düzenine göre ilerle."
     ],
     "quick": [
-      "<strong>Stabiliteyi değerlendir.</strong> Senkop/bilinç değişikliği, iskemi, şok veya akut kalp yetmezliği instabilite bulgusudur.",
-      "İnstabil hastada elektriksel tedavi: <strong>dar düzenli 100 J, dar düzensiz 200 J, geniş düzenli 100 J; geniş düzensizde defibrilasyon dozu.</strong>",
-      "Stabil, uygun geniş kompleks/VT basamağında <strong>amiodaron 150 mg IV, %5 dekstroz içinde 10 dakikada</strong> (SKKM/ÇM).",
-      "Dar kompleks ritimlerde düzenlilik, vagal manevra ve uygun antiaritmik basamakları şemaya göre değerlendir."
+      "<strong>Hipoksemi varsa oksijen, damar yolu, monitörizasyon ve 12 derivasyon EKG.</strong> Senkop/ani bilinç değişikliği, iskemik göğüs ağrısı, şok veya akut kalp yetmezliği varsa hastayı instabil kabul et.",
+      "Göğüs ağrısı devam ediyor ve hasta tarafından tolere edilemiyorsa <strong>fentanil 1 mcg/kg IV</strong> için SKKM/ÇM basamağını uygula.",
+      "<strong>İnstabil:</strong> kardiyoversiyon öncesi midazolam 0,1 mg/kg IV ile sedasyon önerilir. Dar düzenli 100 J, dar düzensiz 200 J, geniş düzenli 100 J; geniş düzensizde defibrilasyon dozu. Yanıt yoksa amiodaron 300 mg IV 10 dk ve kardiyoversiyonu tekrarla.",
+      "<strong>Stabil:</strong> QRS genişliği ve düzenine göre ilerle; geniş düzenlide amiodaron, torsades düşünülüyorsa magnezyum sülfat, dar düzenlide adenozin / metoprolol / diltiazem, olası AF'de metoprolol veya diltiazem seçeneklerini resmî şemaya göre uygula."
     ],
     "warningFindings": [
       "Hipotansiyon/şok",
@@ -1317,15 +1335,76 @@ const CASES = [
     ],
     "meds": [
       {
-        "name": "Amiodaron",
+        "name": "Fentanil",
+        "dose": "1 mcg/kg",
+        "routes": [
+          "IV"
+        ],
+        "authority": "SKKM",
+        "repeat": "",
+        "maxDose": "",
+        "note": "Göğüs ağrısı devam ediyor ve hasta tarafından tolere edilemiyorsa.",
+        "practitionerAuthority": "AABT"
+      },
+      {
+        "name": "Amiodaron — stabil geniş QRS",
         "dose": "150 mg",
         "routes": [
           "IV"
         ],
         "authority": "SKKM",
-        "repeat": "10 dakikada infüzyon",
+        "repeat": "%5 dekstroz içinde 10 dk",
         "maxDose": "",
-        "note": "Stabil VT / uygun geniş kompleks ritim basamağında; %5 dekstroz içinde 10 dakikada (SKKM/ÇM)."
+        "note": "Stabil, geniş QRS ve düzenli ritimde ventriküler taşikardi veya belirsiz ritim basamağı.",
+        "practitionerAuthority": "AABT"
+      },
+      {
+        "name": "Magnezyum sülfat",
+        "dose": "2 g",
+        "routes": [
+          "IV"
+        ],
+        "authority": "SKKM",
+        "repeat": "10 dk'da",
+        "maxDose": "",
+        "note": "Stabil, geniş QRS ve düzensiz ritimde Torsades de Pointes düşünülüyorsa.",
+        "practitionerAuthority": "AABT"
+      },
+      {
+        "name": "Adenozin",
+        "dose": "6 mg",
+        "routes": [
+          "IV"
+        ],
+        "authority": "SKKM",
+        "repeat": "Yanıtsızsa 2. doz 12 mg",
+        "maxDose": "",
+        "note": "Stabil, dar QRS ve düzenli ritimde hızlı IV puşe; ardından en az 20 mL %0,9 NaCl IV bolus.",
+        "practitionerAuthority": "AABT"
+      },
+      {
+        "name": "Metoprolol",
+        "dose": "5 mg",
+        "routes": [
+          "IV"
+        ],
+        "authority": "SKKM",
+        "repeat": "3 kez tekrarlanabilir",
+        "maxDose": "",
+        "note": "Stabil dar QRS ritimlerde şemadaki uygun basamakta; adenozin yoksa veya olası atriyal fibrilasyonda.",
+        "practitionerAuthority": "AABT"
+      },
+      {
+        "name": "Diltiazem",
+        "dose": "0,25 mg/kg",
+        "routes": [
+          "IV"
+        ],
+        "authority": "SKKM",
+        "repeat": "İkinci doz 0,35 mg/kg IV",
+        "maxDose": "",
+        "note": "Stabil dar QRS ritimlerde şemadaki uygun basamakta; adenozin yoksa veya olası atriyal fibrilasyonda.",
+        "practitionerAuthority": "AABT"
       },
       {
         "name": "Midazolam",
@@ -1336,7 +1415,20 @@ const CASES = [
         "authority": "SKKM",
         "repeat": "Kardiyoversiyon öncesi",
         "maxDose": "",
-        "note": "Kardiyoversiyon öncesi sedasyon için 2026 güncellemesinde kilo bazlı doz."
+        "note": "İnstabil hastada kardiyoversiyon öncesi sedasyon önerilir.",
+        "practitionerAuthority": "AABT"
+      },
+      {
+        "name": "Amiodaron — kardiyoversiyon sonrası",
+        "dose": "300 mg",
+        "routes": [
+          "IV"
+        ],
+        "authority": "SKKM",
+        "repeat": "10 dk'da",
+        "maxDose": "",
+        "note": "İnstabil hastada kardiyoversiyona yanıt alınamazsa; ardından yanıtsızlık sürerse kardiyoversiyonu tekrarla.",
+        "practitionerAuthority": "AABT"
       }
     ],
     "decision": {
@@ -1364,7 +1456,7 @@ const CASES = [
       "documentTitle": "Hastane Öncesi Acil Tıbbi Yardım ve Bakım Akış Şemaları",
       "effectiveDate": "2026-08-25",
       "officialPageDate": "2026-09-11",
-      "reviewedAt": "2026-09-21",
+      "reviewedAt": "2026-09-22",
       "officialPageUrl": "https://acilafet.saglik.gov.tr/TR-119840/hastane-oncesi-acil-tibbi-yardim-ve-bakim-akis-semalari.html",
       "officialPdfUrl": "https://dosyamerkez.saglik.gov.tr/Eklenti/55773/0/ek-2-hastane-oncesi-acil-tibbi-yardim-ve-bakim-akis-semalaripdf.pdf",
       "section": "adult",
@@ -1405,7 +1497,8 @@ const CASES = [
         "authority": "DIRECT",
         "repeat": "3–5 dk arayla; ritim koluna göre başlangıç zamanı",
         "maxDose": "",
-        "note": "Asistoli/NEA'da damar yolu açılır açılmaz; VF/nVT'de 2. şok sonrası. Resmî arrest şemalarında SKKM/ÇM telefon simgesi yoktur."
+        "note": "Asistoli/NEA'da damar yolu açılır açılmaz; VF/nVT'de 2. şok sonrası. Resmî arrest şemalarında SKKM/ÇM telefon simgesi yoktur.",
+        "practitionerAuthority": "AABT"
       },
       {
         "name": "Amiodaron",
@@ -1417,7 +1510,8 @@ const CASES = [
         "authority": "DIRECT",
         "repeat": "3. şok sonrası 300 mg; 5. şok sonrası 150 mg",
         "maxDose": "",
-        "note": "300 mg: 20 ml %5 dekstroz içinde 2–3 dk; 150 mg tekrar: 10 ml %5 dekstroz içinde 2–3 dk. Telefon simgesi yok."
+        "note": "300 mg: 20 ml %5 dekstroz içinde 2–3 dk; 150 mg tekrar: 10 ml %5 dekstroz içinde 2–3 dk. Telefon simgesi yok.",
+        "practitionerAuthority": "AABT"
       },
       {
         "name": "Lidokain",
@@ -1429,7 +1523,8 @@ const CASES = [
         "authority": "DIRECT",
         "repeat": "3. şok sonrası 1–1,5 mg/kg; 5. şok sonrası 0,5–0,75 mg/kg tekrar",
         "maxDose": "",
-        "note": "Amiodarona alternatif; 2% lidokain IV/IO. Resmî şemada SKKM/ÇM telefon simgesi yok."
+        "note": "Amiodarona alternatif; 2% lidokain IV/IO. Resmî şemada SKKM/ÇM telefon simgesi yok.",
+        "practitionerAuthority": "AABT"
       }
     ],
     "decision": {

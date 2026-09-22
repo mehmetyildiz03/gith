@@ -2,9 +2,11 @@
 
 Mobil-first, offline çekirdekli, vaka bazlı hastane öncesi acil sağlık eğitim ve hızlı hatırlatma uygulaması.
 
-## V0.15 mimarisi
+## V0.16 mimarisi
 
 - **Kaynak:** T.C. Sağlık Bakanlığı 25.08.2026 tarihli Ek-2 Hastane Öncesi Acil Tıbbi Yardım ve Bakım Akış Şemaları.
+- **V0.16 uygulayıcı audit paketi:** Astım Y-05, AKS Y-06, Bradikardi Y-07, Nabızlı Taşikardi Y-08 ve Kardiyak Arrest Y-09/Y-10/Y-11 ilaç kutuları resmî PDF sayfa görüntülerinden renk bazında doğrulandı; bu paketteki ilaç basamakları turuncu “Acil Tıp Teknikeri” kutusuyla eşleştiği için `Yalnız AABT` kısıtı veri modeline işlendi.
+- **Y-08 kaynak sadakati düzeltmesi:** Nabızlı Taşikardi kartındaki eksik resmî ilaç basamakları (fentanil, magnezyum sülfat, adenozin, metoprolol, diltiazem ve kardiyoversiyon sonrası amiodaron 300 mg) eklendi; mevcut amiodaron 150 mg ve midazolam basamakları bağlama göre ayrıştırıldı.
 - **V0.15 uygulayıcı yetki katmanı:** SKKM/ÇM onayı (`authority`) ile resmî kutu renginden okunan ATT/AABT uygulayıcı yetkisi (`practitionerAuthority`) birbirinden ayrıldı. V0.15.1'de arayüz sadeleştirildi: turkuaz “Acil Tıp Teknisyeni / Teknikeri” ve henüz doğrulanmamış basamaklar ilaç kartında ek rozet üretmez; yalnız resmî turuncu “Acil Tıp Teknikeri” kutusu doğrulandığında `Yalnız AABT` kısıtı gösterilir. KOAH Y-04 pilot kapsamı bu modele göre işlenmiştir.
 - **17 yetişkin vaka klinik audit:** 21.09.2026 tarihinde güncel Ek-2 kaynak setiyle başlık, doz, yol, tekrar, yetki, algoritma sırası ve kaynak izi yeniden kontrol edildi; yalnız doğrulanabilen değişiklikler işlendi.
 - **Gri ilaç yetkisi:** SB-ASH-Y-07, Y-10/Y-11, Y-12 ve Y-19 sayfalarındaki SKKM/ÇM telefon ikonları resmî PDF görüntülerinden ayrıca denetlendi; mevcut 17 yetişkin vakada ilaç kartlarında çözümlenmemiş gri yetki kalmadı.
