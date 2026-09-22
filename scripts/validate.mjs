@@ -36,12 +36,13 @@ if(!APP_META?.routes?.includes('SC')||APP_META?.routeLabels?.SC!=='Subkutan (SC)
 if(APP_META?.authority?.DIRECT?.symbol!=='✓'||APP_META?.authority?.DIRECT?.visualLabel!=='SKKM/ÇM onayı gerektirmez')err('DIRECT yeşil/doğrudan sembol metası eksik');
 if(APP_META?.authority?.SKKM?.symbol!=='◆'||APP_META?.authority?.SKKM?.visualLabel!=='SKKM/ÇM onayı gerekli')err('SKKM sarı/onay sembol metası eksik');
 if(APP_META?.authority?.ALGORITHM?.symbol!=='•'||APP_META?.authority?.ALGORITHM?.visualLabel!=='Yetki simgesi doğrulanmadı')err('ALGORITHM nötr sembol metası eksik');
-if(APP_META?.contentVersion!=='EK2-2026.08.25-action-authority-2-2026.09.22')err('contentVersion lineer eylem yetki genişlemesiyle eşleşmiyor');
-if(APP_META?.productVersion!=='0.20')err('productVersion V0.20 olmalı');
+if(APP_META?.contentVersion!=='EK2-2026.08.25-action-authority-3-2026.09.23')err('contentVersion dallı eylem yetki modeliyle eşleşmiyor');
+if(APP_META?.productVersion!=='0.21')err('productVersion V0.21 olmalı');
 if(APP_META?.practitionerAuthority?.ATT_AABT?.officialLabel!=='Acil Tıp Teknisyeni / Teknikeri'||APP_META?.practitionerAuthority?.AABT?.officialLabel!=='Acil Tıp Teknikeri'||APP_META?.practitionerAuthority?.UNVERIFIED?.symbol!=='□')err('ATT/AABT uygulayıcı yetki metası eksik veya bozuk');
 for(const code of ['SB-ASH-Y-04','SB-ASH-Y-05','SB-ASH-Y-06','SB-ASH-Y-07','SB-ASH-Y-08','SB-ASH-Y-09','SB-ASH-Y-10','SB-ASH-Y-11','SB-ASH-Y-12','SB-ASH-Y-13','SB-ASH-Y-14','SB-ASH-Y-15','SB-ASH-Y-17','SB-ASH-Y-19','SB-ASH-Y-21','SB-ASH-Y-22','SB-ASH-Y-23','SB-ASH-Y-24','SB-ASH-Y-28','SB-ASH-Y-34','SB-ASH-Y-35','SB-ASH-Y-36','SB-ASH-Y-37','SB-ASH-Y-39'])if(!APP_META?.practitionerAudit?.verifiedMedicationCases?.includes(code))err(`Uygulayıcı yetki görsel audit izi eksik: ${code}`);
 if(APP_META?.practitionerAudit?.adultMedicationCardsComplete!==true)err('Yetişkin ilaç kartları uygulayıcı audit tamamlama işareti eksik');
-for(const code of ['SB-ASH-Y-04','SB-ASH-Y-05','SB-ASH-Y-06','SB-ASH-Y-07'])if(!APP_META?.actionAudit?.verifiedCases?.includes(code))err(`Adım bazlı eylem yetki audit izi eksik: ${code}`);
+for(const code of ['SB-ASH-Y-04','SB-ASH-Y-05','SB-ASH-Y-06','SB-ASH-Y-07','SB-ASH-Y-08'])if(!APP_META?.actionAudit?.verifiedCases?.includes(code))err(`Adım bazlı eylem yetki audit izi eksik: ${code}`);
+if(!APP_META?.actionAudit?.verifiedBranchCases?.includes('SB-ASH-Y-08'))err('Y-08 dallı algoritma audit izi eksik');
 if(APP_META?.actionAudit?.pilot!==true)err('Adım bazlı eylem yetki katmanı pilot/incremental işareti eksik');
 const strokeCase=(CASES||[]).find(c=>c.id==='stroke');
 if(!strokeCase||strokeCase.title!=='İnme / SVO')err('İnme / SVO başlığı korunmalı');
@@ -91,6 +92,26 @@ for(const [name,dose] of tachyRequiredMeds){
 }
 if(!String(medByName(tachyCase,'Adenozin')?.repeat||'').includes('12 mg')||!String(medByName(tachyCase,'Adenozin')?.note||'').includes('20 mL'))err('Taşikardi adenozin ikinci doz / NaCl bolus bilgisi eksik');
 if(!String(medByName(tachyCase,'Metoprolol')?.repeat||'').includes('3 kez')||!String(medByName(tachyCase,'Diltiazem')?.repeat||'').includes('0,35 mg/kg'))err('Taşikardi metoprolol/diltiazem tekrar bilgisi eksik');
+if((tachyCase?.algorithmSteps||[]).length!==2)err('Y-08 ortak başlangıç algorithmSteps sayısı 2 olmalı');
+if(tachyCase?.algorithmSteps?.[0]?.practitionerAuthority!=='ATT_AABT'||tachyCase?.algorithmSteps?.[0]?.approvalAuthority!=='DIRECT')err('Y-08 ortak başlangıç turkuaz/DIRECT olmalı');
+if(tachyCase?.algorithmSteps?.[1]?.practitionerAuthority!=='AABT'||tachyCase?.algorithmSteps?.[1]?.approvalAuthority!=='SKKM')err('Y-08 fentanil turuncu/SKKM olmalı');
+const tachyStable=(tachyCase?.algorithmBranches||[]).find(b=>b.label==='Stabil');
+const tachyUnstable=(tachyCase?.algorithmBranches||[]).find(b=>b.label==='Anstabil');
+if(!tachyStable||!tachyUnstable)err('Y-08 Stabil/Anstabil üst dalları eksik');
+const wideQrs=(tachyStable?.branches||[]).find(b=>b.label==='Geniş QRS');
+const narrowQrs=(tachyStable?.branches||[]).find(b=>b.label==='Dar QRS');
+if(!wideQrs||!narrowQrs)err('Y-08 stabil Geniş/Dar QRS dalları eksik');
+const narrowRegular=(narrowQrs?.branches||[]).find(b=>b.label==='Düzenli');
+const vagalStep=(narrowRegular?.steps||[]).find(s=>String(s.html).includes('Vagal manevra'));
+if(vagalStep?.approvalAuthority!=='DIRECT'||vagalStep?.practitionerAuthority!=='AABT')err('Y-08 vagal manevra turuncu fakat SKKM/ÇM telefon simgesiz olmalı');
+const unstableCv=(tachyUnstable?.steps||[]).find(s=>String(s.html).includes('Senkronize kardiyoversiyon'));
+if(unstableCv?.approvalAuthority!=='DIRECT'||unstableCv?.practitionerAuthority!=='AABT')err('Y-08 ilk anstabil kardiyoversiyon turuncu fakat SKKM/ÇM telefon simgesiz olmalı');
+const unstableSed=(tachyUnstable?.steps||[]).find(s=>String(s.html).includes('midazolam'));
+const unstableNoResponse=(tachyUnstable?.steps||[]).find(s=>String(s.html).includes('amiodaron 300 mg'));
+if(unstableSed?.approvalAuthority!=='SKKM'||unstableNoResponse?.approvalAuthority!=='SKKM')err('Y-08 sedasyon/yanıtsızlık basamakları SKKM/ÇM telefon simgeli olmalı');
+const wideRegular=(wideQrs?.branches||[]).find(b=>b.label==='Düzenli');
+const stableCv=(wideRegular?.steps||[]).find(s=>String(s.html).includes('kardiyoversiyon'));
+if(stableCv?.approvalAuthority!=='SKKM'||stableCv?.practitionerAuthority!=='AABT')err('Y-08 stabil geniş-düzenli yanıtsızlık kardiyoversiyonu turuncu/SKKM olmalı');
 
 const arrestCase=(CASES||[]).find(c=>c.id==='cardiac-arrest');
 const arrestText=JSON.stringify([arrestCase?.quick,arrestCase?.meds]);
@@ -311,6 +332,27 @@ for(const [i,c] of (CASES||[]).entries()){
       if(!allowedAuthority.has(step?.approvalAuthority))err(`${st}: approvalAuthority geçersiz (${step?.approvalAuthority})`);
       if(!allowedPractitionerAuthority.has(step?.practitionerAuthority))err(`${st}: practitionerAuthority geçersiz (${step?.practitionerAuthority})`);
     }
+  }
+  if(c.algorithmBranches!==undefined){
+    if(!Array.isArray(c.algorithmBranches)||!c.algorithmBranches.length)err(`${at}: algorithmBranches boş/geçersiz`);
+    const validateBranches=(branches,pathLabel)=>{
+      for(const [bi,branch] of (branches||[]).entries()){
+        const bt=`${pathLabel}[${bi}]`;
+        if(!branch?.label)err(`${bt}: label eksik`);
+        for(const [si,step] of (branch?.steps||[]).entries()){
+          const st=`${bt}.steps[${si}]`;
+          if(!step?.html)err(`${st}: html eksik`);
+          if(!allowedAuthority.has(step?.approvalAuthority))err(`${st}: approvalAuthority geçersiz (${step?.approvalAuthority})`);
+          if(!allowedPractitionerAuthority.has(step?.practitionerAuthority))err(`${st}: practitionerAuthority geçersiz (${step?.practitionerAuthority})`);
+        }
+        if(branch?.branches!==undefined){
+          if(!Array.isArray(branch.branches)||!branch.branches.length)err(`${bt}: alt branches boş/geçersiz`);
+          else validateBranches(branch.branches,`${bt}.branches`);
+        }
+        if(!(branch?.steps?.length||branch?.branches?.length))err(`${bt}: steps veya branches içermeli`);
+      }
+    };
+    validateBranches(c.algorithmBranches,`${at} algorithmBranches`);
   }
   if(!Array.isArray(c.warningFindings)||!c.warningFindings.length)err(`${at}: warningFindings eksik`);
   if(!c.decision?.q||!c.decision?.yes||!c.decision?.no)err(`${at}: decision eksik`);

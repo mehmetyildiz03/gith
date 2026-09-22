@@ -64,11 +64,16 @@ function toggleDensity(){
 }
 function updateNetwork(){const online=navigator.onLine;el.network.dataset.state=online?'online':'offline';el.network.querySelector('span:last-child').textContent=online?'Çevrimiçi':'Çevrimdışı';el.offline.classList.toggle('hidden',online)}
 
+function algorithmStepSearch(step){return [step?.html,APP_META.authority?.[step?.approvalAuthority]?.label,APP_META.practitionerAuthority?.[step?.practitionerAuthority]?.label,APP_META.practitionerAuthority?.[step?.practitionerAuthority]?.officialLabel]}
+function algorithmBranchSearch(branches=[]){
+  return branches.flatMap(branch=>[branch?.label,branch?.note,...(branch?.steps||[]).flatMap(algorithmStepSearch),...algorithmBranchSearch(branch?.branches||[])]);
+}
 function searchText(c){
   const sev=c.severity?Object.values(c.severity).flatMap(s=>[s.label,...s.bullets,s.action]):[];
   const meds=(c.meds||[]).flatMap(m=>[m.name,m.dose,...(m.routes||[]).flatMap(r=>[r,routeLabel(r)]),m.repeat,m.maxDose,m.note,APP_META.authority[m.authority]?.label,APP_META.practitionerAuthority?.[m.practitionerAuthority||'UNVERIFIED']?.label,APP_META.practitionerAuthority?.[m.practitionerAuthority||'UNVERIFIED']?.officialLabel]);
-  const algorithmSteps=(c.algorithmSteps||[]).flatMap(s=>[s.html,APP_META.authority?.[s.approvalAuthority]?.label,APP_META.practitionerAuthority?.[s.practitionerAuthority]?.label,APP_META.practitionerAuthority?.[s.practitionerAuthority]?.officialLabel]);
-  return [c.title,c.subtitle,c.category,c.code,c.summary,...c.criticalActions,...c.quick,...algorithmSteps,...c.warningFindings,c.decision?.q,c.decision?.yes,c.decision?.no,...sev,...meds].filter(Boolean).map(strip).join(' ').toLocaleLowerCase('tr-TR');
+  const algorithmSteps=(c.algorithmSteps||[]).flatMap(algorithmStepSearch);
+  const algorithmBranches=algorithmBranchSearch(c.algorithmBranches||[]);
+  return [c.title,c.subtitle,c.category,c.code,c.summary,...c.criticalActions,...c.quick,...algorithmSteps,...algorithmBranches,...c.warningFindings,c.decision?.q,c.decision?.yes,c.decision?.no,...sev,...meds].filter(Boolean).map(strip).join(' ').toLocaleLowerCase('tr-TR');
 }
 function priorityRank(c){return ({critical:0,high:1,standard:2}[c.uiPriority]??9)}
 function visibleCases(){
@@ -123,12 +128,24 @@ function renderAll(){ensurePopulationAvailable();renderAppMeta();renderPopulatio
 function authorityBadge(m){return authorityMarkup(m.authority)}
 function practitionerBadge(m){return practitionerMarkup(m.practitionerAuthority||'UNVERIFIED')}
 function renderMeds(c){if(!c.meds?.length)return '';return `<section class="detail-section meds-section" id="medications"><div class="detail-heading"><span class="tiny-icon">Rx</span><div><h3>İlaç / uygulama özeti</h3><p><span class="inline-authority-key direct-key">✓ Yeşil: SKKM/ÇM onayı yok</span> <span class="inline-authority-key skkm-key">◆ Sarı: SKKM/ÇM onayı</span></p></div></div><div class="med-list">${c.meds.map(m=>`<article class="med-card"><div class="med-main"><div><strong>${esc(m.name)}</strong><span class="dose">${esc(m.dose)}</span></div><div class="med-badges" aria-label="Yetki göstergeleri">${authorityBadge(m)}${practitionerBadge(m)}</div></div><div class="med-meta"><span>Yol: <b>${esc((m.routes||[]).map(routeLabel).join(' / '))}</b></span>${m.repeat?`<span>Tekrar: <b>${esc(m.repeat)}</b></span>`:''}${m.maxDose?`<span>Maks: <b>${esc(m.maxDose)}</b></span>`:''}</div><p>${esc(m.note)}</p></article>`).join('')}</div><div class="authority-warning">“Yalnız AABT” rozeti yalnız resmî turuncu kutu görsel olarak doğrulandığında gösterilir. Rozet olmaması ATT yetkisini tek başına doğrulamaz; resmî şema ve kurum yetkisi esastır.</div></section>`}
+function renderActionStep(step,{branch=false}={}){
+  const restriction=practitionerMarkup(step.practitionerAuthority||'UNVERIFIED');
+  const cls=branch?'algo-step':'quick-step';
+  return `<div class="${cls}"><div class="${branch?'algo-step-copy':'quick-step-copy'}">${step.html}</div>${restriction?`<div class="${branch?'algo-step-restriction':'quick-step-restriction'}">${restriction}</div>`:''}</div>`;
+}
 function renderAlgorithmSteps(c){
   const steps=c.algorithmSteps?.length?c.algorithmSteps:(c.quick||[]).map(html=>({html}));
-  return steps.map(step=>{
-    const restriction=practitionerMarkup(step.practitionerAuthority||'UNVERIFIED');
-    return `<div class="quick-step"><div class="quick-step-copy">${step.html}</div>${restriction?`<div class="quick-step-restriction">${restriction}</div>`:''}</div>`;
-  }).join('');
+  return steps.map(step=>renderActionStep(step)).join('');
+}
+function renderAlgorithmBranch(branch,depth=0){
+  const safeDepth=Math.min(depth,3);
+  const steps=(branch.steps||[]).map(step=>renderActionStep(step,{branch:true})).join('');
+  const children=(branch.branches||[]).map(child=>renderAlgorithmBranch(child,depth+1)).join('');
+  return `<section class="algo-branch algo-depth-${safeDepth}"><div class="algo-branch-head"><strong>${esc(branch.label)}</strong>${branch.note?`<p>${esc(branch.note)}</p>`:''}</div>${steps?`<div class="algo-branch-steps">${steps}</div>`:''}${children?`<div class="algo-branch-children">${children}</div>`:''}</section>`;
+}
+function renderAlgorithmBranches(c){
+  if(!c.algorithmBranches?.length)return '';
+  return `<div class="algorithm-branches" aria-label="Algoritma dalları">${c.algorithmBranches.map(branch=>renderAlgorithmBranch(branch)).join('')}</div>`;
 }
 function renderSeverity(c,level='mild'){if(!c.severity)return '';const s=c.severity[level];return `<div class="severity-card ${level}" id="severityCard"><div class="severity-head"><span class="level-dot"></span><strong>${esc(s.label)}</strong></div><ul>${s.bullets.map(b=>`<li>${esc(b)}</li>`).join('')}</ul><div class="action-box"><b>Ne yap?</b><p>${esc(s.action)}</p></div></div>`}
 function renderSource(c){const s=c.source;const codes=s.algorithmCodes?.length?s.algorithmCodes.join(' + '):'Sayfa referansı';return `<section class="detail-section source-section subdued-section" id="source"><div class="detail-heading"><span class="tiny-icon">§</span><div><h3>Kaynak izi</h3><p>Bu kartın hangi resmî sürüme dayandığını gösterir.</p></div></div><div class="source-grid"><div><span>Belge</span><strong>${esc(s.documentId)}</strong></div><div><span>Kod</span><strong>${esc(codes)}</strong></div><div><span>PDF sayfa</span><strong>${esc(s.page)}</strong></div><div><span>İnceleme</span><strong>${esc(s.reviewedAt)}</strong></div></div><div class="source-actions"><a href="${esc(s.officialPageUrl)}" target="_blank" rel="noopener">Resmî sayfa ↗</a><a href="${esc(s.officialPdfUrl)}" target="_blank" rel="noopener">Ek‑2 PDF ↗</a></div><p class="source-disclaimer">Çevrimdışıyken vaka içeriği kullanılabilir; resmî dış bağlantılar internet gerektirebilir. Resmî belge her zaman son referanstır.</p></section>`}
@@ -140,7 +157,7 @@ function openCase(id){
   <div class="detail-body" style="${caseStyle(c)}">
     <section class="first30-card" id="critical-actions"><div class="first30-head"><span>ÖNCE</span><div><strong>İlk Kritik Adımlar</strong><p>Önce bunları gör; ardından algoritma ve karar ayrıntısına ilerle.</p></div></div><ol>${c.criticalActions.map(x=>`<li>${esc(x)}</li>`).join('')}</ol></section>
     <section class="case-summary"><span class="case-category">${esc(c.category)}</span><p>${esc(c.summary)}</p></section>
-    <section class="detail-section emphasis" id="algorithm"><div class="detail-heading"><span class="tiny-icon">↯</span><div><h3>İlk bakışta algoritma</h3><p>Sıralamayı seri klinik yeniden değerlendirmeyle birlikte oku.</p></div></div><div class="quick-steps">${renderAlgorithmSteps(c)}</div></section>
+    <section class="detail-section emphasis" id="algorithm"><div class="detail-heading"><span class="tiny-icon">↯</span><div><h3>İlk bakışta algoritma</h3><p>Sıralamayı seri klinik yeniden değerlendirmeyle birlikte oku.</p></div></div><div class="quick-steps">${renderAlgorithmSteps(c)}</div>${renderAlgorithmBranches(c)}</section>
     ${c.severity?`<section class="detail-section" id="severity"><div class="detail-heading"><span class="tiny-icon">3</span><div><h3>${esc(c.severityView?.title||'Klinik ayrım')}</h3><p>${esc(c.severityView?.note||'Klinik ayrımı resmî kaynakla birlikte değerlendir.')}</p></div></div><div class="severity-tabs" role="tablist"><button type="button" role="tab" aria-selected="true" class="severity-tab active" data-level="mild">${esc(c.severity.mild.label)}</button><button type="button" role="tab" aria-selected="false" class="severity-tab" data-level="moderate">${esc(c.severity.moderate.label)}</button><button type="button" role="tab" aria-selected="false" class="severity-tab" data-level="severe">${esc(c.severity.severe.label)}</button></div>${renderSeverity(c)}</section>`:''}
     <div class="detail-columns"><section class="detail-section critical-section" id="red-flags"><div class="detail-heading"><span class="tiny-icon danger">!</span><div><h3>Acil Uyarı Bulguları</h3><p>Önceliği, müdahaleyi veya nakil kararını değiştirebilecek bulgular.</p></div></div><div class="red-flag-list">${c.warningFindings.map(r=>`<div class="red-flag">${esc(r)}</div>`).join('')}</div></section><section class="detail-section decision-section" id="decision"><div class="detail-heading"><span class="tiny-icon">◇</span><div><h3>Karar noktası</h3><p>Şemadaki ana dallanma.</p></div></div><div class="decision-box"><strong>${esc(c.decision.q)}</strong><div class="decision-branches"><div class="branch yes"><b>EVET</b><span>${esc(c.decision.yes)}</span></div><div class="branch no"><b>HAYIR</b><span>${esc(c.decision.no)}</span></div></div></div></section></div>
     ${renderMeds(c)}${renderSource(c)}

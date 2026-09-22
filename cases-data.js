@@ -1,7 +1,7 @@
 const APP_META = {
   "schemaVersion": 4,
-  "contentVersion": "EK2-2026.08.25-action-authority-2-2026.09.22",
-  "productVersion": "0.20",
+  "contentVersion": "EK2-2026.08.25-action-authority-3-2026.09.23",
+  "productVersion": "0.21",
   "populations": [
     {
       "id": "adult",
@@ -212,7 +212,11 @@ const APP_META = {
       "SB-ASH-Y-04",
       "SB-ASH-Y-05",
       "SB-ASH-Y-06",
-      "SB-ASH-Y-07"
+      "SB-ASH-Y-07",
+      "SB-ASH-Y-08"
+    ],
+    "verifiedBranchCases": [
+      "SB-ASH-Y-08"
     ],
     "pilot": true
   },
@@ -1449,7 +1453,7 @@ const CASES = [
       "documentTitle": "Hastane Öncesi Acil Tıbbi Yardım ve Bakım Akış Şemaları",
       "effectiveDate": "2026-08-25",
       "officialPageDate": "2026-09-11",
-      "reviewedAt": "2026-09-22",
+      "reviewedAt": "2026-09-23",
       "officialPageUrl": "https://acilafet.saglik.gov.tr/TR-119840/hastane-oncesi-acil-tibbi-yardim-ve-bakim-akis-semalari.html",
       "officialPdfUrl": "https://dosyamerkez.saglik.gov.tr/Eklenti/55773/0/ek-2-hastane-oncesi-acil-tibbi-yardim-ve-bakim-akis-semalaripdf.pdf",
       "section": "adult",
@@ -1580,7 +1584,107 @@ const CASES = [
       "q": "Taşikardi instabilite bulgusu oluşturuyor mu?",
       "yes": "Ritim tipine göre elektriksel tedavi: dar düzenli 100 J; dar düzensiz 200 J; geniş düzenli 100 J; geniş düzensizde defibrilasyon dozu. Kardiyoversiyon gereken hastada sedasyonu şemaya göre uygula.",
       "no": "QRS genişliği ve düzenine göre stabil taşikardi koluna geç."
-    }
+    },
+    "algorithmSteps": [
+      {
+        "html": "<strong>Başlangıç:</strong> acil olgu yönetimini uygula. Hipoksemikse oksijen başla; damar yolu, monitörizasyon ve 12 derivasyon EKG. Stabiliteyi senkop/ani bilinç değişikliği, iskemik göğüs ağrısı, şok bulguları ve akut kalp yetmezliği açısından değerlendir.",
+        "approvalAuthority": "DIRECT",
+        "practitionerAuthority": "ATT_AABT"
+      },
+      {
+        "html": "<strong>Göğüs ağrısı devam ediyor ve hasta tarafından tolere edilemiyorsa:</strong> fentanil 1 mcg/kg IV.",
+        "approvalAuthority": "SKKM",
+        "practitionerAuthority": "AABT"
+      }
+    ],
+    "algorithmBranches": [
+      {
+        "label": "Stabil",
+        "note": "QRS genişliği ve ritim düzenine göre ilerle.",
+        "branches": [
+          {
+            "label": "Geniş QRS",
+            "branches": [
+              {
+                "label": "Düzenli",
+                "steps": [
+                  {
+                    "html": "Ventriküler taşikardi ya da belirsiz ritim ise <strong>amiodaron 150 mg IV</strong>, %5 dekstroz ile 10 dk'da. Önceden kesin tanılı dal bloklu SVT varsa düzensiz dar kompleks gibi tedavi et.",
+                    "approvalAuthority": "SKKM",
+                    "practitionerAuthority": "AABT"
+                  },
+                  {
+                    "html": "Etkisizse <strong>kardiyoversiyon</strong> (sedasyon sonrası).",
+                    "approvalAuthority": "SKKM",
+                    "practitionerAuthority": "AABT"
+                  }
+                ]
+              },
+              {
+                "label": "Düzensiz",
+                "steps": [
+                  {
+                    "html": "Dal bloklu atriyal fibrilasyon ise dar kompleks gibi tedavi et. Torsades de Pointes düşünülüyorsa <strong>magnezyum sülfat 2 g IV, 10 dk'da</strong>.",
+                    "approvalAuthority": "SKKM",
+                    "practitionerAuthority": "AABT"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "label": "Dar QRS",
+            "branches": [
+              {
+                "label": "Düzenli",
+                "steps": [
+                  {
+                    "html": "<strong>Vagal manevra uygula.</strong>",
+                    "approvalAuthority": "DIRECT",
+                    "practitionerAuthority": "AABT"
+                  },
+                  {
+                    "html": "<strong>Adenozin 6 mg hızlı IV puşe</strong> ve ardından en az 20 mL %0,9 NaCl IV bolus; yanıtsızsa 2. doz 12 mg. Adenozin yoksa metoprolol 5 mg IV (3 kez tekrarlanabilir) veya diltiazem 0,25 mg/kg IV, ikinci doz 0,35 mg/kg IV. Etkisizse kardiyoversiyon (sedasyon sonrası).",
+                    "approvalAuthority": "SKKM",
+                    "practitionerAuthority": "AABT"
+                  }
+                ]
+              },
+              {
+                "label": "Düzensiz",
+                "steps": [
+                  {
+                    "html": "Olası atriyal fibrilasyonda <strong>metoprolol 5 mg IV</strong> (3 kez tekrarlanabilir) veya <strong>diltiazem 0,25 mg/kg IV</strong>; ikinci doz 0,35 mg/kg IV.",
+                    "approvalAuthority": "SKKM",
+                    "practitionerAuthority": "AABT"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "label": "Anstabil",
+        "steps": [
+          {
+            "html": "Kardiyoversiyon öncesi <strong>midazolam 0,1 mg/kg IV</strong> ile sedasyon önerilir.",
+            "approvalAuthority": "SKKM",
+            "practitionerAuthority": "AABT"
+          },
+          {
+            "html": "<strong>Senkronize kardiyoversiyon:</strong> dar düzenli QRS 100 J; dar düzensiz QRS 200 J; geniş düzenli QRS 100 J; geniş düzensiz QRS için defibrilasyon (senkronize değil) dozu.",
+            "approvalAuthority": "DIRECT",
+            "practitionerAuthority": "AABT"
+          },
+          {
+            "html": "Yanıt alınamazsa <strong>amiodaron 300 mg IV, 10 dk'da</strong>; yanıt yine alınamazsa kardiyoversiyonu tekrarla.",
+            "approvalAuthority": "SKKM",
+            "practitionerAuthority": "AABT"
+          }
+        ]
+      }
+    ]
   },
   {
     "id": "cardiac-arrest",
