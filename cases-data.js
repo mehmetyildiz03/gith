@@ -774,7 +774,7 @@ const CASES = [
     "population": "adult",
     "uiPriority": "high",
     "clinicalStatus": "reviewed",
-    "summary": "KOAH alevlenmesinde hastayı rahat pozisyonda tut, SpO₂ %88–92 hedefle; ilk bronkodilatörü uygula ve 20 dk yanıta göre SKKM/ÇM ileri basamağına geç.",
+    "summary": "KOAH alevlenmesinde hastayı rahat pozisyonda tut, SpO₂ %88–92 hedefle; ilk bronkodilatörü uygula ve 20 dk sonraki SKKM/ÇM tedavi basamağını resmî akış sırasına göre uygula.",
     "severityView": {
       "title": "KOAH atak şiddeti",
       "note": "Resmî KOAH Anahtar Noktalarındaki hafif, orta ve ağır akut solunum yetmezliği ölçütleri."
@@ -785,8 +785,10 @@ const CASES = [
         "bullets": [
           "Solunum sayısı <24/dk",
           "Kalp hızı <95/dk",
-          "Oda havasında SpO₂ ≥%92 veya hastanın rutin O₂ seviyesinde",
-          "Aksesuar solunum kası kullanımı ve bilinç değişikliği yok"
+          "Oda havasında SpO₂ ≥%92 veya hastanın rutin aldığı O₂ seviyesinde",
+          "O₂ desteğine ihtiyaç olmaması",
+          "Aksesuar solunum kasları kullanımı yok",
+          "Bilinç değişikliği yok"
         ],
         "action": "Rahat pozisyon + SpO₂ %88–92 hedefli O₂; salbutamol + ipratropium ilk basamak tedavisini uygula ve 20 dk sonra değerlendir."
       },
@@ -795,20 +797,24 @@ const CASES = [
         "bullets": [
           "Solunum sayısı >24/dk",
           "Kalp hızı >95/dk",
-          "Oda havasında veya rutin O₂ seviyesinde SpO₂ <%92",
-          "Oksijen desteği ile hipoksemi görülebilir; aksesuar kas kullanımı vardır, bilinç değişikliği yoktur"
+          "Oda havasında SpO₂ <%92 veya hastanın rutin aldığı O₂ seviyesinde",
+          "Oksijen desteği ile hipoksemi görülmemesi",
+          "Aksesuar solunum kasları kullanımı mevcut",
+          "Bilinç değişikliği yok"
         ],
-        "action": "İlk bronkodilatörleri uygula; 20 dk sonra yanıt yoksa SKKM/ÇM telefon simgeli tekrar + metilprednizolon basamağına geç."
+        "action": "İlk bronkodilatörleri uygula; 20 dk sonraki telefon simgeli salbutamol + ipratropium + metilprednizolon basamağı SKKM/ÇM ile uygulanır."
       },
       "severe": {
         "label": "Ağır",
         "bullets": [
-          "Solunum sayısı >24/dk ve kalp hızı >95/dk",
-          "SpO₂ <%92 ve O₂ desteği ile hipoksemi düzelmiyor",
-          "Aksesuar solunum kası kullanımı var",
+          "Solunum sayısı >24/dk",
+          "Kalp hızı >95/dk",
+          "Oda havasında SpO₂ <%92 veya hastanın rutin aldığı O₂ seviyesinde",
+          "Oksijen desteği ile hipokseminin düzelmemesi",
+          "Aksesuar solunum kasları kullanımı mevcut",
           "Bilinç değişikliği mevcut"
         ],
-        "action": "Bronkodilatörleri uygula; 20 dk yanıtsızlıkta SKKM/ÇM basamağına geç. Tedaviye yanıt yoksa SKKM/ÇM ile ileri hava yolu hazırlığı ve tolere ediyorsa NIMV değerlendir."
+        "action": "İlk bronkodilatörleri uygula; 20 dk sonraki telefon simgeli tedavi basamağı SKKM/ÇM ile uygulanır. Tedaviye yanıt vermeyen ağır hastada SKKM/ÇM ile ileri hava yolu hazırlığı ve tolere ediyorsa NIMV değerlendir."
       }
     },
     "criticalActions": [
@@ -819,7 +825,7 @@ const CASES = [
     "quick": [
       "Rahat/tercihen oturur pozisyon; <strong>SpO₂ %88–92</strong> hedefli O₂, gerekirse PBV.",
       "<strong>İlk basamak:</strong> salbutamol 4–8 puf veya 2,5–5 mg nebül + ipratropium bromür 500 mcg nebül birlikte.",
-      "<strong>20 dk sonra yanıt yoksa SKKM/ÇM:</strong> salbutamol 2,5 mg + ipratropium bromür 500 mcg; 20 dk arayla en fazla 3 kez + metilprednizolon 40 mg IV.",
+      "<strong>20 dk sonra SKKM/ÇM:</strong> salbutamol 2,5 mg + ipratropium bromür 500 mcg; 20 dk arayla en fazla 3 kez + metilprednizolon 40 mg IV.",
       "<strong>Ağır ve yanıtsız:</strong> SKKM/ÇM ile ileri hava yolu için hazırlık; tolere eden hastada non-invaziv mekanik ventilasyonu değerlendir."
     ],
     "warningFindings": [
@@ -876,9 +882,9 @@ const CASES = [
       }
     ],
     "decision": {
-      "q": "20 dk sonra klinik düzelme yeterli mi?",
-      "yes": "Oksijen hedefi ve seri değerlendirmeyi sürdür; her aşamada hastaneye nakil.",
-      "no": "SKKM/ÇM ile salbutamol + ipratropium tekrarları ve metilprednizolon; ağır yanıtsız hastada SKKM/ÇM ile ileri hava yolu/NIMV basamağı."
+      "q": "Ağır akut solunum yetmezliği bulguları var mı?",
+      "yes": "Ağır KOAH kolunu uygula; 20 dk sonraki telefon simgeli tedavi SKKM/ÇM ile. Tedaviye yanıt vermiyorsa SKKM/ÇM ile ileri hava yolu hazırlığı ve tolere ediyorsa NIMV.",
+      "no": "Hafif-orta KOAH kolunu uygula; SpO₂ %88–92 hedefini koru ve 20 dk sonraki telefon simgeli tedavi basamağını SKKM/ÇM ile sürdür."
     },
     "source": {
       "documentId": "EK2-2026",
