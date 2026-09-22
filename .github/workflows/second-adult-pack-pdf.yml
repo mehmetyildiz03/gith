@@ -1,0 +1,35 @@
+name: Second adult pack official PDF audit
+on:
+  push:
+    branches: [qa/second-adult-pack-pdf]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install PDF tools
+        run: sudo apt-get update && sudo apt-get install -y poppler-utils
+      - name: Download official Ek-2 and render second pack
+        run: |
+          set -e
+          URL="https://dosyamerkez.saglik.gov.tr/Eklenti/55773/0/ek-2-hastane-oncesi-acil-tibbi-yardim-ve-bakim-akis-semalaripdf.pdf"
+          curl -fL --retry 4 --retry-delay 2 -A "Mozilla/5.0" "$URL" -o ek2.pdf
+          pdftotext -layout ek2.pdf ek2.txt
+          echo "=== TARGET HEADINGS ==="
+          grep -n -E "AJİTE|Ajite|VERTİGO|Vertigo|ALERJİK|Alerjik|HİPOTERMİDE ARREST|Hipotermide Arrest|SB-ASH-Y-15|SB-ASH-Y-20|SB-ASH-Y-21|SB-ASH-Y-25" ek2.txt | head -300 || true
+          mkdir -p renders
+          for p in $(seq 28 44); do
+            pdftoppm -f "$p" -l "$p" -png -r 220 -singlefile ek2.pdf "renders/pdf-page-$p" >/dev/null 2>&1 || true
+          done
+      - name: Upload target pages and text
+        uses: actions/upload-artifact@v4
+        with:
+          name: second-adult-pack-official-pages
+          path: |
+            renders/
+            ek2.txt
