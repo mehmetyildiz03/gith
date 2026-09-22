@@ -205,7 +205,7 @@ const APP_META = {
     "adultMedicationCardsComplete": true
   },
   "actionAudit": {
-    "reviewedAt": "2026-09-22",
+    "reviewedAt": "2026-09-23",
     "source": "25.08.2026 tarihli Ek-2 resmî PDF",
     "method": "Resmî turkuaz/turuncu kutular ve SKKM/ÇM telefon simgesi adım bazında ayrı alanlarda görsel olarak doğrulandı",
     "verifiedCases": [

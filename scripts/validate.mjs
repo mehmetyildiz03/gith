@@ -43,6 +43,7 @@ for(const code of ['SB-ASH-Y-04','SB-ASH-Y-05','SB-ASH-Y-06','SB-ASH-Y-07','SB-A
 if(APP_META?.practitionerAudit?.adultMedicationCardsComplete!==true)err('Yetişkin ilaç kartları uygulayıcı audit tamamlama işareti eksik');
 for(const code of ['SB-ASH-Y-04','SB-ASH-Y-05','SB-ASH-Y-06','SB-ASH-Y-07','SB-ASH-Y-08'])if(!APP_META?.actionAudit?.verifiedCases?.includes(code))err(`Adım bazlı eylem yetki audit izi eksik: ${code}`);
 if(!APP_META?.actionAudit?.verifiedBranchCases?.includes('SB-ASH-Y-08'))err('Y-08 dallı algoritma audit izi eksik');
+if(APP_META?.actionAudit?.reviewedAt!=='2026-09-23')err('Dallı eylem yetki audit tarihi 2026-09-23 olmalı');
 if(APP_META?.actionAudit?.pilot!==true)err('Adım bazlı eylem yetki katmanı pilot/incremental işareti eksik');
 const strokeCase=(CASES||[]).find(c=>c.id==='stroke');
 if(!strokeCase||strokeCase.title!=='İnme / SVO')err('İnme / SVO başlığı korunmalı');
@@ -135,7 +136,7 @@ if(medByName(burnCase,'Ringer Laktat')?.authority!=='DIRECT'||medByName(burnCase
 
 const adultAuditCases=(CASES||[]).filter(c=>c.population==='adult');
 if(adultAuditCases.length!==37)err('Yetişkin kütüphanesi 37 doğrulanmış vaka olmalı');
-for(const c of adultAuditCases)if(!['2026-09-21','2026-09-22'].includes(c.source?.reviewedAt))err(`${c.id}: beklenmeyen reviewedAt ${c.source?.reviewedAt}`);
+for(const c of adultAuditCases)if(!['2026-09-21','2026-09-22','2026-09-23'].includes(c.source?.reviewedAt))err(`${c.id}: beklenmeyen reviewedAt ${c.source?.reviewedAt}`);
 for(const c of adultAuditCases)for(const m of (c.meds||[]))if(!['DIRECT','SKKM'].includes(m.authority))err(`${c.id}/${m.name}: yetişkin ilaç yetkisi telefon simgesi auditinden sonra DIRECT veya SKKM olmalı`);
 for(const c of adultAuditCases)for(const m of (c.meds||[]))if(!m.practitionerAuthority||m.practitionerAuthority==='UNVERIFIED')err(`${c.id}/${m.name}: yetişkin ilaç kartında uygulayıcı yetki audit sonucu eksik`);
 for(const id of ['koah','asthma','acs','bradycardia','tachycardia','cardiac-arrest','rosc','hypovolemic-shock','acute-heart-failure-cardiogenic-shock','agitated-patient','hypoglycemia','seizure','allergic-reaction','anaphylaxis','bee','hypothermia','hyperthermia','burn','ccb-beta-blocker-poisoning','cholinergic-poisoning','opioid-poisoning','tca-poisoning','crush-syndrome']){
