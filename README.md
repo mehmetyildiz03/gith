@@ -2,9 +2,10 @@
 
 Mobil-first, offline çekirdekli, vaka bazlı hastane öncesi acil sağlık eğitim ve hızlı hatırlatma uygulaması.
 
-## V0.19 mimarisi
+## V0.20 mimarisi
 
 - **Kaynak:** T.C. Sağlık Bakanlığı 25.08.2026 tarihli Ek-2 Hastane Öncesi Acil Tıbbi Yardım ve Bakım Akış Şemaları.
+- **V0.20 lineer eylem yetki genişlemesi:** `algorithmSteps[]` pilotu Astım Y-05, Akut Koroner Sendrom Y-06 ve Bradikardi Y-07'ye genişletildi. Turkuaz ortak ATT/AABT basamakları rozet üretmez; resmî turuncu basamaklarda yalnız `Yalnız AABT` gösterilir. SKKM/ÇM telefon simgesi bilgisi `approvalAuthority` alanında renk katmanından bağımsız tutulur. Nabızlı Taşikardi gibi çok dallı şemalar düz listeye zorlanmadan ayrı dal modeliyle ele alınacaktır.
 - **V0.19 eylem yetki pilotu — KOAH Y-04:** İlaç kartlarından bağımsız olarak algoritma adımları için `algorithmSteps[]` modeli eklendi. Her adım SKKM/ÇM durumunu (`approvalAuthority`) ve uygulayıcı kapsamını (`practitionerAuthority`) ayrı tutar. Resmî KOAH şemasında başlangıç/acil olgu yönetimi + pozisyon + O₂/PBV turkuaz `ATT_AABT`; ilk bronkodilatör, 20 dk tedavisi ve yanıtsız ağır hastada ileri hava yolu/NIMV turuncu `AABT` olarak görsel audit edildi. Arayüzde turkuaz/ortak adım için ek rozet gösterilmez; yalnız turuncu adımda `Yalnız AABT` görünür.
 - **V0.18 yetişkin ilaç uygulayıcı auditi tamamlandı:** Hipertermi Y-23, Hipotermi Y-24, Termal Yanık Y-28, Kalsiyum Kanal/Beta Bloker Zehirlenmesi Y-34, Kolinerjik Zehirlenme Y-35, Opioid Y-36, TCA Y-37 ve Crush Y-39 resmî kutu renkleri de görsel olarak doğrulandı. Mevcut yetişkin ilaç/sıvı kartlarının tamamında uygulayıcı sonucu artık açıkça veri alanında bulunur.
 - **Kaynak sadakati düzeltmeleri:** Termal Yanık Ringer Laktat, Y-34 IV %0,9 NaCl/RL hidrasyon, Y-36 hipotansiyon %0,9 NaCl ve Y-37 hipotansiyon %0,9 NaCl basamakları ilaç/sıvı kartlarına eklendi. Arı Sokması kartındaki Y-22 anafilaksi ilaç setine salbutamol eklendi. Y-22 salbutamol kutusunda uygulama yolu yazmadığı için önceki NEB çıkarımı kaldırılarak `Şemaya göre` yapıldı.

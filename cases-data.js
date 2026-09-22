@@ -1,7 +1,7 @@
 const APP_META = {
   "schemaVersion": 4,
-  "contentVersion": "EK2-2026.08.25-action-authority-1-2026.09.22",
-  "productVersion": "0.19",
+  "contentVersion": "EK2-2026.08.25-action-authority-2-2026.09.22",
+  "productVersion": "0.20",
   "populations": [
     {
       "id": "adult",
@@ -209,7 +209,10 @@ const APP_META = {
     "source": "25.08.2026 tarihli Ek-2 resmî PDF",
     "method": "Resmî turkuaz/turuncu kutular ve SKKM/ÇM telefon simgesi adım bazında ayrı alanlarda görsel olarak doğrulandı",
     "verifiedCases": [
-      "SB-ASH-Y-04"
+      "SB-ASH-Y-04",
+      "SB-ASH-Y-05",
+      "SB-ASH-Y-06",
+      "SB-ASH-Y-07"
     ],
     "pilot": true
   },
@@ -712,7 +715,29 @@ const CASES = [
       ],
       "page": "11–12",
       "codeStatus": "verified"
-    }
+    },
+    "algorithmSteps": [
+      {
+        "html": "<strong>Başlangıç:</strong> acil olgu yönetimini uygula; hastayı rahat ettiği (tercihen oturur) pozisyonda tut. <strong>SpO₂ >%93</strong> olacak şekilde O₂ titre et; gerekirse PBV ile destekle. Damar yolu aç, %0,9 NaCl DAKŞ ve atağın derecesini belirle.",
+        "approvalAuthority": "DIRECT",
+        "practitionerAuthority": "ATT_AABT"
+      },
+      {
+        "html": "<strong>İlk tedavi:</strong> hafif-orta atakta salbutamol 4–8 puf inhaler veya 2,5–5 mg nebül; ağır atakta salbutamol 2,5–5 mg + ipratropium bromür 500 mcg nebül.",
+        "approvalAuthority": "DIRECT",
+        "practitionerAuthority": "AABT"
+      },
+      {
+        "html": "<strong>20 dk sonra düzelme yoksa SKKM/ÇM:</strong> ikinci salbutamol + ipratropium bromür; düzelme olmazsa 20 dk arayla, en fazla 3 uygulama + metilprednizolon 40 mg IV.",
+        "approvalAuthority": "SKKM",
+        "practitionerAuthority": "AABT"
+      },
+      {
+        "html": "<strong>Ölümcül astım atağı:</strong> bilinç bulanıklığı ve sessiz toraks varsa SKKM/ÇM ile erken ileri hava yolu için hazırlan; magnezyum sülfat 1–2 g IV, %0,9 NaCl içinde 20–30 dk uygulanabilir.",
+        "approvalAuthority": "SKKM",
+        "practitionerAuthority": "AABT"
+      }
+    ]
   },
   {
     "id": "acs",
@@ -803,7 +828,29 @@ const CASES = [
       ],
       "page": "13–14",
       "codeStatus": "verified"
-    }
+    },
+    "algorithmSteps": [
+      {
+        "html": "<strong>Başlangıç:</strong> acil olgu yönetimini uygula, ağrıyı sorgula; hastayı sakinleştir, gereksiz efordan kaçın ve yürütme. En kısa sürede vital bulgulara bak, monitörize et ve 12 derivasyonlu EKG al. <strong>SpO₂ <%90 ise O₂ ver.</strong>",
+        "approvalAuthority": "DIRECT",
+        "practitionerAuthority": "ATT_AABT"
+      },
+      {
+        "html": "<strong>Asetilsalisilik asit 160–325 mg çiğnet.</strong>",
+        "approvalAuthority": "DIRECT",
+        "practitionerAuthority": "AABT"
+      },
+      {
+        "html": "<strong>SKKM/ÇM:</strong> hipotansiyon ve bradikardi yoksa izosorbid dinitrat 5 mg SL; ağrı devam ederse 3–5 dk arayla toplam 3 doza kadar.",
+        "approvalAuthority": "SKKM",
+        "practitionerAuthority": "AABT"
+      },
+      {
+        "html": "<strong>SKKM/ÇM:</strong> göğüs ağrısı devam ediyor ve hasta tarafından tolere edilemiyorsa fentanil 1 mcg/kg IV.",
+        "approvalAuthority": "SKKM",
+        "practitionerAuthority": "AABT"
+      }
+    ]
   },
   {
     "id": "airway",
@@ -1359,7 +1406,29 @@ const CASES = [
       "q": "Bradikardi hemodinamik olarak instabil mi?",
       "yes": "Atropin → yanıtsızsa SKKM/ÇM ile pacing / dopamin / adrenalin infüzyon basamağı.",
       "no": "Monitörizasyon, nedenin araştırılması ve uygun merkeze nakil."
-    }
+    },
+    "algorithmSteps": [
+      {
+        "html": "<strong>Başlangıç:</strong> acil olgu yönetimini uygula. Hipoksemikse (SpO₂ <%94) oksijenizasyon; damar yolu, monitörizasyon ve 12 derivasyon EKG. Altta yatan nedeni tanımla ve müdahale et; stabiliteyi değerlendir.",
+        "approvalAuthority": "DIRECT",
+        "practitionerAuthority": "ATT_AABT"
+      },
+      {
+        "html": "<strong>Stabil değilse:</strong> atropin 1 mg IV; yanıta göre 3–5 dk'da bir tekrarlanabilir, maksimum 3 mg.",
+        "approvalAuthority": "DIRECT",
+        "practitionerAuthority": "AABT"
+      },
+      {
+        "html": "<strong>Yeterli yanıt yoksa veya asistoli riski varsa SKKM/ÇM:</strong> adrenalin 2–10 mcg/dk IV infüzyon veya dopamin 5–20 mcg/kg/dk IV infüzyon veya transkütan pacing; QRS >0,12 sn ise pacing'i öncelikli düşün.",
+        "approvalAuthority": "SKKM",
+        "practitionerAuthority": "AABT"
+      },
+      {
+        "html": "<strong>Stabil ve asistoli riski yoksa:</strong> yakın vital takibi yap.",
+        "approvalAuthority": "DIRECT",
+        "practitionerAuthority": "ATT_AABT"
+      }
+    ]
   },
   {
     "id": "tachycardia",

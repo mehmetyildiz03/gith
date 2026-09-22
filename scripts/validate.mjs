@@ -36,12 +36,13 @@ if(!APP_META?.routes?.includes('SC')||APP_META?.routeLabels?.SC!=='Subkutan (SC)
 if(APP_META?.authority?.DIRECT?.symbol!=='✓'||APP_META?.authority?.DIRECT?.visualLabel!=='SKKM/ÇM onayı gerektirmez')err('DIRECT yeşil/doğrudan sembol metası eksik');
 if(APP_META?.authority?.SKKM?.symbol!=='◆'||APP_META?.authority?.SKKM?.visualLabel!=='SKKM/ÇM onayı gerekli')err('SKKM sarı/onay sembol metası eksik');
 if(APP_META?.authority?.ALGORITHM?.symbol!=='•'||APP_META?.authority?.ALGORITHM?.visualLabel!=='Yetki simgesi doğrulanmadı')err('ALGORITHM nötr sembol metası eksik');
-if(APP_META?.contentVersion!=='EK2-2026.08.25-action-authority-1-2026.09.22')err('contentVersion KOAH eylem yetki pilotuyla eşleşmiyor');
-if(APP_META?.productVersion!=='0.19')err('productVersion V0.19 olmalı');
+if(APP_META?.contentVersion!=='EK2-2026.08.25-action-authority-2-2026.09.22')err('contentVersion lineer eylem yetki genişlemesiyle eşleşmiyor');
+if(APP_META?.productVersion!=='0.20')err('productVersion V0.20 olmalı');
 if(APP_META?.practitionerAuthority?.ATT_AABT?.officialLabel!=='Acil Tıp Teknisyeni / Teknikeri'||APP_META?.practitionerAuthority?.AABT?.officialLabel!=='Acil Tıp Teknikeri'||APP_META?.practitionerAuthority?.UNVERIFIED?.symbol!=='□')err('ATT/AABT uygulayıcı yetki metası eksik veya bozuk');
 for(const code of ['SB-ASH-Y-04','SB-ASH-Y-05','SB-ASH-Y-06','SB-ASH-Y-07','SB-ASH-Y-08','SB-ASH-Y-09','SB-ASH-Y-10','SB-ASH-Y-11','SB-ASH-Y-12','SB-ASH-Y-13','SB-ASH-Y-14','SB-ASH-Y-15','SB-ASH-Y-17','SB-ASH-Y-19','SB-ASH-Y-21','SB-ASH-Y-22','SB-ASH-Y-23','SB-ASH-Y-24','SB-ASH-Y-28','SB-ASH-Y-34','SB-ASH-Y-35','SB-ASH-Y-36','SB-ASH-Y-37','SB-ASH-Y-39'])if(!APP_META?.practitionerAudit?.verifiedMedicationCases?.includes(code))err(`Uygulayıcı yetki görsel audit izi eksik: ${code}`);
 if(APP_META?.practitionerAudit?.adultMedicationCardsComplete!==true)err('Yetişkin ilaç kartları uygulayıcı audit tamamlama işareti eksik');
-if(!APP_META?.actionAudit?.verifiedCases?.includes('SB-ASH-Y-04')||APP_META?.actionAudit?.pilot!==true)err('KOAH adım bazlı eylem yetki pilot audit izi eksik');
+for(const code of ['SB-ASH-Y-04','SB-ASH-Y-05','SB-ASH-Y-06','SB-ASH-Y-07'])if(!APP_META?.actionAudit?.verifiedCases?.includes(code))err(`Adım bazlı eylem yetki audit izi eksik: ${code}`);
+if(APP_META?.actionAudit?.pilot!==true)err('Adım bazlı eylem yetki katmanı pilot/incremental işareti eksik');
 const strokeCase=(CASES||[]).find(c=>c.id==='stroke');
 if(!strokeCase||strokeCase.title!=='İnme / SVO')err('İnme / SVO başlığı korunmalı');
 const seizureCase=(CASES||[]).find(c=>c.id==='seizure');
@@ -190,6 +191,23 @@ for(let i=0;i<4;i++){
   if(koahSteps[i]?.approvalAuthority!==koahApprovalExpected[i])err(`KOAH algorithmSteps[${i}] SKKM/ÇM durumu resmî telefon simgesiyle eşleşmiyor`);
 }
 if(!JSON.stringify(koahCase).includes('SKKM/ÇM ile ileri hava yolu')||!JSON.stringify(koahCase).includes('non-invaziv mekanik ventilasyonu'))err('Y-04 yanıtsız ağır KOAH telefon simgeli ileri hava yolu/NIMV basamağı eksik');
+const actionStepExpectations=[
+  ['asthma',['ATT_AABT','AABT','AABT','AABT'],['DIRECT','DIRECT','SKKM','SKKM']],
+  ['acs',['ATT_AABT','AABT','AABT','AABT'],['DIRECT','DIRECT','SKKM','SKKM']],
+  ['bradycardia',['ATT_AABT','AABT','AABT','ATT_AABT'],['DIRECT','DIRECT','SKKM','DIRECT']]
+];
+for(const [id,practitionerExpected,approvalExpected] of actionStepExpectations){
+  const c=(CASES||[]).find(x=>x.id===id);
+  const steps=c?.algorithmSteps||[];
+  if(steps.length!==4)err(`${id}: yapılandırılmış algoritma adımı sayısı 4 olmalı`);
+  for(let i=0;i<4;i++){
+    if(steps[i]?.practitionerAuthority!==practitionerExpected[i])err(`${id} algorithmSteps[${i}] uygulayıcı yetkisi resmî kutu rengiyle eşleşmiyor`);
+    if(steps[i]?.approvalAuthority!==approvalExpected[i])err(`${id} algorithmSteps[${i}] SKKM/ÇM durumu resmî telefon simgesiyle eşleşmiyor`);
+  }
+}
+if(!JSON.stringify(asthmaCase?.algorithmSteps||[]).includes('Ölümcül astım atağı'))err('Astım ölümcül atak yapılandırılmış adımı eksik');
+if(!JSON.stringify(acsCase?.algorithmSteps||[]).includes('Asetilsalisilik asit 160–325 mg'))err('AKS ASA yapılandırılmış adımı eksik');
+if(!JSON.stringify(bradyCase?.algorithmSteps||[]).includes('yakın vital takibi'))err('Bradikardi stabil yakın takip yapılandırılmış adımı eksik');
 
 const hypovolemicCase=(CASES||[]).find(c=>c.id==='hypovolemic-shock');
 if(hypovolemicCase?.code!=='SB-ASH-Y-13'||hypovolemicCase?.page!=='24'||hypovolemicCase?.source?.page!=='24')err('Hipovolemik Şok Y-13/s.24 kaynak izi bozuldu');
