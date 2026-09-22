@@ -1,7 +1,7 @@
 const APP_META = {
   "schemaVersion": 4,
-  "contentVersion": "EK2-2026.08.25-medication-content-audit-1-2026.09.23",
-  "productVersion": "0.24",
+  "contentVersion": "EK2-2026.08.25-full-audit-1-2026.09.23",
+  "productVersion": "0.25",
   "populations": [
     {
       "id": "adult",
@@ -36,10 +36,10 @@ const APP_META = {
       "visualLabel": "SKKM/ÇM onayı gerekli"
     },
     "ALGORITHM": {
-      "label": "Akış şeması",
-      "description": "İlaç/doz şemada yer alır; yetki ayrımı bu sürümde ayrıca doğrulanmadığından resmî şema ve kurum talimatı kontrol edilmelidir.",
+      "label": "Yetki belirtilmemiş",
+      "description": "İlaç/doz resmî belgede yer alır; ilgili kaynak bölümünde SKKM/ÇM yetki kodlaması bulunmadığından DIRECT/SKKM çıkarımı yapılmaz.",
       "symbol": "•",
-      "visualLabel": "Yetki simgesi doğrulanmadı"
+      "visualLabel": "Kaynakta SKKM/ÇM yetkisi belirtilmemiş"
     }
   },
   "practitionerAuthority": {
@@ -56,9 +56,9 @@ const APP_META = {
       "symbol": "■"
     },
     "UNVERIFIED": {
-      "label": "Doğrulanmadı",
-      "officialLabel": "Uygulayıcı yetkisi doğrulanmadı",
-      "description": "Resmî kutu rengi henüz görsel olarak doğrulanmadı; ATT/AABT için çıkarım yapılmaz.",
+      "label": "Kaynakta belirtilmemiş",
+      "officialLabel": "Uygulayıcı yetkisi kaynakta belirtilmemiş",
+      "description": "İlgili kaynak bölümünde uygulayıcı kutu rengi bulunmuyor veya yetki kodlaması yapılmıyor; ATT/AABT çıkarımı yapılmaz.",
       "symbol": "□"
     }
   },
@@ -99,32 +99,22 @@ const APP_META = {
     "officialPageDate": "2026-09-11"
   },
   "clinicalAudit": {
-    "scope": "21 yetişkin vaka",
+    "scope": "37 yetişkin vaka kartı; SB-ASH-Y-02–Y-41 kapsamı (Y-01 temel protokol ayrı)",
     "source": "T.C. Sağlık Bakanlığı Ek-2 Hastane Öncesi Acil Tıbbi Yardım ve Bakım Akış Şemaları",
     "effectiveDate": "2026-08-25",
     "officialPageDate": "2026-09-11",
-    "reviewedAt": "2026-09-22"
+    "reviewedAt": "2026-09-23"
   },
   "authorityAudit": {
     "source": "25.08.2026 tarihli Ek-2 resmî PDF",
-    "reviewedAt": "2026-09-22",
+    "reviewedAt": "2026-09-23",
     "method": "Telefon/SKKM-ÇM simgesi görsel olarak doğrulandı",
-    "scope": [
-      "SB-ASH-Y-07",
-      "SB-ASH-Y-10",
-      "SB-ASH-Y-11",
-      "SB-ASH-Y-12",
-      "SB-ASH-Y-19",
-      "SB-ASH-Y-04",
-      "SB-ASH-Y-05",
-      "SB-ASH-Y-13",
-      "SB-ASH-Y-14"
-    ]
+    "scope": "Yetişkin ilaç/sıvı kutuları ve yapılandırılmış eylem basamaklarında SKKM/ÇM telefon simgesi; yetki kodlaması olmayan Anahtar Noktalar öğelerinde çıkarım yapılmaz"
   },
   "integrityAudit": {
     "source": "25.08.2026 tarihli Ek-2 resmî PDF",
-    "reviewedAt": "2026-09-22",
-    "scope": "21 yetişkin kartında başlık/kod/PDF sayfa izi ve kaynakla doğrulanan klinik basamaklar",
+    "reviewedAt": "2026-09-23",
+    "scope": "37 yetişkin kartında başlık/kod/PDF sayfa izi ve kaynakla doğrulanan klinik basamaklar",
     "status": "verified"
   },
   "expansionAudit": {
@@ -169,7 +159,7 @@ const APP_META = {
     "source": "25.08.2026 tarihli Ek-2 resmî PDF"
   },
   "practitionerAudit": {
-    "reviewedAt": "2026-09-22",
+    "reviewedAt": "2026-09-23",
     "source": "25.08.2026 tarihli Ek-2 resmî PDF",
     "method": "Resmî turkuaz/turuncu uygulayıcı kutu rengi sayfa görüntüsünden doğrulandı; SKKM/ÇM telefon simgesi ayrı tutuldu",
     "legend": {
@@ -196,11 +186,16 @@ const APP_META = {
       "SB-ASH-Y-23",
       "SB-ASH-Y-24",
       "SB-ASH-Y-28",
+      "SB-ASH-Y-29",
       "SB-ASH-Y-34",
       "SB-ASH-Y-35",
       "SB-ASH-Y-36",
       "SB-ASH-Y-37",
-      "SB-ASH-Y-39"
+      "SB-ASH-Y-39",
+      "SB-ASH-Y-40"
+    ],
+    "sourceUnspecifiedMedicationItems": [
+      "SB-ASH-Y-40/Midazolam"
     ],
     "adultMedicationCardsComplete": true
   },
@@ -236,12 +231,17 @@ const APP_META = {
       "SB-ASH-Y-10",
       "SB-ASH-Y-11",
       "SB-ASH-Y-22",
-      "SB-ASH-Y-23"
+      "SB-ASH-Y-23",
+      "SB-ASH-Y-29",
+      "SB-ASH-Y-40"
+    ],
+    "sourceUnspecifiedAuthorityItems": [
+      "SB-ASH-Y-40/Midazolam"
     ],
     "status": "complete"
   },
   "adultCoverage": {
-    "reviewedAt": "2026-09-22",
+    "reviewedAt": "2026-09-23",
     "verifiedCaseCards": 37,
     "coveredAlgorithmRange": "SB-ASH-Y-02–Y-41",
     "foundationalProtocolPending": "SB-ASH-Y-01 Olay Yeri Yönetimi"
@@ -2795,7 +2795,20 @@ const CASES = [
       "Solunum sıkıntısı / ventilasyon gereksinimi",
       "Spinal yaralanma veya rabdomyoliz riski"
     ],
-    "meds": [],
+    "meds": [
+      {
+        "name": "Ringer Laktat — rabdomiyoliz riski",
+        "dose": "Erken ve yeterli sıvı tedavisi",
+        "routes": [
+          "OTHER"
+        ],
+        "authority": "DIRECT",
+        "repeat": "",
+        "maxDose": "",
+        "note": "Resmî Y-29 turuncu kutu: rabdomiyoliz riskine karşı erken ve yeterli Ringer Laktat sıvı tedavisi başla. Miktar, hız ve uygulama yolu kutuda belirtilmediğinden türetilmemiştir.",
+        "practitionerAuthority": "AABT"
+      }
+    ],
     "decision": {
       "q": "Arrest veya aritmi var mı?",
       "yes": "İlgili ritim/arrest algoritmasına geç; elektrik güvenliği ve destek yaklaşımını sürdür.",
@@ -2806,7 +2819,7 @@ const CASES = [
       "documentTitle": "Hastane Öncesi Acil Tıbbi Yardım ve Bakım Akış Şemaları",
       "effectiveDate": "2026-08-25",
       "officialPageDate": "2026-09-11",
-      "reviewedAt": "2026-09-22",
+      "reviewedAt": "2026-09-23",
       "officialPageUrl": "https://acilafet.saglik.gov.tr/TR-119840/hastane-oncesi-acil-tibbi-yardim-ve-bakim-akis-semalari.html",
       "officialPdfUrl": "https://dosyamerkez.saglik.gov.tr/Eklenti/55773/0/ek-2-hastane-oncesi-acil-tibbi-yardim-ve-bakim-akis-semalaripdf.pdf",
       "section": "adult",
@@ -3507,7 +3520,7 @@ const CASES = [
       "documentTitle": "Hastane Öncesi Acil Tıbbi Yardım ve Bakım Akış Şemaları",
       "effectiveDate": "2026-08-25",
       "officialPageDate": "2026-09-11",
-      "reviewedAt": "2026-09-22",
+      "reviewedAt": "2026-09-23",
       "officialPageUrl": "https://acilafet.saglik.gov.tr/TR-119840/hastane-oncesi-acil-tibbi-yardim-ve-bakim-akis-semalari.html",
       "officialPdfUrl": "https://dosyamerkez.saglik.gov.tr/Eklenti/55773/0/ek-2-hastane-oncesi-acil-tibbi-yardim-ve-bakim-akis-semalaripdf.pdf",
       "section": "adult",
@@ -3535,7 +3548,33 @@ const CASES = [
       "Hemipleji/hemiparalizi veya anizokori",
       "Hava yolu tehdidi, hipoksi veya hipotansiyon"
     ],
-    "meds": [],
+    "meds": [
+      {
+        "name": "IV sıvı tedavisi",
+        "dose": "SKB >100 mmHg hedefiyle",
+        "routes": [
+          "IV"
+        ],
+        "authority": "DIRECT",
+        "repeat": "",
+        "maxDose": "",
+        "note": "Resmî Y-40'ta KŞ 60–300 mg/dL kolunda turuncu kutu: IV sıvı tedavisine başla ve SKB >100 mmHg olacak şekilde sürdür. Sıvı türü, hacmi ve hızı belirtilmediğinden türetilmemiştir.",
+        "practitionerAuthority": "AABT"
+      },
+      {
+        "name": "Midazolam — ajite hasta (Anahtar Noktalar)",
+        "dose": "1–2,5 mg",
+        "routes": [
+          "IV"
+        ],
+        "authority": "ALGORITHM",
+        "repeat": "3–5 dk'da bir; hasta sakinleşinceye kadar",
+        "maxDose": "",
+        "note": "Y-40 Anahtar Noktalar sayfasında yer alır. Bu tablo uygulayıcı kutu rengi veya SKKM/ÇM telefon simgesiyle yetki kodlaması yapmadığından DIRECT/SKKM ve ATT/AABT çıkarımı yapılmamıştır.",
+        "practitionerAuthority": "UNVERIFIED",
+        "sourceAuthorityStatus": "KEYPOINT_NO_SYMBOL"
+      }
+    ],
     "decision": {
       "q": "GKS ≤8, hava yolu tehdidi, nöbet veya KİBAS bulgusu var mı?",
       "yes": "Hava yolu tehdidinde ileri hava yolu; nöbette Y-19; KİBAS varsa şok yokluğunda baş-gövde 30–45° ve hızlı nakil.",

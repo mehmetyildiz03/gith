@@ -127,11 +127,18 @@ function renderAll(){ensurePopulationAvailable();renderAppMeta();renderPopulatio
 
 function authorityBadge(m){return authorityMarkup(m.authority)}
 function practitionerBadge(m){return practitionerMarkup(m.practitionerAuthority||'UNVERIFIED')}
-function renderMeds(c){if(!c.meds?.length)return '';return `<section class="detail-section meds-section" id="medications"><div class="detail-heading"><span class="tiny-icon">Rx</span><div><h3>İlaç / uygulama özeti</h3><p><span class="inline-authority-key direct-key">✓ Yeşil: SKKM/ÇM onayı yok</span> <span class="inline-authority-key skkm-key">◆ Sarı: SKKM/ÇM onayı</span></p></div></div><div class="med-list">${c.meds.map(m=>`<article class="med-card"><div class="med-main"><div><strong>${esc(m.name)}</strong><span class="dose">${esc(m.dose)}</span></div><div class="med-badges" aria-label="Yetki göstergeleri">${authorityBadge(m)}${practitionerBadge(m)}</div></div><div class="med-meta"><span>Yol: <b>${esc((m.routes||[]).map(routeLabel).join(' / '))}</b></span>${m.repeat?`<span>Tekrar: <b>${esc(m.repeat)}</b></span>`:''}${m.maxDose?`<span>Maks: <b>${esc(m.maxDose)}</b></span>`:''}</div><p>${esc(m.note)}</p></article>`).join('')}</div><div class="authority-warning">“Yalnız AABT” rozeti yalnız resmî turuncu kutu görsel olarak doğrulandığında gösterilir. Rozet olmaması ATT yetkisini tek başına doğrulamaz; resmî şema ve kurum yetkisi esastır.</div></section>`}
+function renderMeds(c){
+  if(!c.meds?.length)return '';
+  const hasSourceUnspecified=c.meds.some(m=>m.authority==='ALGORITHM');
+  const neutralKey=hasSourceUnspecified?'<span class="inline-authority-key neutral-key">• Gri: kaynakta yetki belirtilmemiş</span>':'';
+  return `<section class="detail-section meds-section" id="medications"><div class="detail-heading"><span class="tiny-icon">Rx</span><div><h3>İlaç / uygulama özeti</h3><p><span class="inline-authority-key direct-key">✓ Yeşil: SKKM/ÇM onayı yok</span> <span class="inline-authority-key skkm-key">◆ Sarı: SKKM/ÇM onayı</span> ${neutralKey}</p></div></div><div class="med-list">${c.meds.map(m=>`<article class="med-card"><div class="med-main"><div><strong>${esc(m.name)}</strong><span class="dose">${esc(m.dose)}</span></div><div class="med-badges" aria-label="Yetki göstergeleri">${authorityBadge(m)}${practitionerBadge(m)}</div></div><div class="med-meta"><span>Yol: <b>${esc((m.routes||[]).map(routeLabel).join(' / '))}</b></span>${m.repeat?`<span>Tekrar: <b>${esc(m.repeat)}</b></span>`:''}${m.maxDose?`<span>Maks: <b>${esc(m.maxDose)}</b></span>`:''}</div><p>${esc(m.note)}</p></article>`).join('')}</div><div class="authority-warning">“Yalnız AABT” yalnız resmî turuncu kutu doğrulandığında gösterilir. Gri yetki rozeti, ilaç/doz resmî kaynakta yer aldığı halde ilgili bölümde SKKM/ÇM veya uygulayıcı yetki kodlaması bulunmadığını ve çıkarım yapılmadığını belirtir.</div></section>`;
+}
 function renderActionStep(step,{branch=false}={}){
+  const approval=step.approvalAuthority==='SKKM'?authorityMarkup('SKKM'):'';
   const restriction=practitionerMarkup(step.practitionerAuthority||'UNVERIFIED');
+  const badges=[approval,restriction].filter(Boolean).join('');
   const cls=branch?'algo-step':'quick-step';
-  return `<div class="${cls}"><div class="${branch?'algo-step-copy':'quick-step-copy'}">${step.html}</div>${restriction?`<div class="${branch?'algo-step-restriction':'quick-step-restriction'}">${restriction}</div>`:''}</div>`;
+  return `<div class="${cls}"><div class="${branch?'algo-step-copy':'quick-step-copy'}">${step.html}</div>${badges?`<div class="action-step-badges">${badges}</div>`:''}</div>`;
 }
 function renderAlgorithmSteps(c){
   const steps=c.algorithmSteps?.length?c.algorithmSteps:(c.quick||[]).map(html=>({html}));

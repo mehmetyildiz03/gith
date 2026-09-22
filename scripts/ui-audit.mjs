@@ -30,8 +30,8 @@ assert(css.includes("/* V0.6.1 dark surface hardening */"),'Koyu mod yüzey hard
 assert(css.includes(":root[data-theme='dark'] .quick-step")&&css.includes("background:var(--detail-panel-deep)!important"),'Koyu mod algoritma adımı explicit yüzeyi eksik');
 assert(css.includes(":root[data-theme='dark'] .red-flag")&&css.includes("background:#2b202a!important"),'Koyu mod kırmızı bayrak yüzeyi eksik');
 assert(css.includes(":root[data-theme='dark'] .branch.yes")&&css.includes(":root[data-theme='dark'] .branch.no"),'Koyu mod karar kutuları explicit değil');
-assert(html.includes('styles.css?v=0.24')&&html.includes('app-core.js?v=0.24')&&html.includes('cases-data.js?v=0.24'),'Kritik asset cache-bust sürümü eksik');
-assert(sw.includes("saha112-v024")&&sw.includes('NETWORK_FIRST_DESTINATIONS'),'Service worker kritik asset güncelleme stratejisi eksik');
+assert(html.includes('styles.css?v=0.25')&&html.includes('app-core.js?v=0.25')&&html.includes('cases-data.js?v=0.25'),'Kritik asset cache-bust sürümü eksik');
+assert(sw.includes("saha112-v025")&&sw.includes('NETWORK_FIRST_DESTINATIONS'),'Service worker kritik asset güncelleme stratejisi eksik');
 assert(!app.includes('Kırmızı bayrak'),'Eski kullanıcı terimi hâlâ UI içinde');
 assert(app.includes('Acil Uyarı Bulguları'),'Acil Uyarı Bulguları başlığı eksik');
 assert(app.includes('Önceliği, müdahaleyi veya nakil kararını değiştirebilecek bulgular.'),'Acil uyarı açıklaması eksik');
@@ -54,7 +54,7 @@ assert(html.includes('updateBanner')&&app.includes('controllerchange')&&app.incl
 assert(app.includes('sourceFocusable')&&app.includes("e.key==='Tab'")&&css.includes('html.dialog-open'),'Kaynak dialog focus trap/scroll kilidi eksik');
 assert(data.includes('"title": "İnme / SVO"'),'İnme / SVO başlığı korunmamış');
 assert(data.includes('"title": "Nabızlı Taşikardi"'),'Nabızlı Taşikardi başlığı eksik');
-assert(data.includes('"contentVersion": "EK2-2026.08.25-medication-content-audit-1-2026.09.23"'),'V0.24 yetişkin ilaç içerik auditi eksik');
+assert(data.includes('"contentVersion": "EK2-2026.08.25-full-audit-1-2026.09.23"'),'V0.25 tam kapsam audit sürümü eksik');
 assert(html.includes('id="authorityLegend"')&&!html.includes('<span class="authority direct">Doğrudan</span>'),'Yetki legendi dinamik veri kaynağına bağlı değil');
 assert(app.includes("authorityMarkup")&&app.includes("authority-symbol")&&app.includes("✓ Yeşil: SKKM/ÇM onayı yok")&&app.includes("◆ Sarı: SKKM/ÇM onayı"),'Yetki sembol/yazı eşlemesi eksik');
 assert(css.includes('.authority.direct{')&&css.includes('var(--greenSoft)')&&css.includes('.authority.skkm{')&&css.includes('var(--amberSoft)'),'Yeşil/sarı yetki renk semantiği eksik');
@@ -77,6 +77,11 @@ assert(data.includes('"schemaVersion": 4')&&html.includes('Veri şeması: v4'),'
 assert(data.includes('"officialLabel": "Acil Tıp Teknisyeni / Teknikeri"')&&data.includes('"officialLabel": "Acil Tıp Teknikeri"'),'Resmî uygulayıcı lejant metaları eksik');
 assert(data.includes('"adultMedicationCardsComplete": true'),'Yetişkin ilaç uygulayıcı auditi tamamlanmış olarak işaretlenmemiş');
 assert(data.includes('"medicationContentAudit": {')&&data.includes('"status": "complete"'),'Yetişkin ilaç içerik audit metası eksik');
+assert(data.includes('"name": "Ringer Laktat — rabdomiyoliz riski"')&&data.includes('"name": "IV sıvı tedavisi"')&&data.includes('"name": "Midazolam — ajite hasta (Anahtar Noktalar)"'),'Y-29/Y-40 tam audit ilaç-sıvı kartları eksik');
+assert(data.includes('"sourceAuthorityStatus": "KEYPOINT_NO_SYMBOL"')&&data.includes('"authority": "ALGORITHM"'),'Kaynakta yetki kodlaması olmayan Y-40 Midazolam nötr kalmıyor');
+assert(app.includes("step.approvalAuthority==='SKKM'?authorityMarkup('SKKM'):''")&&app.includes('action-step-badges'),'Yapılandırılmış algoritma adımlarında SKKM kısıt rozeti render edilmiyor');
+assert(css.includes('/* V0.25 full audit readability + action authority */')&&css.includes('.action-step-badges{'),'V0.25 okunabilirlik/yetki UI katmanı eksik');
+assert(css.includes('font-size:12px;line-height:1.5')&&css.includes('.algo-branch-head strong{justify-self:start;font-size:13px'),'Algoritma metin okunabilirliği yükseltilmemiş');
 assert(data.includes('"name": "Adrenalin — şoklanır ritim"')&&data.includes('"name": "Adrenalin — şoklanamaz ritim"'),'Arrest Y-10/Y-11 adrenalin yolları ayrı kartlara ayrılmamış');
 assert(data.includes('"name": "%0,9 NaCl — ısı stresi"')&&data.includes('"name": "%0,9 NaCl — ısı çarpması"'),'Hipertermi sıvı dalları ayrı ilaç kartlarına ayrılmamış');
 assert(data.includes('Salbutamol tekrar dozu kutuda ayrıca sayısal olarak yazılmadığından türetilmemiştir.'),'Astım 20 dk tekrar dozu çıkarım koruması eksik');
