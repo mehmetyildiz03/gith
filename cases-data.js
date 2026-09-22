@@ -1,7 +1,7 @@
 const APP_META = {
   "schemaVersion": 4,
-  "contentVersion": "EK2-2026.08.25-practitioner-authority-2-2026.09.22",
-  "productVersion": "0.16",
+  "contentVersion": "EK2-2026.08.25-practitioner-authority-3-2026.09.22",
+  "productVersion": "0.17",
   "populations": [
     {
       "id": "adult",
@@ -184,7 +184,15 @@ const APP_META = {
       "SB-ASH-Y-08",
       "SB-ASH-Y-09",
       "SB-ASH-Y-10",
-      "SB-ASH-Y-11"
+      "SB-ASH-Y-11",
+      "SB-ASH-Y-12",
+      "SB-ASH-Y-13",
+      "SB-ASH-Y-14",
+      "SB-ASH-Y-15",
+      "SB-ASH-Y-17",
+      "SB-ASH-Y-19",
+      "SB-ASH-Y-21",
+      "SB-ASH-Y-22"
     ]
   },
   "adultCoverage": {
@@ -380,7 +388,8 @@ const CASES = [
         "authority": "DIRECT",
         "repeat": "Bolus",
         "maxDose": "",
-        "note": "Hayatı tehdit eden bulgu yok dalında, resmî şemada telefon simgesi olmayan sıvı basamağı."
+        "note": "Hayatı tehdit eden bulgu yok dalında, resmî şemada telefon simgesi olmayan sıvı basamağı.",
+        "practitionerAuthority": "AABT"
       },
       {
         "name": "Feniramin maleat veya Difenhidramin",
@@ -391,7 +400,8 @@ const CASES = [
         "authority": "SKKM",
         "repeat": "",
         "maxDose": "",
-        "note": "Alternatif antihistaminikler: feniramin maleat 45,5 mg IV veya difenhidramin 25–50 mg IV yavaş puşe; telefon simgeli basamak."
+        "note": "Alternatif antihistaminikler: feniramin maleat 45,5 mg IV veya difenhidramin 25–50 mg IV yavaş puşe; telefon simgeli basamak.",
+        "practitionerAuthority": "AABT"
       },
       {
         "name": "Metilprednizolon",
@@ -402,7 +412,8 @@ const CASES = [
         "authority": "SKKM",
         "repeat": "",
         "maxDose": "125 mg",
-        "note": "Resmî şemada profilaktik olarak ve SKKM/ÇM telefon simgeli basamak."
+        "note": "Resmî şemada profilaktik olarak ve SKKM/ÇM telefon simgeli basamak.",
+        "practitionerAuthority": "AABT"
       }
     ],
     "decision": {
@@ -459,7 +470,8 @@ const CASES = [
         "authority": "DIRECT",
         "repeat": "Hipoperfüzyon sürerse 5 dk içinde",
         "maxDose": "",
-        "note": "İlk kritik ilaç; 2026 Ek-2'de doğrudan uygulama basamağı."
+        "note": "İlk kritik ilaç; 2026 Ek-2'de doğrudan uygulama basamağı.",
+        "practitionerAuthority": "AABT"
       },
       {
         "name": "Adrenalin infüzyon",
@@ -470,7 +482,8 @@ const CASES = [
         "authority": "SKKM",
         "repeat": "",
         "maxDose": "",
-        "note": "Düzelme olmazsa."
+        "note": "Düzelme olmazsa.",
+        "practitionerAuthority": "AABT"
       },
       {
         "name": "%0,9 NaCl",
@@ -481,7 +494,8 @@ const CASES = [
         "authority": "DIRECT",
         "repeat": "",
         "maxDose": "",
-        "note": "Dolaşım desteği."
+        "note": "Dolaşım desteği.",
+        "practitionerAuthority": "AABT"
       },
       {
         "name": "Difenhidramin / Feniramin",
@@ -492,7 +506,8 @@ const CASES = [
         "authority": "SKKM",
         "repeat": "",
         "maxDose": "",
-        "note": "Resmî şemadaki ileri basamak."
+        "note": "Resmî şemadaki ileri basamak.",
+        "practitionerAuthority": "AABT"
       },
       {
         "name": "Salbutamol",
@@ -503,7 +518,8 @@ const CASES = [
         "authority": "SKKM",
         "repeat": "",
         "maxDose": "",
-        "note": "Bronkospazm için."
+        "note": "Bronkospazm için.",
+        "practitionerAuthority": "AABT"
       },
       {
         "name": "Metilprednizolon",
@@ -514,7 +530,8 @@ const CASES = [
         "authority": "SKKM",
         "repeat": "",
         "maxDose": "",
-        "note": "Profilaktik basamak."
+        "note": "Profilaktik basamak.",
+        "practitionerAuthority": "AABT"
       }
     ],
     "decision": {
@@ -535,7 +552,7 @@ const CASES = [
       "documentTitle": "Hastane Öncesi Acil Tıbbi Yardım ve Bakım Akış Şemaları",
       "effectiveDate": "2026-08-25",
       "officialPageDate": "2026-09-11",
-      "reviewedAt": "2026-09-21",
+      "reviewedAt": "2026-09-22",
       "officialPageUrl": "https://acilafet.saglik.gov.tr/TR-119840/hastane-oncesi-acil-tibbi-yardim-ve-bakim-akis-semalari.html",
       "officialPdfUrl": "https://dosyamerkez.saglik.gov.tr/Eklenti/55773/0/ek-2-hastane-oncesi-acil-tibbi-yardim-ve-bakim-akis-semalaripdf.pdf",
       "section": "adult",
@@ -1552,7 +1569,7 @@ const CASES = [
       "documentTitle": "Hastane Öncesi Acil Tıbbi Yardım ve Bakım Akış Şemaları",
       "effectiveDate": "2026-08-25",
       "officialPageDate": "2026-09-11",
-      "reviewedAt": "2026-09-21",
+      "reviewedAt": "2026-09-22",
       "officialPageUrl": "https://acilafet.saglik.gov.tr/TR-119840/hastane-oncesi-acil-tibbi-yardim-ve-bakim-akis-semalari.html",
       "officialPdfUrl": "https://dosyamerkez.saglik.gov.tr/Eklenti/55773/0/ek-2-hastane-oncesi-acil-tibbi-yardim-ve-bakim-akis-semalaripdf.pdf",
       "section": "adult",
@@ -1591,7 +1608,8 @@ const CASES = [
         "authority": "SKKM",
         "repeat": "Hipotansiyon devam ediyorsa",
         "maxDose": "",
-        "note": "ROSC sonrası MAP <65 mmHg / devam eden hipotansiyonda, resmî şemadaki telefon simgeli basamakta."
+        "note": "ROSC sonrası MAP <65 mmHg / devam eden hipotansiyonda, resmî şemadaki telefon simgeli basamakta.",
+        "practitionerAuthority": "AABT"
       },
       {
         "name": "Adrenalin",
@@ -1602,7 +1620,8 @@ const CASES = [
         "authority": "SKKM",
         "repeat": "Titrasyon",
         "maxDose": "",
-        "note": "ROSC sonrası devam eden hipotansiyonda infüzyon; SKKM/ÇM telefon simgeli basamak."
+        "note": "ROSC sonrası devam eden hipotansiyonda infüzyon; SKKM/ÇM telefon simgeli basamak.",
+        "practitionerAuthority": "AABT"
       },
       {
         "name": "Dopamin",
@@ -1613,7 +1632,8 @@ const CASES = [
         "authority": "SKKM",
         "repeat": "Titrasyon",
         "maxDose": "",
-        "note": "ROSC sonrası devam eden hipotansiyonda alternatif infüzyon; SKKM/ÇM telefon simgeli basamak."
+        "note": "ROSC sonrası devam eden hipotansiyonda alternatif infüzyon; SKKM/ÇM telefon simgeli basamak.",
+        "practitionerAuthority": "AABT"
       },
       {
         "name": "Amiodaron",
@@ -1624,7 +1644,8 @@ const CASES = [
         "authority": "SKKM",
         "repeat": "10 dakikada",
         "maxDose": "",
-        "note": "Ventriküler ektopi/sürekli olmayan VT basamağında; %5 dekstroz ile 10 dk. SKKM/ÇM telefon simgeli."
+        "note": "Ventriküler ektopi/sürekli olmayan VT basamağında; %5 dekstroz ile 10 dk. SKKM/ÇM telefon simgeli.",
+        "practitionerAuthority": "AABT"
       },
       {
         "name": "Lidokain",
@@ -1635,7 +1656,8 @@ const CASES = [
         "authority": "SKKM",
         "repeat": "IV bolus",
         "maxDose": "",
-        "note": "Ventriküler ektopi/sürekli olmayan VT basamağında amiodarona alternatif; SKKM/ÇM telefon simgeli."
+        "note": "Ventriküler ektopi/sürekli olmayan VT basamağında amiodarona alternatif; SKKM/ÇM telefon simgeli.",
+        "practitionerAuthority": "AABT"
       }
     ],
     "decision": {
@@ -1686,7 +1708,8 @@ const CASES = [
         "authority": "DIRECT",
         "repeat": "Hızlı infüzyon; yanıta göre titre et",
         "maxDose": "1000 mL",
-        "note": "%0,9 NaCl veya Ringer Laktat; hedef SKB 80–90 mmHg."
+        "note": "%0,9 NaCl veya Ringer Laktat; hedef SKB 80–90 mmHg.",
+        "practitionerAuthority": "AABT"
       },
       {
         "name": "Kristalloid — non-hemorajik şok",
@@ -1697,7 +1720,8 @@ const CASES = [
         "authority": "DIRECT",
         "repeat": "5–10 dk bolus",
         "maxDose": "",
-        "note": "%0,9 NaCl veya Ringer Laktat; bolus sonrası volüm durumunu yeniden değerlendir."
+        "note": "%0,9 NaCl veya Ringer Laktat; bolus sonrası volüm durumunu yeniden değerlendir.",
+        "practitionerAuthority": "AABT"
       },
       {
         "name": "Adrenalin",
@@ -1708,7 +1732,8 @@ const CASES = [
         "authority": "SKKM",
         "repeat": "Titrasyon",
         "maxDose": "",
-        "note": "MAP <65 mmHg ve hipovolemi devam ediyor, sıvıya yanıt alınamıyorsa telefon simgeli basamak."
+        "note": "MAP <65 mmHg ve hipovolemi devam ediyor, sıvıya yanıt alınamıyorsa telefon simgeli basamak.",
+        "practitionerAuthority": "AABT"
       },
       {
         "name": "Dopamin",
@@ -1719,7 +1744,8 @@ const CASES = [
         "authority": "SKKM",
         "repeat": "Titrasyon",
         "maxDose": "",
-        "note": "Adrenaline alternatif; MAP <65 mmHg ve devam eden hipovolemide telefon simgeli basamak."
+        "note": "Adrenaline alternatif; MAP <65 mmHg ve devam eden hipovolemide telefon simgeli basamak.",
+        "practitionerAuthority": "AABT"
       }
     ],
     "decision": {
@@ -1785,7 +1811,8 @@ const CASES = [
         "authority": "SKKM",
         "repeat": "",
         "maxDose": "",
-        "note": "Normotansif dekompanse veya hipertansif kalp yetmezliği kolunda telefon simgeli basamak."
+        "note": "Normotansif dekompanse veya hipertansif kalp yetmezliği kolunda telefon simgeli basamak.",
+        "practitionerAuthority": "AABT"
       },
       {
         "name": "İzosorbid dinitrat",
@@ -1796,7 +1823,8 @@ const CASES = [
         "authority": "SKKM",
         "repeat": "",
         "maxDose": "maksimum 3 doz",
-        "note": "Hipertansif kalp yetmezliği kolunda telefon simgeli basamak."
+        "note": "Hipertansif kalp yetmezliği kolunda telefon simgeli basamak.",
+        "practitionerAuthority": "AABT"
       },
       {
         "name": "%0,9 NaCl",
@@ -1807,7 +1835,8 @@ const CASES = [
         "authority": "SKKM",
         "repeat": "Hipotansiyon için",
         "maxDose": "",
-        "note": "Kardiyojenik şok kolunda 'verilebilir' şeklinde telefon simgeli basamak."
+        "note": "Kardiyojenik şok kolunda 'verilebilir' şeklinde telefon simgeli basamak.",
+        "practitionerAuthority": "AABT"
       },
       {
         "name": "Dopamin",
@@ -1818,7 +1847,8 @@ const CASES = [
         "authority": "SKKM",
         "repeat": "Titrasyon",
         "maxDose": "20 mcg/kg/dk",
-        "note": "Kardiyojenik şok kolunda telefon simgeli IV infüzyon."
+        "note": "Kardiyojenik şok kolunda telefon simgeli IV infüzyon.",
+        "practitionerAuthority": "AABT"
       }
     ],
     "decision": {
@@ -1885,7 +1915,8 @@ const CASES = [
         "authority": "SKKM",
         "repeat": "Halen ajite ise sedasyon dozunu tekrar et",
         "maxDose": "",
-        "note": "İlaçla kısıtlama/sedasyon basamağı; resmî şemada SKKM/ÇM telefon simgeli."
+        "note": "İlaçla kısıtlama/sedasyon basamağı; resmî şemada SKKM/ÇM telefon simgeli.",
+        "practitionerAuthority": "AABT"
       },
       {
         "name": "Diazepam",
@@ -1896,7 +1927,8 @@ const CASES = [
         "authority": "SKKM",
         "repeat": "20 dk sonra",
         "maxDose": "",
-        "note": "Midazolama alternatif benzodiazepin; anahtar noktalarda tekrarın 20 dk sonra yapılması belirtilir."
+        "note": "Midazolama alternatif benzodiazepin; anahtar noktalarda tekrarın 20 dk sonra yapılması belirtilir.",
+        "practitionerAuthority": "AABT"
       }
     ],
     "decision": {
@@ -1976,8 +2008,8 @@ const CASES = [
   },
   {
     "id": "hypoglycemia",
-    "title": "Hipoglisemi",
-    "subtitle": "Diyabetik Aciller • hipoglisemi kolu",
+    "title": "Diyabetik Aciller",
+    "subtitle": "Hipoglisemi / hiperglisemi • kan şekeri",
     "category": "Metabolik",
     "icon": "🍬",
     "accent": "#c98517",
@@ -1993,7 +2025,7 @@ const CASES = [
       "documentTitle": "Hastane Öncesi Acil Tıbbi Yardım ve Bakım Akış Şemaları",
       "effectiveDate": "2026-08-25",
       "officialPageDate": "2026-09-11",
-      "reviewedAt": "2026-09-21",
+      "reviewedAt": "2026-09-22",
       "officialPageUrl": "https://acilafet.saglik.gov.tr/TR-119840/hastane-oncesi-acil-tibbi-yardim-ve-bakim-akis-semalari.html",
       "officialPdfUrl": "https://dosyamerkez.saglik.gov.tr/Eklenti/55773/0/ek-2-hastane-oncesi-acil-tibbi-yardim-ve-bakim-akis-semalaripdf.pdf",
       "section": "adult",
@@ -2003,23 +2035,22 @@ const CASES = [
       "page": "31",
       "codeStatus": "verified"
     },
-    "summary": "Glukoz <60 mg/dL veya klinik hipoglisemide bilinç durumuna göre oral glikoz/dekstroz; 2026 şemasında IV dekstroz doğrudan uygulama basamağıdır.",
+    "summary": "Kan şekerini ölç; glukoz <60 mg/dL ve/veya klinik hipoglisemide bilinç durumuna göre oral glikoz ya da IV dekstroz uygula, glukoz >300 mg/dL ise %0,9 NaCl IV infüzyon başla ve şok/dehidratasyonda Hipovolemik Şok algoritmasına geç.",
     "criticalActions": [
-      "Kan glikozunu hemen ölç; hipoglisemi bulgularını eş zamanlı değerlendir.",
-      "Bilinç açık ve güvenli yutabiliyorsa ağızdan şekerli sıvı ver; kan şekerini/kliniği kontrol et ve gerekirse 15 dk arayla tekrarla.",
-      "Bilinç kapalı / oral alamıyorsa %10–%20 dekstrozdan 25 g glikozu IV bolus ver; yeniden glukoz ölç."
+      "Kan şekerini ölç ve bilinç durumunu değerlendir.",
+      "Glukoz <60 mg/dL ve/veya klinik hipoglisemide bilinç açıksa oral şekerli sıvı; bilinç kapalıysa 25 g glikoz IV uygula.",
+      "Glukoz >300 mg/dL ise %0,9 NaCl IV infüzyon başla; şok/dehidratasyon bulgularında Hipovolemik Şok algoritmasına geç."
     ],
     "quick": [
       "<strong>Kan şekerini ölç.</strong> Glukoz <60 mg/dL ve/veya klinik hipoglisemi varsa bilinç durumunu değerlendir.",
-      "Bilinç açık ve aspirasyon riski yoksa ağızdan şekerli sıvı ver; <strong>kan şekerini ve kliniği kontrol et, gerekirse 15 dk arayla tekrarla.</strong>",
-      "Bilinç kapalı/oral alamıyorsa <strong>%10–%20 dekstrozdan 25 g glikoz IV bolus.</strong>",
-      "Glukoz <60 mg/dL sürüyorsa 5–10 dk arayla tekrar değerlendir/uygula; klinik düzelmeyi seri izle."
+      "<strong>Hipoglisemi — bilinç açık:</strong> ağızdan şekerli sıvı ver; kan şekerini ve kliniği kontrol et, gerekirse 15 dk arayla tekrarla.",
+      "<strong>Hipoglisemi — bilinç kapalı:</strong> %10–%20 dekstroz solüsyonlarından 25 g glikoz IV bolus; glukoz <60 mg/dL ise 5–10 dk arayla dekstroz solüsyonlarını tekrarla.",
+      "<strong>Hiperglisemi:</strong> glukoz >300 mg/dL ise %0,9 NaCl IV infüzyon başla. Şok ve dehidratasyon bulguları varsa Hipovolemik Şok algoritmasına geç."
     ],
     "warningFindings": [
-      "Bilinç kaybı veya nöbet",
-      "Tekrarlayan/refrakter hipoglisemi",
-      "Aspirasyon riski",
-      "Şok/dehidratasyon veya eşlik eden ağır hastalık"
+      "Bilinç değişikliği / oral alamama",
+      "Glukoz <60 mg/dL'nin sürmesi",
+      "Glukoz >300 mg/dL ile şok veya dehidratasyon bulguları"
     ],
     "meds": [
       {
@@ -2031,13 +2062,26 @@ const CASES = [
         "authority": "DIRECT",
         "repeat": "Glukoz <60 mg/dL ise 5–10 dk arayla",
         "maxDose": "",
-        "note": "2026 güncellemesinde SKKM onayı olmadan doğrudan uygulama olarak belirtilmiştir."
+        "note": "Bilinç kapalı hipoglisemi kolu; resmî turuncu kutuda telefon simgesi olmadan yer alır.",
+        "practitionerAuthority": "AABT"
+      },
+      {
+        "name": "%0,9 NaCl — hiperglisemi",
+        "dose": "IV infüzyon",
+        "routes": [
+          "IV"
+        ],
+        "authority": "DIRECT",
+        "repeat": "",
+        "maxDose": "",
+        "note": "Glukoz >300 mg/dL kolunda infüzyon başla; resmî şema bu basamakta hacim veya hız belirtmez.",
+        "practitionerAuthority": "AABT"
       }
     ],
     "decision": {
-      "q": "Hasta güvenli şekilde oral alabiliyor mu?",
-      "yes": "Ağızdan şekerli sıvı → kan şekeri/klinik kontrolü → gerekirse 15 dk arayla tekrar.",
-      "no": "IV dekstroz 25 g + yeniden glukoz ölçümü; yanıta göre tekrar."
+      "q": "Glukoz <60 mg/dL ve/veya klinik hipoglisemi var mı?",
+      "yes": "Bilinç durumuna göre oral şekerli sıvı veya IV dekstroz uygula; seri kan şekeri ve klinik değerlendirme yap.",
+      "no": "Glukoz >300 mg/dL ise %0,9 NaCl IV infüzyon başla; şok/dehidratasyonda Hipovolemik Şok algoritmasına geç."
     }
   },
   {
@@ -2114,7 +2158,7 @@ const CASES = [
       "documentTitle": "Hastane Öncesi Acil Tıbbi Yardım ve Bakım Akış Şemaları",
       "effectiveDate": "2026-08-25",
       "officialPageDate": "2026-09-11",
-      "reviewedAt": "2026-09-21",
+      "reviewedAt": "2026-09-22",
       "officialPageUrl": "https://acilafet.saglik.gov.tr/TR-119840/hastane-oncesi-acil-tibbi-yardim-ve-bakim-akis-semalari.html",
       "officialPdfUrl": "https://dosyamerkez.saglik.gov.tr/Eklenti/55773/0/ek-2-hastane-oncesi-acil-tibbi-yardim-ve-bakim-akis-semalaripdf.pdf",
       "section": "adult",
@@ -2153,7 +2197,8 @@ const CASES = [
         "authority": "SKKM",
         "repeat": "İkinci basamak sonrası 5 dk sonra nöbet sürerse 5 mg IV tekrar",
         "maxDose": "",
-        "note": "IV yavaş puşe; ilk ve 5 dk sonraki tekrar basamakları resmî şemada SKKM/ÇM telefon simgelidir."
+        "note": "IV yavaş puşe; ilk ve 5 dk sonraki tekrar basamakları resmî şemada SKKM/ÇM telefon simgelidir.",
+        "practitionerAuthority": "AABT"
       },
       {
         "name": "Midazolam",
@@ -2165,7 +2210,8 @@ const CASES = [
         "authority": "SKKM",
         "repeat": "İkinci basamak sonrası 5 dk sonra nöbet sürerse 5 mg IV / 10 mg IM tekrar",
         "maxDose": "",
-        "note": "İlk ve 5 dk sonraki tekrar basamakları resmî şemada SKKM/ÇM telefon simgelidir."
+        "note": "İlk ve 5 dk sonraki tekrar basamakları resmî şemada SKKM/ÇM telefon simgelidir.",
+        "practitionerAuthority": "AABT"
       },
       {
         "name": "Fenitoin",
@@ -2176,7 +2222,8 @@ const CASES = [
         "authority": "SKKM",
         "repeat": "İkinci basamak",
         "maxDose": "",
-        "note": "20 mg/kg IV; resmî şemada infüzyon hızı en fazla 25 mg/kg/dk olarak yazılıdır. SKKM/ÇM telefon simgeli."
+        "note": "20 mg/kg IV; resmî şemada infüzyon hızı en fazla 25 mg/kg/dk olarak yazılıdır. SKKM/ÇM telefon simgeli.",
+        "practitionerAuthority": "AABT"
       },
       {
         "name": "Valproik asit",
@@ -2187,7 +2234,8 @@ const CASES = [
         "authority": "SKKM",
         "repeat": "İkinci basamak",
         "maxDose": "",
-        "note": "40 mg/kg IV infüzyon; ikinci basamak ve SKKM/ÇM telefon simgeli."
+        "note": "40 mg/kg IV infüzyon; ikinci basamak ve SKKM/ÇM telefon simgeli.",
+        "practitionerAuthority": "AABT"
       },
       {
         "name": "Levetirasetam",
@@ -2198,7 +2246,8 @@ const CASES = [
         "authority": "SKKM",
         "repeat": "İkinci basamak",
         "maxDose": "",
-        "note": "60 mg/kg IV infüzyon; ikinci basamak ve SKKM/ÇM telefon simgeli."
+        "note": "60 mg/kg IV infüzyon; ikinci basamak ve SKKM/ÇM telefon simgeli.",
+        "practitionerAuthority": "AABT"
       }
     ],
     "decision": {

@@ -36,10 +36,10 @@ if(!APP_META?.routes?.includes('SC')||APP_META?.routeLabels?.SC!=='Subkutan (SC)
 if(APP_META?.authority?.DIRECT?.symbol!=='✓'||APP_META?.authority?.DIRECT?.visualLabel!=='SKKM/ÇM onayı gerektirmez')err('DIRECT yeşil/doğrudan sembol metası eksik');
 if(APP_META?.authority?.SKKM?.symbol!=='◆'||APP_META?.authority?.SKKM?.visualLabel!=='SKKM/ÇM onayı gerekli')err('SKKM sarı/onay sembol metası eksik');
 if(APP_META?.authority?.ALGORITHM?.symbol!=='•'||APP_META?.authority?.ALGORITHM?.visualLabel!=='Yetki simgesi doğrulanmadı')err('ALGORITHM nötr sembol metası eksik');
-if(APP_META?.contentVersion!=='EK2-2026.08.25-practitioner-authority-2-2026.09.22')err('contentVersion ikinci uygulayıcı yetki audit paketiyle eşleşmiyor');
-if(APP_META?.productVersion!=='0.16')err('productVersion V0.16 olmalı');
+if(APP_META?.contentVersion!=='EK2-2026.08.25-practitioner-authority-3-2026.09.22')err('contentVersion üçüncü uygulayıcı yetki audit paketiyle eşleşmiyor');
+if(APP_META?.productVersion!=='0.17')err('productVersion V0.17 olmalı');
 if(APP_META?.practitionerAuthority?.ATT_AABT?.officialLabel!=='Acil Tıp Teknisyeni / Teknikeri'||APP_META?.practitionerAuthority?.AABT?.officialLabel!=='Acil Tıp Teknikeri'||APP_META?.practitionerAuthority?.UNVERIFIED?.symbol!=='□')err('ATT/AABT uygulayıcı yetki metası eksik veya bozuk');
-for(const code of ['SB-ASH-Y-04','SB-ASH-Y-05','SB-ASH-Y-06','SB-ASH-Y-07','SB-ASH-Y-08','SB-ASH-Y-09','SB-ASH-Y-10','SB-ASH-Y-11'])if(!APP_META?.practitionerAudit?.verifiedMedicationCases?.includes(code))err(`Uygulayıcı yetki görsel audit izi eksik: ${code}`);
+for(const code of ['SB-ASH-Y-04','SB-ASH-Y-05','SB-ASH-Y-06','SB-ASH-Y-07','SB-ASH-Y-08','SB-ASH-Y-09','SB-ASH-Y-10','SB-ASH-Y-11','SB-ASH-Y-12','SB-ASH-Y-13','SB-ASH-Y-14','SB-ASH-Y-15','SB-ASH-Y-17','SB-ASH-Y-19','SB-ASH-Y-21','SB-ASH-Y-22'])if(!APP_META?.practitionerAudit?.verifiedMedicationCases?.includes(code))err(`Uygulayıcı yetki görsel audit izi eksik: ${code}`);
 const strokeCase=(CASES||[]).find(c=>c.id==='stroke');
 if(!strokeCase||strokeCase.title!=='İnme / SVO')err('İnme / SVO başlığı korunmalı');
 const seizureCase=(CASES||[]).find(c=>c.id==='seizure');
@@ -95,7 +95,10 @@ for(const forbidden of ['Atropin 3 mg','NaHCO₃ 1 mEq/kg'])if(arrestText.includ
 if(roscCase?.page!=='23'||!JSON.stringify(roscCase).includes('MAP ≥65 mmHg')||!JSON.stringify(roscCase).includes('32–37,5°C'))err('Resüsitasyon Sonrası Bakım sayfa/hedef sabitleri bozuldu');
 
 const hypoCase=(CASES||[]).find(c=>c.id==='hypoglycemia');
-if(hypoCase?.page!=='31'||medByName(hypoCase,'Dekstroz')?.authority!=='DIRECT'||!String(medByName(hypoCase,'Dekstroz')?.repeat||'').includes('5–10 dk')||!JSON.stringify(hypoCase).includes('15 dk'))err('Hipoglisemi sayfa/15 dk oral tekrar/dekstroz sabitleri bozuldu');
+if(hypoCase?.title!=='Diyabetik Aciller'||hypoCase?.page!=='31')err('Diyabetik Aciller Y-17 başlık/sayfa sabiti bozuldu');
+if(medByName(hypoCase,'Dekstroz')?.authority!=='DIRECT'||medByName(hypoCase,'Dekstroz')?.practitionerAuthority!=='AABT'||!String(medByName(hypoCase,'Dekstroz')?.repeat||'').includes('5–10 dk')||!JSON.stringify(hypoCase).includes('15 dk'))err('Diyabetik Aciller hipoglisemi dekstroz/tekrar sabitleri bozuldu');
+const hyperNaCl=medByName(hypoCase,'%0,9 NaCl — hiperglisemi');
+if(hyperNaCl?.dose!=='IV infüzyon'||hyperNaCl?.authority!=='DIRECT'||hyperNaCl?.practitionerAuthority!=='AABT'||!JSON.stringify(hypoCase).includes('>300 mg/dL'))err('Diyabetik Aciller hiperglisemi %0,9 NaCl kolu eksik');
 
 if(strokeCase?.page!=='32'||!JSON.stringify(strokeCase).includes('BEFAST')||!JSON.stringify(strokeCase).includes('%94–98')||!JSON.stringify(strokeCase).includes('30°'))err('İnme / SVO sayfa/BEFAST/O2/30° sabitleri bozuldu');
 if(seizureCase?.page!=='33'||medByName(seizureCase,'Valproik asit')?.dose!=='40 mg/kg'||medByName(seizureCase,'Levetirasetam')?.dose!=='60 mg/kg')err('Nöbet sayfa/2026 ikinci basamak dozları bozuldu');
@@ -108,7 +111,7 @@ const adultAuditCases=(CASES||[]).filter(c=>c.population==='adult');
 if(adultAuditCases.length!==37)err('Yetişkin kütüphanesi 37 doğrulanmış vaka olmalı');
 for(const c of adultAuditCases)if(!['2026-09-21','2026-09-22'].includes(c.source?.reviewedAt))err(`${c.id}: beklenmeyen reviewedAt ${c.source?.reviewedAt}`);
 for(const c of adultAuditCases)for(const m of (c.meds||[]))if(!['DIRECT','SKKM'].includes(m.authority))err(`${c.id}/${m.name}: yetişkin ilaç yetkisi telefon simgesi auditinden sonra DIRECT veya SKKM olmalı`);
-for(const id of ['koah','asthma','acs','bradycardia','tachycardia','cardiac-arrest']){
+for(const id of ['koah','asthma','acs','bradycardia','tachycardia','cardiac-arrest','rosc','hypovolemic-shock','acute-heart-failure-cardiogenic-shock','agitated-patient','hypoglycemia','seizure','allergic-reaction','anaphylaxis']){
   const c=(CASES||[]).find(x=>x.id===id);
   for(const m of c?.meds||[])if(m.practitionerAuthority!=='AABT')err(`${id}/${m.name}: resmî turuncu kutu AABT uygulayıcı kısıtı olarak kilitlenmeli`);
 }
