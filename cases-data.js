@@ -1,7 +1,7 @@
 const APP_META = {
-  "schemaVersion": 3,
-  "contentVersion": "EK2-2026.08.25-adult-expansion-5-2026.09.22",
-  "productVersion": "0.14",
+  "schemaVersion": 4,
+  "contentVersion": "EK2-2026.08.25-practitioner-authority-1-2026.09.22",
+  "productVersion": "0.15",
   "populations": [
     {
       "id": "adult",
@@ -40,6 +40,26 @@ const APP_META = {
       "description": "İlaç/doz şemada yer alır; yetki ayrımı bu sürümde ayrıca doğrulanmadığından resmî şema ve kurum talimatı kontrol edilmelidir.",
       "symbol": "•",
       "visualLabel": "Yetki simgesi doğrulanmadı"
+    }
+  },
+  "practitionerAuthority": {
+    "ATT_AABT": {
+      "label": "ATT + AABT",
+      "officialLabel": "Acil Tıp Teknisyeni / Teknikeri",
+      "description": "Resmî Ek-2 turkuaz kutu: Acil Tıp Teknisyeni ve Acil Tıp Teknikeri için uygulayıcı basamağı.",
+      "symbol": "■"
+    },
+    "AABT": {
+      "label": "AABT",
+      "officialLabel": "Acil Tıp Teknikeri",
+      "description": "Resmî Ek-2 turuncu kutu: Acil Tıp Teknikeri uygulayıcı basamağı. Saha112 kısa etiketi AABT olarak gösterilir.",
+      "symbol": "■"
+    },
+    "UNVERIFIED": {
+      "label": "Doğrulanmadı",
+      "officialLabel": "Uygulayıcı yetkisi doğrulanmadı",
+      "description": "Resmî kutu rengi henüz görsel olarak doğrulanmadı; ATT/AABT için çıkarım yapılmaz.",
+      "symbol": "□"
     }
   },
   "routes": [
@@ -147,6 +167,18 @@ const APP_META = {
       "SB-ASH-Y-25"
     ],
     "source": "25.08.2026 tarihli Ek-2 resmî PDF"
+  },
+  "practitionerAudit": {
+    "reviewedAt": "2026-09-22",
+    "source": "25.08.2026 tarihli Ek-2 resmî PDF",
+    "method": "Resmî turkuaz/turuncu uygulayıcı kutu rengi sayfa görüntüsünden doğrulandı; SKKM/ÇM telefon simgesi ayrı tutuldu",
+    "legend": {
+      "ATT_AABT": "Turkuaz — Acil Tıp Teknisyeni / Teknikeri",
+      "AABT": "Turuncu — Acil Tıp Teknikeri"
+    },
+    "verifiedMedicationCases": [
+      "SB-ASH-Y-04"
+    ]
   },
   "adultCoverage": {
     "reviewedAt": "2026-09-22",
@@ -843,6 +875,7 @@ const CASES = [
           "NEB"
         ],
         "authority": "DIRECT",
+        "practitionerAuthority": "AABT",
         "repeat": "",
         "maxDose": "",
         "note": "İpratropium bromür 500 mcg nebül ile birlikte; ilk basamakta SKKM/ÇM telefon simgesi yok."
@@ -854,6 +887,7 @@ const CASES = [
           "NEB"
         ],
         "authority": "DIRECT",
+        "practitionerAuthority": "AABT",
         "repeat": "",
         "maxDose": "",
         "note": "İlk salbutamol uygulamasıyla birlikte; SKKM/ÇM telefon simgesi yok."
@@ -865,6 +899,7 @@ const CASES = [
           "NEB"
         ],
         "authority": "SKKM",
+        "practitionerAuthority": "AABT",
         "repeat": "20 dk arayla",
         "maxDose": "en fazla 3 tekrar",
         "note": "20 dk sonraki resmî telefon simgeli basamak; SKKM/ÇM ile uygulanır."
@@ -876,6 +911,7 @@ const CASES = [
           "IV"
         ],
         "authority": "SKKM",
+        "practitionerAuthority": "AABT",
         "repeat": "",
         "maxDose": "",
         "note": "20 dk sonrası telefon simgeli basamak."

@@ -17,7 +17,7 @@ try{
 }catch(e){err(`cases-data.js okunamadı: ${e.message}`)}
 
 if(APP_META){
-  if(APP_META.schemaVersion!==3)err('APP_META.schemaVersion 3 olmalı');
+  if(APP_META.schemaVersion!==4)err('APP_META.schemaVersion 4 olmalı');
   if(!Array.isArray(APP_META.populations)||APP_META.populations.length!==3)err('3 population tanımı bekleniyor');
 }
 if(!Array.isArray(CASES)||!CASES.length)err('CASES boş veya dizi değil');
@@ -29,14 +29,17 @@ else{
   if(!String(roscCase.subtitle||'').includes('ROSC')||!String(roscCase.subtitle||'').toLocaleLowerCase('tr-TR').includes('spontan dolaşım'))err('SB-ASH-Y-12 kullanıcı açıklaması ROSC ve spontan dolaşımı açıklamalı');
 }
 
-const ids=new Set();const allowedAuthority=new Set(['DIRECT','SKKM','ALGORITHM']);const allowedRoutes=new Set(APP_META?.routes||[]);const allowedPop=new Set((APP_META?.populations||[]).map(p=>p.id));
+const ids=new Set();const allowedAuthority=new Set(['DIRECT','SKKM','ALGORITHM']);const allowedPractitionerAuthority=new Set(['ATT_AABT','AABT','UNVERIFIED']);const allowedRoutes=new Set(APP_META?.routes||[]);const allowedPop=new Set((APP_META?.populations||[]).map(p=>p.id));
 if(APP_META?.routeLabels?.NEB!=='Nebülizasyon')err('NEB kullanıcı etiketi Nebülizasyon olmalı');
 if(!APP_META?.routes?.includes('INHALER')||APP_META?.routeLabels?.INHALER!=='İnhaler')err('INHALER/İnhaler yol tanımı eksik');
 if(!APP_META?.routes?.includes('SC')||APP_META?.routeLabels?.SC!=='Subkutan (SC)')err('SC/Subkutan yol tanımı eksik');
 if(APP_META?.authority?.DIRECT?.symbol!=='✓'||APP_META?.authority?.DIRECT?.visualLabel!=='SKKM/ÇM onayı gerektirmez')err('DIRECT yeşil/doğrudan sembol metası eksik');
 if(APP_META?.authority?.SKKM?.symbol!=='◆'||APP_META?.authority?.SKKM?.visualLabel!=='SKKM/ÇM onayı gerekli')err('SKKM sarı/onay sembol metası eksik');
 if(APP_META?.authority?.ALGORITHM?.symbol!=='•'||APP_META?.authority?.ALGORITHM?.visualLabel!=='Yetki simgesi doğrulanmadı')err('ALGORITHM nötr sembol metası eksik');
-if(APP_META?.contentVersion!=='EK2-2026.08.25-adult-expansion-5-2026.09.22')err('contentVersion beşinci yetişkin genişleme sürümüyle eşleşmiyor');
+if(APP_META?.contentVersion!=='EK2-2026.08.25-practitioner-authority-1-2026.09.22')err('contentVersion uygulayıcı yetki katmanı sürümüyle eşleşmiyor');
+if(APP_META?.productVersion!=='0.15')err('productVersion V0.15 olmalı');
+if(APP_META?.practitionerAuthority?.ATT_AABT?.officialLabel!=='Acil Tıp Teknisyeni / Teknikeri'||APP_META?.practitionerAuthority?.AABT?.officialLabel!=='Acil Tıp Teknikeri'||APP_META?.practitionerAuthority?.UNVERIFIED?.symbol!=='□')err('ATT/AABT uygulayıcı yetki metası eksik veya bozuk');
+if(!APP_META?.practitionerAudit?.verifiedMedicationCases?.includes('SB-ASH-Y-04'))err('KOAH uygulayıcı yetki görsel audit izi eksik');
 const strokeCase=(CASES||[]).find(c=>c.id==='stroke');
 if(!strokeCase||strokeCase.title!=='İnme / SVO')err('İnme / SVO başlığı korunmalı');
 const seizureCase=(CASES||[]).find(c=>c.id==='seizure');
@@ -150,6 +153,7 @@ if(medByName(koahCase,'Salbutamol (ilk basamak)')?.authority!=='DIRECT'||medByNa
 const koahRepeat=medByName(koahCase,'Salbutamol + İpratropium (20 dk sonrası)');
 if(koahRepeat?.authority!=='SKKM'||!String(koahRepeat?.repeat||'').includes('20 dk')||!String(koahRepeat?.maxDose||'').includes('3'))err('KOAH 20 dk tekrar basamağı SKKM/maks 3 olmalı');
 if(medByName(koahCase,'Metilprednizolon')?.dose!=='40 mg'||medByName(koahCase,'Metilprednizolon')?.authority!=='SKKM')err('KOAH metilprednizolon 40 mg SKKM olmalı');
+for(const m of koahCase?.meds||[])if(m.practitionerAuthority!=='AABT')err(`KOAH ${m.name}: resmî turuncu kutu AABT uygulayıcı yetkisi olarak kilitlenmeli`);
 if(!JSON.stringify(koahCase).includes('SKKM/ÇM ile ileri hava yolu')||!JSON.stringify(koahCase).includes('non-invaziv mekanik ventilasyonu'))err('Y-04 yanıtsız ağır KOAH telefon simgeli ileri hava yolu/NIMV basamağı eksik');
 
 const hypovolemicCase=(CASES||[]).find(c=>c.id==='hypovolemic-shock');
@@ -253,6 +257,8 @@ for(const [i,c] of (CASES||[]).entries()){
     const mt=`${at} meds[${mi}]`;
     if(!m.name||!m.dose)err(`${mt}: ad/doz eksik`);
     if(!allowedAuthority.has(m.authority))err(`${mt}: authority geçersiz (${m.authority})`);
+    const practitionerKey=m.practitionerAuthority||'UNVERIFIED';
+    if(!allowedPractitionerAuthority.has(practitionerKey))err(`${mt}: practitionerAuthority geçersiz (${practitionerKey})`);
     if(!Array.isArray(m.routes)||!m.routes.length)err(`${mt}: routes eksik`);
     for(const route of m.routes||[])if(!allowedRoutes.has(route))err(`${mt}: geçersiz route ${route}`);
     const doseText=String(m.dose||'');const doseLower=doseText.toLocaleLowerCase('tr-TR');const nonNumericInfusion=doseLower.includes('infüzyon');

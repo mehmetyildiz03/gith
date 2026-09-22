@@ -34,7 +34,20 @@ function authorityMarkup(key,{legend=false}={}){
   const badge=`<span class="authority ${cls}" data-authority="${esc(key)}" aria-label="${esc(a.label)}: ${esc(a.description)}" title="${esc(a.description)}"><span class="authority-symbol" aria-hidden="true">${esc(a.symbol||'•')}</span><span>${esc(a.label)}</span></span>`;
   return legend?`<div class="authority-legend-row">${badge}<div><strong>${esc(a.visualLabel||a.label)}</strong><p>${esc(a.description)}</p></div></div>`:badge;
 }
-function renderAuthorityLegend(){if(el.authorityLegend)el.authorityLegend.innerHTML=['DIRECT','SKKM','ALGORITHM'].map(key=>authorityMarkup(key,{legend:true})).join('')}
+function practitionerClass(key){return key==='ATT_AABT'?'att-aabt':key==='AABT'?'aabt':'unverified'}
+function practitionerMarkup(key,{legend=false}={}){
+  const resolved=APP_META.practitionerAuthority?.[key]?key:'UNVERIFIED';
+  const a=APP_META.practitionerAuthority?.[resolved]||{label:'Doğrulanmadı',officialLabel:'Uygulayıcı yetkisi doğrulanmadı',description:'Resmî kutu rengi doğrulanmadı.',symbol:'□'};
+  const cls=practitionerClass(resolved);
+  const badge=`<span class="practitioner ${cls}" data-practitioner="${esc(resolved)}" aria-label="Uygulayıcı: ${esc(a.officialLabel)}. ${esc(a.description)}" title="${esc(a.description)}"><span class="practitioner-symbol" aria-hidden="true">${esc(a.symbol||'■')}</span><span>${esc(a.label)}</span></span>`;
+  return legend?`<div class="authority-legend-row practitioner-legend-row">${badge}<div><strong>${esc(a.officialLabel||a.label)}</strong><p>${esc(a.description)}</p></div></div>`:badge;
+}
+function renderAuthorityLegend(){
+  if(!el.authorityLegend)return;
+  const approval=['DIRECT','SKKM','ALGORITHM'].map(key=>authorityMarkup(key,{legend:true})).join('');
+  const practitioner=['ATT_AABT','AABT','UNVERIFIED'].map(key=>practitionerMarkup(key,{legend:true})).join('');
+  el.authorityLegend.innerHTML=`<div class="authority-legend-group"><h4>SKKM/ÇM onayı</h4>${approval}</div><div class="authority-legend-group"><h4>Uygulayıcı yetkisi</h4><p class="legend-note">Resmî Ek-2 kutu renginden okunur; SKKM/ÇM telefon simgesinden bağımsızdır.</p>${practitioner}</div>`;
+}
 function renderAppMeta(){const version=`V${APP_META.productVersion}`;if(el.productVersionChip)el.productVersionChip.textContent=version;if(el.sourceProductMeta)el.sourceProductMeta.textContent=`Uygulama: ${version}`;if(el.sourceReviewMeta)el.sourceReviewMeta.textContent=`Kaynak seti son gözden geçirme: ${formatDateTR(latestReviewDate())}`;renderAuthorityLegend()}
 
 function detectTheme(){if(['light','dark'].includes(state.theme))return state.theme;return matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light'}
@@ -51,7 +64,7 @@ function updateNetwork(){const online=navigator.onLine;el.network.dataset.state=
 
 function searchText(c){
   const sev=c.severity?Object.values(c.severity).flatMap(s=>[s.label,...s.bullets,s.action]):[];
-  const meds=(c.meds||[]).flatMap(m=>[m.name,m.dose,...(m.routes||[]).flatMap(r=>[r,routeLabel(r)]),m.repeat,m.maxDose,m.note,APP_META.authority[m.authority]?.label]);
+  const meds=(c.meds||[]).flatMap(m=>[m.name,m.dose,...(m.routes||[]).flatMap(r=>[r,routeLabel(r)]),m.repeat,m.maxDose,m.note,APP_META.authority[m.authority]?.label,APP_META.practitionerAuthority?.[m.practitionerAuthority||'UNVERIFIED']?.label,APP_META.practitionerAuthority?.[m.practitionerAuthority||'UNVERIFIED']?.officialLabel]);
   return [c.title,c.subtitle,c.category,c.code,c.summary,...c.criticalActions,...c.quick,...c.warningFindings,c.decision?.q,c.decision?.yes,c.decision?.no,...sev,...meds].filter(Boolean).map(strip).join(' ').toLocaleLowerCase('tr-TR');
 }
 function priorityRank(c){return ({critical:0,high:1,standard:2}[c.uiPriority]??9)}
@@ -105,7 +118,8 @@ function renderShortcuts(){
 function renderAll(){ensurePopulationAvailable();renderAppMeta();renderPopulations();renderFilters();renderStats();renderFeatured();renderShortcuts();renderCases()}
 
 function authorityBadge(m){return authorityMarkup(m.authority)}
-function renderMeds(c){if(!c.meds?.length)return '';return `<section class="detail-section meds-section" id="medications"><div class="detail-heading"><span class="tiny-icon">Rx</span><div><h3>İlaç / uygulama özeti</h3><p><span class="inline-authority-key direct-key">✓ Yeşil: SKKM/ÇM onayı yok</span> <span class="inline-authority-key skkm-key">◆ Sarı: SKKM/ÇM onayı</span> • Gri: yetki ayrıca doğrulanmadı.</p></div></div><div class="med-list">${c.meds.map(m=>`<article class="med-card"><div class="med-main"><div><strong>${esc(m.name)}</strong><span class="dose">${esc(m.dose)}</span></div>${authorityBadge(m)}</div><div class="med-meta"><span>Yol: <b>${esc((m.routes||[]).map(routeLabel).join(' / '))}</b></span>${m.repeat?`<span>Tekrar: <b>${esc(m.repeat)}</b></span>`:''}${m.maxDose?`<span>Maks: <b>${esc(m.maxDose)}</b></span>`:''}</div><p>${esc(m.note)}</p></article>`).join('')}</div><div class="authority-warning">Yeşil/sarı yalnız SKKM/ÇM onay gerekliliğini gösterir; resmî şemadaki ATT/AABT uygulayıcı yetki renklerinin yerine geçmez. Sembol ve yazıyı birlikte kontrol et.</div></section>`}
+function practitionerBadge(m){return practitionerMarkup(m.practitionerAuthority||'UNVERIFIED')}
+function renderMeds(c){if(!c.meds?.length)return '';return `<section class="detail-section meds-section" id="medications"><div class="detail-heading"><span class="tiny-icon">Rx</span><div><h3>İlaç / uygulama özeti</h3><p><span class="inline-authority-key direct-key">✓ Yeşil: SKKM/ÇM onayı yok</span> <span class="inline-authority-key skkm-key">◆ Sarı: SKKM/ÇM onayı</span> • <span class="inline-practitioner-key">■ Uygulayıcı: ATT/AABT</span></p></div></div><div class="med-list">${c.meds.map(m=>`<article class="med-card"><div class="med-main"><div><strong>${esc(m.name)}</strong><span class="dose">${esc(m.dose)}</span></div><div class="med-badges" aria-label="Yetki göstergeleri">${authorityBadge(m)}${practitionerBadge(m)}</div></div><div class="med-meta"><span>Yol: <b>${esc((m.routes||[]).map(routeLabel).join(' / '))}</b></span>${m.repeat?`<span>Tekrar: <b>${esc(m.repeat)}</b></span>`:''}${m.maxDose?`<span>Maks: <b>${esc(m.maxDose)}</b></span>`:''}</div><p>${esc(m.note)}</p></article>`).join('')}</div><div class="authority-warning">SKKM/ÇM onayı ve uygulayıcı yetkisi iki ayrı göstergedir. Gri “Doğrulanmadı” uygulayıcı rozeti, resmî kutu renginin henüz görsel olarak denetlenmediğini gösterir; ATT/AABT için çıkarım yapılmaz.</div></section>`}
 function renderSeverity(c,level='mild'){if(!c.severity)return '';const s=c.severity[level];return `<div class="severity-card ${level}" id="severityCard"><div class="severity-head"><span class="level-dot"></span><strong>${esc(s.label)}</strong></div><ul>${s.bullets.map(b=>`<li>${esc(b)}</li>`).join('')}</ul><div class="action-box"><b>Ne yap?</b><p>${esc(s.action)}</p></div></div>`}
 function renderSource(c){const s=c.source;const codes=s.algorithmCodes?.length?s.algorithmCodes.join(' + '):'Sayfa referansı';return `<section class="detail-section source-section subdued-section" id="source"><div class="detail-heading"><span class="tiny-icon">§</span><div><h3>Kaynak izi</h3><p>Bu kartın hangi resmî sürüme dayandığını gösterir.</p></div></div><div class="source-grid"><div><span>Belge</span><strong>${esc(s.documentId)}</strong></div><div><span>Kod</span><strong>${esc(codes)}</strong></div><div><span>PDF sayfa</span><strong>${esc(s.page)}</strong></div><div><span>İnceleme</span><strong>${esc(s.reviewedAt)}</strong></div></div><div class="source-actions"><a href="${esc(s.officialPageUrl)}" target="_blank" rel="noopener">Resmî sayfa ↗</a><a href="${esc(s.officialPdfUrl)}" target="_blank" rel="noopener">Ek‑2 PDF ↗</a></div><p class="source-disclaimer">Çevrimdışıyken vaka içeriği kullanılabilir; resmî dış bağlantılar internet gerektirebilir. Resmî belge her zaman son referanstır.</p></section>`}
 function openCase(id){

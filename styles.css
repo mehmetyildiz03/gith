@@ -385,3 +385,22 @@ html.dialog-open,html.dialog-open body{overflow:hidden}
 }
 :root[data-theme='dark'] .direct-key{color:#8be0bd!important}
 :root[data-theme='dark'] .skkm-key{color:#f4c968!important}
+
+
+/* V0.15 practitioner authority layer */
+.med-badges{display:flex;flex-direction:column;align-items:flex-end;gap:5px;flex:0 0 auto}
+.practitioner{display:inline-flex;align-items:center;gap:5px;white-space:nowrap;padding:4px 7px;border-radius:7px;font-size:8.5px;font-weight:900;border:1px solid transparent}
+.practitioner-symbol{font-size:8px;line-height:1}
+.practitioner.att-aabt{background:color-mix(in srgb,#67c9da 18%,var(--solid));border-color:color-mix(in srgb,#36a7bb 30%,var(--line));color:color-mix(in srgb,#15788a 84%,var(--ink))}
+.practitioner.aabt{background:color-mix(in srgb,#f2ad38 18%,var(--solid));border-color:color-mix(in srgb,#d58b13 30%,var(--line));color:color-mix(in srgb,#9a5a00 88%,var(--ink))}
+.practitioner.unverified{background:var(--solid);border-color:var(--line);color:var(--muted)}
+.inline-practitioner-key{font-weight:800;color:var(--ink2)}
+.authority-legend-group{display:grid;gap:7px;padding-top:3px}
+.authority-legend-group+.authority-legend-group{margin-top:12px;padding-top:12px;border-top:1px solid var(--line)}
+.authority-legend-group h4{font-size:10px;letter-spacing:.05em;text-transform:uppercase;color:var(--ink2)}
+.legend-note{font-size:9px;line-height:1.4;color:var(--muted);margin:-2px 0 2px}
+.practitioner-legend-row .practitioner{min-width:82px;justify-content:center}
+:root[data-theme='dark'] .practitioner.att-aabt{background:color-mix(in srgb,#67c9da 18%,#14212c);color:#9ce8f3}
+:root[data-theme='dark'] .practitioner.aabt{background:color-mix(in srgb,#f2ad38 18%,#14212c);color:#ffd187}
+:root[data-theme='dark'] .practitioner.unverified{background:var(--detail-panel-deep);color:var(--muted)}
+@media(max-width:390px){.med-main{align-items:flex-start}.med-badges{max-width:104px}.practitioner,.authority{font-size:8px;padding:4px 6px}}

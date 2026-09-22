@@ -2,9 +2,10 @@
 
 Mobil-first, offline çekirdekli, vaka bazlı hastane öncesi acil sağlık eğitim ve hızlı hatırlatma uygulaması.
 
-## V0.14 mimarisi
+## V0.15 mimarisi
 
 - **Kaynak:** T.C. Sağlık Bakanlığı 25.08.2026 tarihli Ek-2 Hastane Öncesi Acil Tıbbi Yardım ve Bakım Akış Şemaları.
+- **V0.15 uygulayıcı yetki katmanı:** SKKM/ÇM onayı (`authority`) ile resmî kutu renginden okunan ATT/AABT uygulayıcı yetkisi (`practitionerAuthority`) birbirinden ayrıldı. Turkuaz = resmî lejantta “Acil Tıp Teknisyeni / Teknikeri”, turuncu = “Acil Tıp Teknikeri”. KOAH Y-04 ilaç kutuları görsel olarak doğrulanarak pilot kapsamda AABT olarak işlendi; doğrulanmamış ilaç kartları gri `Doğrulanmadı` rozeti taşır ve çıkarım yapılmaz.
 - **17 yetişkin vaka klinik audit:** 21.09.2026 tarihinde güncel Ek-2 kaynak setiyle başlık, doz, yol, tekrar, yetki, algoritma sırası ve kaynak izi yeniden kontrol edildi; yalnız doğrulanabilen değişiklikler işlendi.
 - **Gri ilaç yetkisi:** SB-ASH-Y-07, Y-10/Y-11, Y-12 ve Y-19 sayfalarındaki SKKM/ÇM telefon ikonları resmî PDF görüntülerinden ayrıca denetlendi; mevcut 17 yetişkin vakada ilaç kartlarında çözümlenmemiş gri yetki kalmadı.
 - **Kaynak bütünlüğü düzeltmesi:** V0.9.3'te mevcut 17 kartın resmî PDF sayfa izleri yeniden kilitlendi; Taşikardi s.17, ROSC s.23, Diyabetik Aciller s.31, İnme/SVO s.32, Nöbet/Konvülziyon s.33 ve Travmalı Hastada Acil Olgu Yönetimi Y-38 s.67 düzeltildi. Suda Boğulma at-çek-uzat, Hipoglisemi 15 dk yeniden değerlendirme, İnme %94–98/30° ve Termal Yanık kısa nakil 500 mL basamakları resmî metne göre tamamlandı.
@@ -24,8 +25,9 @@ Mobil-first, offline çekirdekli, vaka bazlı hastane öncesi acil sağlık eği
 - **Dokunma hedefleri:** Telefon/tablet Chrome testinde temel etkileşim kontrolleri en az 44 CSS px dokunma yüksekliğine sabitlenir.
 - **Hızlı Saha modu:** Öncelikli vakaları öne alır; detayda İlk Kritik Adımlar, Acil Uyarı Bulguları, karar ve ilaç dozlarını öne çıkarır; açıklayıcı/kaynak alanlarını geri çeker.
 - **Hasta grupları:** Yetişkin / Çocuk / Doğum & Yenidoğan mimaride kalıcıdır. Doğrulanmış kartı olmayan grup `Yakında` olarak pasif görünür ve ilk onaylı kart geldiğinde otomatik açılır.
-- **İlaç modeli:** ad, doz, uygulama yolu, tekrar, maksimum doz ve standart yetki enumu.
-- **Yetki enumları:** `DIRECT`, `SKKM`, `ALGORITHM`.
+- **İlaç modeli:** ad, doz, uygulama yolu, tekrar, maksimum doz, SKKM/ÇM onay enumu ve bağımsız uygulayıcı yetki enumu.
+- **SKKM/ÇM enumları:** `DIRECT`, `SKKM`, `ALGORITHM`.
+- **Uygulayıcı enumları:** `ATT_AABT`, `AABT`, `UNVERIFIED`; resmî kutu rengi görsel audit edilmeden `ATT_AABT` veya `AABT` atanmaz.
 - **Yetki işaretleri:** `✓` yeşil = SKKM/ÇM telefon simgesi olmayan, onay beklemeyen basamak; `◆` sarı = SKKM/ÇM telefon simgeli basamak; `•` gri yalnız henüz yetki simgesi doğrulanmamış içerik için ayrılmıştır. Yeşil/sarı ATT-AABT mesleki yetki renklerinin yerine geçmez.
 - **Kaynak izi:** belge, yürürlük tarihi, kod/sayfa, son içerik inceleme tarihi ve resmî bağlantılar vaka ile birlikte tutulur.
 - **PWA:** offline çekirdek, 192/512 PNG ikon, Apple touch icon, service worker.
