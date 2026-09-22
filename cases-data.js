@@ -1,7 +1,7 @@
 const APP_META = {
   "schemaVersion": 3,
-  "contentVersion": "EK2-2026.08.25-adult-expansion-2026.09.22",
-  "productVersion": "0.10.1",
+  "contentVersion": "EK2-2026.08.25-adult-expansion-2-2026.09.22",
+  "productVersion": "0.11",
   "populations": [
     {
       "id": "adult",
@@ -114,6 +114,16 @@ const APP_META = {
       "SB-ASH-Y-16"
     ],
     "source": "25.08.2026 tarihli Ek-2 resmî PDF; algoritma ve anahtar nokta sayfaları görsel olarak doğrulandı"
+  },
+  "adultExpansion2": {
+    "reviewedAt": "2026-09-22",
+    "algorithms": [
+      "SB-ASH-Y-15",
+      "SB-ASH-Y-20",
+      "SB-ASH-Y-21",
+      "SB-ASH-Y-25"
+    ],
+    "source": "25.08.2026 tarihli Ek-2 resmî PDF"
   }
 };
 
@@ -258,6 +268,94 @@ const CASES = [
     "severityView": {
       "title": "Klinik görünüm",
       "note": "Bu ayrım hızlı eğitim görünümüdür; resmî arı sokması şemasında ayrı bir üçlü tedavi sınıflaması değildir."
+    }
+  },
+  {
+    "id": "allergic-reaction",
+    "title": "Alerjik Reaksiyon",
+    "subtitle": "Hayatı tehdit eden bulgu? • Anafilaksiye geçiş",
+    "category": "Alerji",
+    "icon": "🌿",
+    "accent": "#7b6a9e",
+    "soft": "#f1edf8",
+    "code": "SB-ASH-Y-21",
+    "page": "35",
+    "uiFeatured": false,
+    "population": "adult",
+    "uiPriority": "high",
+    "clinicalStatus": "reviewed",
+    "summary": "Akut başlangıçlı alerjik tabloda hayatı tehdit eden hava yolu, solunum veya dolaşım bulgusu varsa doğrudan Anafilaksi algoritmasına geç; yoksa destek, sıvı ve SKKM/ÇM ilaç basamaklarını uygula.",
+    "criticalActions": [
+      "Acil olgu yönetimini uygula ve akut başlangıçlı hayatı tehdit eden bulgu var mı değerlendir.",
+      "Hayatı tehdit eden hava yolu/solunum/dolaşım bulgularından herhangi biri varsa Anafilaksi algoritmasına geç.",
+      "Bu bulgular yoksa hava yolunu açık tut, O₂ desteği ver, damar yolu aç; SpO₂, EKG ve kan basıncını monitörize et."
+    ],
+    "quick": [
+      "<strong>Hayatı tehdit eden bulgu varsa:</strong> anjiyoödem/stridor/hırıltılı solunum; takipne-wheezing-siyanoz-SpO₂ <%90-konfüzyon; soluk cilt/hipotansiyon/koma → <strong>Anafilaksi</strong>.",
+      "Hayatı tehdit eden bulgu yoksa hava yolu + O₂ + damar yolu + SpO₂/EKG/KB takibi.",
+      "<strong>Doğrudan:</strong> %0,9 NaCl 500 mL bolus.",
+      "<strong>SKKM/ÇM:</strong> feniramin maleat 45,5 mg IV veya difenhidramin 25–50 mg IV yavaş puşe; profilaktik metilprednizolon 1–2 mg/kg IV (maks. 125 mg)."
+    ],
+    "warningFindings": [
+      "Anjiyoödem, stridor veya hırıltılı solunum",
+      "Takipne, wheezing, siyanoz, SpO₂ <%90 veya konfüzyon",
+      "Soluk cilt, hipotansiyon veya koma",
+      "Anjiyoödem varlığında erken ileri hava yolu hazırlığı gereksinimi"
+    ],
+    "meds": [
+      {
+        "name": "%0,9 NaCl",
+        "dose": "500 mL",
+        "routes": [
+          "IV"
+        ],
+        "authority": "DIRECT",
+        "repeat": "Bolus",
+        "maxDose": "",
+        "note": "Hayatı tehdit eden bulgu yok dalında, resmî şemada telefon simgesi olmayan sıvı basamağı."
+      },
+      {
+        "name": "Feniramin maleat veya Difenhidramin",
+        "dose": "45,5 mg / 25–50 mg",
+        "routes": [
+          "IV"
+        ],
+        "authority": "SKKM",
+        "repeat": "",
+        "maxDose": "",
+        "note": "Alternatif antihistaminikler: feniramin maleat 45,5 mg IV veya difenhidramin 25–50 mg IV yavaş puşe; telefon simgeli basamak."
+      },
+      {
+        "name": "Metilprednizolon",
+        "dose": "1–2 mg/kg",
+        "routes": [
+          "IV"
+        ],
+        "authority": "SKKM",
+        "repeat": "",
+        "maxDose": "125 mg",
+        "note": "Resmî şemada profilaktik olarak ve SKKM/ÇM telefon simgeli basamak."
+      }
+    ],
+    "decision": {
+      "q": "Akut başlangıçlı hayatı tehdit eden bulgu var mı?",
+      "yes": "Anafilaksi algoritmasına geç.",
+      "no": "Hava yolu/O₂/IV/monitörizasyon → %0,9 NaCl 500 mL → SKKM/ÇM antihistaminik ve profilaktik metilprednizolon."
+    },
+    "source": {
+      "documentId": "EK2-2026",
+      "documentTitle": "Hastane Öncesi Acil Tıbbi Yardım ve Bakım Akış Şemaları",
+      "effectiveDate": "2026-08-25",
+      "officialPageDate": "2026-09-11",
+      "reviewedAt": "2026-09-22",
+      "officialPageUrl": "https://acilafet.saglik.gov.tr/TR-119840/hastane-oncesi-acil-tibbi-yardim-ve-bakim-akis-semalari.html",
+      "officialPdfUrl": "https://dosyamerkez.saglik.gov.tr/Eklenti/55773/0/ek-2-hastane-oncesi-acil-tibbi-yardim-ve-bakim-akis-semalaripdf.pdf",
+      "section": "adult",
+      "codeStatus": "verified",
+      "algorithmCodes": [
+        "SB-ASH-Y-21"
+      ],
+      "page": "35"
     }
   },
   {
@@ -834,6 +932,60 @@ const CASES = [
       ],
       "page": "40–43",
       "codeStatus": "verified"
+    }
+  },
+  {
+    "id": "hypothermic-arrest",
+    "title": "Hipotermide Arrest Yönetimi",
+    "subtitle": "≥60 sn nabız • ısıtma • KPR/defibrilasyon",
+    "category": "Resüsitasyon",
+    "icon": "❄️",
+    "accent": "#387aa2",
+    "soft": "#e7f3f8",
+    "code": "SB-ASH-Y-25",
+    "page": "43",
+    "uiFeatured": false,
+    "population": "adult",
+    "uiPriority": "critical",
+    "clinicalStatus": "reviewed",
+    "summary": "Vücut ısısı <35°C ve bilinç kapalıysa nabzı en az 60 sn değerlendir; arrestte KPR başlama kriterlerini, aktif/pasif ısıtmayı ve hipotermiye özgü defibrilasyon-KPR kurallarını uygula.",
+    "criticalActions": [
+      "Vücut ısısı <35°C ve bilinç kapalıysa nabzı en az 60 sn kontrol et.",
+      "Nabız yoksa KPR başlama kriterlerini değerlendir; kriter varsa standart erişkin ileri yaşam desteğiyle birlikte pasif ve aktif ısıtma uygula.",
+      "Vücut ısısı ≥35°C olana kadar KPR'yi sonlandırma; ilk defibrilasyon başarısız ve ısı <30°C ise sonraki defibrilasyonu ≥30°C'ye kadar ertele."
+    ],
+    "quick": [
+      "Nabız varsa <strong>Hipotermi</strong> algoritmasına dön. Nabız yoksa KPR başlama kriterlerini değerlendir.",
+      "KPR endikasyonu varsa standart erişkin ileri yaşam desteği + eş zamanlı pasif/aktif ısıtma; <strong>ısı ≥35°C olana kadar KPR'yi sonlandırma</strong>, >35°C'de Arrest algoritmasına geç.",
+      "Kesintisiz KPR mümkün değilse: <strong><28°C: 5 dk KPR / 5 dk KPR'siz</strong>; <strong><20°C: 5 dk KPR / 10 dk KPR'siz</strong>. KPR'siz süreyi taşıma/kurtarma için kullan.",
+      "KPR başlanmama kriterlerini ayrıca kontrol et: hava yolunun kar/buzla kaplı olması, >35 dk çığ altında kalma, ortam güvenliğinin sağlanamaması veya kompresyona izin vermeyecek şekilde tüm vücudun donması. SKKM/ÇM ile ECMO merkezine yönlendirmeyi düşün."
+    ],
+    "warningFindings": [
+      "İlk defibrilasyon başarısız ve vücut ısısı <30°C — sonraki defibrilasyonu ≥30°C'ye kadar ertele",
+      "Hava yolunun kar/buzla kaplı olması",
+      "35 dk'dan fazla çığ altında kalma",
+      "Ortam güvenliğinin sağlanamaması veya kardiyak kompresyona izin vermeyecek şekilde tüm vücudun donması"
+    ],
+    "meds": [],
+    "decision": {
+      "q": "En az 60 sn nabız kontrolünde nabız var mı?",
+      "yes": "Hipotermi algoritmasına geç.",
+      "no": "KPR başlama kriterlerini değerlendir; kriter varsa standart erişkin ileri yaşam desteği + pasif/aktif ısıtma ve ≥35°C'ye kadar resüsitasyon, kriter yoksa KPR'ye başlama."
+    },
+    "source": {
+      "documentId": "EK2-2026",
+      "documentTitle": "Hastane Öncesi Acil Tıbbi Yardım ve Bakım Akış Şemaları",
+      "effectiveDate": "2026-08-25",
+      "officialPageDate": "2026-09-11",
+      "reviewedAt": "2026-09-22",
+      "officialPageUrl": "https://acilafet.saglik.gov.tr/TR-119840/hastane-oncesi-acil-tibbi-yardim-ve-bakim-akis-semalari.html",
+      "officialPdfUrl": "https://dosyamerkez.saglik.gov.tr/Eklenti/55773/0/ek-2-hastane-oncesi-acil-tibbi-yardim-ve-bakim-akis-semalaripdf.pdf",
+      "section": "adult",
+      "codeStatus": "verified",
+      "algorithmCodes": [
+        "SB-ASH-Y-25"
+      ],
+      "page": "42–43"
     }
   },
   {
@@ -1525,6 +1677,84 @@ const CASES = [
     }
   },
   {
+    "id": "agitated-patient",
+    "title": "Ajite Hastaya Yaklaşım",
+    "subtitle": "Güvenlik • yatıştırma • neden • sedasyon",
+    "category": "Genel",
+    "icon": "⚠️",
+    "accent": "#8a6a42",
+    "soft": "#f7efe3",
+    "code": "SB-ASH-Y-15",
+    "page": "28",
+    "uiFeatured": false,
+    "population": "adult",
+    "uiPriority": "high",
+    "clinicalStatus": "reviewed",
+    "summary": "Önce olay yeri güvenliğini ve sözel yatıştırmayı sağla; kontrol sağlanmazsa güvenli alana çekil, SKKM/ÇM ve kolluk desteğiyle fiziksel/ilaçla kısıtlama basamaklarına ilerle.",
+    "criticalActions": [
+      "Olay yeri güvenliğini ve gerekli çevresel önlemleri değerlendir; güvenlik yoksa güvenli bölgeye çekil, SKKM/ÇM'yi ara ve kolluk kuvveti iste.",
+      "Uygun iletişimle yatıştırmaya çalış; kontrol sağlanırsa nedeni travmatik / non-travmatik olarak değerlendir.",
+      "Kontrol sağlanmıyorsa veya nedene yönelik tedaviye rağmen ajitasyon sürüyorsa kollukla fiziksel kısıtlama ve SKKM/ÇM ile sedasyon basamağına geç."
+    ],
+    "quick": [
+      "<strong>Yatıştırma:</strong> uygun iletişimle kontrol sağlamaya çalış.",
+      "Kontrol sağlanırsa nedeni değerlendir: <strong>travmatik</strong> ise Travmalı Hastada Acil Olgu Yönetimi; <strong>non-travmatik</strong> ise nedene yönelik tedavi.",
+      "Güvenlik yoksa veya kontrol sağlanmıyorsa güvenli bölgeye çekil; <strong>SKKM/ÇM + kolluk</strong> desteği iste, kollukla fiziksel kısıtlama uygula.",
+      "<strong>SKKM/ÇM sedasyon:</strong> midazolam 5 mg IM veya 2,5 mg IV; alternatif diazepam 5 mg IM. Halen ajite ise sedasyon dozunu tekrar et; diazepam alternatifinde tekrar 20 dk sonradır."
+    ],
+    "warningFindings": [
+      "Olay yeri güvenliğinin sağlanamaması / gerekli önlemlerin alınmamış olması",
+      "Sözel yatıştırmaya rağmen kontrol edilemeyen ajitasyon",
+      "Travmatik neden olasılığı",
+      "Metabolik, endokrin, enfeksiyöz, çevresel, alkol/madde, hipoglisemi, ilaç intoksikasyonu veya psikiyatrik neden şüphesi"
+    ],
+    "meds": [
+      {
+        "name": "Midazolam",
+        "dose": "5 mg IM veya 2,5 mg IV",
+        "routes": [
+          "IM",
+          "IV"
+        ],
+        "authority": "SKKM",
+        "repeat": "Halen ajite ise sedasyon dozunu tekrar et",
+        "maxDose": "",
+        "note": "İlaçla kısıtlama/sedasyon basamağı; resmî şemada SKKM/ÇM telefon simgeli."
+      },
+      {
+        "name": "Diazepam",
+        "dose": "5 mg",
+        "routes": [
+          "IM"
+        ],
+        "authority": "SKKM",
+        "repeat": "20 dk sonra",
+        "maxDose": "",
+        "note": "Midazolama alternatif benzodiazepin; anahtar noktalarda tekrarın 20 dk sonra yapılması belirtilir."
+      }
+    ],
+    "decision": {
+      "q": "Uygun iletişimle kontrol sağlandı mı?",
+      "yes": "Nedeni değerlendir; travmatik ise Travmalı Hasta algoritmasına, non-travmatik ise nedene yönelik tedaviye geç. Halen ajiteyse sedasyon basamağına ilerle.",
+      "no": "Güvenli bölgeye çekil, SKKM/ÇM ve kolluk desteği iste; kollukla fiziksel kısıtlama ve SKKM/ÇM sedasyonunu değerlendir."
+    },
+    "source": {
+      "documentId": "EK2-2026",
+      "documentTitle": "Hastane Öncesi Acil Tıbbi Yardım ve Bakım Akış Şemaları",
+      "effectiveDate": "2026-08-25",
+      "officialPageDate": "2026-09-11",
+      "reviewedAt": "2026-09-22",
+      "officialPageUrl": "https://acilafet.saglik.gov.tr/TR-119840/hastane-oncesi-acil-tibbi-yardim-ve-bakim-akis-semalari.html",
+      "officialPdfUrl": "https://dosyamerkez.saglik.gov.tr/Eklenti/55773/0/ek-2-hastane-oncesi-acil-tibbi-yardim-ve-bakim-akis-semalaripdf.pdf",
+      "section": "adult",
+      "codeStatus": "verified",
+      "algorithmCodes": [
+        "SB-ASH-Y-15"
+      ],
+      "page": "27–28"
+    }
+  },
+  {
     "id": "altered-consciousness",
     "title": "Bilinç Değişikliği",
     "subtitle": "Nedeni hızla ayır • ilgili algoritmaya yönlen",
@@ -1809,6 +2039,60 @@ const CASES = [
       "q": "İlk benzodiazepin ve ikinci basamak antiepileptik sonrası nöbet sürüyor mu?",
       "yes": "5 dk sonra SKKM/ÇM ile diazepam veya midazolam tekrarını uygula; nöbet sürerse ileri hava yolu uygulaması için hazırlan.",
       "no": "Postiktal dönemde hava yolu açıklığına dikkat et ve nakli sürdür."
+    }
+  },
+  {
+    "id": "vertigo",
+    "title": "Vertigo",
+    "subtitle": "Nistagmus • BEFAST • santral/periferik ayrım",
+    "category": "Nörolojik",
+    "icon": "🌀",
+    "accent": "#4d77a8",
+    "soft": "#e9f0f8",
+    "code": "SB-ASH-Y-20",
+    "page": "34",
+    "uiFeatured": false,
+    "population": "adult",
+    "uiPriority": "standard",
+    "clinicalStatus": "reviewed",
+    "summary": "Hastayı rahat pozisyonda tut, damar yolu aç; BEFAST, şok bulguları, spontan nistagmus tipi ve bağımsız ayakta durma/yürüme ile santral-periferik ayrım yap.",
+    "criticalActions": [
+      "Acil olgu yönetimini uygula; hastanın rahat ettiği pozisyonda kalmasını sağla ve damar yolu aç.",
+      "BEFAST kriterlerini ve şok bulgularını değerlendir.",
+      "Spontan nistagmusun yönünü/tipini ve hastanın bağımsız ayakta durup yürüyebilmesini değerlendir."
+    ],
+    "quick": [
+      "Spontan nistagmus <strong>yön değiştiren, vertikal veya pür torsiyonel</strong> ise santral neden kabul ederek <strong>İnme / SVO</strong> algoritmasına geç.",
+      "Horizontal nistagmus varsa veya nistagmus yoksa hastanın <strong>bağımsız ayakta durup yürüyebilmesini</strong> değerlendir.",
+      "Bağımsız ayakta duramıyor/yürüyemiyorsa santral neden → <strong>İnme / SVO</strong> algoritması.",
+      "Bağımsız yürüyebiliyorsa periferik neden düşün; şok bulgusu varsa ilgili şok algoritmasına geç."
+    ],
+    "warningFindings": [
+      "BEFAST kriterlerinde pozitiflik",
+      "Yön değiştiren, vertikal veya pür torsiyonel nistagmus",
+      "Bağımsız ayakta duramama veya yürüyememe",
+      "Şok bulguları / sistemik dolaşım bozukluğu"
+    ],
+    "meds": [],
+    "decision": {
+      "q": "Santral vertigoyu düşündüren bulgu var mı?",
+      "yes": "Yön değiştiren/vertikal/pür torsiyonel nistagmus veya bağımsız yürüyememe varsa İnme / SVO algoritmasına geç.",
+      "no": "Periferik neden düşün; şok bulgusu varsa ilgili algoritmaya geç ve her aşamada hastaneye nakli sürdür."
+    },
+    "source": {
+      "documentId": "EK2-2026",
+      "documentTitle": "Hastane Öncesi Acil Tıbbi Yardım ve Bakım Akış Şemaları",
+      "effectiveDate": "2026-08-25",
+      "officialPageDate": "2026-09-11",
+      "reviewedAt": "2026-09-22",
+      "officialPageUrl": "https://acilafet.saglik.gov.tr/TR-119840/hastane-oncesi-acil-tibbi-yardim-ve-bakim-akis-semalari.html",
+      "officialPdfUrl": "https://dosyamerkez.saglik.gov.tr/Eklenti/55773/0/ek-2-hastane-oncesi-acil-tibbi-yardim-ve-bakim-akis-semalaripdf.pdf",
+      "section": "adult",
+      "codeStatus": "verified",
+      "algorithmCodes": [
+        "SB-ASH-Y-20"
+      ],
+      "page": "34"
     }
   },
   {

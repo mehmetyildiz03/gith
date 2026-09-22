@@ -35,7 +35,7 @@ if(!APP_META?.routes?.includes('INHALER')||APP_META?.routeLabels?.INHALER!=='İn
 if(APP_META?.authority?.DIRECT?.symbol!=='✓'||APP_META?.authority?.DIRECT?.visualLabel!=='SKKM/ÇM onayı gerektirmez')err('DIRECT yeşil/doğrudan sembol metası eksik');
 if(APP_META?.authority?.SKKM?.symbol!=='◆'||APP_META?.authority?.SKKM?.visualLabel!=='SKKM/ÇM onayı gerekli')err('SKKM sarı/onay sembol metası eksik');
 if(APP_META?.authority?.ALGORITHM?.symbol!=='•'||APP_META?.authority?.ALGORITHM?.visualLabel!=='Yetki simgesi doğrulanmadı')err('ALGORITHM nötr sembol metası eksik');
-if(APP_META?.contentVersion!=='EK2-2026.08.25-adult-expansion-2026.09.22')err('contentVersion yetişkin genişleme sürümüyle eşleşmiyor');
+if(APP_META?.contentVersion!=='EK2-2026.08.25-adult-expansion-2-2026.09.22')err('contentVersion ikinci yetişkin genişleme sürümüyle eşleşmiyor');
 const strokeCase=(CASES||[]).find(c=>c.id==='stroke');
 if(!strokeCase||strokeCase.title!=='İnme / SVO')err('İnme / SVO başlığı korunmalı');
 const seizureCase=(CASES||[]).find(c=>c.id==='seizure');
@@ -86,7 +86,7 @@ if(!JSON.stringify(burnCase?.quick||[]).includes('(2 × VYA% × kg) / 16 mL/saat
 if(medByName(burnCase,'Fentanil')?.dose!=='1 mcg/kg'||medByName(burnCase,'Fentanil')?.authority!=='SKKM')err('Yanık fentanil doz/yetki sabiti bozuldu');
 
 const adultAuditCases=(CASES||[]).filter(c=>c.population==='adult');
-if(adultAuditCases.length!==21)err('Yetişkin kütüphanesi 21 doğrulanmış vaka olmalı');
+if(adultAuditCases.length!==25)err('Yetişkin kütüphanesi 25 doğrulanmış vaka olmalı');
 for(const c of adultAuditCases)if(!['2026-09-21','2026-09-22'].includes(c.source?.reviewedAt))err(`${c.id}: beklenmeyen reviewedAt ${c.source?.reviewedAt}`);
 for(const c of adultAuditCases)for(const m of (c.meds||[]))if(!['DIRECT','SKKM'].includes(m.authority))err(`${c.id}/${m.name}: yetişkin ilaç yetkisi telefon simgesi auditinden sonra DIRECT veya SKKM olmalı`);
 
@@ -141,6 +141,28 @@ if(medByName(heartFailureCase,'Furosemid')?.dose!=='20–40 mg'||medByName(heart
 const consciousnessCase=(CASES||[]).find(c=>c.id==='altered-consciousness');
 if(consciousnessCase?.code!=='SB-ASH-Y-16'||consciousnessCase?.page!=='30'||consciousnessCase?.source?.page!=='29–30'||(consciousnessCase?.meds||[]).length)err('Bilinç Değişikliği Y-16 kaynak/ilaç yapısı bozuldu');
 for(const term of ['Travmalı Hastada Acil Olgu Yönetimi','İnme / SVO','Nöbet / Konvülziyon','Zehirlenmelere Genel Yaklaşım','Diyabetik Aciller'])if(!JSON.stringify(consciousnessCase).includes(term))err(`Bilinç Değişikliği yönlendirmesi eksik: ${term}`);
+
+const agitatedCase=(CASES||[]).find(c=>c.id==='agitated-patient');
+if(agitatedCase?.code!=='SB-ASH-Y-15'||agitatedCase?.page!=='28'||agitatedCase?.source?.page!=='27–28')err('Ajite Hastaya Yaklaşım Y-15 kaynak izi bozuldu');
+if(medByName(agitatedCase,'Midazolam')?.authority!=='SKKM'||medByName(agitatedCase,'Midazolam')?.dose!=='5 mg IM veya 2,5 mg IV')err('Y-15 midazolam doz/yetki sabiti bozuldu');
+if(medByName(agitatedCase,'Diazepam')?.authority!=='SKKM'||medByName(agitatedCase,'Diazepam')?.dose!=='5 mg'||!String(medByName(agitatedCase,'Diazepam')?.repeat||'').includes('20 dk'))err('Y-15 diazepam doz/20 dk tekrar/yetki sabiti bozuldu');
+if(!JSON.stringify(agitatedCase).includes('kolluk'))err('Y-15 kolluk desteği basamağı eksik');
+
+const vertigoCase=(CASES||[]).find(c=>c.id==='vertigo');
+if(vertigoCase?.code!=='SB-ASH-Y-20'||vertigoCase?.page!=='34'||vertigoCase?.source?.page!=='34'||(vertigoCase?.meds||[]).length)err('Vertigo Y-20 kaynak/ilaç yapısı bozuldu');
+for(const term of ['BEFAST','vertikal','pür torsiyonel','bağımsız ayakta duramama','İnme / SVO'])if(!JSON.stringify(vertigoCase).includes(term))err(`Y-20 Vertigo ana karar öğesi eksik: ${term}`);
+
+const allergicCase=(CASES||[]).find(c=>c.id==='allergic-reaction');
+if(allergicCase?.code!=='SB-ASH-Y-21'||allergicCase?.page!=='35'||allergicCase?.source?.page!=='35')err('Alerjik Reaksiyon Y-21 kaynak izi bozuldu');
+if(medByName(allergicCase,'%0,9 NaCl')?.authority!=='DIRECT'||medByName(allergicCase,'%0,9 NaCl')?.dose!=='500 mL')err('Y-21 NaCl 500 mL DIRECT sabiti bozuldu');
+if(medByName(allergicCase,'Feniramin maleat veya Difenhidramin')?.authority!=='SKKM'||medByName(allergicCase,'Feniramin maleat veya Difenhidramin')?.dose!=='45,5 mg / 25–50 mg')err('Y-21 antihistaminik doz/yetki sabiti bozuldu');
+if(medByName(allergicCase,'Metilprednizolon')?.authority!=='SKKM'||medByName(allergicCase,'Metilprednizolon')?.dose!=='1–2 mg/kg'||medByName(allergicCase,'Metilprednizolon')?.maxDose!=='125 mg')err('Y-21 metilprednizolon sabiti bozuldu');
+if(!JSON.stringify(allergicCase).includes('Anafilaksi algoritmasına geç'))err('Y-21 hayatı tehdit eden bulguda Anafilaksi geçişi eksik');
+
+const hypothermicArrestCase=(CASES||[]).find(c=>c.id==='hypothermic-arrest');
+if(hypothermicArrestCase?.code!=='SB-ASH-Y-25'||hypothermicArrestCase?.page!=='43'||hypothermicArrestCase?.source?.page!=='42–43'||(hypothermicArrestCase?.meds||[]).length)err('Hipotermide Arrest Y-25 kaynak/ilaç yapısı bozuldu');
+for(const term of ['60 sn','<28°C: 5 dk KPR / 5 dk KPR\'siz','<20°C: 5 dk KPR / 10 dk KPR\'siz','<30°C','≥35°C','ECMO'])if(!JSON.stringify(hypothermicArrestCase).includes(term))err(`Y-25 hipotermi arrest kuralı eksik: ${term}`);
+
 for(const [i,c] of (CASES||[]).entries()){
   const at=`CASES[${i}] ${c?.id||'(id yok)'}`;
   for(const f of ['id','title','subtitle','category','population','summary','code','page','clinicalStatus'])if(!c?.[f])err(`${at}: ${f} eksik`);
