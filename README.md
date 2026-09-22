@@ -2,9 +2,10 @@
 
 Mobil-first, offline çekirdekli, vaka bazlı hastane öncesi acil sağlık eğitim ve hızlı hatırlatma uygulaması.
 
-## V0.22 mimarisi
+## V0.23 mimarisi
 
 - **Kaynak:** T.C. Sağlık Bakanlığı 25.08.2026 tarihli Ek-2 Hastane Öncesi Acil Tıbbi Yardım ve Bakım Akış Şemaları.
+- **V0.23 dallı algoritma yerleşim düzeltmesi:** Üst seviye dallar artık masaüstünde de tam genişlik ve alt alta akar. Yalnız tam genişlikteki bir ana dalın ilk alt dalları ≥980 px görünümde iki kolona çıkabilir; daha derin dallar ve tablet/mobil görünüm tek kolonda kalır. Böylece Arrest ve Taşikardi kartlarında iç içe iki-kolon nedeniyle oluşan dar, okunamaz kartlar engellendi.
 - **V0.22 Kardiyak Arrest dallı modeli — Y-09/Y-10/Y-11:** Arrest Yönetimi ortak başlangıcı, nabız var/solunum yok-gasping ve nabız yok dalları; nabız yok altında Şoklanamaz NEA/Asistoli ile Şoklanır VF/nVT kolları `algorithmBranches[]` ile yapılandırıldı.
 - **Arrest yetki ayrımı:** Resmî Y-10/Y-11'de adrenalin, defibrilasyon ve amiodaron/lidokain kutuları turuncu `AABT` fakat telefon simgesiz `DIRECT`; KPR, oksijenizasyon/ventilasyon, ritim-nabız değerlendirme ve ileri hava yolu kutuları turkuaz `ATT_AABT` + `DIRECT`. Bu ayrım regresyon testleriyle kilitlendi.
 - **V0.21 dallı algoritma modeli — Nabızlı Taşikardi Y-08:** `algorithmBranches[]` eklendi. Ortak başlangıçtan sonra Stabil/Anstabil, stabil kolda Geniş/Dar QRS ve Düzenli/Düzensiz alt dalları ayrı yapılandırıldı. Her eylemde SKKM/ÇM telefon simgesi ve ATT/AABT kutu rengi bağımsız alan olarak korunur.

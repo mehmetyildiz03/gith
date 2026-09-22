@@ -1,7 +1,7 @@
 const APP_META = {
   "schemaVersion": 4,
   "contentVersion": "EK2-2026.08.25-action-authority-4-2026.09.23",
-  "productVersion": "0.22",
+  "productVersion": "0.23",
   "populations": [
     {
       "id": "adult",
