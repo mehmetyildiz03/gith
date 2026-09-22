@@ -1,0 +1,37 @@
+name: New adult batch source audit
+on:
+  push:
+    branches: [qa/new-adult-batch-source]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install PDF tools
+        run: sudo apt-get update && sudo apt-get install -y poppler-utils
+      - name: Download official 2026 Ek-2 PDF
+        run: |
+          set -e
+          URL="https://dosyamerkez.saglik.gov.tr/Eklenti/55773/0/ek-2-hastane-oncesi-acil-tibbi-yardim-ve-bakim-akis-semalaripdf.pdf"
+          curl -fL --retry 3 --retry-delay 2 -A "Mozilla/5.0" "$URL" -o ek2.pdf
+          pdfinfo ek2.pdf | head -30
+          pdftotext -layout ek2.pdf ek2.txt
+      - name: Render adult target range
+        run: |
+          mkdir -p renders
+          for p in $(seq 8 31); do
+            pdftoppm -f "$p" -l "$p" -png -r 180 -singlefile ek2.pdf "renders/pdf-page-$p" >/dev/null 2>&1 || true
+          done
+          ls -lh renders
+      - name: Upload source audit
+        uses: actions/upload-artifact@v4
+        with:
+          name: new-adult-batch-source
+          path: |
+            renders/
+            ek2.txt
