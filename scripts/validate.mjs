@@ -345,7 +345,8 @@ for(const [i,c] of (CASES||[]).entries()){
   if(!Array.isArray(c.criticalActions)||c.criticalActions.length<2||c.criticalActions.length>5)err(`${at}: criticalActions 2-5 madde olmalı`);
   if(!Array.isArray(c.quick)||c.quick.length<2)err(`${at}: quick eksik`);
   if(c.algorithmSteps!==undefined){
-    if(!Array.isArray(c.algorithmSteps)||c.algorithmSteps.length<2)err(`${at}: algorithmSteps en az 2 adım olmalı`);
+    const minAlgorithmSteps=Array.isArray(c.algorithmBranches)&&c.algorithmBranches.length?1:2;
+    if(!Array.isArray(c.algorithmSteps)||c.algorithmSteps.length<minAlgorithmSteps)err(`${at}: algorithmSteps en az ${minAlgorithmSteps} adım olmalı`);
     for(const [si,step] of (c.algorithmSteps||[]).entries()){
       const st=`${at} algorithmSteps[${si}]`;
       if(!step?.html)err(`${st}: html eksik`);
