@@ -1,7 +1,7 @@
 const APP_META = {
   "schemaVersion": 3,
-  "contentVersion": "EK2-2026.08.25-adult-expansion-4-2026.09.22",
-  "productVersion": "0.13",
+  "contentVersion": "EK2-2026.08.25-adult-expansion-5-2026.09.22",
+  "productVersion": "0.14",
   "populations": [
     {
       "id": "adult",
@@ -147,6 +147,12 @@ const APP_META = {
       "SB-ASH-Y-25"
     ],
     "source": "25.08.2026 tarihli Ek-2 resmî PDF"
+  },
+  "adultCoverage": {
+    "reviewedAt": "2026-09-22",
+    "verifiedCaseCards": 37,
+    "coveredAlgorithmRange": "SB-ASH-Y-02–Y-41",
+    "foundationalProtocolPending": "SB-ASH-Y-01 Olay Yeri Yönetimi"
   }
 };
 
@@ -2778,6 +2784,202 @@ const CASES = [
       "q": "Hayatı tehdit eden veya çoklu yaralanma var mı?",
       "yes": "Kritik sorunları hızla düzelt, immobilizasyon kararını kliniğe göre ver ve uygun travma merkezine hızlı naklet.",
       "no": "İkincil değerlendirmeyi nakil sürecinde tamamla; seri yeniden değerlendirme yap."
+    }
+  },
+  {
+    "id": "crush-syndrome",
+    "title": "Crush Sendromu",
+    "subtitle": "Enkaz • %0,9 NaCl • hiperkalemi",
+    "category": "Travma",
+    "icon": "🧱",
+    "accent": "#8a5a3b",
+    "soft": "#f7eee7",
+    "code": "SB-ASH-Y-39",
+    "page": "69",
+    "uiFeatured": false,
+    "population": "adult",
+    "uiPriority": "high",
+    "clinicalStatus": "reviewed",
+    "source": {
+      "documentId": "EK2-2026",
+      "documentTitle": "Hastane Öncesi Acil Tıbbi Yardım ve Bakım Akış Şemaları",
+      "effectiveDate": "2026-08-25",
+      "officialPageDate": "2026-09-11",
+      "reviewedAt": "2026-09-22",
+      "officialPageUrl": "https://acilafet.saglik.gov.tr/TR-119840/hastane-oncesi-acil-tibbi-yardim-ve-bakim-akis-semalari.html",
+      "officialPdfUrl": "https://dosyamerkez.saglik.gov.tr/Eklenti/55773/0/ek-2-hastane-oncesi-acil-tibbi-yardim-ve-bakim-akis-semalaripdf.pdf",
+      "section": "adult",
+      "codeStatus": "verified",
+      "algorithmCodes": [
+        "SB-ASH-Y-39"
+      ],
+      "page": "68–69"
+    },
+    "summary": "Uzamış sıkışma/bası yaralanmasında kurtarma öncesinden başlayarak %0,9 NaCl ile hidrasyonu sürdür; potasyum içeren sıvılardan kaçın ve hiperkalemi için EKG izle.",
+    "criticalActions": [
+      "Güvenliği sağla; yarım saatten uzun göçük altında kalma, sıkışma veya basıya bağlı yaralanmada crush sendromunu düşün.",
+      "IV/IO erişimi değerlendir; damar yolu sağlandığında %0,9 NaCl başla. Potasyum içeren sıvıları (Ringer Laktat vb.) kullanma.",
+      "Kurtarma sırasında hidrasyonu sürdür; travma yönetimini uygula ve hiperkalemi açısından EKG çek."
+    ],
+    "quick": [
+      "Kurtarma öncesinde damar yolu yoksa aç; damar yolu bulunduğunda <strong>%0,9 NaCl 1000 mL/saat</strong> başla.",
+      "Kurtarma sırasında verilen %0,9 NaCl hidrasyonuna devam et. Kurtarma <strong>2 saatten uzun</strong> sürerse hızı <strong>500 mL/saat veya daha aza</strong> indir.",
+      "Kurtarma sonrası Travmalı Hastada Acil Olgu Yönetimini uygula; hiperkalemi açısından EKG çek. <strong>Normal EKG hiperkalemiyi dışlamaz.</strong>",
+      "Resmî telefon simgeli ileri basamakta toplam <strong>3000–6000 mL</strong> sıvı; hiperkalemi bulgusu varsa <strong>%10 kalsiyum glukonat 10–30 mL IV, 2–3 dk içinde</strong>."
+    ],
+    "warningFindings": [
+      "Yarım saatten uzun sıkışma/göçük altında kalma",
+      "Hiperkalemi: sivri T dalgaları, T dalgasının R'den büyük olması, bradikardi/dal bloğu/QRS genişlemesi",
+      "İdrar çıkışının olmaması veya azalması",
+      "Hipotermi — kurtarma ve sıvı tedavisi boyunca korun"
+    ],
+    "meds": [
+      {
+        "name": "%0,9 NaCl (kurtarma öncesi/sırasında)",
+        "dose": "1000 mL/saat",
+        "routes": [
+          "IV"
+        ],
+        "authority": "DIRECT",
+        "repeat": "Kurtarma >2 saat: 500 mL/saat veya daha az",
+        "maxDose": "",
+        "note": "Resmî algoritmada telefon simgesi olmayan ilk hidrasyon basamağı. Potasyum içeren sıvılar/Ringer Laktat kullanılmaz."
+      },
+      {
+        "name": "%0,9 NaCl (ileri toplam sıvı)",
+        "dose": "Toplam 3000–6000 mL",
+        "routes": [
+          "IV"
+        ],
+        "authority": "SKKM",
+        "repeat": "",
+        "maxDose": "",
+        "note": "Çeşitli faktörlere göre miktar değişebilir; resmî algoritmada SKKM/ÇM telefon simgeli ileri basamak."
+      },
+      {
+        "name": "Kalsiyum glukonat %10",
+        "dose": "10–30 mL",
+        "routes": [
+          "IV"
+        ],
+        "authority": "SKKM",
+        "repeat": "",
+        "maxDose": "",
+        "note": "Hiperkalemi bulguları varsa 2–3 dk içinde; resmî algoritmada SKKM/ÇM telefon simgeli."
+      }
+    ],
+    "decision": {
+      "q": "Hiperkalemi bulgusu var mı?",
+      "yes": "SKKM/ÇM telefon simgeli ileri basamakta %10 kalsiyum glukonat 10–30 mL IV'yi 2–3 dk içinde uygula; EKG ve seri klinik izlemi sürdür.",
+      "no": "%0,9 NaCl hidrasyonu + travma yönetimi + EKG izlemini sürdür; normal EKG'nin hiperkalemiyi dışlamadığını unutma."
+    }
+  },
+  {
+    "id": "head-trauma",
+    "title": "Kafa Travmalı Hastaya Yaklaşım",
+    "subtitle": "GKS • oksijenasyon • KİBAS",
+    "category": "Travma",
+    "icon": "🪖",
+    "accent": "#5f6fa8",
+    "soft": "#edf0fb",
+    "code": "SB-ASH-Y-40",
+    "page": "71",
+    "uiFeatured": false,
+    "population": "adult",
+    "uiPriority": "critical",
+    "clinicalStatus": "reviewed",
+    "source": {
+      "documentId": "EK2-2026",
+      "documentTitle": "Hastane Öncesi Acil Tıbbi Yardım ve Bakım Akış Şemaları",
+      "effectiveDate": "2026-08-25",
+      "officialPageDate": "2026-09-11",
+      "reviewedAt": "2026-09-22",
+      "officialPageUrl": "https://acilafet.saglik.gov.tr/TR-119840/hastane-oncesi-acil-tibbi-yardim-ve-bakim-akis-semalari.html",
+      "officialPdfUrl": "https://dosyamerkez.saglik.gov.tr/Eklenti/55773/0/ek-2-hastane-oncesi-acil-tibbi-yardim-ve-bakim-akis-semalaripdf.pdf",
+      "section": "adult",
+      "codeStatus": "verified",
+      "algorithmCodes": [
+        "SB-ASH-Y-40"
+      ],
+      "page": "70–71"
+    },
+    "summary": "Kafa travmasında hava yolu ve oksijenasyonu güvenceye al; GKS, glukoz ve dolaşımı değerlendir, KİBAS/herniasyon bulgularını erken tanı.",
+    "criticalActions": [
+      "Acil olgu yönetimini uygula; GKS ≤8, solunum yetmezliği veya hava yolu tehdidinde ileri hava yolu yönetimine geç.",
+      "SpO₂ %94–98 hedefli oksijenizasyon/ventilasyon sağla; yetişkinde ventilasyon hızını 10/dk olarak sürdür.",
+      "Kan şekerini ölç; 60–300 mg/dL aralığında IV sıvı tedavisiyle SKB >100 mmHg hedefle. Nöbet/KİBAS varsa ilgili dala geç."
+    ],
+    "quick": [
+      "<strong>GKS ≤8</strong> veya solunum yetmezliği/hava yolu tehlikesinde ileri hava yolu yönetimi uygula.",
+      "<strong>SpO₂ %94–98</strong>; yetişkinde ventilasyon 10/dk. Kan şekerini ölç.",
+      "KŞ <60 mg/dL veya >300 mg/dL ise Diyabetik Aciller algoritmasına geç. 60–300 mg/dL ise IV sıvı tedavisine başla ve <strong>SKB >100 mmHg</strong> olacak şekilde sürdür.",
+      "KİBAS/herniasyon bulguları: Cushing triadı, GKS'de ≥2 puan düşüş, hemipleji/hemiparalizi, anizokori. Şok yoksa baş-gövdeyi <strong>30–45°</strong> yükselterek sevk et."
+    ],
+    "warningFindings": [
+      "GKS ≤8 veya hızlı GKS düşüşü",
+      "Cushing triadı: bradikardi + solunum düzensizliği + hipertansiyon",
+      "Hemipleji/hemiparalizi veya anizokori",
+      "Hava yolu tehdidi, hipoksi veya hipotansiyon"
+    ],
+    "meds": [],
+    "decision": {
+      "q": "GKS ≤8, hava yolu tehdidi, nöbet veya KİBAS bulgusu var mı?",
+      "yes": "Hava yolu tehdidinde ileri hava yolu; nöbette Y-19; KİBAS varsa şok yokluğunda baş-gövde 30–45° ve hızlı nakil.",
+      "no": "SpO₂ %94–98, glukoz ve SKB >100 mmHg hedeflerini koruyarak seri nörolojik değerlendirme ve nakli sürdür."
+    }
+  },
+  {
+    "id": "start-triage",
+    "title": "Start Triyaj",
+    "subtitle": "Yeşil • sarı • kırmızı • siyah",
+    "category": "Afet",
+    "icon": "🚦",
+    "accent": "#b64a4a",
+    "soft": "#faecec",
+    "code": "SB-ASH-Y-41",
+    "page": "73",
+    "uiFeatured": false,
+    "population": "adult",
+    "uiPriority": "high",
+    "clinicalStatus": "reviewed",
+    "source": {
+      "documentId": "EK2-2026",
+      "documentTitle": "Hastane Öncesi Acil Tıbbi Yardım ve Bakım Akış Şemaları",
+      "effectiveDate": "2026-08-25",
+      "officialPageDate": "2026-09-11",
+      "reviewedAt": "2026-09-22",
+      "officialPageUrl": "https://acilafet.saglik.gov.tr/TR-119840/hastane-oncesi-acil-tibbi-yardim-ve-bakim-akis-semalari.html",
+      "officialPdfUrl": "https://dosyamerkez.saglik.gov.tr/Eklenti/55773/0/ek-2-hastane-oncesi-acil-tibbi-yardim-ve-bakim-akis-semalaripdf.pdf",
+      "section": "adult",
+      "codeStatus": "verified",
+      "algorithmCodes": [
+        "SB-ASH-Y-41"
+      ],
+      "page": "72–73"
+    },
+    "summary": "START triyajda hastaları yürüyebilme, solunum, dolaşım ve komutlara uyum üzerinden hızlıca renk koduna ayır; her hasta için triyaj süresini 1 dakikanın altında tut.",
+    "criticalActions": [
+      "Triyaja sana en yakın hastadan başla; yürüyebilenleri seslenerek güvenli alana çağır ve YEŞİL kodla.",
+      "Yürüyemeyende solunumu değerlendir; solunum yoksa başa pozisyon ver. Solunum dönmezse SİYAH, dönerse KIRMIZI kod.",
+      "Solunumu olanlarda solunum sayısı, dolaşım ve komutlara uyumu sırayla değerlendir; kırmızı kriter yoksa uygun kodu ver."
+    ],
+    "quick": [
+      "<strong>Yürüyebilen → YEŞİL.</strong> Yürüyemeyende önce solunumu değerlendir.",
+      "Solunum yok → başa pozisyon ver; hâlâ yoksa <strong>SİYAH</strong>, solunum başlarsa <strong>KIRMIZI</strong>.",
+      "Solunum sayısı <strong><10/dk veya >30/dk → KIRMIZI</strong>. 10–30/dk ise dolaşımı değerlendir.",
+      "KGD >2 sn veya distal nabız yok → <strong>KIRMIZI</strong>. KGD <2 sn ve distal nabız varsa: komuta uyuyorsa <strong>SARI</strong>, uymuyorsa <strong>KIRMIZI</strong>."
+    ],
+    "warningFindings": [
+      "Triyaj sırasında tedavi/KPR yapmak — resmî anahtar noktada yapılmaması belirtilir",
+      "Bir hasta için triyajın 1 dakikayı aşması",
+      "Yeniden triyaj ihtiyacının atlanması",
+      "Hayat kurtarıcı kanama kontrolü ihtiyacında çevredeki uygun kişilerden destek alınmaması"
+    ],
+    "meds": [],
+    "decision": {
+      "q": "Hasta yürüyebiliyor mu?",
+      "yes": "Güvenli alana çağır → YEŞİL kod.",
+      "no": "Solunum → solunum sayısı → dolaşım (KGD/distal nabız) → komutlara uyum sırasıyla START değerlendirmesini tamamla."
     }
   }
 ];

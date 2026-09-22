@@ -36,7 +36,7 @@ if(!APP_META?.routes?.includes('SC')||APP_META?.routeLabels?.SC!=='Subkutan (SC)
 if(APP_META?.authority?.DIRECT?.symbol!=='✓'||APP_META?.authority?.DIRECT?.visualLabel!=='SKKM/ÇM onayı gerektirmez')err('DIRECT yeşil/doğrudan sembol metası eksik');
 if(APP_META?.authority?.SKKM?.symbol!=='◆'||APP_META?.authority?.SKKM?.visualLabel!=='SKKM/ÇM onayı gerekli')err('SKKM sarı/onay sembol metası eksik');
 if(APP_META?.authority?.ALGORITHM?.symbol!=='•'||APP_META?.authority?.ALGORITHM?.visualLabel!=='Yetki simgesi doğrulanmadı')err('ALGORITHM nötr sembol metası eksik');
-if(APP_META?.contentVersion!=='EK2-2026.08.25-adult-expansion-4-2026.09.22')err('contentVersion dördüncü yetişkin genişleme sürümüyle eşleşmiyor');
+if(APP_META?.contentVersion!=='EK2-2026.08.25-adult-expansion-5-2026.09.22')err('contentVersion beşinci yetişkin genişleme sürümüyle eşleşmiyor');
 const strokeCase=(CASES||[]).find(c=>c.id==='stroke');
 if(!strokeCase||strokeCase.title!=='İnme / SVO')err('İnme / SVO başlığı korunmalı');
 const seizureCase=(CASES||[]).find(c=>c.id==='seizure');
@@ -87,9 +87,29 @@ if(!JSON.stringify(burnCase?.quick||[]).includes('(2 × VYA% × kg) / 16 mL/saat
 if(medByName(burnCase,'Fentanil')?.dose!=='1 mcg/kg'||medByName(burnCase,'Fentanil')?.authority!=='SKKM')err('Yanık fentanil doz/yetki sabiti bozuldu');
 
 const adultAuditCases=(CASES||[]).filter(c=>c.population==='adult');
-if(adultAuditCases.length!==34)err('Yetişkin kütüphanesi 34 doğrulanmış vaka olmalı');
+if(adultAuditCases.length!==37)err('Yetişkin kütüphanesi 37 doğrulanmış vaka olmalı');
 for(const c of adultAuditCases)if(!['2026-09-21','2026-09-22'].includes(c.source?.reviewedAt))err(`${c.id}: beklenmeyen reviewedAt ${c.source?.reviewedAt}`);
 for(const c of adultAuditCases)for(const m of (c.meds||[]))if(!['DIRECT','SKKM'].includes(m.authority))err(`${c.id}/${m.name}: yetişkin ilaç yetkisi telefon simgesi auditinden sonra DIRECT veya SKKM olmalı`);
+
+const crushCase=(CASES||[]).find(c=>c.id==='crush-syndrome');
+if(!crushCase||crushCase.code!=='SB-ASH-Y-39'||crushCase.page!=='69'||crushCase.source?.page!=='68–69')err('Crush Sendromu Y-39 kaynak izi bozuk');
+if(!JSON.stringify(crushCase).includes('1000 mL/saat')||!JSON.stringify(crushCase).includes('500 mL/saat')||!JSON.stringify(crushCase).includes('3000–6000 mL'))err('Crush sıvı basamakları eksik');
+if(!JSON.stringify(crushCase).includes('Ringer Laktat')||!JSON.stringify(crushCase).includes('kullanma'))err('Crush potasyum içeren sıvı uyarısı eksik');
+if(medByName(crushCase,'Kalsiyum glukonat %10')?.authority!=='SKKM'||medByName(crushCase,'Kalsiyum glukonat %10')?.dose!=='10–30 mL')err('Crush kalsiyum glukonat SKKM/doz bilgisi bozuk');
+
+const headTraumaCase=(CASES||[]).find(c=>c.id==='head-trauma');
+if(!headTraumaCase||headTraumaCase.code!=='SB-ASH-Y-40'||headTraumaCase.page!=='71'||headTraumaCase.source?.page!=='70–71')err('Kafa Travmalı Hastaya Yaklaşım Y-40 kaynak izi bozuk');
+for(const required of ['GKS ≤8','%94–98','10/dk','SKB >100 mmHg','30–45°'])if(!JSON.stringify(headTraumaCase).includes(required))err(`Y-40 kritik içerik eksik: ${required}`);
+if((headTraumaCase.meds||[]).length)err('Y-40 ana algoritmasında yetki simgesi doğrulanmamış sedasyon ilaç kartına dönüştürülmemeli');
+
+const startCase=(CASES||[]).find(c=>c.id==='start-triage');
+if(!startCase||startCase.code!=='SB-ASH-Y-41'||startCase.page!=='73'||startCase.source?.page!=='72–73')err('Start Triyaj Y-41 kaynak izi bozuk');
+for(const required of ['YEŞİL','SİYAH','KIRMIZI','SARI','<10/dk','>30/dk','KGD >2 sn','1 dakik'])if(!JSON.stringify(startCase).includes(required))err(`START triyaj kriteri eksik: ${required}`);
+
+const coveredAdultCodes=new Set();
+for(const c of adultAuditCases)for(const code of (c.source?.algorithmCodes||[])){const m=String(code).match(/SB-ASH-Y-(\d+)/);if(m)coveredAdultCodes.add(Number(m[1]));}
+for(let n=2;n<=41;n++)if(!coveredAdultCodes.has(n))err(`Yetişkin resmî algoritma kapsamı eksik: SB-ASH-Y-${String(n).padStart(2,'0')}`);
+if(coveredAdultCodes.has(1))warn('SB-ASH-Y-01 vaka kartına dönüştürülmüş; Olay Yeri Yönetimi temel protokol olarak ayrı ele alınmalı');
 
 const bradyCase=(CASES||[]).find(c=>c.id==='bradycardia');
 if(medByName(bradyCase,'Dopamin')?.authority!=='SKKM'||medByName(bradyCase,'Adrenalin')?.authority!=='SKKM')err('Bradikardi dopamin/adrenalin SKKM telefon simgesiyle eşleşmiyor');
