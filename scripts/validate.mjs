@@ -32,10 +32,11 @@ else{
 const ids=new Set();const allowedAuthority=new Set(['DIRECT','SKKM','ALGORITHM']);const allowedRoutes=new Set(APP_META?.routes||[]);const allowedPop=new Set((APP_META?.populations||[]).map(p=>p.id));
 if(APP_META?.routeLabels?.NEB!=='Nebülizasyon')err('NEB kullanıcı etiketi Nebülizasyon olmalı');
 if(!APP_META?.routes?.includes('INHALER')||APP_META?.routeLabels?.INHALER!=='İnhaler')err('INHALER/İnhaler yol tanımı eksik');
+if(!APP_META?.routes?.includes('SC')||APP_META?.routeLabels?.SC!=='Subkutan (SC)')err('SC/Subkutan yol tanımı eksik');
 if(APP_META?.authority?.DIRECT?.symbol!=='✓'||APP_META?.authority?.DIRECT?.visualLabel!=='SKKM/ÇM onayı gerektirmez')err('DIRECT yeşil/doğrudan sembol metası eksik');
 if(APP_META?.authority?.SKKM?.symbol!=='◆'||APP_META?.authority?.SKKM?.visualLabel!=='SKKM/ÇM onayı gerekli')err('SKKM sarı/onay sembol metası eksik');
 if(APP_META?.authority?.ALGORITHM?.symbol!=='•'||APP_META?.authority?.ALGORITHM?.visualLabel!=='Yetki simgesi doğrulanmadı')err('ALGORITHM nötr sembol metası eksik');
-if(APP_META?.contentVersion!=='EK2-2026.08.25-adult-expansion-3-2026.09.22')err('contentVersion üçüncü yetişkin genişleme sürümüyle eşleşmiyor');
+if(APP_META?.contentVersion!=='EK2-2026.08.25-adult-expansion-4-2026.09.22')err('contentVersion dördüncü yetişkin genişleme sürümüyle eşleşmiyor');
 const strokeCase=(CASES||[]).find(c=>c.id==='stroke');
 if(!strokeCase||strokeCase.title!=='İnme / SVO')err('İnme / SVO başlığı korunmalı');
 const seizureCase=(CASES||[]).find(c=>c.id==='seizure');
@@ -86,7 +87,7 @@ if(!JSON.stringify(burnCase?.quick||[]).includes('(2 × VYA% × kg) / 16 mL/saat
 if(medByName(burnCase,'Fentanil')?.dose!=='1 mcg/kg'||medByName(burnCase,'Fentanil')?.authority!=='SKKM')err('Yanık fentanil doz/yetki sabiti bozuldu');
 
 const adultAuditCases=(CASES||[]).filter(c=>c.population==='adult');
-if(adultAuditCases.length!==29)err('Yetişkin kütüphanesi 29 doğrulanmış vaka olmalı');
+if(adultAuditCases.length!==34)err('Yetişkin kütüphanesi 34 doğrulanmış vaka olmalı');
 for(const c of adultAuditCases)if(!['2026-09-21','2026-09-22'].includes(c.source?.reviewedAt))err(`${c.id}: beklenmeyen reviewedAt ${c.source?.reviewedAt}`);
 for(const c of adultAuditCases)for(const m of (c.meds||[]))if(!['DIRECT','SKKM'].includes(m.authority))err(`${c.id}/${m.name}: yetişkin ilaç yetkisi telefon simgesi auditinden sonra DIRECT veya SKKM olmalı`);
 
@@ -178,6 +179,34 @@ for(const term of ['SpO₂ %94–98','UZEM','DAKŞ','Sürekli gözlem'])if(!JSON
 const highDoseCase=(CASES||[]).find(c=>c.id==='high-dose-drug');
 if(highDoseCase?.code!=='SB-ASH-Y-32'||highDoseCase?.page!=='55'||highDoseCase?.source?.page!=='55'||(highDoseCase?.meds||[]).length)err('Yüksek Doz İlaç Alımı Y-32 kaynak/ilaç yapısı bozuldu');
 for(const term of ['Kolinerjik Ajanlarla Zehirlenme','Nöbet / Konvülziyon','Diyabetik Aciller','Narkotik / Opioid Zehirlenmeleri','Hipotermi'])if(!JSON.stringify(highDoseCase).includes(term))err(`Y-32 yönlendirme eksik: ${term}`);
+
+const coCase=(CASES||[]).find(c=>c.id==='carbon-monoxide');
+if(coCase?.code!=='SB-ASH-Y-33'||coCase?.page!=='56'||coCase?.source?.page!=='56'||(coCase?.meds||[]).length)err('Karbonmonoksit Y-33 kaynak/ilaç yapısı bozuldu');
+for(const term of ['10 L/dk','PBV','Nöbet / Konvülziyon'])if(!JSON.stringify(coCase).includes(term))err(`Y-33 öğesi eksik: ${term}`);
+
+const ccbCase=(CASES||[]).find(c=>c.id==='ccb-beta-blocker-poisoning');
+if(ccbCase?.code!=='SB-ASH-Y-34'||ccbCase?.page!=='58'||ccbCase?.source?.page!=='57–58')err('KKB/Beta Bloker Y-34 kaynak izi bozuldu');
+const calcium=medByName(ccbCase,'Kalsiyum glukonat');
+if(calcium?.authority!=='SKKM'||calcium?.dose!=='3 ampul (30 mL)'||!(calcium?.routes||[]).includes('IV')||!String(calcium?.note||'').includes('100 mL %0,9 NaCl')||!String(calcium?.note||'').includes('10 dakikada'))err('Y-34 kalsiyum glukonat doz/yol/yetki sabiti bozuldu');
+for(const term of ['SKB >90 mmHg','Bradikardi','Diyabetik Aciller'])if(!JSON.stringify(ccbCase).includes(term))err(`Y-34 karar öğesi eksik: ${term}`);
+
+const cholinergicCase=(CASES||[]).find(c=>c.id==='cholinergic-poisoning');
+if(cholinergicCase?.code!=='SB-ASH-Y-35'||cholinergicCase?.page!=='60'||cholinergicCase?.source?.page!=='59–60')err('Kolinerjik Y-35 kaynak izi bozuldu');
+const cholAtropine=medByName(cholinergicCase,'Atropin');
+if(cholAtropine?.authority!=='DIRECT'||cholAtropine?.dose!=='1–2 mg IV / 2–5 mg IM'||!String(cholAtropine?.repeat||'').includes('5 dk'))err('Y-35 atropin doz/yetki/tekrar sabiti bozuldu');
+if(!JSON.stringify(cholinergicCase).includes('SLUDGE-BBB'))err('Y-35 SLUDGE-BBB klinik uyarısı eksik');
+
+const opioidCase=(CASES||[]).find(c=>c.id==='opioid-poisoning');
+if(opioidCase?.code!=='SB-ASH-Y-36'||opioidCase?.page!=='62'||opioidCase?.source?.page!=='61–62')err('Opioid Y-36 kaynak izi bozuldu');
+const naloxone=medByName(opioidCase,'Nalokson');
+if(naloxone?.authority!=='SKKM'||naloxone?.dose!=='0,4–2 mg'||naloxone?.maxDose!=='10 mg'||!(naloxone?.routes||[]).includes('SC')||!String(naloxone?.repeat||'').includes('2–3 dk'))err('Y-36 nalokson doz/yol/tekrar/yetki sabiti bozuldu');
+for(const term of ['2 mg IV','0,1–0,4 mg','Diyabetik Aciller'])if(!JSON.stringify(opioidCase).includes(term))err(`Y-36 öğesi eksik: ${term}`);
+
+const tcaCase=(CASES||[]).find(c=>c.id==='tca-poisoning');
+if(tcaCase?.code!=='SB-ASH-Y-37'||tcaCase?.page!=='64'||tcaCase?.source?.page!=='63–64')err('TCA Y-37 kaynak izi bozuldu');
+const bicarbonate=medByName(tcaCase,'Sodyum bikarbonat (NaHCO₃)');
+if(bicarbonate?.authority!=='SKKM'||bicarbonate?.dose!=='1–2 mEq/kg'||!String(bicarbonate?.repeat||'').includes('3–5 dk'))err('Y-37 NaHCO3 doz/tekrar/yetki sabiti bozuldu');
+for(const term of ['QRS >0,10 sn','>100 ms','>160 ms'])if(!JSON.stringify(tcaCase).includes(term))err(`Y-37 QRS öğesi eksik: ${term}`);
 
 for(const [i,c] of (CASES||[]).entries()){
   const at=`CASES[${i}] ${c?.id||'(id yok)'}`;
