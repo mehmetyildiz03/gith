@@ -1,0 +1,41 @@
+name: First adult expansion source audit
+on:
+  push:
+    branches: [qa/first-adult-expansion]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install PDF tools
+        run: sudo apt-get update && sudo apt-get install -y poppler-utils
+      - name: Download official 2026 Ek-2 PDF
+        run: |
+          set -e
+          URL="https://dosyamerkez.saglik.gov.tr/Eklenti/55773/0/ek-2-hastane-oncesi-acil-tibbi-yardim-ve-bakim-akis-semalaripdf.pdf"
+          curl -fL --retry 3 --retry-delay 2 -A "Mozilla/5.0" "$URL" -o ek2.pdf
+          pdfinfo ek2.pdf | head -30
+          pdftotext -layout ek2.pdf ek2.txt
+          echo "=== TARGET HEADINGS ==="
+          grep -n -E "KOAH|HİPOVOLEMİK ŞOK|Hipovolemik Şok|AKUT AKCİĞER ÖDEMİ|KARDİYOJENİK ŞOK|Kardiyojenik Şok|BİLİNÇ DEĞİŞİKLİĞİ|Bilinç Değişikliği" ek2.txt | head -250 || true
+          echo "=== TARGET DRUG TERMS ==="
+          grep -n -E "SALBUTAMOL|İPRATROPİUM|NİTROGLİSERİN|İSOSORBİD|FUROSEMİD|DOBUTAMİN|DOPAMİN|ADRENALİN|NORADRENALİN|NaCl|RİNGER|GLUKOZ|DEKSTROZ|NALOXON|NALOks|NALO" ek2.txt | head -400 || true
+      - name: Render probable target pages
+        run: |
+          mkdir -p renders
+          for p in $(seq 8 32); do
+            pdftoppm -f "$p" -l "$p" -png -r 220 -singlefile ek2.pdf "renders/pdf-page-$p" >/dev/null 2>&1 || true
+          done
+          ls -lh renders | head -60
+      - name: Upload source audit
+        uses: actions/upload-artifact@v4
+        with:
+          name: official-ek2-first-adult-expansion
+          path: |
+            renders/
+            ek2.txt
