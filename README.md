@@ -2,9 +2,13 @@
 
 Mobil-first, offline çekirdekli, vaka bazlı hastane öncesi acil sağlık eğitim ve hızlı hatırlatma uygulaması.
 
-## V0.27 mimarisi
+## V0.28 mimarisi
 
 - **Kaynak:** T.C. Sağlık Bakanlığı 25.08.2026 tarihli Ek-2 Hastane Öncesi Acil Tıbbi Yardım ve Bakım Akış Şemaları.
+- **V0.28 Temel Protokoller — Y-02 Acil Olgu Yönetimi:** Y-02 de normal vaka kartı yapılmadan `PROTOCOLS[]` katmanına alındı. Ana ekranda protokoller 1. Olay Yeri Yönetimi → 2. Acil Olgu Yönetimi sırasıyla görünür. Y-01'in sonundaki geçiş Y-02'yi tek dokunuşla açar; Y-02'de olay yeri güvenli değil dalı Y-01'e geri bağlanır.
+- **Y-02 hızlı hatırlatma:** Resmî “Acil Olgu Yönetimi Anahtar Noktalar” sayfasındaki SAMPLE ve XABCDE içerikleri ayrı, kompakt hatırlatma kartları olarak gösterilir. Akış ekranında ekipman yerleşimi → birincil değerlendirme → ikincil değerlendirme → ön tanı → ilgili vaka algoritması → yeniden değerlendirme sırası korunur.
+- **Kolay erişim:** Y-02'de “Vaka algoritmalarını aç” geçişi kullanıcıyı doğrudan vaka kütüphanesine götürür. Protokoller arası geçişte geri düğmesi önce önceki protokole döner; kullanıcı ana ekrana fırlatılmaz.
+- **Yetki sadakati:** Y-02 ana algoritma kutuları resmî PDF'de turkuaz ortak Acil Tıp Teknisyeni / Teknikeri rengindedir ve telefon simgesi yoktur; bu nedenle Y-02'ye AABT veya SKKM rozeti eklenmemiştir.
 - **V0.27 Temel Protokoller — Y-01 Olay Yeri Yönetimi:** SB-ASH-Y-01 vaka sayısına eklenmeden ayrı `PROTOCOLS[]` veri katmanına alındı. Ana ekranda “Temel Protokoller / Saha başlangıcı” kartı olarak görünür; detay ekranında resmî sıra korunur: SKKM/ÇM ile ilk temas → kişisel koruyucu malzeme ve olay yeri güvenliği → gerekirse kurum desteği → hasta/yaralı güvenliği → olay/vaka sayısı ve ek kaynak değerlendirmesi → çoklu hastada triyaj → ekip/ekipman isteme → SB-ASH-Y-02 Acil Olgu Yönetimi'ne geçiş.
 - **Y-01 yetki semantiği:** Resmî Y-01 sayfasında turuncu “yalnız Acil Tıp Teknikeri” kutusu yoktur; uygulayıcı basamakları turkuaz ortak ATT/Tekniker kapsamındadır. Telefon simgesi bulunan iki temas noktası protokol UI'sında `☎ SKKM/ÇM` olarak gösterilir; bu rozet ilaç onayı anlamına gelmez.
 - **Veri şeması v5:** Vaka kartları `CASES[]` içinde 37 olarak kalır; temel protokoller ayrı `PROTOCOLS[]` dizisindedir. Böylece Y-01 normal vaka gibi sayılmaz ve ileride başka temel protokoller aynı katmana eklenebilir.

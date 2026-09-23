@@ -30,8 +30,8 @@ assert(css.includes("/* V0.6.1 dark surface hardening */"),'Koyu mod yüzey hard
 assert(css.includes(":root[data-theme='dark'] .quick-step")&&css.includes("background:var(--detail-panel-deep)!important"),'Koyu mod algoritma adımı explicit yüzeyi eksik');
 assert(css.includes(":root[data-theme='dark'] .red-flag")&&css.includes("background:#2b202a!important"),'Koyu mod kırmızı bayrak yüzeyi eksik');
 assert(css.includes(":root[data-theme='dark'] .branch.yes")&&css.includes(":root[data-theme='dark'] .branch.no"),'Koyu mod karar kutuları explicit değil');
-assert(html.includes('styles.css?v=0.27')&&html.includes('app-core.js?v=0.27')&&html.includes('cases-data.js?v=0.27'),'Kritik asset cache-bust sürümü eksik');
-assert(sw.includes("saha112-v027")&&sw.includes('NETWORK_FIRST_DESTINATIONS'),'Service worker kritik asset güncelleme stratejisi eksik');
+assert(html.includes('styles.css?v=0.28')&&html.includes('app-core.js?v=0.28')&&html.includes('cases-data.js?v=0.28'),'Kritik asset cache-bust sürümü eksik');
+assert(sw.includes("saha112-v028")&&sw.includes('NETWORK_FIRST_DESTINATIONS'),'Service worker kritik asset güncelleme stratejisi eksik');
 assert(!app.includes('Kırmızı bayrak'),'Eski kullanıcı terimi hâlâ UI içinde');
 assert(app.includes('Acil Uyarı Bulguları'),'Acil Uyarı Bulguları başlığı eksik');
 assert(app.includes('Önceliği, müdahaleyi veya nakil kararını değiştirebilecek bulgular.'),'Acil uyarı açıklaması eksik');
@@ -54,7 +54,7 @@ assert(html.includes('updateBanner')&&app.includes('controllerchange')&&app.incl
 assert(app.includes('sourceFocusable')&&app.includes("e.key==='Tab'")&&css.includes('html.dialog-open'),'Kaynak dialog focus trap/scroll kilidi eksik');
 assert(data.includes('"title": "İnme / SVO"'),'İnme / SVO başlığı korunmamış');
 assert(data.includes('"title": "Nabızlı Taşikardi"'),'Nabızlı Taşikardi başlığı eksik');
-assert(data.includes('"contentVersion": "EK2-2026.08.25-foundation-protocol-1-2026.09.23"'),'V0.27 Y-01 temel protokol sürümü eksik');
+assert(data.includes('"contentVersion": "EK2-2026.08.25-foundation-protocol-2-2026.09.23"'),'V0.28 Y-01/Y-02 temel protokol sürümü eksik');
 assert(html.includes('id="authorityLegend"')&&!html.includes('<span class="authority direct">Doğrudan</span>'),'Yetki legendi dinamik veri kaynağına bağlı değil');
 assert(app.includes("authorityMarkup")&&app.includes("authority-symbol")&&app.includes("✓ Yeşil: SKKM/ÇM onayı yok")&&app.includes("◆ Sarı: SKKM/ÇM onayı"),'Yetki sembol/yazı eşlemesi eksik');
 assert(css.includes('.authority.direct{')&&css.includes('var(--greenSoft)')&&css.includes('.authority.skkm{')&&css.includes('var(--amberSoft)'),'Yeşil/sarı yetki renk semantiği eksik');
@@ -83,6 +83,11 @@ assert(app.includes("step.approvalAuthority==='SKKM'?authorityMarkup('SKKM'):''"
 assert(css.includes('/* V0.25 full audit readability + action authority */')&&css.includes('.action-step-badges{'),'V0.25 okunabilirlik/yetki UI katmanı eksik');
 assert(css.includes('/* V0.26 real-screen mobile stabilization */')&&css.includes('-webkit-line-clamp:3')&&css.includes('.source-ribbon span:last-child{overflow-wrap:anywhere}'),'Mobil uzun başlık/kaynak şeridi stabilizasyonu eksik');
 assert(data.includes('const PROTOCOLS = [')&&data.includes('"id": "scene-management"')&&data.includes('"code": "SB-ASH-Y-01"'),'Y-01 temel protokol veri katmanı eksik');
+assert(data.includes('"id": "emergency-case-management"')&&data.includes('"code": "SB-ASH-Y-02"')&&data.includes('"keyPoints": [')&&data.includes('"id": "sample"')&&data.includes('"id": "xabcde"'),'Y-02 temel protokol/SAMPLE/XABCDE veri katmanı eksik');
+assert(app.includes('function renderProtocolKeyPoints(p)')&&app.includes('function protocolBranchLink')&&app.includes('showCaseLibraryFromProtocol'),'Y-02 hızlı hatırlatma/protokoller arası navigasyon katmanı eksik');
+assert(app.includes("state.protocolHistory.push")&&app.includes("backFromDetail()"),'Temel protokoller arası geri navigasyon geçmişi eksik');
+assert(css.includes('/* V0.28 protocol sequence + key points */')&&css.includes('.protocol-keypoint-grid{')&&css.includes('.protocol-branch-link{'),'Y-02 hızlı hatırlatma/protokol geçiş stilleri eksik');
+assert(html.includes('Saha başlangıcı ve ilk değerlendirme'),'Temel Protokoller bölüm başlığı Y-01/Y-02 sırasını açıklamıyor');
 assert(html.includes('id="protocolSection"')&&html.includes('id="protocolGrid"')&&html.includes('TEMEL PROTOKOLLER'),'Temel Protokoller ana ekran bölümü eksik');
 assert(app.includes('function renderProtocols()')&&app.includes('function openProtocol(id)')&&app.includes('function renderProtocolFlow(p)'),'Temel protokol render/açılış katmanı eksik');
 assert(css.includes('/* V0.27 foundational protocol layer */')&&css.includes('.protocol-flow{')&&css.includes('.protocol-decision-branches{'),'Y-01 protokol görünüm katmanı eksik');

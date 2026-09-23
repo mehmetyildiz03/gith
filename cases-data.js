@@ -1,7 +1,7 @@
 const APP_META = {
   "schemaVersion": 5,
-  "contentVersion": "EK2-2026.08.25-foundation-protocol-1-2026.09.23",
-  "productVersion": "0.27",
+  "contentVersion": "EK2-2026.08.25-foundation-protocol-2-2026.09.23",
+  "productVersion": "0.28",
   "populations": [
     {
       "id": "adult",
@@ -99,7 +99,7 @@ const APP_META = {
     "officialPageDate": "2026-09-11"
   },
   "clinicalAudit": {
-    "scope": "37 yetişkin vaka kartı + 1 temel protokol; SB-ASH-Y-01–Y-41 kaynak kapsamı",
+    "scope": "37 yetişkin vaka kartı + 2 temel protokol; SB-ASH-Y-01–Y-41 kaynak kapsamı",
     "source": "T.C. Sağlık Bakanlığı Ek-2 Hastane Öncesi Acil Tıbbi Yardım ve Bakım Akış Şemaları",
     "effectiveDate": "2026-08-25",
     "officialPageDate": "2026-09-11",
@@ -114,7 +114,7 @@ const APP_META = {
   "integrityAudit": {
     "source": "25.08.2026 tarihli Ek-2 resmî PDF",
     "reviewedAt": "2026-09-23",
-    "scope": "37 yetişkin kartı + Y-01 temel protokolünde başlık/kod/PDF sayfa izi ve kaynakla doğrulanan basamaklar",
+    "scope": "37 yetişkin kartı + Y-01/Y-02 temel protokollerinde başlık/kod/PDF sayfa izi ve kaynakla doğrulanan basamaklar",
     "status": "verified"
   },
   "expansionAudit": {
@@ -243,9 +243,10 @@ const APP_META = {
   "adultCoverage": {
     "reviewedAt": "2026-09-23",
     "verifiedCaseCards": 37,
-    "coveredAlgorithmRange": "SB-ASH-Y-02–Y-41",
+    "coveredAlgorithmRange": "SB-ASH-Y-01–Y-41",
     "foundationalProtocols": [
-      "SB-ASH-Y-01"
+      "SB-ASH-Y-01",
+      "SB-ASH-Y-02"
     ],
     "foundationalProtocolPending": null
   }
@@ -254,6 +255,7 @@ const APP_META = {
 const PROTOCOLS = [
   {
     "id": "scene-management",
+    "order": 1,
     "title": "Olay Yeri Yönetimi",
     "subtitle": "Güvenlik • kaynak • triyaj • ekipman",
     "category": "Temel Protokol",
@@ -304,7 +306,9 @@ const PROTOCOLS = [
       {
         "type": "transition",
         "html": "Acil Olgu Yönetimi algoritmasına geç.",
-        "targetCode": "SB-ASH-Y-02"
+        "targetCode": "SB-ASH-Y-02",
+        "targetProtocolId": "emergency-case-management",
+        "buttonLabel": "Acil Olgu Yönetimi'ni aç"
       }
     ],
     "source": {
@@ -321,6 +325,110 @@ const PROTOCOLS = [
         "SB-ASH-Y-01"
       ],
       "page": "5"
+    }
+  },
+  {
+    "id": "emergency-case-management",
+    "order": 2,
+    "title": "Acil Olgu Yönetimi",
+    "subtitle": "XABCDE • SAMPLE • ön tanı • yeniden değerlendirme",
+    "category": "Temel Protokol",
+    "icon": "✚",
+    "accent": "#2367a8",
+    "soft": "#eaf3fb",
+    "code": "SB-ASH-Y-02",
+    "page": "6–7",
+    "population": "adult",
+    "clinicalStatus": "reviewed",
+    "summary": "Olay yeri güvenliğinden sonra ekipman yerleşimi, XABCDE ile birincil değerlendirme, ayrıntılı ikincil değerlendirme, ön tanı ve ilgili vaka algoritmasına geçişi düzenler.",
+    "helperText": "Bu akış tüm vakalarda ilk sistematik değerlendirme için kullanılır; ön tanıdan sonra ilgili vaka algoritmasına geçilir ve hasta yeniden değerlendirilir.",
+    "keyPoints": [
+      {
+        "id": "sample",
+        "title": "SAMPLE öykü",
+        "items": [
+          ["S", "Belirtiler ve Bulgular"],
+          ["A", "Alerjiler / Kötü Alışkanlıklar"],
+          ["M", "Kullanılan İlaçlar"],
+          ["P", "Tıbbi Özgeçmiş"],
+          ["L", "Son İlaç-Gıda Alımı / Son Adet Tarihi"],
+          ["E", "Çağrı Gerektiren Durum"]
+        ]
+      },
+      {
+        "id": "xabcde",
+        "title": "XABCDE birincil değerlendirme",
+        "items": [
+          ["X", "Hayatı tehdit eden kanamaları tanı ve müdahale et"],
+          ["A", "Hava yolu açıklığının kontrolünü sağla"],
+          ["B", "Solunum desteği kontrolünü sağla"],
+          ["C", "Dolaşım desteği kontrolünü sağla"],
+          ["D", "Kısa nörolojik muayene"],
+          ["E", "Hastanın kıyafetlerini çıkar, genel görünümünü kontrol et"]
+        ]
+      }
+    ],
+    "flow": [
+      {
+        "type": "decision",
+        "lead": "Gerekli ise triyaj yap.",
+        "question": "Olay yeri güvenli mi?",
+        "yes": "Gerekli tüm ekipmanları al ve ekip/malzeme yerleşimini düzenle.",
+        "no": "Olay Yeri Yönetimi algoritmasına geri dön.",
+        "noTargetProtocolId": "scene-management",
+        "noButtonLabel": "Olay Yeri Yönetimi'ni aç"
+      },
+      {
+        "type": "step",
+        "html": "<strong>Gerekli tüm ekipmanları al.</strong>",
+        "practitionerAuthority": "ATT_AABT"
+      },
+      {
+        "type": "step",
+        "html": "<strong>Ekip ve Malzeme Yerleşimi:</strong> Kullanılacak malzeme kol mesafesinde ulaşılabilecek şekilde olmalıdır.",
+        "practitionerAuthority": "ATT_AABT"
+      },
+      {
+        "type": "step",
+        "html": "<strong>Birincil Değerlendirme:</strong> Genel görünüm ve bilinç durumuyla birlikte dolaşımsal ve solunumsal riskleri belirlemek için XABCDE yaklaşımını uygula.",
+        "practitionerAuthority": "ATT_AABT"
+      },
+      {
+        "type": "step",
+        "html": "<strong>İkincil Değerlendirme:</strong> Ayrıntılı tüm vücut muayenesi, tıbbi öykü, vital bulgular ve nörolojik muayene.",
+        "practitionerAuthority": "ATT_AABT"
+      },
+      {
+        "type": "step",
+        "html": "<strong>Ön tanıyı belirle.</strong>",
+        "practitionerAuthority": "ATT_AABT"
+      },
+      {
+        "type": "transition",
+        "html": "Ön tanıya göre ilgili algoritmaya git.",
+        "targetAction": "cases",
+        "buttonLabel": "Vaka algoritmalarını aç"
+      },
+      {
+        "type": "step",
+        "html": "<strong>Yeniden değerlendir.</strong>",
+        "practitionerAuthority": "ATT_AABT"
+      }
+    ],
+    "source": {
+      "documentId": "EK2-2026",
+      "documentTitle": "Hastane Öncesi Acil Tıbbi Yardım ve Bakım Akış Şemaları",
+      "effectiveDate": "2026-08-25",
+      "officialPageDate": "2026-09-11",
+      "reviewedAt": "2026-09-23",
+      "officialPageUrl": "https://acilafet.saglik.gov.tr/TR-119840/hastane-oncesi-acil-tibbi-yardim-ve-bakim-akis-semalari.html",
+      "officialPdfUrl": "https://dosyamerkez.saglik.gov.tr/Eklenti/55773/0/ek-2-hastane-oncesi-acil-tibbi-yardim-ve-bakim-akis-semalaripdf.pdf",
+      "section": "adult",
+      "codeStatus": "verified",
+      "algorithmCodes": [
+        "SB-ASH-Y-02"
+      ],
+      "page": "6–7"
     }
   }
 ];

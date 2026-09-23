@@ -6,7 +6,7 @@ const state={
   population:localStorage.getItem(STORAGE.population)||'adult',
   category:'Tümü',query:'',view:'home',nav:'home',current:null,
   favorites:new Set(safeJSON(STORAGE.favorites,[])),recent:safeJSON(STORAGE.recent,[]),
-  returnScrollY:0,returnNav:'home'
+  returnScrollY:0,returnNav:'home',protocolHistory:[]
 };
 const $=s=>document.querySelector(s);
 const $$=s=>[...document.querySelectorAll(s)];
@@ -105,17 +105,21 @@ function renderFilters(){const cats=categories();if(!cats.includes(state.categor
 function renderStats(){const all=casesForPopulation();el.statCases.textContent=String(all.length);el.statCategories.textContent=String(new Set(all.map(c=>c.category)).size);el.statCasesText.textContent=all.length?'Doğrulanmış içerik':`${popMeta(state.population).algorithmRange} • QA bekliyor`}
 function emptyLibrary(){const p=popMeta(state.population);return `<div class="empty-state planned"><div class="empty-icon">◎</div><h3>${esc(p.label)} kütüphanesi QA aşamasında</h3><p>${esc(p.algorithmRange)} için altyapı hazır. Kaynak-kod-doz-yetki doğrulaması tamamlanmadan klinik kart yayınlanmıyor.</p></div>`}
 function protocolSearchText(p){
-  const flow=(p.flow||[]).flatMap(item=>[item.lead,item.question,item.yes,item.no,item.html,item.targetCode]);
-  return [p.title,p.subtitle,p.category,p.code,p.summary,...flow].filter(Boolean).map(strip).join(' ').toLocaleLowerCase('tr-TR');
+  const flow=(p.flow||[]).flatMap(item=>[item.lead,item.question,item.yes,item.no,item.html,item.targetCode,item.buttonLabel,item.noButtonLabel]);
+  const keyPoints=(p.keyPoints||[]).flatMap(group=>[group.title,...(group.items||[]).flat()]);
+  return [p.title,p.subtitle,p.category,p.code,p.summary,p.helperText,...keyPoints,...flow].filter(Boolean).map(strip).join(' ').toLocaleLowerCase('tr-TR');
 }
 function renderProtocols(){
   if(!el.protocolSection||!el.protocols||typeof PROTOCOLS==='undefined')return;
   const q=state.query.trim().toLocaleLowerCase('tr-TR');
-  const list=PROTOCOLS.filter(p=>p.population===state.population&&p.clinicalStatus==='reviewed'&&(!q||protocolSearchText(p).includes(q)));
+  const list=PROTOCOLS.filter(p=>p.population===state.population&&p.clinicalStatus==='reviewed'&&(!q||protocolSearchText(p).includes(q))).sort((a,b)=>(a.order||99)-(b.order||99));
   el.protocolSection.classList.toggle('hidden',list.length===0||state.view==='favorites');
-  el.protocols.innerHTML=list.map(p=>`<button type="button" class="protocol-card" style="${caseStyle(p)}" data-protocol-open="${p.id}"><div class="protocol-card-icon">${esc(p.icon)}</div><div class="protocol-card-copy"><span>Temel protokol • ${esc(p.code)}</span><strong>${esc(p.title)}</strong><p>${esc(p.subtitle)}</p></div><span class="chev">›</span></button>`).join('');
+  el.protocols.innerHTML=list.map(p=>`<button type="button" class="protocol-card" style="${caseStyle(p)}" data-protocol-open="${p.id}"><div class="protocol-card-icon">${esc(p.order||p.icon)}</div><div class="protocol-card-copy"><span>${p.order?`${p.order}. adım • `:''}${esc(p.code)}</span><strong>${esc(p.title)}</strong><p>${esc(p.subtitle)}</p></div><span class="chev">›</span></button>`).join('');
 }
 function protocolContactBadge(){return '<span class="protocol-contact-badge" aria-label="SKKM/ÇM ile iletişim">☎ SKKM/ÇM</span>'}
+function protocolBranchLink(label,id){
+  return id?`<button type="button" class="protocol-branch-link" data-protocol-open="${esc(id)}">${esc(label||'Protokolü aç')} <span>›</span></button>`:'';
+}
 function renderProtocolFlow(p){
   let n=0;
   return (p.flow||[]).map(item=>{
@@ -124,26 +128,48 @@ function renderProtocolFlow(p){
       return `<div class="protocol-flow-step"><span class="protocol-step-no">${n}</span><div class="protocol-step-copy">${item.html}${item.skkmContact?protocolContactBadge():''}</div></div>`;
     }
     if(item.type==='decision'){
-      return `<div class="protocol-decision"><div class="protocol-decision-q">${item.lead?`<p>${esc(item.lead)}</p>`:''}<strong>${esc(item.question)}</strong></div><div class="protocol-decision-branches"><div class="protocol-branch yes"><b>EVET</b><span>${esc(item.yes)}</span></div><div class="protocol-branch no"><b>HAYIR</b><span>${esc(item.no)}</span>${item.noSkkmContact?protocolContactBadge():''}</div></div></div>`;
+      const yesLink=protocolBranchLink(item.yesButtonLabel,item.yesTargetProtocolId);
+      const noLink=protocolBranchLink(item.noButtonLabel,item.noTargetProtocolId);
+      return `<div class="protocol-decision"><div class="protocol-decision-q">${item.lead?`<p>${esc(item.lead)}</p>`:''}<strong>${esc(item.question)}</strong></div><div class="protocol-decision-branches"><div class="protocol-branch yes"><b>EVET</b><span>${esc(item.yes)}</span>${yesLink}</div><div class="protocol-branch no"><b>HAYIR</b><span>${esc(item.no)}</span>${item.noSkkmContact?protocolContactBadge():''}${noLink}</div></div></div>`;
     }
     if(item.type==='transition'){
-      return `<div class="protocol-transition"><span>→</span><div><strong>${esc(item.html)}</strong><small>${esc(item.targetCode||'')}</small></div></div>`;
+      const attrs=item.targetProtocolId?`data-protocol-open="${esc(item.targetProtocolId)}"`:item.targetAction?`data-protocol-action="${esc(item.targetAction)}"`:'';
+      const tag=attrs?'button':'div';
+      return `<${tag}${attrs?' type="button"':''} class="protocol-transition ${attrs?'interactive':''}" ${attrs}><span>→</span><div><strong>${esc(item.html)}</strong><small>${esc(item.targetCode||item.buttonLabel||'')}</small></div>${attrs?'<span class="protocol-transition-chev">›</span>':''}</${tag}>`;
     }
     return '';
   }).join('');
 }
-function openProtocol(id){
+function renderProtocolKeyPoints(p){
+  if(!p.keyPoints?.length)return '';
+  return `<section class="detail-section protocol-keypoints-section" id="protocol-keypoints"><div class="detail-heading"><span class="tiny-icon">◎</span><div><h3>Hızlı hatırlatma</h3><p>İlk değerlendirmede gözden kaçmaması gereken çerçeve.</p></div></div><div class="protocol-keypoint-grid">${p.keyPoints.map(group=>`<article class="protocol-keypoint-card"><h4>${esc(group.title)}</h4><div class="protocol-keypoint-list">${(group.items||[]).map(([key,label])=>`<div class="protocol-keypoint-row"><b>${esc(key)}</b><span>${esc(label)}</span></div>`).join('')}</div></article>`).join('')}</div></section>`;
+}
+function openProtocol(id,{history='root'}={}){
   if(typeof PROTOCOLS==='undefined')return;
   const p=PROTOCOLS.find(x=>x.id===id&&x.population===state.population);if(!p)return;
-  state.current=`protocol:${id}`;state.returnScrollY=scrollY;state.returnNav=state.nav;
-  const jumps=[['protocol-flow','Akış','critical'],['source','Kaynak','']];
-  el.detail.innerHTML=`<header class="detail-top"><div class="detail-bar"><button type="button" class="back-btn" data-action="back" aria-label="Geri">‹</button><div class="detail-title"><div class="kicker">TEMEL PROTOKOL • ${esc(p.category.toUpperCase())}</div><h2>${esc(p.title)}</h2></div><span class="detail-spacer" aria-hidden="true"></span></div><div class="source-ribbon"><span>§</span><span>${esc(p.code)} • PDF s.${esc(p.page)} • gözden geçirme ${formatDateTR(p.source.reviewedAt)}</span></div><div class="detail-jumps">${jumps.map(j=>`<button type="button" class="jump-chip ${j[2]}" data-jump="${j[0]}">${j[1]}</button>`).join('')}</div></header>
+  if(history==='root'){state.protocolHistory=[];state.returnScrollY=scrollY;state.returnNav=state.nav}
+  else if(history==='push'&&state.current?.startsWith('protocol:'))state.protocolHistory.push(state.current.slice('protocol:'.length));
+  state.current=`protocol:${id}`;
+  const jumps=[];if(p.keyPoints?.length)jumps.push(['protocol-keypoints','Hatırlatma','']);jumps.push(['protocol-flow','Akış','critical'],['source','Kaynak','']);
+  el.detail.innerHTML=`<header class="detail-top"><div class="detail-bar"><button type="button" class="back-btn" data-action="back" aria-label="Geri">‹</button><div class="detail-title"><div class="kicker">TEMEL PROTOKOL • ${p.order?`${p.order}. ADIM • `:''}${esc(p.category.toUpperCase())}</div><h2>${esc(p.title)}</h2></div><span class="detail-spacer" aria-hidden="true"></span></div><div class="source-ribbon"><span>§</span><span>${esc(p.code)} • PDF s.${esc(p.page)} • gözden geçirme ${formatDateTR(p.source.reviewedAt)}</span></div><div class="detail-jumps">${jumps.map(j=>`<button type="button" class="jump-chip ${j[2]}" data-jump="${j[0]}">${j[1]}</button>`).join('')}</div></header>
   <div class="detail-body" style="${caseStyle(p)}">
-    <section class="case-summary protocol-summary"><span class="case-category">Temel Protokol</span><p>${esc(p.summary)}</p><small>Bu bölüm vaka kartı değildir; sahaya giriş ve kaynak yönetimi için temel akıştır.</small></section>
-    <section class="detail-section emphasis" id="protocol-flow"><div class="detail-heading"><span class="tiny-icon">⌖</span><div><h3>Olay yeri akışı</h3><p>Resmî Y-01 sırası korunmuştur.</p></div></div><div class="protocol-flow">${renderProtocolFlow(p)}</div></section>
+    <section class="case-summary protocol-summary"><span class="case-category">${p.order?`${p.order}. adım • `:''}Temel Protokol</span><p>${esc(p.summary)}</p><small>${esc(p.helperText||'Bu bölüm vaka kartı değildir; tüm vakalarda başvurulan temel akıştır.')}</small></section>
+    ${renderProtocolKeyPoints(p)}
+    <section class="detail-section emphasis" id="protocol-flow"><div class="detail-heading"><span class="tiny-icon">⌖</span><div><h3>Uygulama akışı</h3><p>Resmî ${esc(p.code)} sırası korunmuştur.</p></div></div><div class="protocol-flow">${renderProtocolFlow(p)}</div></section>
     ${renderSource(p)}
   </div>`;
   el.main.classList.add('hidden');el.detail.classList.remove('hidden');el.shell.classList.add('detail-open');scrollTo(0,0);
+}
+function backFromDetail(){
+  if(state.current?.startsWith('protocol:')&&state.protocolHistory.length){
+    const previous=state.protocolHistory.pop();openProtocol(previous,{history:'back'});return;
+  }
+  closeCase();
+}
+function showCaseLibraryFromProtocol(){
+  state.current=null;state.protocolHistory=[];state.view='home';state.category='Tümü';state.query='';el.search.value='';
+  el.detail.classList.add('hidden');el.main.classList.remove('hidden');el.shell.classList.remove('detail-open');setNav('cases');renderAll();
+  requestAnimationFrame(()=>el.filterTitle.scrollIntoView({behavior:'smooth',block:'start'}));
 }
 function renderCases(){
   const base=casesForPopulation();const list=visibleCases();el.filterTitle.textContent=state.view==='favorites'?'Favoriler':'Vaka kütüphanesi';el.count.textContent=state.view==='favorites'?`${list.length} favori`:`${list.length} vaka`;
@@ -212,7 +238,7 @@ function openCase(id){
   </div>`;
   el.main.classList.add('hidden');el.detail.classList.remove('hidden');el.shell.classList.add('detail-open');scrollTo(0,0);
 }
-function closeCase(){state.current=null;el.detail.classList.add('hidden');el.main.classList.remove('hidden');el.shell.classList.remove('detail-open');renderAll();setNav(state.returnNav||'home');requestAnimationFrame(()=>scrollTo(0,state.returnScrollY||0))}
+function closeCase(){state.current=null;state.protocolHistory=[];el.detail.classList.add('hidden');el.main.classList.remove('hidden');el.shell.classList.remove('detail-open');renderAll();setNav(state.returnNav||'home');requestAnimationFrame(()=>scrollTo(0,state.returnScrollY||0))}
 function setNav(name){state.nav=name;$$('.nav-item').forEach(b=>b.classList.toggle('active',b.dataset.nav===name))}
 function showHome(top=true){state.view='home';state.current=null;el.detail.classList.add('hidden');el.main.classList.remove('hidden');el.shell.classList.remove('detail-open');setNav('home');renderAll();if(top)scrollTo(0,0)}
 function showCases(){state.view='home';setNav('cases');renderAll();requestAnimationFrame(()=>el.filterTitle.scrollIntoView({behavior:'smooth',block:'start'}))}
@@ -246,7 +272,8 @@ function closeSourceSheet(){
 }
 
 document.addEventListener('click',e=>{
-  const protocolOpen=e.target.closest('[data-protocol-open]');if(protocolOpen){openProtocol(protocolOpen.dataset.protocolOpen);return}
+  const protocolOpen=e.target.closest('[data-protocol-open]');if(protocolOpen){openProtocol(protocolOpen.dataset.protocolOpen,{history:state.current?.startsWith('protocol:')?'push':'root'});return}
+  const protocolAction=e.target.closest('[data-protocol-action]')?.dataset.protocolAction;if(protocolAction==='cases'){showCaseLibraryFromProtocol();return}
   const open=e.target.closest('[data-open]');if(open){openCase(open.dataset.open);return}
   const pop=e.target.closest('[data-population]');if(pop){selectPopulation(pop.dataset.population);return}
   const filter=e.target.closest('[data-filter]');if(filter){state.category=filter.dataset.filter;renderFilters();renderCases();return}
@@ -255,7 +282,7 @@ document.addEventListener('click',e=>{
   const action=e.target.closest('[data-action]')?.dataset.action;
   if(action==='show-all'){el.filterTitle.scrollIntoView({behavior:'smooth'});return}
   if(action==='clear-recents'){state.recent=[];localStorage.removeItem(STORAGE.recent);renderShortcuts();return}
-  if(action==='back'){closeCase();return}
+  if(action==='back'){backFromDetail();return}
   if(action==='favorite'&&state.current){const id=state.current;state.favorites.has(id)?state.favorites.delete(id):state.favorites.add(id);localStorage.setItem(STORAGE.favorites,JSON.stringify([...state.favorites]));const b=e.target.closest('[data-action="favorite"]');const active=state.favorites.has(id);b.classList.toggle('active',active);b.textContent=active?'★':'☆';b.setAttribute('aria-pressed',String(active));b.setAttribute('aria-label',active?'Favorilerden çıkar':'Favorilere ekle');return}
   if(action==='close-sheet'){closeSourceSheet();return}
   if(action==='reload-app'){location.reload();return}
