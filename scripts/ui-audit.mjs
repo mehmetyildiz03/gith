@@ -30,8 +30,8 @@ assert(css.includes("/* V0.6.1 dark surface hardening */"),'Koyu mod yüzey hard
 assert(css.includes(":root[data-theme='dark'] .quick-step")&&css.includes("background:var(--detail-panel-deep)!important"),'Koyu mod algoritma adımı explicit yüzeyi eksik');
 assert(css.includes(":root[data-theme='dark'] .red-flag")&&css.includes("background:#2b202a!important"),'Koyu mod kırmızı bayrak yüzeyi eksik');
 assert(css.includes(":root[data-theme='dark'] .branch.yes")&&css.includes(":root[data-theme='dark'] .branch.no"),'Koyu mod karar kutuları explicit değil');
-assert(html.includes('styles.css?v=0.33')&&html.includes('app-core.js?v=0.33')&&html.includes('cases-data.js?v=0.33'),'Kritik asset cache-bust sürümü eksik');
-assert(sw.includes("saha112-v033")&&sw.includes('NETWORK_FIRST_DESTINATIONS'),'Service worker kritik asset güncelleme stratejisi eksik');
+assert(html.includes('styles.css?v=0.34')&&html.includes('app-core.js?v=0.34')&&html.includes('cases-data.js?v=0.34'),'Kritik asset cache-bust sürümü eksik');
+assert(sw.includes("saha112-v034")&&sw.includes('NETWORK_FIRST_DESTINATIONS'),'Service worker kritik asset güncelleme stratejisi eksik');
 assert(!app.includes('Kırmızı bayrak'),'Eski kullanıcı terimi hâlâ UI içinde');
 assert(app.includes('Acil Uyarı Bulguları'),'Acil Uyarı Bulguları başlığı eksik');
 assert(app.includes('Önceliği, müdahaleyi veya nakil kararını değiştirebilecek bulgular.'),'Acil uyarı açıklaması eksik');
@@ -53,8 +53,10 @@ assert(app.includes('PDF sayfa')&&app.includes('PDF s.'),'PDF sayfa etiketi aç�
 assert(html.includes('updateBanner')&&app.includes('controllerchange')&&app.includes("reload-app"),'Pasif PWA güncelleme bildirimi eksik');
 assert(app.includes('sourceFocusable')&&app.includes("e.key==='Tab'")&&css.includes('html.dialog-open'),'Kaynak dialog focus trap/scroll kilidi eksik');
 assert(data.includes('"title": "İnme / SVO"'),'İnme / SVO başlığı korunmamış');
+assert(data.includes('"reviewedAt": "2026-09-24"')&&data.includes('"Glikoz <60 mg/dl ve/veya hipoglisemi bulguları varsa"')&&data.includes('"Kan basıncı takibi"')&&data.includes('"4,5 saat içinde trombolitik"')&&data.includes('"6 saat içinde endovasküler girişim"'),'Y-18 yapılandırılmış inme akışı eksik');
+
 assert(data.includes('"title": "Nabızlı Taşikardi"'),'Nabızlı Taşikardi başlığı eksik');
-assert(data.includes('"contentVersion": "EK2-2026.08.25-y17-structured-flow-1-2026.09.23"'),'V0.33 Y-17 yapılandırılmış akış sürümü eksik');
+assert(data.includes('"contentVersion": "EK2-2026.08.25-y18-structured-flow-1-2026.09.24"'),'V0.34 Y-18 yapılandırılmış akış sürümü eksik');
 assert(html.includes('id="authorityLegend"')&&!html.includes('<span class="authority direct">Doğrudan</span>'),'Yetki legendi dinamik veri kaynağına bağlı değil');
 assert(app.includes("authorityMarkup")&&app.includes("authority-symbol")&&app.includes("✓ Yeşil: SKKM/ÇM onayı yok")&&app.includes("◆ Sarı: SKKM/ÇM onayı"),'Yetki sembol/yazı eşlemesi eksik');
 assert(css.includes('.authority.direct{')&&css.includes('var(--greenSoft)')&&css.includes('.authority.skkm{')&&css.includes('var(--amberSoft)'),'Yeşil/sarı yetki renk semantiği eksik');
@@ -116,7 +118,7 @@ assert(css.includes('/* V0.31 source geometry + scanability polish */')&&css.inc
 assert(data.includes('"id": "acute-heart-failure-cardiogenic-shock"')&&data.includes('"algorithmBranchLayout": "profiles"')&&data.includes('"label": "Normotansif dekompanse kalp yetmezliği"')&&data.includes('"label": "Hipertansif kalp yetmezliği"')&&data.includes('"label": "Kardiyojenik şok"'),'Y-14 üç profil yapılandırılmış akışı eksik');
 assert(app.includes("c.algorithmBranchLayout==='profiles'?' profiles':''"),'Y-14 profil yerleşimi render katmanı eksik');
 assert(css.includes('/* V0.32 Y14 profile layout */')&&css.includes('.algorithm-branches.profiles')&&css.includes('grid-template-columns:repeat(3,minmax(0,1fr))'),'Y-14 profil masaüstü/tek kolon responsive stili eksik');
-assert((data.match(/"decisionIntegrated": true/g)||[]).length>=7,'Y-17 dahil entegre karar işaretleri eksik');
+assert((data.match(/"decisionIntegrated": true/g)||[]).length>=8,'Y-18 dahil entegre karar işaretleri eksik');
 assert(css.includes('.detail-jumps::after')&&css.includes('content:"›"'),'Mobil jump şeridinde devam göstergesi eksik');
 assert(css.includes('/* V0.21 branched algorithm flow */')&&css.includes('.algorithm-branches{')&&css.includes('.algo-branch-children{'),'Dallı algoritma mobil/masaüstü stilleri eksik');
 assert(css.includes('/* V0.23 branch layout hardening */')&&css.includes('.algo-depth-0>.algo-branch-children{grid-template-columns:repeat(2,minmax(0,1fr))}')&&!css.includes('.algorithm-branches{grid-template-columns:repeat(2,minmax(0,1fr))}'),'İç içe branch kolon sertleştirmesi eksik veya eski bozuk üst-seviye iki kolon kuralı kaldı');

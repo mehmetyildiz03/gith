@@ -2,7 +2,15 @@
 
 Mobil-first, offline çekirdekli, vaka bazlı hastane öncesi acil sağlık eğitim ve hızlı hatırlatma uygulaması.
 
-## V0.33 mimarisi
+## V0.34 mimarisi
+
+- **V0.34 Y-18 yapılandırılmış akış:** İnme / SVO, resmî SB-ASH-Y-18 sayfa 32 geometrisine göre dokuz adımlı saha akışına taşındı. Glukoz <60 mg/dL ve/veya hipoglisemi bulgusu ana akışa eşdeğer paralel dal yapılmadı; kan glikozu basamağından Diyabetik Aciller'e yan geçiş olarak korundu.
+- **Y-18 yetki sadakati:** Y-18'de turuncu yalnız AABT kutusu yoktur. İlk sekiz adım `ATT_AABT + DIRECT`; yalnız son uygun merkez nakil kutusunda telefon simgesi bulunduğu için `ATT_AABT + SKKM` olarak kilitlendi.
+- **BEFAST / pozisyon / KB:** BEFAST pozitifliği, hipoperfüzyon yoksa baş-gövde 30° yükseltme, kardiyak monitörizasyon + KB takibi ve “normalin üstünde olsa da tansiyonu düşürme” uyarısı kaynak konumlarına uygun biçimde görünür.
+- **Zaman penceresi:** Son normal görülme zamanından 4,5 saat içinde trombolitik ve 6 saat içinde endovasküler girişim için uygun merkeze nakil bilgisi son basamakta korunur.
+- **Tekrar azaltma:** Kaynak akışı artık algoritmanın içinde görüldüğünden Y-18'in eski ayrı Karar kutusu/jump'ı gizlendi.
+
+### V0.33 önceki durum
 
 - **V0.33 Y-17 yapılandırılmış akış:** Diyabetik Aciller resmî SB-ASH-Y-17 geometrisine taşındı. Ortak “Acil olgu yönetimini uygula → Kan şekerini ölç” başlangıcından sonra hipoglisemi ve hiperglisemi ayrılır; hipoglisemi kolu ayrıca Bilinci açık / Bilinci kapalı olarak dallanır.
 - **Y-17 yetki sadakati:** Oral şekerli sıvı, yeniden kan şekeri/klinik değerlendirme ve ortak ölçüm adımları turkuaz `ATT_AABT + DIRECT`; IV dekstroz ve hiperglisemi %0,9 NaCl basamakları turuncu `AABT + DIRECT`. Resmî Y-17 sayfasında SKKM/ÇM telefon simgesi bulunmadığı için bu akışa SKKM rozeti eklenmedi.

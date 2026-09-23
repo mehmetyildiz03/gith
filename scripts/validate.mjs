@@ -71,22 +71,38 @@ if(!APP_META?.routes?.includes('SC')||APP_META?.routeLabels?.SC!=='Subkutan (SC)
 if(APP_META?.authority?.DIRECT?.symbol!=='✓'||APP_META?.authority?.DIRECT?.visualLabel!=='SKKM/ÇM onayı gerektirmez')err('DIRECT yeşil/doğrudan sembol metası eksik');
 if(APP_META?.authority?.SKKM?.symbol!=='◆'||APP_META?.authority?.SKKM?.visualLabel!=='SKKM/ÇM onayı gerekli')err('SKKM sarı/onay sembol metası eksik');
 if(APP_META?.authority?.ALGORITHM?.symbol!=='•'||APP_META?.authority?.ALGORITHM?.visualLabel!=='Kaynakta SKKM/ÇM yetkisi belirtilmemiş')err('ALGORITHM kaynakta belirtilmeyen yetki metası eksik');
-if(APP_META?.contentVersion!=='EK2-2026.08.25-y17-structured-flow-1-2026.09.23')err('contentVersion Y-17 yapılandırılmış akış sürümüyle eşleşmiyor');
-if(APP_META?.productVersion!=='0.33')err('productVersion V0.33 olmalı');
+if(APP_META?.contentVersion!=='EK2-2026.08.25-y18-structured-flow-1-2026.09.24')err('contentVersion Y-18 yapılandırılmış akış sürümüyle eşleşmiyor');
+if(APP_META?.productVersion!=='0.34')err('productVersion V0.34 olmalı');
 if(APP_META?.practitionerAuthority?.ATT_AABT?.officialLabel!=='Acil Tıp Teknisyeni / Teknikeri'||APP_META?.practitionerAuthority?.AABT?.officialLabel!=='Acil Tıp Teknikeri'||APP_META?.practitionerAuthority?.UNVERIFIED?.symbol!=='□')err('ATT/AABT uygulayıcı yetki metası eksik veya bozuk');
 for(const code of ['SB-ASH-Y-04','SB-ASH-Y-05','SB-ASH-Y-06','SB-ASH-Y-07','SB-ASH-Y-08','SB-ASH-Y-09','SB-ASH-Y-10','SB-ASH-Y-11','SB-ASH-Y-12','SB-ASH-Y-13','SB-ASH-Y-14','SB-ASH-Y-15','SB-ASH-Y-17','SB-ASH-Y-19','SB-ASH-Y-21','SB-ASH-Y-22','SB-ASH-Y-23','SB-ASH-Y-24','SB-ASH-Y-28','SB-ASH-Y-29','SB-ASH-Y-34','SB-ASH-Y-35','SB-ASH-Y-36','SB-ASH-Y-37','SB-ASH-Y-39','SB-ASH-Y-40'])if(!APP_META?.practitionerAudit?.verifiedMedicationCases?.includes(code))err(`Uygulayıcı yetki görsel audit izi eksik: ${code}`);
 if(APP_META?.practitionerAudit?.adultMedicationCardsComplete!==true)err('Yetişkin ilaç kartları uygulayıcı audit tamamlama işareti eksik');
 if(APP_META?.clinicalAudit?.scope?.includes('21 yetişkin')||APP_META?.integrityAudit?.scope?.includes('21 yetişkin'))err('Audit metadata hâlâ eski 21 yetişkin kapsamını gösteriyor');
 if(APP_META?.adultCoverage?.verifiedCaseCards!==37||APP_META?.adultCoverage?.reviewedAt!=='2026-09-23')err('37 yetişkin kapsam metası güncel değil');
-for(const code of ['SB-ASH-Y-04','SB-ASH-Y-05','SB-ASH-Y-06','SB-ASH-Y-07','SB-ASH-Y-08','SB-ASH-Y-09','SB-ASH-Y-10','SB-ASH-Y-11','SB-ASH-Y-12','SB-ASH-Y-13','SB-ASH-Y-14','SB-ASH-Y-17','SB-ASH-Y-22'])if(!APP_META?.actionAudit?.verifiedCases?.includes(code))err(`Adım bazlı eylem yetki audit izi eksik: ${code}`);
+for(const code of ['SB-ASH-Y-04','SB-ASH-Y-05','SB-ASH-Y-06','SB-ASH-Y-07','SB-ASH-Y-08','SB-ASH-Y-09','SB-ASH-Y-10','SB-ASH-Y-11','SB-ASH-Y-12','SB-ASH-Y-13','SB-ASH-Y-14','SB-ASH-Y-17','SB-ASH-Y-18','SB-ASH-Y-22'])if(!APP_META?.actionAudit?.verifiedCases?.includes(code))err(`Adım bazlı eylem yetki audit izi eksik: ${code}`);
 for(const code of ['SB-ASH-Y-08','SB-ASH-Y-09','SB-ASH-Y-10','SB-ASH-Y-11','SB-ASH-Y-12','SB-ASH-Y-13','SB-ASH-Y-14','SB-ASH-Y-17','SB-ASH-Y-22'])if(!APP_META?.actionAudit?.verifiedBranchCases?.includes(code))err(`Dallı algoritma audit izi eksik: ${code}`);
-if(APP_META?.actionAudit?.reviewedAt!=='2026-09-23')err('Dallı eylem yetki audit tarihi 2026-09-23 olmalı');
+if(APP_META?.actionAudit?.reviewedAt!=='2026-09-24')err('Adım bazlı eylem yetki audit tarihi 2026-09-24 olmalı');
 if(APP_META?.medicationContentAudit?.status!=='complete'||APP_META?.medicationContentAudit?.reviewedAt!=='2026-09-23')err('Yetişkin ilaç içerik audit metası eksik');
 for(const code of ['SB-ASH-Y-05','SB-ASH-Y-09','SB-ASH-Y-10','SB-ASH-Y-11','SB-ASH-Y-22','SB-ASH-Y-23','SB-ASH-Y-29','SB-ASH-Y-40'])if(!APP_META?.medicationContentAudit?.correctedCases?.includes(code))err(`İlaç içerik audit düzeltme izi eksik: ${code}`);
 if(!APP_META?.medicationContentAudit?.sourceUnspecifiedAuthorityItems?.includes('SB-ASH-Y-40/Midazolam'))err('Y-40 Midazolam kaynakta yetki kodlaması yok izi eksik');
 if(APP_META?.actionAudit?.pilot!==true)err('Adım bazlı eylem yetki katmanı pilot/incremental işareti eksik');
 const strokeCase=(CASES||[]).find(c=>c.id==='stroke');
 if(!strokeCase||strokeCase.title!=='İnme / SVO')err('İnme / SVO başlığı korunmalı');
+if(strokeCase?.code!=='SB-ASH-Y-18'||strokeCase?.page!=='32'||strokeCase?.source?.page!=='32'||strokeCase?.source?.reviewedAt!=='2026-09-24')err('Y-18 kaynak izi bozuldu');
+if(strokeCase?.decisionIntegrated!==true||(strokeCase?.algorithmSteps||[]).length!==9)err('Y-18 dokuz basamaklı yapılandırılmış akış / entegre karar yapısı eksik');
+for(const [idx,s] of (strokeCase?.algorithmSteps||[]).entries()){
+  if(idx===8){
+    if(s.approvalAuthority!=='SKKM'||s.practitionerAuthority!=='ATT_AABT')err('Y-18 uygun merkeze nakil basamağı SKKM + ATT/AABT olmalı');
+  }else if(s.approvalAuthority!=='DIRECT'||s.practitionerAuthority!=='ATT_AABT')err(`Y-18 ortak basamak DIRECT + ATT/AABT olmalı: ${idx}`);
+}
+if((strokeCase?.algorithmSteps||[]).some(s=>s.practitionerAuthority==='AABT'))err('Y-18 resmî sayfada turuncu yalnız AABT kutusu olmamalı');
+const y18Glucose=strokeCase?.algorithmSteps?.[4];
+const y18BP=strokeCase?.algorithmSteps?.[7];
+const y18Transport=strokeCase?.algorithmSteps?.[8];
+if(!String(y18Glucose?.followUp?.label||'').includes('Glikoz <60 mg/dl')||!String(y18Glucose?.followUp?.html||'').includes('Diyabetik Aciller algoritmasına git'))err('Y-18 hipoglisemi yan geçişi bozuk');
+if(!String(y18BP?.followUp?.html||'').includes('tansiyonu düşürme'))err('Y-18 kan basıncı uyarısı eksik');
+for(const required of ['Aspirasyon','%94–98','DAKŞ','BEFAST','30°','Kardiyak monitörizasyon','4,5 saat','6 saat'])if(!JSON.stringify(strokeCase).includes(required))err(`Y-18 kritik kaynak öğesi eksik: ${required}`);
+if(!String(y18Transport?.html||'').includes('uygun merkeze naklet'))err('Y-18 son uygun merkez nakil basamağı eksik');
+
 const seizureCase=(CASES||[]).find(c=>c.id==='seizure');
 if(!seizureCase||seizureCase.title!=='Nöbet / Konvülziyon')err('Nöbet başlığı resmî SB-ASH-Y-19 adıyla Nöbet / Konvülziyon olmalı');
 const beeCase=(CASES||[]).find(c=>c.id==='bee');
@@ -211,7 +227,7 @@ if(nonHemorrhagic?.steps?.[2]?.approvalAuthority!=='SKKM'||nonHemorrhagic?.steps
 
 const adultAuditCases=(CASES||[]).filter(c=>c.population==='adult');
 if(adultAuditCases.length!==37)err('Yetişkin kütüphanesi 37 doğrulanmış vaka olmalı');
-for(const c of adultAuditCases)if(!['2026-09-21','2026-09-22','2026-09-23'].includes(c.source?.reviewedAt))err(`${c.id}: beklenmeyen reviewedAt ${c.source?.reviewedAt}`);
+for(const c of adultAuditCases)if(!['2026-09-21','2026-09-22','2026-09-23','2026-09-24'].includes(c.source?.reviewedAt))err(`${c.id}: beklenmeyen reviewedAt ${c.source?.reviewedAt}`);
 for(const c of adultAuditCases)for(const m of (c.meds||[])){
   const sourceUnspecified=m.sourceAuthorityStatus==='KEYPOINT_NO_SYMBOL';
   if(sourceUnspecified){

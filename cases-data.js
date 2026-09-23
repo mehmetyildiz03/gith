@@ -1,7 +1,7 @@
 const APP_META = {
   "schemaVersion": 5,
-  "contentVersion": "EK2-2026.08.25-y17-structured-flow-1-2026.09.23",
-  "productVersion": "0.33",
+  "contentVersion": "EK2-2026.08.25-y18-structured-flow-1-2026.09.24",
+  "productVersion": "0.34",
   "populations": [
     {
       "id": "adult",
@@ -200,7 +200,7 @@ const APP_META = {
     "adultMedicationCardsComplete": true
   },
   "actionAudit": {
-    "reviewedAt": "2026-09-23",
+    "reviewedAt": "2026-09-24",
     "source": "25.08.2026 tarihli Ek-2 resmî PDF",
     "method": "Resmî turkuaz/turuncu kutular ve SKKM/ÇM telefon simgesi adım bazında ayrı alanlarda görsel olarak doğrulandı",
     "verifiedCases": [
@@ -216,6 +216,7 @@ const APP_META = {
       "SB-ASH-Y-13",
       "SB-ASH-Y-14",
       "SB-ASH-Y-17",
+      "SB-ASH-Y-18",
       "SB-ASH-Y-22"
     ],
     "verifiedBranchCases": [
@@ -3003,7 +3004,7 @@ const CASES = [
       "documentTitle": "Hastane Öncesi Acil Tıbbi Yardım ve Bakım Akış Şemaları",
       "effectiveDate": "2026-08-25",
       "officialPageDate": "2026-09-11",
-      "reviewedAt": "2026-09-21",
+      "reviewedAt": "2026-09-24",
       "officialPageUrl": "https://acilafet.saglik.gov.tr/TR-119840/hastane-oncesi-acil-tibbi-yardim-ve-bakim-akis-semalari.html",
       "officialPdfUrl": "https://dosyamerkez.saglik.gov.tr/Eklenti/55773/0/ek-2-hastane-oncesi-acil-tibbi-yardim-ve-bakim-akis-semalaripdf.pdf",
       "section": "adult",
@@ -3013,31 +3014,87 @@ const CASES = [
       "page": "32",
       "codeStatus": "verified"
     },
-    "summary": "2026 algoritması Cincinnati/FAST yerine BEFAST taramasını kullanır; son normal zaman ve uygun inme merkezi seçimi kritik karar noktalarıdır.",
+    "summary": "BEFAST ile hastane öncesi inme taraması yap; hava yolu-solunum, glukoz, hipoperfüzyon ve kan basıncını değerlendir; son normal görülme zamanına göre SKKM/ÇM ile uygun merkeze nakli planla.",
     "criticalActions": [
-      "BEFAST ile hızlı inme taraması yap ve hastanın son normal görüldüğü zamanı kesinleştir.",
-      "Aspirasyon/üst hava yolu obstrüksiyonu, hipoventilasyon ve travmayı değerlendir; SpO₂ %94–98 hedefle, gerekirse PBV ile destekle; kan glikozunu ölç.",
-      "Hipoperfüzyon yoksa baş ve gövdeyi 30° yükselt; uygun inme merkezine nakli başlat ve yüksek tansiyonu rutin olarak düşürme."
+      "Aspirasyon, üst hava yolu obstrüksiyonu, hipoventilasyon ve travmayı değerlendir; SpO₂ %94–98 olacak şekilde oksijen ver, gerekirse PBV ile destekle.",
+      "Kan glikozunu ölç; glukoz <60 mg/dL ve/veya hipoglisemi bulguları varsa Diyabetik Aciller algoritmasına geç.",
+      "BEFAST pozitifse hipoperfüzyon yokluğunda baş ve gövdeyi 30° yükselt; kardiyak monitörizasyon/KB takibi yap ve son normal görülme zamanına göre uygun merkeze nakli düzenle."
     ],
     "quick": [
-      "<strong>BEFAST:</strong> Balance, Eyes, Face, Arms, Speech, Time ile tarama yap.",
-      "SpO₂ <strong>%94–98</strong> hedefle; gerekirse PBV ile solunumu destekle. Kan glikozunu ölç ve hipoglisemiyi dışla.",
-      "Hipoperfüzyon bulgusu yoksa <strong>baş ve gövdeyi 30° yükselt.</strong> Tansiyon normalin üstünde olsa da rutin olarak düşürme.",
-      "Son normal görüldüğü zamandan itibaren trombolitik için ilk 4,5 saat; endovasküler girişim için ilk 6 saat kriterlerini ve uygun merkez seçimini dikkate al."
+      "<strong>BEFAST:</strong> B (balance) denge kaybı, E (eyes) bulanık görme, F (face) yüzde asimetri, A (arms) kollardan birinde güç kaybı, S (speech) konuşma bozukluğu, T (time) arama zamanı.",
+      "SpO₂ <strong>%94–98 olacak şekilde</strong> uygun yöntemle oksijen ver; gerekirse solunumu PBV ile destekle. Damar yolu aç (DAKŞ) ve kan glikozunu ölç.",
+      "Hipoperfüzyon belirtisi yoksa <strong>baş ve gövdeyi 30° yükselt.</strong> Kardiyak monitörizasyon ve KB takibi yap; tansiyon normalin üstünde olsa da tansiyonu düşürme.",
+      "Hastanın son olarak normal görüldüğü zamandan <strong>4,5 saat içinde trombolitik</strong>, <strong>6 saat içinde endovasküler girişim</strong> için uygun merkeze nakli değerlendir."
     ],
     "warningFindings": [
-      "Yeni fokal nörolojik defisit",
-      "Posterior dolaşım bulguları: ani denge/görme bozukluğu",
-      "Bilinç bozukluğu / aspirasyon riski",
-      "Hipoglisemi taklidi",
-      "Semptom başlangıç/son normal zamanının belirsizliği"
+      "BEFAST pozitifliği / yeni fokal nörolojik bulgu",
+      "Aspirasyon, üst hava yolu obstrüksiyonu veya hipoventilasyon",
+      "Glukoz <60 mg/dL ve/veya hipoglisemi bulguları",
+      "Hipoperfüzyon bulguları",
+      "Son normal görülme zamanının belirsizliği"
     ],
     "meds": [],
     "decision": {
-      "q": "BEFAST pozitif veya klinik inme şüphesi var mı?",
-      "yes": "Son normal zamanı kaydet → glukozu dışla → uygun inme merkezine ön bildirim/nakil.",
-      "no": "Alternatif nedenleri değerlendir; klinik şüphe sürüyorsa nörolojik acil yaklaşımını sürdür."
-    }
+      "q": "BEFAST hastane öncesi inme skalası pozitif mi?",
+      "yes": "Hipoperfüzyon yoksa baş ve gövdeyi 30° yükselt; kardiyak monitörizasyon ve KB takibi yap; son normal görülme zamanına göre SKKM/ÇM ile uygun merkeze naklet.",
+      "no": "Resmî Y-18 ana akışı BEFAST pozitifliği üzerinden ilerler; klinik değerlendirmeyi sürdür."
+    },
+    "decisionIntegrated": true,
+    "algorithmSteps": [
+      {
+        "html": "<strong>Acil olgu yönetimini uygula.</strong>",
+        "approvalAuthority": "DIRECT",
+        "practitionerAuthority": "ATT_AABT"
+      },
+      {
+        "html": "<strong>Aspirasyon, üst hava yolu obstrüksiyonu, hipoventilasyon ve travma yönünden değerlendir.</strong>",
+        "approvalAuthority": "DIRECT",
+        "practitionerAuthority": "ATT_AABT"
+      },
+      {
+        "html": "SpO₂ <strong>%94–98 olacak şekilde</strong> uygun yöntemle oksijen ver; gerekirse solunumu <strong>PBV ile destekle.</strong>",
+        "approvalAuthority": "DIRECT",
+        "practitionerAuthority": "ATT_AABT"
+      },
+      {
+        "html": "<strong>Damar yolu aç (DAKŞ).</strong>",
+        "approvalAuthority": "DIRECT",
+        "practitionerAuthority": "ATT_AABT"
+      },
+      {
+        "html": "<strong>Kan glikoz seviyesini ölç.</strong>",
+        "approvalAuthority": "DIRECT",
+        "practitionerAuthority": "ATT_AABT",
+        "followUp": {
+          "label": "Glikoz <60 mg/dl ve/veya hipoglisemi bulguları varsa",
+          "html": "<strong>Diyabetik Aciller algoritmasına git.</strong>"
+        }
+      },
+      {
+        "html": "<strong>BEFAST hastane öncesi inme skalası pozitifse</strong> inme akışına devam et.",
+        "approvalAuthority": "DIRECT",
+        "practitionerAuthority": "ATT_AABT"
+      },
+      {
+        "html": "Hasta hipoperfüzyon belirtileri göstermiyor ise <strong>baş ve gövdeyi 30° yükselt.</strong>",
+        "approvalAuthority": "DIRECT",
+        "practitionerAuthority": "ATT_AABT"
+      },
+      {
+        "html": "<strong>Kardiyak monitörizasyon ve KB takibi yap.</strong>",
+        "approvalAuthority": "DIRECT",
+        "practitionerAuthority": "ATT_AABT",
+        "followUp": {
+          "label": "Kan basıncı takibi",
+          "html": "Tansiyon değerleri normalin üstünde olsa da <strong>tansiyonu düşürme.</strong>"
+        }
+      },
+      {
+        "html": "Hastanın son olarak normal görüldüğü zamandan <strong>4,5 saat içinde trombolitik</strong>, <strong>6 saat içinde endovasküler girişim</strong> için uygun merkeze naklet.",
+        "approvalAuthority": "SKKM",
+        "practitionerAuthority": "ATT_AABT"
+      }
+    ]
   },
   {
     "id": "seizure",
