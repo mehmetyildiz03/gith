@@ -54,7 +54,7 @@ assert(html.includes('updateBanner')&&app.includes('controllerchange')&&app.incl
 assert(app.includes('sourceFocusable')&&app.includes("e.key==='Tab'")&&css.includes('html.dialog-open'),'Kaynak dialog focus trap/scroll kilidi eksik');
 assert(data.includes('"title": "İnme / SVO"'),'İnme / SVO başlığı korunmamış');
 assert(data.includes('"title": "Nabızlı Taşikardi"'),'Nabızlı Taşikardi başlığı eksik');
-assert(data.includes('"contentVersion": "EK2-2026.08.25-y14-structured-flow-1-2026.09.23"'),'V0.32 Y-14 yapılandırılmış akış sürümü eksik');
+assert(data.includes('"contentVersion": "EK2-2026.08.25-y17-structured-flow-1-2026.09.23"'),'V0.33 Y-17 yapılandırılmış akış sürümü eksik');
 assert(html.includes('id="authorityLegend"')&&!html.includes('<span class="authority direct">Doğrudan</span>'),'Yetki legendi dinamik veri kaynağına bağlı değil');
 assert(app.includes("authorityMarkup")&&app.includes("authority-symbol")&&app.includes("✓ Yeşil: SKKM/ÇM onayı yok")&&app.includes("◆ Sarı: SKKM/ÇM onayı"),'Yetki sembol/yazı eşlemesi eksik');
 assert(css.includes('.authority.direct{')&&css.includes('var(--greenSoft)')&&css.includes('.authority.skkm{')&&css.includes('var(--amberSoft)'),'Yeşil/sarı yetki renk semantiği eksik');
