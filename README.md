@@ -2,9 +2,13 @@
 
 Mobil-first, offline çekirdekli, vaka bazlı hastane öncesi acil sağlık eğitim ve hızlı hatırlatma uygulaması.
 
-## V0.30 mimarisi
+## V0.31 mimarisi
 
 - **Kaynak:** T.C. Sağlık Bakanlığı 25.08.2026 tarihli Ek-2 Hastane Öncesi Acil Tıbbi Yardım ve Bakım Akış Şemaları.
+- **V0.31 kaynak geometrisi düzeltmesi:** ROSC Y-12'de “Arrest tekrarında ilgili ritim algoritmasına git” artık yedinci bağımsız üst dal değildir; resmî Y-12 görselindeki gibi alt sonuç/geçiş olarak gösterilir. Üst dallar yalnız Hipotansiyon, Ventriküler ektopi/sürekli olmayan VT, Bradiaritmi, Hipo/Hiperglisemi, Taşiaritmi ve Nöbet olarak kalır.
+- **Y-08 / Y-09–Y-11 tekrar azaltma:** Nabızlı Taşikardi ve Kardiyak Arrestte dallı algoritma karar yapısını zaten gösterdiği için ayrı “Karar noktası” kutusu ve Karar jump'ı gizlendi. Klinik `decision` verisi korunur; yalnız yinelenen UI kaldırılır.
+- **Y-11 antiaritmik okunabilirliği:** Resmî tek turuncu ilaç kutusunun içeriği bölünmeden korunur; 3. şok sonrası 300 mg amiodaron / lidokain başlangıç dozu ile dirençli-tekrarlayan VF-nVT'de 5. şok sonrası 150 mg amiodaron / lidokain tekrar dozu aynı eylem kartı içinde iki görsel segmente ayrılır.
+- **Mobil gezinme:** Detay jump şeridinin sağ kenarında hafif “›” devam göstergesi bulunur; yatay kaydırılabilir başka sekmeler olduğu daha kolay fark edilir.
 - **V0.30 yüksek öncelikli vaka akışı:** ROSC (Y-12), Hipovolemik Şok (Y-13) ve Anafilaksi (Y-22) uzun düz metin yerine resmî karar yapısına göre `algorithmSteps[] + algorithmBranches[]` modeline taşındı.
 - **ROSC Y-12:** ortak yeniden değerlendirme sonrası hipotansiyon, ventriküler ektopi/sürekli olmayan VT, bradiaritmi, hipo/hiperglisemi, taşiaritmi, nöbet ve arrest tekrarı kolları ayrıldı. Hipotansiyon ilaç basamağı ile lidokain/amiodaron basamağı `SKKM + Yalnız AABT`; algoritmaya yönlendirme kollarında ek kısıt rozeti yoktur.
 - **Hipovolemik Şok Y-13:** Hemorajik ve Non-hemorajik kollar ayrıldı. Kanama kontrolü ortak ATT/Tekniker; kristalloid basamakları `Yalnız AABT` fakat telefon simgesiz; yalnız MAP <65 mmHg ve yanıtsız devam eden hipovolemide vazopressör basamağı `SKKM + Yalnız AABT`.

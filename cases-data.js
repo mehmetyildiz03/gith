@@ -1,7 +1,7 @@
 const APP_META = {
   "schemaVersion": 5,
-  "contentVersion": "EK2-2026.08.25-priority-flow-1-2026.09.23",
-  "productVersion": "0.30",
+  "contentVersion": "EK2-2026.08.25-source-geometry-polish-1-2026.09.23",
+  "productVersion": "0.31",
   "populations": [
     {
       "id": "adult",
@@ -1966,7 +1966,8 @@ const CASES = [
           }
         ]
       }
-    ]
+    ],
+    "decisionIntegrated": true
   },
   {
     "id": "cardiac-arrest",
@@ -2161,7 +2162,11 @@ const CASES = [
                 "practitionerAuthority": "ATT_AABT"
               },
               {
-                "html": "<strong>3. defibrilasyon</strong>; ardından <strong>amiodaron 300 mg IV/IO bolus</strong> (2–3 dk; 20 mL %5 dekstroz içinde) veya <strong>%2 lidokain 1–1,5 mg/kg IV/IO bolus</strong>. Tekrarlayan/dirençli VF/nVT'de 5. şok sonrası amiodaron 150 mg IV/IO (2–3 dk; 10 mL %5 dekstroz içinde) veya lidokain 0,5–0,75 mg/kg IV/IO bolus tekrar ver.",
+                "html": "<strong>3. defibrilasyon</strong>; ardından <strong>amiodaron 300 mg IV/IO bolus</strong> (2–3 dk; 20 mL %5 dekstroz içinde) veya <strong>%2 lidokain 1–1,5 mg/kg IV/IO bolus</strong>.",
+                "followUp": {
+                  "label": "Dirençli / tekrarlayan VF-nVT — 5. şok sonrası",
+                  "html": "<strong>Amiodaron 150 mg IV/IO bolus</strong> (2–3 dk; 10 mL %5 dekstroz içinde) veya <strong>%2 lidokain 0,5–0,75 mg/kg IV/IO bolus</strong> tekrar ver."
+                },
                 "approvalAuthority": "DIRECT",
                 "practitionerAuthority": "AABT"
               }
@@ -2169,7 +2174,8 @@ const CASES = [
           }
         ]
       }
-    ]
+    ],
+    "decisionIntegrated": true
   },
   {
     "id": "rosc",
@@ -2361,16 +2367,14 @@ const CASES = [
             "practitionerAuthority": "ATT_AABT"
           }
         ]
-      },
+      }
+    ],
+    "algorithmAfter": [
       {
-        "label": "Arrest tekrarı",
-        "steps": [
-          {
-            "html": "<strong>İlgili ritim algoritmasına git.</strong>",
-            "approvalAuthority": "DIRECT",
-            "practitionerAuthority": "ATT_AABT"
-          }
-        ]
+        "label": "Arrest tekrar ederse",
+        "html": "<strong>İlgili ritim algoritmasına git.</strong>",
+        "approvalAuthority": "DIRECT",
+        "practitionerAuthority": "ATT_AABT"
       }
     ]
   },

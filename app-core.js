@@ -64,7 +64,7 @@ function toggleDensity(){
 }
 function updateNetwork(){const online=navigator.onLine;el.network.dataset.state=online?'online':'offline';el.network.querySelector('span:last-child').textContent=online?'Çevrimiçi':'Çevrimdışı';el.offline.classList.toggle('hidden',online)}
 
-function algorithmStepSearch(step){return [step?.html,APP_META.authority?.[step?.approvalAuthority]?.label,APP_META.practitionerAuthority?.[step?.practitionerAuthority]?.label,APP_META.practitionerAuthority?.[step?.practitionerAuthority]?.officialLabel]}
+function algorithmStepSearch(step){return [step?.html,step?.followUp?.label,step?.followUp?.html,APP_META.authority?.[step?.approvalAuthority]?.label,APP_META.practitionerAuthority?.[step?.practitionerAuthority]?.label,APP_META.practitionerAuthority?.[step?.practitionerAuthority]?.officialLabel]}
 function algorithmBranchSearch(branches=[]){
   return branches.flatMap(branch=>[branch?.label,branch?.note,...(branch?.steps||[]).flatMap(algorithmStepSearch),...algorithmBranchSearch(branch?.branches||[])]);
 }
@@ -73,7 +73,8 @@ function searchText(c){
   const meds=(c.meds||[]).flatMap(m=>[m.name,m.dose,...(m.routes||[]).flatMap(r=>[r,routeLabel(r)]),m.repeat,m.maxDose,m.note,APP_META.authority[m.authority]?.label,APP_META.practitionerAuthority?.[m.practitionerAuthority||'UNVERIFIED']?.label,APP_META.practitionerAuthority?.[m.practitionerAuthority||'UNVERIFIED']?.officialLabel]);
   const algorithmSteps=(c.algorithmSteps||[]).flatMap(algorithmStepSearch);
   const algorithmBranches=algorithmBranchSearch(c.algorithmBranches||[]);
-  return [c.title,c.subtitle,c.category,c.code,c.summary,...c.criticalActions,...c.quick,...algorithmSteps,...algorithmBranches,...c.warningFindings,c.decision?.q,c.decision?.yes,c.decision?.no,...sev,...meds].filter(Boolean).map(strip).join(' ').toLocaleLowerCase('tr-TR');
+  const algorithmAfter=(c.algorithmAfter||[]).flatMap(algorithmStepSearch);
+  return [c.title,c.subtitle,c.category,c.code,c.summary,...c.criticalActions,...c.quick,...algorithmSteps,...algorithmBranches,...algorithmAfter,...c.warningFindings,c.decision?.q,c.decision?.yes,c.decision?.no,...sev,...meds].filter(Boolean).map(strip).join(' ').toLocaleLowerCase('tr-TR');
 }
 function priorityRank(c){return ({critical:0,high:1,standard:2}[c.uiPriority]??9)}
 function visibleCases(){
@@ -205,7 +206,9 @@ function renderActionStep(step,{branch=false}={}){
   const restriction=practitionerMarkup(step.practitionerAuthority||'UNVERIFIED');
   const badges=[approval,restriction].filter(Boolean).join('');
   const cls=branch?'algo-step':'quick-step';
-  return `<div class="${cls}"><div class="${branch?'algo-step-copy':'quick-step-copy'}">${step.html}</div>${badges?`<div class="action-step-badges">${badges}</div>`:''}</div>`;
+  const copyClass=branch?'algo-step-copy':'quick-step-copy';
+  const followUp=step.followUp?`<div class="algo-step-followup"><span>${esc(step.followUp.label||'Devam')}</span><div>${step.followUp.html}</div></div>`:'';
+  return `<div class="${cls}"><div class="${copyClass}">${step.html}</div>${followUp}${badges?`<div class="action-step-badges">${badges}</div>`:''}</div>`;
 }
 function renderAlgorithmSteps(c){
   const steps=c.algorithmSteps?.length?c.algorithmSteps:(c.quick||[]).map(html=>({html}));
@@ -221,6 +224,10 @@ function renderAlgorithmBranches(c){
   if(!c.algorithmBranches?.length)return '';
   return `<div class="algorithm-branches" aria-label="Algoritma dalları">${c.algorithmBranches.map(branch=>renderAlgorithmBranch(branch)).join('')}</div>`;
 }
+function renderAlgorithmAfter(c){
+  if(!c.algorithmAfter?.length)return '';
+  return `<div class="algorithm-after" aria-label="Algoritma sonrası geçiş">${c.algorithmAfter.map(step=>`<div class="algorithm-after-card"><span class="algorithm-after-arrow">→</span><div><strong>${esc(step.label||'Sonraki adım')}</strong><div>${step.html}</div></div></div>`).join('')}</div>`;
+}
 function renderSeverity(c,level='mild'){if(!c.severity)return '';const s=c.severity[level];return `<div class="severity-card ${level}" id="severityCard"><div class="severity-head"><span class="level-dot"></span><strong>${esc(s.label)}</strong></div><ul>${s.bullets.map(b=>`<li>${esc(b)}</li>`).join('')}</ul><div class="action-box"><b>Ne yap?</b><p>${esc(s.action)}</p></div></div>`}
 function renderSource(c){const s=c.source;const codes=s.algorithmCodes?.length?s.algorithmCodes.join(' + '):'Sayfa referansı';return `<section class="detail-section source-section subdued-section" id="source"><div class="detail-heading"><span class="tiny-icon">§</span><div><h3>Kaynak izi</h3><p>Bu kartın hangi resmî sürüme dayandığını gösterir.</p></div></div><div class="source-grid"><div><span>Belge</span><strong>${esc(s.documentId)}</strong></div><div><span>Kod</span><strong>${esc(codes)}</strong></div><div><span>PDF sayfa</span><strong>${esc(s.page)}</strong></div><div><span>İnceleme</span><strong>${esc(s.reviewedAt)}</strong></div></div><div class="source-actions"><a href="${esc(s.officialPageUrl)}" target="_blank" rel="noopener">Resmî sayfa ↗</a><a href="${esc(s.officialPdfUrl)}" target="_blank" rel="noopener">Ek‑2 PDF ↗</a></div><p class="source-disclaimer">Çevrimdışıyken vaka içeriği kullanılabilir; resmî dış bağlantılar internet gerektirebilir. Resmî belge her zaman son referanstır.</p></section>`}
 function openCase(id){
@@ -231,7 +238,7 @@ function openCase(id){
   <div class="detail-body" style="${caseStyle(c)}">
     <section class="first30-card" id="critical-actions"><div class="first30-head"><span>ÖNCE</span><div><strong>İlk Kritik Adımlar</strong><p>Önce bunları gör; ardından algoritma ve karar ayrıntısına ilerle.</p></div></div><ol>${c.criticalActions.map(x=>`<li>${esc(x)}</li>`).join('')}</ol></section>
     <section class="case-summary"><span class="case-category">${esc(c.category)}</span><p>${esc(c.summary)}</p></section>
-    <section class="detail-section emphasis" id="algorithm"><div class="detail-heading"><span class="tiny-icon">↯</span><div><h3>İlk bakışta algoritma</h3><p>Sıralamayı seri klinik yeniden değerlendirmeyle birlikte oku.</p></div></div><div class="quick-steps">${renderAlgorithmSteps(c)}</div>${renderAlgorithmBranches(c)}</section>
+    <section class="detail-section emphasis" id="algorithm"><div class="detail-heading"><span class="tiny-icon">↯</span><div><h3>İlk bakışta algoritma</h3><p>Sıralamayı seri klinik yeniden değerlendirmeyle birlikte oku.</p></div></div><div class="quick-steps">${renderAlgorithmSteps(c)}</div>${renderAlgorithmBranches(c)}${renderAlgorithmAfter(c)}</section>
     ${c.severity?`<section class="detail-section" id="severity"><div class="detail-heading"><span class="tiny-icon">3</span><div><h3>${esc(c.severityView?.title||'Klinik ayrım')}</h3><p>${esc(c.severityView?.note||'Klinik ayrımı resmî kaynakla birlikte değerlendir.')}</p></div></div><div class="severity-tabs" role="tablist"><button type="button" role="tab" aria-selected="true" class="severity-tab active" data-level="mild">${esc(c.severity.mild.label)}</button><button type="button" role="tab" aria-selected="false" class="severity-tab" data-level="moderate">${esc(c.severity.moderate.label)}</button><button type="button" role="tab" aria-selected="false" class="severity-tab" data-level="severe">${esc(c.severity.severe.label)}</button></div>${renderSeverity(c)}</section>`:''}
     <div class="detail-columns ${c.decisionIntegrated?'single':''}"><section class="detail-section critical-section" id="red-flags"><div class="detail-heading"><span class="tiny-icon danger">!</span><div><h3>Acil Uyarı Bulguları</h3><p>Önceliği, müdahaleyi veya nakil kararını değiştirebilecek bulgular.</p></div></div><div class="red-flag-list">${c.warningFindings.map(r=>`<div class="red-flag">${esc(r)}</div>`).join('')}</div></section>${!c.decisionIntegrated?`<section class="detail-section decision-section" id="decision"><div class="detail-heading"><span class="tiny-icon">◇</span><div><h3>Karar noktası</h3><p>Şemadaki ana dallanma.</p></div></div><div class="decision-box"><strong>${esc(c.decision.q)}</strong><div class="decision-branches"><div class="branch yes"><b>EVET</b><span>${esc(c.decision.yes)}</span></div><div class="branch no"><b>HAYIR</b><span>${esc(c.decision.no)}</span></div></div></div></section>`:''}</div>
     ${renderMeds(c)}${renderSource(c)}
