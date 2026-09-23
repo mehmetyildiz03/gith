@@ -196,10 +196,10 @@ if(medByName(burnCase,'Ringer Laktat')?.authority!=='DIRECT'||medByName(burnCase
 const hyperthermiaCase=(CASES||[]).find(c=>c.id==='hyperthermia');
 if(medByName(hyperthermiaCase,'%0,9 NaCl — ısı stresi')?.dose!=='1000–2000 mL bolus'||medByName(hyperthermiaCase,'%0,9 NaCl — ısı çarpması')?.dose!=='1000 mL bolus')err('Y-23 ısı stresi / ısı çarpması NaCl doz ayrımı bozuk');
 
-const hypovolemicCase=(CASES||[]).find(c=>c.id==='hypovolemic-shock');
-if(hypovolemicCase?.decisionIntegrated!==true||(hypovolemicCase?.algorithmSteps||[]).length!==2||(hypovolemicCase?.algorithmBranches||[]).length!==2)err('Y-13 Hipovolemik Şok yapılandırılmış Hemorajik/Non-hemorajik akışı eksik');
-const hemorrhagic=(hypovolemicCase?.algorithmBranches||[]).find(b=>b.label==='Hemorajik şok');
-const nonHemorrhagic=(hypovolemicCase?.algorithmBranches||[]).find(b=>b.label==='Non-hemorajik şok');
+const hypovolemicFlowCase=(CASES||[]).find(c=>c.id==='hypovolemic-shock');
+if(hypovolemicFlowCase?.decisionIntegrated!==true||(hypovolemicFlowCase?.algorithmSteps||[]).length!==2||(hypovolemicFlowCase?.algorithmBranches||[]).length!==2)err('Y-13 Hipovolemik Şok yapılandırılmış Hemorajik/Non-hemorajik akışı eksik');
+const hemorrhagic=(hypovolemicFlowCase?.algorithmBranches||[]).find(b=>b.label==='Hemorajik şok');
+const nonHemorrhagic=(hypovolemicFlowCase?.algorithmBranches||[]).find(b=>b.label==='Non-hemorajik şok');
 if(hemorrhagic?.steps?.[0]?.approvalAuthority!=='DIRECT'||hemorrhagic?.steps?.[0]?.practitionerAuthority!=='ATT_AABT')err('Y-13 hemorajik kanama kontrolü turkuaz/DIRECT olmalı');
 if(hemorrhagic?.steps?.[1]?.approvalAuthority!=='DIRECT'||hemorrhagic?.steps?.[1]?.practitionerAuthority!=='AABT'||!String(hemorrhagic?.steps?.[1]?.html||'').includes('250–500 mL')||!String(hemorrhagic?.steps?.[1]?.html||'').includes('maksimum 1000 mL'))err('Y-13 hemorajik kristalloid DIRECT + AABT doz/hedef bilgisi bozuk');
 if(nonHemorrhagic?.steps?.[0]?.approvalAuthority!=='DIRECT'||nonHemorrhagic?.steps?.[0]?.practitionerAuthority!=='AABT'||!String(nonHemorrhagic?.steps?.[0]?.html||'').includes('500–1000 mL'))err('Y-13 non-hemorajik sıvı DIRECT + AABT olmalı');
