@@ -222,7 +222,8 @@ function renderAlgorithmBranch(branch,depth=0){
 }
 function renderAlgorithmBranches(c){
   if(!c.algorithmBranches?.length)return '';
-  return `<div class="algorithm-branches" aria-label="Algoritma dalları">${c.algorithmBranches.map(branch=>renderAlgorithmBranch(branch)).join('')}</div>`;
+  const layout=c.algorithmBranchLayout==='profiles'?' profiles':'';
+  return `<div class="algorithm-branches${layout}" aria-label="Algoritma dalları">${c.algorithmBranches.map(branch=>renderAlgorithmBranch(branch)).join('')}</div>`;
 }
 function renderAlgorithmAfter(c){
   if(!c.algorithmAfter?.length)return '';

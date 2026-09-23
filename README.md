@@ -2,9 +2,13 @@
 
 Mobil-first, offline çekirdekli, vaka bazlı hastane öncesi acil sağlık eğitim ve hızlı hatırlatma uygulaması.
 
-## V0.31 mimarisi
+## V0.32 mimarisi
 
 - **Kaynak:** T.C. Sağlık Bakanlığı 25.08.2026 tarihli Ek-2 Hastane Öncesi Acil Tıbbi Yardım ve Bakım Akış Şemaları.
+- **V0.32 Y-14 yapılandırılmış akış:** Kalp Yetmezliğine Bağlı Akut Akciğer Ödemi ve Kardiyojenik Şok, resmî sayfa 25–26'ya göre üç ortak başlangıç adımı ve üç hemodinamik profile ayrıldı: Normotansif dekompanse kalp yetmezliği, Hipertansif kalp yetmezliği ve Kardiyojenik şok.
+- **Yetki sadakati:** Üç ortak başlangıç kutusu turkuaz `ATT_AABT + DIRECT`; üç tedavi profilindeki tüm tedavi basamakları turuncu ve telefon simgeli olduğundan `AABT + SKKM` olarak kilitlendi.
+- **Profil seçim ipuçları:** Normotansif profil için algoritmadaki `SKB >100 mmHg`; hipertansif profil için Anahtar Noktalardaki `SKB >140 mmHg (genellikle >180)`; kardiyojenik şok için `SKB genellikle <90 mmHg` ve bozulmuş doku perfüzyonu kısa profil notları olarak görünür.
+- **Daha az tekrar:** Y-14'te üç profil zaten karar yapısını gösterdiği için eski ayrı “Karar noktası” kutusu/jump gizlendi. Geniş masaüstünde üç profil yan yana, daha dar ekranlarda tek kolon gösterilir.
 - **V0.31 kaynak geometrisi düzeltmesi:** ROSC Y-12'de “Arrest tekrarında ilgili ritim algoritmasına git” artık yedinci bağımsız üst dal değildir; resmî Y-12 görselindeki gibi alt sonuç/geçiş olarak gösterilir. Üst dallar yalnız Hipotansiyon, Ventriküler ektopi/sürekli olmayan VT, Bradiaritmi, Hipo/Hiperglisemi, Taşiaritmi ve Nöbet olarak kalır.
 - **Y-08 / Y-09–Y-11 tekrar azaltma:** Nabızlı Taşikardi ve Kardiyak Arrestte dallı algoritma karar yapısını zaten gösterdiği için ayrı “Karar noktası” kutusu ve Karar jump'ı gizlendi. Klinik `decision` verisi korunur; yalnız yinelenen UI kaldırılır.
 - **Y-11 antiaritmik okunabilirliği:** Resmî tek turuncu ilaç kutusunun içeriği bölünmeden korunur; 3. şok sonrası 300 mg amiodaron / lidokain başlangıç dozu ile dirençli-tekrarlayan VF-nVT'de 5. şok sonrası 150 mg amiodaron / lidokain tekrar dozu aynı eylem kartı içinde iki görsel segmente ayrılır.

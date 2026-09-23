@@ -611,3 +611,23 @@ html.dialog-open,html.dialog-open body{overflow:hidden}
     text-shadow:0 1px 2px #0006;
   }
 }
+
+
+/* V0.32 Y14 profile layout */
+.algorithm-branches.profiles>.algo-branch{
+  border-left-width:4px;
+}
+.algorithm-branches.profiles>.algo-branch .algo-branch-head strong{
+  font-size:13px;
+}
+@media(min-width:1180px){
+  .algorithm-branches.profiles{
+    grid-template-columns:repeat(3,minmax(0,1fr));
+    align-items:start;
+  }
+}
+@media(max-width:1179px){
+  .algorithm-branches.profiles{
+    grid-template-columns:minmax(0,1fr);
+  }
+}

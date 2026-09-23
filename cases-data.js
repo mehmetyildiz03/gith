@@ -1,7 +1,7 @@
 const APP_META = {
   "schemaVersion": 5,
-  "contentVersion": "EK2-2026.08.25-source-geometry-polish-1-2026.09.23",
-  "productVersion": "0.31",
+  "contentVersion": "EK2-2026.08.25-y14-structured-flow-1-2026.09.23",
+  "productVersion": "0.32",
   "populations": [
     {
       "id": "adult",
@@ -214,6 +214,7 @@ const APP_META = {
       "SB-ASH-Y-11",
       "SB-ASH-Y-12",
       "SB-ASH-Y-13",
+      "SB-ASH-Y-14",
       "SB-ASH-Y-22"
     ],
     "verifiedBranchCases": [
@@ -223,6 +224,7 @@ const APP_META = {
       "SB-ASH-Y-11",
       "SB-ASH-Y-12",
       "SB-ASH-Y-13",
+      "SB-ASH-Y-14",
       "SB-ASH-Y-22"
     ],
     "pilot": true
@@ -2623,7 +2625,7 @@ const CASES = [
       "documentTitle": "Hastane Öncesi Acil Tıbbi Yardım ve Bakım Akış Şemaları",
       "effectiveDate": "2026-08-25",
       "officialPageDate": "2026-09-11",
-      "reviewedAt": "2026-09-22",
+      "reviewedAt": "2026-09-23",
       "officialPageUrl": "https://acilafet.saglik.gov.tr/TR-119840/hastane-oncesi-acil-tibbi-yardim-ve-bakim-akis-semalari.html",
       "officialPdfUrl": "https://dosyamerkez.saglik.gov.tr/Eklenti/55773/0/ek-2-hastane-oncesi-acil-tibbi-yardim-ve-bakim-akis-semalaripdf.pdf",
       "section": "adult",
@@ -2632,7 +2634,71 @@ const CASES = [
         "SB-ASH-Y-14"
       ],
       "page": "25–26"
-    }
+    },
+    "decisionIntegrated": true,
+    "algorithmBranchLayout": "profiles",
+    "algorithmSteps": [
+      {
+        "html": "<strong>Acil olgu yönetimini uygula.</strong>",
+        "approvalAuthority": "DIRECT",
+        "practitionerAuthority": "ATT_AABT"
+      },
+      {
+        "html": "<strong>SpO₂ %94–98 olacak şekilde oksijen ver</strong>; gerekirse PBV ile destekle.",
+        "approvalAuthority": "DIRECT",
+        "practitionerAuthority": "ATT_AABT"
+      },
+      {
+        "html": "<strong>Kardiyak monitörizasyon ve 12 derivasyonlu EKG</strong>; yeni gelişen kardiyak iskemi ve aritmilere dikkat et.",
+        "approvalAuthority": "DIRECT",
+        "practitionerAuthority": "ATT_AABT"
+      }
+    ],
+    "algorithmBranches": [
+      {
+        "label": "Normotansif dekompanse kalp yetmezliği",
+        "note": "Algoritma kolu: SKB >100 mmHg.",
+        "steps": [
+          {
+            "html": "<strong>Furosemid 20–40 mg IV.</strong>",
+            "approvalAuthority": "SKKM",
+            "practitionerAuthority": "AABT"
+          }
+        ]
+      },
+      {
+        "label": "Hipertansif kalp yetmezliği",
+        "note": "Anahtar Noktalar: SKB >140 mmHg (genellikle >180 mmHg); akut dispne/ortopne ve SpO₂ <90 görülebilir.",
+        "steps": [
+          {
+            "html": "<strong>İzosorbid dinitrat 5 mg SL tablet</strong> (maksimum 3 doz) + <strong>furosemid 20–40 mg IV</strong>.",
+            "approvalAuthority": "SKKM",
+            "practitionerAuthority": "AABT"
+          },
+          {
+            "html": "<strong>Noninvaziv mekanik ventilasyonu düşün — CPAP.</strong>",
+            "approvalAuthority": "SKKM",
+            "practitionerAuthority": "AABT"
+          }
+        ]
+      },
+      {
+        "label": "Kardiyojenik şok",
+        "note": "Anahtar Noktalar: doku perfüzyonu bozulmuştur; SKB genellikle <90 mmHg, soğuk/siyanotik ekstremiteler görülebilir.",
+        "steps": [
+          {
+            "html": "Hipotansiyon için <strong>250 mL %0,9 NaCl verilebilir.</strong>",
+            "approvalAuthority": "SKKM",
+            "practitionerAuthority": "AABT"
+          },
+          {
+            "html": "<strong>Dopamin 2–5 mcg/kg/dk IV</strong>; gerektiğinde <strong>20 mcg/kg/dk'ya kadar</strong> çıkılabilir.",
+            "approvalAuthority": "SKKM",
+            "practitionerAuthority": "AABT"
+          }
+        ]
+      }
+    ]
   },
   {
     "id": "agitated-patient",
