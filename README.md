@@ -2,9 +2,14 @@
 
 Mobil-first, offline çekirdekli, vaka bazlı hastane öncesi acil sağlık eğitim ve hızlı hatırlatma uygulaması.
 
-## V0.29 mimarisi
+## V0.30 mimarisi
 
 - **Kaynak:** T.C. Sağlık Bakanlığı 25.08.2026 tarihli Ek-2 Hastane Öncesi Acil Tıbbi Yardım ve Bakım Akış Şemaları.
+- **V0.30 yüksek öncelikli vaka akışı:** ROSC (Y-12), Hipovolemik Şok (Y-13) ve Anafilaksi (Y-22) uzun düz metin yerine resmî karar yapısına göre `algorithmSteps[] + algorithmBranches[]` modeline taşındı.
+- **ROSC Y-12:** ortak yeniden değerlendirme sonrası hipotansiyon, ventriküler ektopi/sürekli olmayan VT, bradiaritmi, hipo/hiperglisemi, taşiaritmi, nöbet ve arrest tekrarı kolları ayrıldı. Hipotansiyon ilaç basamağı ile lidokain/amiodaron basamağı `SKKM + Yalnız AABT`; algoritmaya yönlendirme kollarında ek kısıt rozeti yoktur.
+- **Hipovolemik Şok Y-13:** Hemorajik ve Non-hemorajik kollar ayrıldı. Kanama kontrolü ortak ATT/Tekniker; kristalloid basamakları `Yalnız AABT` fakat telefon simgesiz; yalnız MAP <65 mmHg ve yanıtsız devam eden hipovolemide vazopressör basamağı `SKKM + Yalnız AABT`.
+- **Anafilaksi Y-22:** ilk IM adrenalin, hava yolu/O₂/monitörizasyon ve devam eden hipoperfüzyonda IM tekrar + 500 mL NaCl sırası açık hale getirildi. “Düzelme olmuyor” alt kolunda IV adrenalin, antihistaminik/salbutamol ve metilprednizolon SKKM gerektiren basamaklar olarak ayrıldı; ikinci NaCl 500 mL basamağı telefon simgesiz tutuldu.
+- **Daha az tekrar:** Bu üç vakada ayrı “Karar noktası” kutusu artık gösterilmez; aynı kararlar yapılandırılmış dalların içinde görünür. Acil Uyarı Bulguları tek genişlikte gösterilir.
 - **V0.29 erişim iyileştirmesi:** Ana arama artık yalnız vaka kartlarını değil Temel Protokoller'i de anlık filtreler. Arama bir temel protokolle eşleşiyorsa ekran önce protokol sonucuna kayar; vaka sonucu yok diye kullanıcı protokol eşleşmesini kaçırmaz. Y-02 güvenlik kararındaki tekrar eden ekipman cümlesi de bir sonraki adıma yönlendiren daha kısa metne çevrildi.
 - **V0.28 Temel Protokoller — Y-02 Acil Olgu Yönetimi:** Y-02 de normal vaka kartı yapılmadan `PROTOCOLS[]` katmanına alındı. Ana ekranda protokoller 1. Olay Yeri Yönetimi → 2. Acil Olgu Yönetimi sırasıyla görünür. Y-01'in sonundaki geçiş Y-02'yi tek dokunuşla açar; Y-02'de olay yeri güvenli değil dalı Y-01'e geri bağlanır.
 - **Y-02 hızlı hatırlatma:** Resmî “Acil Olgu Yönetimi Anahtar Noktalar” sayfasındaki SAMPLE ve XABCDE içerikleri ayrı, kompakt hatırlatma kartları olarak gösterilir. Akış ekranında ekipman yerleşimi → birincil değerlendirme → ikincil değerlendirme → ön tanı → ilgili vaka algoritması → yeniden değerlendirme sırası korunur.

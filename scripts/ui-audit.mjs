@@ -30,8 +30,8 @@ assert(css.includes("/* V0.6.1 dark surface hardening */"),'Koyu mod yüzey hard
 assert(css.includes(":root[data-theme='dark'] .quick-step")&&css.includes("background:var(--detail-panel-deep)!important"),'Koyu mod algoritma adımı explicit yüzeyi eksik');
 assert(css.includes(":root[data-theme='dark'] .red-flag")&&css.includes("background:#2b202a!important"),'Koyu mod kırmızı bayrak yüzeyi eksik');
 assert(css.includes(":root[data-theme='dark'] .branch.yes")&&css.includes(":root[data-theme='dark'] .branch.no"),'Koyu mod karar kutuları explicit değil');
-assert(html.includes('styles.css?v=0.29')&&html.includes('app-core.js?v=0.29')&&html.includes('cases-data.js?v=0.29'),'Kritik asset cache-bust sürümü eksik');
-assert(sw.includes("saha112-v029")&&sw.includes('NETWORK_FIRST_DESTINATIONS'),'Service worker kritik asset güncelleme stratejisi eksik');
+assert(html.includes('styles.css?v=0.30')&&html.includes('app-core.js?v=0.30')&&html.includes('cases-data.js?v=0.30'),'Kritik asset cache-bust sürümü eksik');
+assert(sw.includes("saha112-v030")&&sw.includes('NETWORK_FIRST_DESTINATIONS'),'Service worker kritik asset güncelleme stratejisi eksik');
 assert(!app.includes('Kırmızı bayrak'),'Eski kullanıcı terimi hâlâ UI içinde');
 assert(app.includes('Acil Uyarı Bulguları'),'Acil Uyarı Bulguları başlığı eksik');
 assert(app.includes('Önceliği, müdahaleyi veya nakil kararını değiştirebilecek bulgular.'),'Acil uyarı açıklaması eksik');
@@ -54,7 +54,7 @@ assert(html.includes('updateBanner')&&app.includes('controllerchange')&&app.incl
 assert(app.includes('sourceFocusable')&&app.includes("e.key==='Tab'")&&css.includes('html.dialog-open'),'Kaynak dialog focus trap/scroll kilidi eksik');
 assert(data.includes('"title": "İnme / SVO"'),'İnme / SVO başlığı korunmamış');
 assert(data.includes('"title": "Nabızlı Taşikardi"'),'Nabızlı Taşikardi başlığı eksik');
-assert(data.includes('"contentVersion": "EK2-2026.08.25-foundation-protocol-2-2026.09.23"'),'V0.29 protokol erişim/polish sürümü eksik');
+assert(data.includes('"contentVersion": "EK2-2026.08.25-priority-flow-1-2026.09.23"'),'V0.30 yüksek öncelikli yapılandırılmış akış sürümü eksik');
 assert(html.includes('id="authorityLegend"')&&!html.includes('<span class="authority direct">Doğrudan</span>'),'Yetki legendi dinamik veri kaynağına bağlı değil');
 assert(app.includes("authorityMarkup")&&app.includes("authority-symbol")&&app.includes("✓ Yeşil: SKKM/ÇM onayı yok")&&app.includes("◆ Sarı: SKKM/ÇM onayı"),'Yetki sembol/yazı eşlemesi eksik');
 assert(css.includes('.authority.direct{')&&css.includes('var(--greenSoft)')&&css.includes('.authority.skkm{')&&css.includes('var(--amberSoft)'),'Yeşil/sarı yetki renk semantiği eksik');
@@ -102,6 +102,12 @@ assert(data.includes('adrenalin infüzyonu sonrası 500 mL bolus basamağı tekr
 assert(data.includes('"actionAudit": {')&&data.includes('"algorithmSteps": [')&&data.includes('"verifiedCases": ['),'Adım bazlı uygulayıcı yetki pilot verisi eksik');
 for(const phrase of ['Ölümcül astım atağı','Asetilsalisilik asit 160–325 mg','yakın vital takibi'])assert(data.includes(phrase),`Lineer eylem yetki genişlemesi eksik: ${phrase}`);
 assert(app.includes('function renderAlgorithmSteps(c)')&&app.includes('function renderActionStep')&&app.includes('action-step-badges'),'Yapılandırılmış algoritma adımı render katmanı eksik');
+assert(data.includes('"id": "rosc"')&&data.includes('"label": "Hipotansiyon — SKB <90 mmHg"')&&data.includes('"label": "Ventriküler ektopi / sürekli olmayan VT"'),'Y-12 ROSC yapılandırılmış komplikasyon kolları eksik');
+assert(data.includes('"id": "hypovolemic-shock"')&&data.includes('"label": "Hemorajik şok"')&&data.includes('"label": "Non-hemorajik şok"'),'Y-13 hemorajik/non-hemorajik yapılandırılmış dallar eksik');
+assert(data.includes('"id": "anaphylaxis"')&&data.includes('"label": "Hipoperfüzyon sürüyor"')&&data.includes('"label": "Düzelme olmuyor"'),'Y-22 Anafilaksi hipoperfüzyon/düzelmeme dalları eksik');
+assert((data.match(/"decisionIntegrated": true/g)||[]).length>=3,'Y-12/Y-13/Y-22 entegre karar işareti eksik');
+assert(app.includes("!c.decisionIntegrated")&&app.includes("detail-columns ${c.decisionIntegrated?'single':''}"),'Entegre karar vakalarında yinelenen Karar bölümü/jump gizlenmiyor');
+assert(css.includes('/* V0.30 high-priority structured flows */')&&css.includes('.detail-columns.single{grid-template-columns:minmax(0,1fr)}'),'Entegre karar tek kolon görünüm stili eksik');
 assert(app.includes('function renderAlgorithmBranch')&&app.includes('function renderAlgorithmBranches')&&app.includes('algorithmBranchSearch'),'Dallı algoritma render/arama katmanı eksik');
 assert(css.includes('/* V0.21 branched algorithm flow */')&&css.includes('.algorithm-branches{')&&css.includes('.algo-branch-children{'),'Dallı algoritma mobil/masaüstü stilleri eksik');
 assert(css.includes('/* V0.23 branch layout hardening */')&&css.includes('.algo-depth-0>.algo-branch-children{grid-template-columns:repeat(2,minmax(0,1fr))}')&&!css.includes('.algorithm-branches{grid-template-columns:repeat(2,minmax(0,1fr))}'),'İç içe branch kolon sertleştirmesi eksik veya eski bozuk üst-seviye iki kolon kuralı kaldı');

@@ -526,3 +526,10 @@ html.dialog-open,html.dialog-open body{overflow:hidden}
 .protocol-transition-chev{margin-left:auto;background:transparent!important;width:auto!important;height:auto!important;font-size:22px!important}
 :root[data-theme='dark'] .protocol-keypoint-card{border-color:var(--detail-border);background:var(--detail-panel-deep)}
 @media(max-width:620px){.protocol-keypoint-grid{grid-template-columns:1fr}.protocol-keypoint-row span{font-size:10.5px}}
+
+
+/* V0.30 high-priority structured flows */
+.detail-columns.single{grid-template-columns:minmax(0,1fr)}
+.detail-columns.single .critical-section{min-width:0}
+.algorithm-branches>.algo-branch{scroll-margin-top:150px}
+:root[data-density='compact'] .algorithm-branches>.algo-branch{scroll-margin-top:132px}

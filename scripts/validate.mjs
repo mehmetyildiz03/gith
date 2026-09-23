@@ -53,6 +53,14 @@ else{
   if(roscCase.title!=='Resüsitasyon Sonrası Bakım')err('SB-ASH-Y-12 resmî başlığı "Resüsitasyon Sonrası Bakım" olmalı');
   if(!String(roscCase.subtitle||'').includes('ROSC')||!String(roscCase.subtitle||'').toLocaleLowerCase('tr-TR').includes('spontan dolaşım'))err('SB-ASH-Y-12 kullanıcı açıklaması ROSC ve spontan dolaşımı açıklamalı');
 }
+if(roscCase?.decisionIntegrated!==true||(roscCase?.algorithmSteps||[]).length!==1||(roscCase?.algorithmBranches||[]).length!==7)err('Y-12 ROSC yapılandırılmış ortak adım / 7 komplikasyon kolu / entegre karar yapısı eksik');
+const roscHypo=(roscCase?.algorithmBranches||[]).find(b=>String(b.label).startsWith('Hipotansiyon'));
+const roscEctopy=(roscCase?.algorithmBranches||[]).find(b=>String(b.label).startsWith('Ventriküler ektopi'));
+if(roscHypo?.steps?.[0]?.approvalAuthority!=='DIRECT'||roscHypo?.steps?.[0]?.practitionerAuthority!=='ATT_AABT')err('Y-12 hipotansiyon neden araştırma basamağı turkuaz/DIRECT olmalı');
+if(roscHypo?.steps?.[1]?.approvalAuthority!=='SKKM'||roscHypo?.steps?.[1]?.practitionerAuthority!=='AABT'||!String(roscHypo?.steps?.[1]?.html||'').includes('adrenalin 2–10 mcg/dk')||!String(roscHypo?.steps?.[1]?.html||'').includes('dopamin 5–20 mcg/kg/dk'))err('Y-12 hipotansiyon ilaç basamağı SKKM + AABT ve doğru dozlarda olmalı');
+if(roscEctopy?.steps?.[0]?.approvalAuthority!=='SKKM'||roscEctopy?.steps?.[0]?.practitionerAuthority!=='AABT'||!String(roscEctopy?.steps?.[0]?.html||'').includes('lidokain 1–1,5 mg/kg')||!String(roscEctopy?.steps?.[0]?.html||'').includes('amiodaron 150 mg'))err('Y-12 ventriküler ektopi ilaç basamağı SKKM + AABT olmalı');
+for(const label of ['Bradiaritmi','Hipo / Hiperglisemi','Taşiaritmi','Nöbet','Arrest tekrarı']){const b=(roscCase?.algorithmBranches||[]).find(x=>x.label===label);if(!b||b.steps?.[0]?.approvalAuthority!=='DIRECT'||b.steps?.[0]?.practitionerAuthority!=='ATT_AABT')err(`Y-12 yönlendirme kolu bozuk: ${label}`);}
+
 
 const ids=new Set();const allowedAuthority=new Set(['DIRECT','SKKM','ALGORITHM']);const allowedPractitionerAuthority=new Set(['ATT_AABT','AABT','UNVERIFIED']);const allowedRoutes=new Set(APP_META?.routes||[]);const allowedPop=new Set((APP_META?.populations||[]).map(p=>p.id));
 if(APP_META?.routeLabels?.NEB!=='Nebülizasyon')err('NEB kullanıcı etiketi Nebülizasyon olmalı');
@@ -61,15 +69,15 @@ if(!APP_META?.routes?.includes('SC')||APP_META?.routeLabels?.SC!=='Subkutan (SC)
 if(APP_META?.authority?.DIRECT?.symbol!=='✓'||APP_META?.authority?.DIRECT?.visualLabel!=='SKKM/ÇM onayı gerektirmez')err('DIRECT yeşil/doğrudan sembol metası eksik');
 if(APP_META?.authority?.SKKM?.symbol!=='◆'||APP_META?.authority?.SKKM?.visualLabel!=='SKKM/ÇM onayı gerekli')err('SKKM sarı/onay sembol metası eksik');
 if(APP_META?.authority?.ALGORITHM?.symbol!=='•'||APP_META?.authority?.ALGORITHM?.visualLabel!=='Kaynakta SKKM/ÇM yetkisi belirtilmemiş')err('ALGORITHM kaynakta belirtilmeyen yetki metası eksik');
-if(APP_META?.contentVersion!=='EK2-2026.08.25-foundation-protocol-2-2026.09.23')err('contentVersion Y-01/Y-02 temel protokol sürümüyle eşleşmiyor');
-if(APP_META?.productVersion!=='0.29')err('productVersion V0.29 olmalı');
+if(APP_META?.contentVersion!=='EK2-2026.08.25-priority-flow-1-2026.09.23')err('contentVersion yüksek öncelikli yapılandırılmış akış sürümüyle eşleşmiyor');
+if(APP_META?.productVersion!=='0.30')err('productVersion V0.30 olmalı');
 if(APP_META?.practitionerAuthority?.ATT_AABT?.officialLabel!=='Acil Tıp Teknisyeni / Teknikeri'||APP_META?.practitionerAuthority?.AABT?.officialLabel!=='Acil Tıp Teknikeri'||APP_META?.practitionerAuthority?.UNVERIFIED?.symbol!=='□')err('ATT/AABT uygulayıcı yetki metası eksik veya bozuk');
 for(const code of ['SB-ASH-Y-04','SB-ASH-Y-05','SB-ASH-Y-06','SB-ASH-Y-07','SB-ASH-Y-08','SB-ASH-Y-09','SB-ASH-Y-10','SB-ASH-Y-11','SB-ASH-Y-12','SB-ASH-Y-13','SB-ASH-Y-14','SB-ASH-Y-15','SB-ASH-Y-17','SB-ASH-Y-19','SB-ASH-Y-21','SB-ASH-Y-22','SB-ASH-Y-23','SB-ASH-Y-24','SB-ASH-Y-28','SB-ASH-Y-29','SB-ASH-Y-34','SB-ASH-Y-35','SB-ASH-Y-36','SB-ASH-Y-37','SB-ASH-Y-39','SB-ASH-Y-40'])if(!APP_META?.practitionerAudit?.verifiedMedicationCases?.includes(code))err(`Uygulayıcı yetki görsel audit izi eksik: ${code}`);
 if(APP_META?.practitionerAudit?.adultMedicationCardsComplete!==true)err('Yetişkin ilaç kartları uygulayıcı audit tamamlama işareti eksik');
 if(APP_META?.clinicalAudit?.scope?.includes('21 yetişkin')||APP_META?.integrityAudit?.scope?.includes('21 yetişkin'))err('Audit metadata hâlâ eski 21 yetişkin kapsamını gösteriyor');
 if(APP_META?.adultCoverage?.verifiedCaseCards!==37||APP_META?.adultCoverage?.reviewedAt!=='2026-09-23')err('37 yetişkin kapsam metası güncel değil');
-for(const code of ['SB-ASH-Y-04','SB-ASH-Y-05','SB-ASH-Y-06','SB-ASH-Y-07','SB-ASH-Y-08','SB-ASH-Y-09','SB-ASH-Y-10','SB-ASH-Y-11'])if(!APP_META?.actionAudit?.verifiedCases?.includes(code))err(`Adım bazlı eylem yetki audit izi eksik: ${code}`);
-for(const code of ['SB-ASH-Y-08','SB-ASH-Y-09','SB-ASH-Y-10','SB-ASH-Y-11'])if(!APP_META?.actionAudit?.verifiedBranchCases?.includes(code))err(`Dallı algoritma audit izi eksik: ${code}`);
+for(const code of ['SB-ASH-Y-04','SB-ASH-Y-05','SB-ASH-Y-06','SB-ASH-Y-07','SB-ASH-Y-08','SB-ASH-Y-09','SB-ASH-Y-10','SB-ASH-Y-11','SB-ASH-Y-12','SB-ASH-Y-13','SB-ASH-Y-22'])if(!APP_META?.actionAudit?.verifiedCases?.includes(code))err(`Adım bazlı eylem yetki audit izi eksik: ${code}`);
+for(const code of ['SB-ASH-Y-08','SB-ASH-Y-09','SB-ASH-Y-10','SB-ASH-Y-11','SB-ASH-Y-12','SB-ASH-Y-13','SB-ASH-Y-22'])if(!APP_META?.actionAudit?.verifiedBranchCases?.includes(code))err(`Dallı algoritma audit izi eksik: ${code}`);
 if(APP_META?.actionAudit?.reviewedAt!=='2026-09-23')err('Dallı eylem yetki audit tarihi 2026-09-23 olmalı');
 if(APP_META?.medicationContentAudit?.status!=='complete'||APP_META?.medicationContentAudit?.reviewedAt!=='2026-09-23')err('Yetişkin ilaç içerik audit metası eksik');
 for(const code of ['SB-ASH-Y-05','SB-ASH-Y-09','SB-ASH-Y-10','SB-ASH-Y-11','SB-ASH-Y-22','SB-ASH-Y-23','SB-ASH-Y-29','SB-ASH-Y-40'])if(!APP_META?.medicationContentAudit?.correctedCases?.includes(code))err(`İlaç içerik audit düzeltme izi eksik: ${code}`);
@@ -90,6 +98,16 @@ if(JSON.stringify(medByName(anaphylaxisCase,'Salbutamol')?.routes)!==JSON.string
 if(medByName(anaphylaxisCase,'Adrenalin')?.authority!=='DIRECT'||!String(medByName(anaphylaxisCase,'Adrenalin')?.repeat||'').includes('5 dk'))err('Anafilaksi adrenalin doğrudan/5 dk tekrar bilgisi eksik');
 const anaNaCl=medByName(anaphylaxisCase,'%0,9 NaCl');
 if(anaNaCl?.dose!=='500 ml bolus'||!String(anaNaCl?.repeat||'').includes('adrenalin infüzyonu sonrası')||!JSON.stringify(anaphylaxisCase?.quick||[]).includes('1 mcg/dk IV infüzyonu'))err('Anafilaksi NaCl tekrar / IV adrenalin ileri basamak sırası eksik');
+if(anaphylaxisCase?.decisionIntegrated!==true||(anaphylaxisCase?.algorithmSteps||[]).length!==3||(anaphylaxisCase?.algorithmBranches||[]).length!==1)err('Y-22 Anafilaksi yapılandırılmış akış / entegre karar yapısı eksik');
+if(anaphylaxisCase?.algorithmSteps?.[1]?.approvalAuthority!=='DIRECT'||anaphylaxisCase?.algorithmSteps?.[1]?.practitionerAuthority!=='AABT'||!String(anaphylaxisCase?.algorithmSteps?.[1]?.html||'').includes('0,3–0,5 mg IM'))err('Y-22 ilk IM adrenalin DIRECT + AABT olmalı');
+const anaHypoperfusion=anaphylaxisCase?.algorithmBranches?.[0];
+if(anaHypoperfusion?.steps?.[0]?.approvalAuthority!=='DIRECT'||anaHypoperfusion?.steps?.[0]?.practitionerAuthority!=='AABT'||!String(anaHypoperfusion?.steps?.[0]?.html||'').includes('500 mL bolus'))err('Y-22 devam eden hipoperfüzyon tekrar IM adrenalin + NaCl DIRECT/AABT olmalı');
+const anaNoImprove=anaHypoperfusion?.branches?.[0];
+if(anaNoImprove?.label!=='Düzelme olmuyor'||anaNoImprove?.steps?.length!==4)err('Y-22 düzelmeme alt kolu eksik');
+if(anaNoImprove?.steps?.[0]?.approvalAuthority!=='SKKM'||anaNoImprove?.steps?.[0]?.practitionerAuthority!=='AABT'||!String(anaNoImprove?.steps?.[0]?.html||'').includes('1 mcg/dk'))err('Y-22 IV adrenalin infüzyonu SKKM + AABT olmalı');
+if(anaNoImprove?.steps?.[1]?.approvalAuthority!=='DIRECT'||anaNoImprove?.steps?.[1]?.practitionerAuthority!=='AABT'||!String(anaNoImprove?.steps?.[1]?.html||'').includes('500 mL'))err('Y-22 ikinci NaCl 500 mL telefon simgesiz AABT olmalı');
+for(const idx of [2,3])if(anaNoImprove?.steps?.[idx]?.approvalAuthority!=='SKKM'||anaNoImprove?.steps?.[idx]?.practitionerAuthority!=='AABT')err(`Y-22 ileri ilaç basamağı SKKM + AABT olmalı: ${idx}`);
+
 
 const asthmaCase=(CASES||[]).find(c=>c.id==='asthma');
 const asthmaInitialSal=medByName(asthmaCase,'Salbutamol (ilk basamak)');
@@ -177,6 +195,16 @@ if(medByName(burnCase,'Ringer Laktat')?.authority!=='DIRECT'||medByName(burnCase
 
 const hyperthermiaCase=(CASES||[]).find(c=>c.id==='hyperthermia');
 if(medByName(hyperthermiaCase,'%0,9 NaCl — ısı stresi')?.dose!=='1000–2000 mL bolus'||medByName(hyperthermiaCase,'%0,9 NaCl — ısı çarpması')?.dose!=='1000 mL bolus')err('Y-23 ısı stresi / ısı çarpması NaCl doz ayrımı bozuk');
+
+const hypovolemicCase=(CASES||[]).find(c=>c.id==='hypovolemic-shock');
+if(hypovolemicCase?.decisionIntegrated!==true||(hypovolemicCase?.algorithmSteps||[]).length!==2||(hypovolemicCase?.algorithmBranches||[]).length!==2)err('Y-13 Hipovolemik Şok yapılandırılmış Hemorajik/Non-hemorajik akışı eksik');
+const hemorrhagic=(hypovolemicCase?.algorithmBranches||[]).find(b=>b.label==='Hemorajik şok');
+const nonHemorrhagic=(hypovolemicCase?.algorithmBranches||[]).find(b=>b.label==='Non-hemorajik şok');
+if(hemorrhagic?.steps?.[0]?.approvalAuthority!=='DIRECT'||hemorrhagic?.steps?.[0]?.practitionerAuthority!=='ATT_AABT')err('Y-13 hemorajik kanama kontrolü turkuaz/DIRECT olmalı');
+if(hemorrhagic?.steps?.[1]?.approvalAuthority!=='DIRECT'||hemorrhagic?.steps?.[1]?.practitionerAuthority!=='AABT'||!String(hemorrhagic?.steps?.[1]?.html||'').includes('250–500 mL')||!String(hemorrhagic?.steps?.[1]?.html||'').includes('maksimum 1000 mL'))err('Y-13 hemorajik kristalloid DIRECT + AABT doz/hedef bilgisi bozuk');
+if(nonHemorrhagic?.steps?.[0]?.approvalAuthority!=='DIRECT'||nonHemorrhagic?.steps?.[0]?.practitionerAuthority!=='AABT'||!String(nonHemorrhagic?.steps?.[0]?.html||'').includes('500–1000 mL'))err('Y-13 non-hemorajik sıvı DIRECT + AABT olmalı');
+if(nonHemorrhagic?.steps?.[1]?.approvalAuthority!=='DIRECT'||nonHemorrhagic?.steps?.[1]?.practitionerAuthority!=='ATT_AABT'||!String(nonHemorrhagic?.steps?.[1]?.html||'').includes('MAP 65–70 mmHg'))err('Y-13 neden araştırma/MAP hedefi turkuaz/DIRECT olmalı');
+if(nonHemorrhagic?.steps?.[2]?.approvalAuthority!=='SKKM'||nonHemorrhagic?.steps?.[2]?.practitionerAuthority!=='AABT'||!String(nonHemorrhagic?.steps?.[2]?.html||'').includes('MAP <65 mmHg'))err('Y-13 yanıtsız hipotansiyon vazopressör basamağı SKKM + AABT olmalı');
 
 const adultAuditCases=(CASES||[]).filter(c=>c.population==='adult');
 if(adultAuditCases.length!==37)err('Yetişkin kütüphanesi 37 doğrulanmış vaka olmalı');

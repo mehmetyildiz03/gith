@@ -1,7 +1,7 @@
 const APP_META = {
   "schemaVersion": 5,
-  "contentVersion": "EK2-2026.08.25-foundation-protocol-2-2026.09.23",
-  "productVersion": "0.29",
+  "contentVersion": "EK2-2026.08.25-priority-flow-1-2026.09.23",
+  "productVersion": "0.30",
   "populations": [
     {
       "id": "adult",
@@ -211,13 +211,19 @@ const APP_META = {
       "SB-ASH-Y-08",
       "SB-ASH-Y-09",
       "SB-ASH-Y-10",
-      "SB-ASH-Y-11"
+      "SB-ASH-Y-11",
+      "SB-ASH-Y-12",
+      "SB-ASH-Y-13",
+      "SB-ASH-Y-22"
     ],
     "verifiedBranchCases": [
       "SB-ASH-Y-08",
       "SB-ASH-Y-09",
       "SB-ASH-Y-10",
-      "SB-ASH-Y-11"
+      "SB-ASH-Y-11",
+      "SB-ASH-Y-12",
+      "SB-ASH-Y-13",
+      "SB-ASH-Y-22"
     ],
     "pilot": true
   },
@@ -810,7 +816,65 @@ const CASES = [
       ],
       "page": "36–37",
       "codeStatus": "verified"
-    }
+    },
+    "decisionIntegrated": true,
+    "algorithmSteps": [
+      {
+        "html": "<strong>Acil olgu yönetimini uygula.</strong> Akut başlangıçlı yaşamı tehdit eden hava yolu, solunum veya dolaşım bulgularını değerlendir.",
+        "approvalAuthority": "DIRECT",
+        "practitionerAuthority": "ATT_AABT"
+      },
+      {
+        "html": "<strong>Adrenalin 0,3–0,5 mg IM.</strong>",
+        "approvalAuthority": "DIRECT",
+        "practitionerAuthority": "AABT"
+      },
+      {
+        "html": "<strong>Hava yolunu açık tut; SpO₂ %94–98 hedefli O₂ ver.</strong> Damar yolu aç; anjiyoödemde erken ileri hava yolu hazırlığı yap; SpO₂, EKG ve KB izle.",
+        "approvalAuthority": "DIRECT",
+        "practitionerAuthority": "ATT_AABT"
+      }
+    ],
+    "algorithmBranches": [
+      {
+        "label": "Hipoperfüzyon sürüyor",
+        "note": "İlk IM adrenalinden ve destek tedavisinden sonra.",
+        "steps": [
+          {
+            "html": "<strong>Adrenalin 0,3–0,5 mg IM'yi 5 dk içinde tekrarla</strong> + <strong>%0,9 NaCl 500 mL bolus</strong>.",
+            "approvalAuthority": "DIRECT",
+            "practitionerAuthority": "AABT"
+          }
+        ],
+        "branches": [
+          {
+            "label": "Düzelme olmuyor",
+            "steps": [
+              {
+                "html": "<strong>Adrenalin 1 mcg/dk IV infüzyonu yavaş uygula.</strong>",
+                "approvalAuthority": "SKKM",
+                "practitionerAuthority": "AABT"
+              },
+              {
+                "html": "<strong>%0,9 NaCl 500 mL bolus.</strong>",
+                "approvalAuthority": "DIRECT",
+                "practitionerAuthority": "AABT"
+              },
+              {
+                "html": "<strong>Difenhidramin 25–50 mg veya feniramin maleat 45,5 mg IV yavaş</strong>; bronkospazm için <strong>salbutamol 2,5–5 mg</strong>.",
+                "approvalAuthority": "SKKM",
+                "practitionerAuthority": "AABT"
+              },
+              {
+                "html": "Profilaktik <strong>metilprednizolon IV 1–2 mg/kg</strong> (maks. 125 mg).",
+                "approvalAuthority": "SKKM",
+                "practitionerAuthority": "AABT"
+              }
+            ]
+          }
+        ]
+      }
+    ]
   },
   {
     "id": "asthma",
@@ -2126,7 +2190,7 @@ const CASES = [
       "documentTitle": "Hastane Öncesi Acil Tıbbi Yardım ve Bakım Akış Şemaları",
       "effectiveDate": "2026-08-25",
       "officialPageDate": "2026-09-11",
-      "reviewedAt": "2026-09-22",
+      "reviewedAt": "2026-09-23",
       "officialPageUrl": "https://acilafet.saglik.gov.tr/TR-119840/hastane-oncesi-acil-tibbi-yardim-ve-bakim-akis-semalari.html",
       "officialPdfUrl": "https://dosyamerkez.saglik.gov.tr/Eklenti/55773/0/ek-2-hastane-oncesi-acil-tibbi-yardim-ve-bakim-akis-semalaripdf.pdf",
       "section": "adult",
@@ -2221,7 +2285,94 @@ const CASES = [
       "q": "ROSC sonrası MAP <65 mmHg, ventriküler ektopi veya başka bir komplikasyon var mı?",
       "yes": "Telefon simgeli ilaç basamaklarında SKKM/ÇM kararıyla ilerle; bradi/taşiaritmi, glisemi ve nöbet için ilgili algoritmaya geç.",
       "no": "SpO₂ %94–98, MAP ≥65 mmHg, 32–37,5°C ısı aralığı, EKG ve vital takibi sürdür."
-    }
+    },
+    "decisionIntegrated": true,
+    "algorithmSteps": [
+      {
+        "html": "<strong>Yeniden değerlendir:</strong> monitörizasyon ve 12 derivasyonlu EKG; spontan solunum yoksa oksijenizasyon/ventilasyonu sürdür. SpO₂ %94–98, ısı 32–37,5°C aralığı; 2 dk'da bir nabız ve ritim kontrolü, vital bulguları değerlendir.",
+        "approvalAuthority": "DIRECT",
+        "practitionerAuthority": "ATT_AABT"
+      }
+    ],
+    "algorithmBranches": [
+      {
+        "label": "Hipotansiyon — SKB <90 mmHg",
+        "note": "Nedeni araştır; hedef MAP ≥65 mmHg.",
+        "steps": [
+          {
+            "html": "Hipotansiyon nedenlerini araştır ve <strong>MAP ≥65 mmHg</strong> hedefle.",
+            "approvalAuthority": "DIRECT",
+            "practitionerAuthority": "ATT_AABT"
+          },
+          {
+            "html": "Hipotansiyon devam ediyorsa <strong>%0,9 NaCl infüzyonu ve/veya adrenalin 2–10 mcg/dk IV infüzyon veya dopamin 5–20 mcg/kg/dk IV infüzyon</strong>.",
+            "approvalAuthority": "SKKM",
+            "practitionerAuthority": "AABT"
+          }
+        ]
+      },
+      {
+        "label": "Ventriküler ektopi / sürekli olmayan VT",
+        "note": "PVC, bigemini, couplet, triplet, R-on-T veya sürekli olmayan VT.",
+        "steps": [
+          {
+            "html": "<strong>%2 lidokain 1–1,5 mg/kg IV bolus</strong> veya <strong>amiodaron 150 mg IV</strong> (%5 dekstroz ile 10 dk).",
+            "approvalAuthority": "SKKM",
+            "practitionerAuthority": "AABT"
+          }
+        ]
+      },
+      {
+        "label": "Bradiaritmi",
+        "steps": [
+          {
+            "html": "<strong>Bradikardi algoritmasına git.</strong>",
+            "approvalAuthority": "DIRECT",
+            "practitionerAuthority": "ATT_AABT"
+          }
+        ]
+      },
+      {
+        "label": "Hipo / Hiperglisemi",
+        "steps": [
+          {
+            "html": "<strong>Diyabetik Aciller algoritmasına git.</strong>",
+            "approvalAuthority": "DIRECT",
+            "practitionerAuthority": "ATT_AABT"
+          }
+        ]
+      },
+      {
+        "label": "Taşiaritmi",
+        "steps": [
+          {
+            "html": "<strong>Taşiaritmi algoritmasına git.</strong>",
+            "approvalAuthority": "DIRECT",
+            "practitionerAuthority": "ATT_AABT"
+          }
+        ]
+      },
+      {
+        "label": "Nöbet",
+        "steps": [
+          {
+            "html": "<strong>Nöbet / Konvülziyon algoritmasına git.</strong>",
+            "approvalAuthority": "DIRECT",
+            "practitionerAuthority": "ATT_AABT"
+          }
+        ]
+      },
+      {
+        "label": "Arrest tekrarı",
+        "steps": [
+          {
+            "html": "<strong>İlgili ritim algoritmasına git.</strong>",
+            "approvalAuthority": "DIRECT",
+            "practitionerAuthority": "ATT_AABT"
+          }
+        ]
+      }
+    ]
   },
   {
     "id": "hypovolemic-shock",
@@ -2315,7 +2466,7 @@ const CASES = [
       "documentTitle": "Hastane Öncesi Acil Tıbbi Yardım ve Bakım Akış Şemaları",
       "effectiveDate": "2026-08-25",
       "officialPageDate": "2026-09-11",
-      "reviewedAt": "2026-09-22",
+      "reviewedAt": "2026-09-23",
       "officialPageUrl": "https://acilafet.saglik.gov.tr/TR-119840/hastane-oncesi-acil-tibbi-yardim-ve-bakim-akis-semalari.html",
       "officialPdfUrl": "https://dosyamerkez.saglik.gov.tr/Eklenti/55773/0/ek-2-hastane-oncesi-acil-tibbi-yardim-ve-bakim-akis-semalaripdf.pdf",
       "section": "adult",
@@ -2324,7 +2475,57 @@ const CASES = [
         "SB-ASH-Y-13"
       ],
       "page": "24"
-    }
+    },
+    "decisionIntegrated": true,
+    "algorithmSteps": [
+      {
+        "html": "<strong>Acil olgu yönetimini uygula.</strong>",
+        "approvalAuthority": "DIRECT",
+        "practitionerAuthority": "ATT_AABT"
+      },
+      {
+        "html": "<strong>Hemodinamik monitörizasyon:</strong> EKG, tansiyon, pulse oksimetri; yüksek doz O₂, geniş damar yolu ve şok pozisyonu.",
+        "approvalAuthority": "DIRECT",
+        "practitionerAuthority": "ATT_AABT"
+      }
+    ],
+    "algorithmBranches": [
+      {
+        "label": "Hemorajik şok",
+        "steps": [
+          {
+            "html": "<strong>Kanama kontrolü:</strong> direkt bası, sıkı bandaj, arter bası noktaları, turnike veya kanama durdurucu ajan.",
+            "approvalAuthority": "DIRECT",
+            "practitionerAuthority": "ATT_AABT"
+          },
+          {
+            "html": "Hipotansif hastada <strong>%0,9 NaCl veya Ringer Laktat 250–500 mL hızlı infüzyon</strong>; maksimum 1000 mL, SKB 80–90 mmHg olacak şekilde titre et.",
+            "approvalAuthority": "DIRECT",
+            "practitionerAuthority": "AABT"
+          }
+        ]
+      },
+      {
+        "label": "Non-hemorajik şok",
+        "steps": [
+          {
+            "html": "<strong>%0,9 NaCl veya Ringer Laktat 500–1000 mL bolus</strong>, 5–10 dk. Her bolustan sonra volüm durumunu kontrol et.",
+            "approvalAuthority": "DIRECT",
+            "practitionerAuthority": "AABT"
+          },
+          {
+            "html": "Belirlenebilir şok nedenlerini tanı ve yönet; <strong>MAP 65–70 mmHg</strong> hedefle.",
+            "approvalAuthority": "DIRECT",
+            "practitionerAuthority": "ATT_AABT"
+          },
+          {
+            "html": "<strong>MAP <65 mmHg ve hipovolemi devam ediyor, yanıt alınamıyorsa:</strong> adrenalin 2–10 mcg/dk IV infüzyon veya dopamin 5–20 mcg/kg/dk IV infüzyon.",
+            "approvalAuthority": "SKKM",
+            "practitionerAuthority": "AABT"
+          }
+        ]
+      }
+    ]
   },
   {
     "id": "acute-heart-failure-cardiogenic-shock",
