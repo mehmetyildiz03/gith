@@ -527,7 +527,9 @@ for(const [i,c] of (CASES||[]).entries()){
           if(!Array.isArray(branch.branches)||!branch.branches.length)err(`${bt}: alt branches boş/geçersiz`);
           else validateBranches(branch.branches,`${bt}.branches`);
         }
-        if(!(branch?.steps?.length||branch?.branches?.length))err(`${bt}: steps veya branches içermeli`);
+        const validTriageTerminal=['green','yellow','red','black'].includes(branch?.triageCode);
+        if(branch?.triageCode!==undefined&&!validTriageTerminal)err(`${bt}: geçersiz triageCode (${branch?.triageCode})`);
+        if(!(branch?.steps?.length||branch?.branches?.length||validTriageTerminal))err(`${bt}: steps, branches veya geçerli terminal triageCode içermeli`);
       }
     };
     validateBranches(c.algorithmBranches,`${at} algorithmBranches`);
