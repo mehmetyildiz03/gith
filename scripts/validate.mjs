@@ -71,8 +71,8 @@ if(!APP_META?.routes?.includes('SC')||APP_META?.routeLabels?.SC!=='Subkutan (SC)
 if(APP_META?.authority?.DIRECT?.symbol!=='✓'||APP_META?.authority?.DIRECT?.visualLabel!=='SKKM/ÇM onayı gerektirmez')err('DIRECT yeşil/doğrudan sembol metası eksik');
 if(APP_META?.authority?.SKKM?.symbol!=='◆'||APP_META?.authority?.SKKM?.visualLabel!=='SKKM/ÇM onayı gerekli')err('SKKM sarı/onay sembol metası eksik');
 if(APP_META?.authority?.ALGORITHM?.symbol!=='•'||APP_META?.authority?.ALGORITHM?.visualLabel!=='Kaynakta SKKM/ÇM yetkisi belirtilmemiş')err('ALGORITHM kaynakta belirtilmeyen yetki metası eksik');
-if(APP_META?.contentVersion!=='EK2-2026.08.25-y41-start-structured-flow-1-2026.09.24')err('contentVersion Y-41 START yapılandırılmış akış sürümüyle eşleşmiyor');
-if(APP_META?.productVersion!=='0.35')err('productVersion V0.35 olmalı');
+if(APP_META?.contentVersion!=='EK2-2026.08.25-y25-hypothermic-arrest-flow-1-2026.09.24')err('contentVersion Y-25 Hipotermide Arrest yapılandırılmış akış sürümüyle eşleşmiyor');
+if(APP_META?.productVersion!=='0.36')err('productVersion V0.36 olmalı');
 if(APP_META?.practitionerAuthority?.ATT_AABT?.officialLabel!=='Acil Tıp Teknisyeni / Teknikeri'||APP_META?.practitionerAuthority?.AABT?.officialLabel!=='Acil Tıp Teknikeri'||APP_META?.practitionerAuthority?.UNVERIFIED?.symbol!=='□')err('ATT/AABT uygulayıcı yetki metası eksik veya bozuk');
 for(const code of ['SB-ASH-Y-04','SB-ASH-Y-05','SB-ASH-Y-06','SB-ASH-Y-07','SB-ASH-Y-08','SB-ASH-Y-09','SB-ASH-Y-10','SB-ASH-Y-11','SB-ASH-Y-12','SB-ASH-Y-13','SB-ASH-Y-14','SB-ASH-Y-15','SB-ASH-Y-17','SB-ASH-Y-19','SB-ASH-Y-21','SB-ASH-Y-22','SB-ASH-Y-23','SB-ASH-Y-24','SB-ASH-Y-28','SB-ASH-Y-29','SB-ASH-Y-34','SB-ASH-Y-35','SB-ASH-Y-36','SB-ASH-Y-37','SB-ASH-Y-39','SB-ASH-Y-40'])if(!APP_META?.practitionerAudit?.verifiedMedicationCases?.includes(code))err(`Uygulayıcı yetki görsel audit izi eksik: ${code}`);
 if(APP_META?.practitionerAudit?.adultMedicationCardsComplete!==true)err('Yetişkin ilaç kartları uygulayıcı audit tamamlama işareti eksik');
@@ -439,8 +439,21 @@ if(medByName(allergicCase,'Metilprednizolon')?.authority!=='SKKM'||medByName(all
 if(!JSON.stringify(allergicCase).includes('Anafilaksi algoritmasına geç'))err('Y-21 hayatı tehdit eden bulguda Anafilaksi geçişi eksik');
 
 const hypothermicArrestCase=(CASES||[]).find(c=>c.id==='hypothermic-arrest');
-if(hypothermicArrestCase?.code!=='SB-ASH-Y-25'||hypothermicArrestCase?.page!=='43'||hypothermicArrestCase?.source?.page!=='42–43'||(hypothermicArrestCase?.meds||[]).length)err('Hipotermide Arrest Y-25 kaynak/ilaç yapısı bozuldu');
-for(const term of ['60 sn','<28°C: 5 dk KPR / 5 dk KPR\'siz','<20°C: 5 dk KPR / 10 dk KPR\'siz','<30°C','≥35°C','ECMO'])if(!JSON.stringify(hypothermicArrestCase).includes(term))err(`Y-25 hipotermi arrest kuralı eksik: ${term}`);
+if(hypothermicArrestCase?.code!=='SB-ASH-Y-25'||hypothermicArrestCase?.page!=='43'||hypothermicArrestCase?.source?.page!=='42–43'||hypothermicArrestCase?.source?.reviewedAt!=='2026-09-24'||(hypothermicArrestCase?.meds||[]).length)err('Hipotermide Arrest Y-25 kaynak/ilaç yapısı bozuldu');
+for(const term of ['60 sn','<28°C: 5 dk KPR / 5 dk KPR\'siz','<20°C: 5 dk KPR / 10 dk KPR\'siz','30°C','≥35°C','ECMO'])if(!JSON.stringify(hypothermicArrestCase).includes(term))err(`Y-25 hipotermi arrest kuralı eksik: ${term}`);
+if(hypothermicArrestCase?.decisionIntegrated!==true||(hypothermicArrestCase?.algorithmSteps||[]).length!==2||(hypothermicArrestCase?.algorithmBranches||[]).length!==2)err('Y-25 ortak başlangıç / nabız var-yok yapılandırılmış akışı eksik');
+for(const s of (hypothermicArrestCase?.algorithmSteps||[]))if(s.approvalAuthority!=='DIRECT'||s.practitionerAuthority!=='ATT_AABT')err('Y-25 ortak başlangıç basamakları ATT/AABT + DIRECT olmalı');
+const y25Pulse=(hypothermicArrestCase?.algorithmBranches||[]).find(b=>b.label==='Nabız var');
+const y25NoPulse=(hypothermicArrestCase?.algorithmBranches||[]).find(b=>b.label==='Nabız yok');
+const y25CprYes=(y25NoPulse?.branches||[]).find(b=>b.label==='Evet — KPR başlama kriteri var');
+const y25CprNo=(y25NoPulse?.branches||[]).find(b=>b.label==='Hayır — KPR başlama kriteri yok');
+if(!y25Pulse||!y25NoPulse||!y25CprYes||!y25CprNo)err('Y-25 nabız/KPR kriter dalları eksik');
+for(const s of [...(y25Pulse?.steps||[]),...(y25CprYes?.steps||[]),...(y25CprNo?.steps||[])])if(s.approvalAuthority!=='DIRECT'||s.practitionerAuthority!=='ATT_AABT')err('Y-25 resmî turkuaz eylem kutuları ATT/AABT + DIRECT olmalı');
+if(!String(y25CprYes?.note||'').includes('30°C')||!String(y25CprYes?.note||'').includes('SKKM/ÇM ile görüşerek ECMO'))err('Y-25 defibrilasyon/ECMO gri uyarı notu eksik');
+if(!String(y25CprYes?.steps?.[0]?.followUp?.html||'').includes('&lt;28°C')||!String(y25CprYes?.steps?.[0]?.followUp?.html||'').includes('&lt;20°C'))err('Y-25 kesintisiz KPR yoksa aralıklı KPR kuralları eksik');
+if(!String(y25CprYes?.steps?.[1]?.html||'').includes('≥35°C')||!String(y25CprYes?.steps?.[1]?.html||'').includes('&gt;35°C')||!String(y25CprYes?.steps?.[1]?.html||'').includes('Arrest Yönetimi'))err('Y-25 ≥35/>35 KPR-Arrest geçişi bozuk');
+for(const term of ['karla/buzla kaplı','35 dk\'dan fazla çığ','ortam güvenliğinin sağlanamaması','bütün vücudun donması'])if(!String(y25CprNo?.note||'').includes(term))err(`Y-25 KPR endikasyonu olmayan durum eksik: ${term}`);
+if(!String(y25CprNo?.steps?.[0]?.html||'').includes("KPR'ye başlama"))err('Y-25 KPR başlanmama sonucu eksik');
 
 const electricalBurnCase=(CASES||[]).find(c=>c.id==='electrical-burn');
 if(electricalBurnCase?.code!=='SB-ASH-Y-29'||electricalBurnCase?.page!=='51'||electricalBurnCase?.source?.page!=='51'||(electricalBurnCase?.meds||[]).length!==1)err('Elektrik Yanıkları Y-29 kaynak/ilaç yapısı bozuldu');

@@ -1,7 +1,7 @@
 const APP_META = {
   "schemaVersion": 5,
-  "contentVersion": "EK2-2026.08.25-y41-start-structured-flow-1-2026.09.24",
-  "productVersion": "0.35",
+  "contentVersion": "EK2-2026.08.25-y25-hypothermic-arrest-flow-1-2026.09.24",
+  "productVersion": "0.36",
   "populations": [
     {
       "id": "adult",
@@ -218,6 +218,7 @@ const APP_META = {
       "SB-ASH-Y-17",
       "SB-ASH-Y-18",
       "SB-ASH-Y-22",
+      "SB-ASH-Y-25",
       "SB-ASH-Y-41"
     ],
     "verifiedBranchCases": [
@@ -230,6 +231,7 @@ const APP_META = {
       "SB-ASH-Y-14",
       "SB-ASH-Y-17",
       "SB-ASH-Y-22",
+      "SB-ASH-Y-25",
       "SB-ASH-Y-41"
     ],
     "pilot": true
@@ -1441,16 +1443,17 @@ const CASES = [
     "criticalActions": [
       "Vücut ısısı <35°C ve bilinç kapalıysa nabzı en az 60 sn kontrol et.",
       "Nabız yoksa KPR başlama kriterlerini değerlendir; kriter varsa standart erişkin ileri yaşam desteğiyle birlikte pasif ve aktif ısıtma uygula.",
-      "Vücut ısısı ≥35°C olana kadar KPR'yi sonlandırma; ilk defibrilasyon başarısız ve ısı <30°C ise sonraki defibrilasyonu ≥30°C'ye kadar ertele."
+      "Vücut ısısı ≥35°C olana kadar KPR'yi sonlandırma; ilk defibrilasyon başarısızsa vücut sıcaklığı 30°C'ye ulaşıncaya kadar sonraki defibrilasyonu ertele."
     ],
     "quick": [
-      "Nabız varsa <strong>Hipotermi</strong> algoritmasına dön. Nabız yoksa KPR başlama kriterlerini değerlendir.",
-      "KPR endikasyonu varsa standart erişkin ileri yaşam desteği + eş zamanlı pasif/aktif ısıtma; <strong>ısı ≥35°C olana kadar KPR'yi sonlandırma</strong>, >35°C'de Arrest algoritmasına geç.",
-      "Kesintisiz KPR mümkün değilse: <strong><28°C: 5 dk KPR / 5 dk KPR'siz</strong>; <strong><20°C: 5 dk KPR / 10 dk KPR'siz</strong>. KPR'siz süreyi taşıma/kurtarma için kullan.",
-      "KPR başlanmama kriterlerini ayrıca kontrol et: hava yolunun kar/buzla kaplı olması, >35 dk çığ altında kalma, ortam güvenliğinin sağlanamaması veya kompresyona izin vermeyecek şekilde tüm vücudun donması. SKKM/ÇM ile ECMO merkezine yönlendirmeyi düşün."
+      "Nabız varsa <strong>Hipotermi</strong> algoritmasına geç. Nabız yoksa KPR başlama kriterlerini değerlendir.",
+      "KPR başlama kriteri varsa standart erişkin ileri yaşam desteği + eş zamanlı pasif/aktif ısıtma uygula; <strong>vücut ısısı ≥35°C olana kadar KPR'yi sonlandırma</strong>, >35°C olduğunda Arrest Yönetimi algoritmasına geç.",
+      "Kesintisiz KPR olanağı yoksa: <strong><28°C: 5 dk KPR / 5 dk KPR'siz</strong>; <strong><20°C: 5 dk KPR / 10 dk KPR'siz</strong>. KPR'siz periyodu taşıma ve kurtarma için kullan.",
+      "İlk defibrilasyon girişimi başarısızsa <strong>vücut sıcaklığı 30°C'ye ulaşıncaya kadar defibrilasyonu ertele.</strong>",
+      "KPR endikasyonu olmayan durumları kontrol et: hava yolunun kar/buzla kaplı olması, 35 dk'dan fazla çığ altında kalma, ortam güvenliğinin sağlanamaması veya kardiyak kompresyona izin vermeyecek şekilde tüm vücudun donması. <strong>SKKM/ÇM ile görüşerek ECMO merkezine yönlendirmeyi düşün.</strong>"
     ],
     "warningFindings": [
-      "İlk defibrilasyon başarısız ve vücut ısısı <30°C — sonraki defibrilasyonu ≥30°C'ye kadar ertele",
+      "İlk defibrilasyon başarısızsa vücut sıcaklığı 30°C'ye ulaşıncaya kadar defibrilasyonu ertele",
       "Hava yolunun kar/buzla kaplı olması",
       "35 dk'dan fazla çığ altında kalma",
       "Ortam güvenliğinin sağlanamaması veya kardiyak kompresyona izin vermeyecek şekilde tüm vücudun donması"
@@ -1466,7 +1469,7 @@ const CASES = [
       "documentTitle": "Hastane Öncesi Acil Tıbbi Yardım ve Bakım Akış Şemaları",
       "effectiveDate": "2026-08-25",
       "officialPageDate": "2026-09-11",
-      "reviewedAt": "2026-09-22",
+      "reviewedAt": "2026-09-24",
       "officialPageUrl": "https://acilafet.saglik.gov.tr/TR-119840/hastane-oncesi-acil-tibbi-yardim-ve-bakim-akis-semalari.html",
       "officialPdfUrl": "https://dosyamerkez.saglik.gov.tr/Eklenti/55773/0/ek-2-hastane-oncesi-acil-tibbi-yardim-ve-bakim-akis-semalaripdf.pdf",
       "section": "adult",
@@ -1475,7 +1478,69 @@ const CASES = [
         "SB-ASH-Y-25"
       ],
       "page": "42–43"
-    }
+    },
+    "decisionIntegrated": true,
+    "algorithmSteps": [
+      {
+        "html": "<strong>Acil olgu yönetimini uygula.</strong>",
+        "approvalAuthority": "DIRECT",
+        "practitionerAuthority": "ATT_AABT"
+      },
+      {
+        "html": "Vücut ısısı <strong>&lt;35°C</strong> ve bilinç kapalı ise <strong>en az 60 sn nabız kontrolü yap.</strong>",
+        "approvalAuthority": "DIRECT",
+        "practitionerAuthority": "ATT_AABT"
+      }
+    ],
+    "algorithmBranches": [
+      {
+        "label": "Nabız var",
+        "steps": [
+          {
+            "html": "<strong>Hipotermi algoritmasına git.</strong>",
+            "approvalAuthority": "DIRECT",
+            "practitionerAuthority": "ATT_AABT"
+          }
+        ]
+      },
+      {
+        "label": "Nabız yok",
+        "note": "Resmî akışta sonraki karar: KPR başlama kriterleri var mı?",
+        "branches": [
+          {
+            "label": "Evet — KPR başlama kriteri var",
+            "note": "İlk defibrilasyon girişimi başarısızsa vücut sıcaklığı 30°C'ye ulaşıncaya kadar defibrilasyonu ertele. SKKM/ÇM ile görüşerek ECMO merkezine yönlendirmeyi düşün.",
+            "steps": [
+              {
+                "html": "<strong>Standart erişkin ileri yaşam desteği uygulamasına başla.</strong> Eş zamanlı olarak pasif ve aktif ısıtma yöntemlerini uygula.",
+                "approvalAuthority": "DIRECT",
+                "practitionerAuthority": "ATT_AABT",
+                "followUp": {
+                  "label": "Kesintisiz KPR olanağı yoksa",
+                  "html": "<strong>&lt;28°C:</strong> 5 dk KPR + 5 dk KPR'siz periyot. <strong>&lt;20°C:</strong> 5 dk KPR + 10 dk KPR'siz periyot. KPR'siz periyodu taşıma ve kurtarma için kullan."
+                }
+              },
+              {
+                "html": "<strong>Vücut ısısı ≥35°C olana kadar KPR'yi sonlandırma.</strong> Vücut ısısı <strong>&gt;35°C</strong> olduğunda Arrest Yönetimi algoritmasına git.",
+                "approvalAuthority": "DIRECT",
+                "practitionerAuthority": "ATT_AABT"
+              }
+            ]
+          },
+          {
+            "label": "Hayır — KPR başlama kriteri yok",
+            "note": "KPR endikasyonu olmayan durumlar: hava yolunun karla/buzla kaplı olması; 35 dk'dan fazla çığ altında kalma; ortam güvenliğinin sağlanamaması; kardiyak kompresyona izin vermeyecek şekilde bütün vücudun donması.",
+            "steps": [
+              {
+                "html": "<strong>KPR'ye başlama.</strong>",
+                "approvalAuthority": "DIRECT",
+                "practitionerAuthority": "ATT_AABT"
+              }
+            ]
+          }
+        ]
+      }
+    ]
   },
   {
     "id": "drowning",

@@ -2,7 +2,16 @@
 
 Mobil-first, offline çekirdekli, vaka bazlı hastane öncesi acil sağlık eğitim ve hızlı hatırlatma uygulaması.
 
-## V0.35 mimarisi
+## V0.36 mimarisi
+
+- **V0.36 Y-25 Hipotermide Arrest Yönetimi:** Resmî s.42–43 akışı yapılandırıldı: <35°C + bilinç kapalı → en az 60 sn nabız kontrolü → Nabız var / Nabız yok → KPR başlama kriteri var / yok.
+- **KPR kolu:** Kriter varsa standart erişkin ileri yaşam desteği ile eş zamanlı pasif/aktif ısıtma; vücut ısısı ≥35°C olana kadar KPR'yi sonlandırmama ve >35°C olduğunda Arrest Yönetimi algoritmasına geçiş görünür hale getirildi.
+- **Aralıklı KPR:** Kesintisiz KPR olanağı yoksa <28°C için 5 dk KPR / 5 dk KPR'siz, <20°C için 5 dk KPR / 10 dk KPR'siz periyot aynı eylemin devam bilgisi olarak gösterilir; KPR'siz periyot taşıma/kurtarma için kullanılır.
+- **Defibrilasyon uyarısı:** İlk defibrilasyon başarısızsa vücut sıcaklığı 30°C'ye ulaşıncaya kadar sonraki defibrilasyonun ertelenmesi resmî gri uyarı olarak görünür. Gri uyarıya ATT/AABT veya SKKM onay rengi uydurulmadı.
+- **ECMO:** Kaynaktaki “SKKM/ÇM ile görüşerek ECMO merkezine yönlendirmeyi düşün” ifadesi not olarak korunur; bu ifade sarı “SKKM/ÇM onayı gerekli” rozeti olarak yeniden yorumlanmaz.
+- **KPR başlanmama kriterleri:** Hava yolunun kar/buzla kaplı olması, 35 dk'dan fazla çığ altında kalma, ortam güvenliğinin sağlanamaması ve kompresyona izin vermeyecek şekilde bütün vücudun donması KPR yok kolunda açıkça görünür.
+
+### V0.35 önceki durum
 
 - **V0.35 Y-41 START Triyaj:** Resmî sayfa 73'teki karar ağacı yapılandırıldı: yürüyebilme → solunum → solunum sayısı → dolaşım (KGD/distal nabız) → komutlara uyum. Eski ayrı “Karar noktası” kutusu gizlendi.
 - **Kaynak geometrisi:** Yürüyenler YEŞİL; solunum yoksa başa pozisyon sonrası solunum yok SİYAH / solunum başlarsa KIRMIZI; solunum <10 veya >30/dk KIRMIZI; 10–30/dk ise dolaşım; KGD >2 sn veya distal nabız yok KIRMIZI; KGD <2 sn ve distal nabız varsa komuta uyumla SARI/KIRMIZI ayrımı korunur.
