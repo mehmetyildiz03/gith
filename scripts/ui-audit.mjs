@@ -53,7 +53,7 @@ assert(app.includes('PDF sayfa')&&app.includes('PDF s.'),'PDF sayfa etiketi aç�
 assert(html.includes('updateBanner')&&app.includes('controllerchange')&&app.includes("reload-app"),'Pasif PWA güncelleme bildirimi eksik');
 assert(app.includes('sourceFocusable')&&app.includes("e.key==='Tab'")&&css.includes('html.dialog-open'),'Kaynak dialog focus trap/scroll kilidi eksik');
 assert(data.includes('"title": "İnme / SVO"'),'İnme / SVO başlığı korunmamış');
-assert(data.includes('"reviewedAt": "2026-09-24"')&&data.includes('"Glikoz <60 mg/dl ve/veya hipoglisemi bulguları varsa"')&&data.includes('"Kan basıncı takibi"')&&data.includes('"4,5 saat içinde trombolitik"')&&data.includes('"6 saat içinde endovasküler girişim"'),'Y-18 yapılandırılmış inme akışı eksik');
+assert(data.includes('"reviewedAt": "2026-09-24"')&&data.includes('"Glikoz <60 mg/dl ve/veya hipoglisemi bulguları varsa"')&&data.includes('"Kan basıncı takibi"')&&data.includes('4,5 saat içinde trombolitik')&&data.includes('6 saat içinde endovasküler girişim'),'Y-18 yapılandırılmış inme akışı eksik');
 
 assert(data.includes('"title": "Nabızlı Taşikardi"'),'Nabızlı Taşikardi başlığı eksik');
 assert(data.includes('"contentVersion": "EK2-2026.08.25-y18-structured-flow-1-2026.09.24"'),'V0.34 Y-18 yapılandırılmış akış sürümü eksik');
