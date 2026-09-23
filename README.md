@@ -2,9 +2,12 @@
 
 Mobil-first, offline çekirdekli, vaka bazlı hastane öncesi acil sağlık eğitim ve hızlı hatırlatma uygulaması.
 
-## V0.26 mimarisi
+## V0.27 mimarisi
 
 - **Kaynak:** T.C. Sağlık Bakanlığı 25.08.2026 tarihli Ek-2 Hastane Öncesi Acil Tıbbi Yardım ve Bakım Akış Şemaları.
+- **V0.27 Temel Protokoller — Y-01 Olay Yeri Yönetimi:** SB-ASH-Y-01 vaka sayısına eklenmeden ayrı `PROTOCOLS[]` veri katmanına alındı. Ana ekranda “Temel Protokoller / Saha başlangıcı” kartı olarak görünür; detay ekranında resmî sıra korunur: SKKM/ÇM ile ilk temas → kişisel koruyucu malzeme ve olay yeri güvenliği → gerekirse kurum desteği → hasta/yaralı güvenliği → olay/vaka sayısı ve ek kaynak değerlendirmesi → çoklu hastada triyaj → ekip/ekipman isteme → SB-ASH-Y-02 Acil Olgu Yönetimi'ne geçiş.
+- **Y-01 yetki semantiği:** Resmî Y-01 sayfasında turuncu “yalnız Acil Tıp Teknikeri” kutusu yoktur; uygulayıcı basamakları turkuaz ortak ATT/Tekniker kapsamındadır. Telefon simgesi bulunan iki temas noktası protokol UI'sında `☎ SKKM/ÇM` olarak gösterilir; bu rozet ilaç onayı anlamına gelmez.
+- **Veri şeması v5:** Vaka kartları `CASES[]` içinde 37 olarak kalır; temel protokoller ayrı `PROTOCOLS[]` dizisindedir. Böylece Y-01 normal vaka gibi sayılmaz ve ileride başka temel protokoller aynı katmana eklenebilir.
 - **V0.26 gerçek ekran stabilizasyonu:** V0.25 Pages artefaktı Chromium'da 360, 390, 768 ve 1280 px görünüm genişliklerinde 37 yetişkin vakanın tamamında render edildi. Yatay sayfa/algoritma/ilaç kartı taşması saptanmadı. Mobilde tek satırda kesilen uzun vaka başlıkları üç satıra kadar okunabilir hale getirildi; uzun kaynak şeritleri satır kırabilir yapıldı. Bölüm jump butonları artık sabit scroll-margin varsayımı yerine sticky başlığın gerçek yüksekliğini ölçerek hedefe kaydırır.
 - **V0.25 tam kapsam yeniden audit:** 37 yetişkin vaka kartı, Y-02–Y-41 kod kapsamı, ilaç/sıvı özetleri, kaynak izleri, yapılandırılmış action/branch yetkileri ve responsive UI tekrar tarandı. Eski `21 yetişkin` audit metadatası 37 kart olarak düzeltildi.
 - **Yeni yakalanan Y-29 eksiği:** Elektrik Yanıkları algoritmasındaki turuncu, telefon simgesiz “rabdomiyoliz riskine karşı erken ve yeterli Ringer Laktat sıvı tedavisi” artık ilaç/uygulama kartında da görünür. Resmî kutuda miktar, hız ve yol belirtilmediği için bunlar türetilmedi.

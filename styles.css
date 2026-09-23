@@ -471,3 +471,39 @@ html.dialog-open,html.dialog-open body{overflow:hidden}
   }
   .source-ribbon span:last-child{overflow-wrap:anywhere}
 }
+
+
+/* V0.27 foundational protocol layer */
+.protocol-section{margin-top:18px}
+.protocol-grid{display:grid;gap:8px}
+.protocol-card{width:100%;min-height:76px;border:1px solid color-mix(in srgb,var(--accent) 24%,var(--line));border-left:4px solid var(--accent);border-radius:17px;background:linear-gradient(145deg,color-mix(in srgb,var(--accent) 7%,var(--surface)),var(--surface));color:var(--ink);padding:11px 12px;display:flex;align-items:center;gap:11px;text-align:left;box-shadow:var(--shadow2)}
+.protocol-card-icon{width:42px;height:42px;flex:0 0 42px;border-radius:13px;background:color-mix(in srgb,var(--accent) 13%,var(--solid));color:var(--accent);display:grid;place-items:center;font-size:21px;font-weight:900}
+.protocol-card-copy{min-width:0;flex:1}
+.protocol-card-copy>span{display:block;font-size:9px;letter-spacing:.06em;text-transform:uppercase;font-weight:850;color:var(--accent)}
+.protocol-card-copy strong{display:block;margin-top:2px;font-size:14px;line-height:1.3}
+.protocol-card-copy p{margin:3px 0 0;font-size:10.5px;line-height:1.35;color:var(--muted)}
+.protocol-card .chev{font-size:22px;color:var(--muted)}
+.detail-spacer{width:44px;height:44px;flex:0 0 44px}
+.protocol-summary small{display:block;margin-top:6px;font-size:9.5px;line-height:1.4;color:var(--muted)}
+.protocol-flow{display:grid;gap:9px}
+.protocol-flow-step{display:grid;grid-template-columns:24px minmax(0,1fr);gap:9px;align-items:start;padding:10px;border:1px solid var(--line);border-radius:13px;background:var(--soft)}
+.protocol-step-no{width:24px;height:24px;border-radius:8px;background:var(--navy);color:#fff;display:grid;place-items:center;font-size:9px;font-weight:900}
+.protocol-step-copy{font-size:12px;line-height:1.5;color:var(--ink2)}
+.protocol-contact-badge{display:inline-flex;align-items:center;min-height:24px;margin:7px 0 0 0;padding:3px 7px;border:1px solid color-mix(in srgb,var(--blue) 28%,var(--line));border-radius:999px;background:color-mix(in srgb,var(--blue) 9%,var(--solid));color:var(--blue);font-size:8.5px;font-weight:900;white-space:nowrap}
+.protocol-decision{padding:10px;border:1px solid color-mix(in srgb,var(--accent) 20%,var(--line));border-radius:14px;background:color-mix(in srgb,var(--accent) 4%,var(--surface))}
+.protocol-decision-q p{margin:0 0 4px;font-size:10px;line-height:1.4;color:var(--muted)}
+.protocol-decision-q strong{display:block;font-size:12px;line-height:1.4}
+.protocol-decision-branches{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px;margin-top:8px}
+.protocol-branch{padding:9px;border:1px solid var(--line);border-radius:11px;background:var(--solid)}
+.protocol-branch b{display:block;font-size:8.5px;letter-spacing:.06em}
+.protocol-branch span{display:block;margin-top:4px;font-size:10.5px;line-height:1.4;color:var(--ink2)}
+.protocol-branch.yes b{color:var(--green)}
+.protocol-branch.no b{color:var(--amber)}
+.protocol-transition{display:flex;align-items:center;gap:10px;padding:12px;border-radius:14px;background:linear-gradient(145deg,var(--navy),var(--navy2));color:#fff}
+.protocol-transition>span{width:28px;height:28px;border-radius:9px;background:#ffffff14;display:grid;place-items:center;font-size:18px}
+.protocol-transition strong{display:block;font-size:12px;line-height:1.35}
+.protocol-transition small{display:block;margin-top:2px;font-size:9px;opacity:.72}
+:root[data-theme='dark'] .protocol-card,:root[data-theme='dark'] .protocol-decision{border-color:var(--detail-border)}
+:root[data-density='compact'] .protocol-section{margin-top:10px}
+:root[data-density='compact'] .protocol-card{min-height:68px;padding:9px 10px}
+@media(max-width:520px){.protocol-decision-branches{grid-template-columns:1fr}.protocol-card-copy p{font-size:10px}}

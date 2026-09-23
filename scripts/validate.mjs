@@ -10,17 +10,28 @@ const read=f=>fs.readFileSync(path.join(root,f),'utf8');
 const required=['index.html','styles.css','cases-data.js','app-core.js','manifest.webmanifest','sw.js','icon.svg','icon-192.png','icon-512.png','apple-touch-icon.png'];
 for(const f of required)if(!fs.existsSync(path.join(root,f)))err(`Eksik dosya: ${f}`);
 
-let APP_META,CASES;
+let APP_META,CASES,PROTOCOLS;
 try{
-  const code=read('cases-data.js')+'\n;globalThis.__meta=APP_META;globalThis.__cases=CASES;';
-  const box={};vm.createContext(box);vm.runInContext(code,box,{timeout:1000});APP_META=box.__meta;CASES=box.__cases;
+  const code=read('cases-data.js')+'\n;globalThis.__meta=APP_META;globalThis.__cases=CASES;globalThis.__protocols=typeof PROTOCOLS!=="undefined"?PROTOCOLS:[];';
+  const box={};vm.createContext(box);vm.runInContext(code,box,{timeout:1000});APP_META=box.__meta;CASES=box.__cases;PROTOCOLS=box.__protocols;
 }catch(e){err(`cases-data.js okunamadı: ${e.message}`)}
 
 if(APP_META){
-  if(APP_META.schemaVersion!==4)err('APP_META.schemaVersion 4 olmalı');
+  if(APP_META.schemaVersion!==5)err('APP_META.schemaVersion 5 olmalı');
   if(!Array.isArray(APP_META.populations)||APP_META.populations.length!==3)err('3 population tanımı bekleniyor');
 }
 if(!Array.isArray(CASES)||!CASES.length)err('CASES boş veya dizi değil');
+if(!Array.isArray(PROTOCOLS)||PROTOCOLS.length!==1)err('PROTOCOLS tam olarak 1 doğrulanmış temel protokol içermeli');
+const sceneProtocol=(PROTOCOLS||[]).find(p=>p.id==='scene-management');
+if(!sceneProtocol||sceneProtocol.title!=='Olay Yeri Yönetimi'||sceneProtocol.code!=='SB-ASH-Y-01'||sceneProtocol.page!=='5')err('Y-01 Olay Yeri Yönetimi temel protokolü eksik veya kaynak izi bozuk');
+if(sceneProtocol?.population!=='adult'||sceneProtocol?.clinicalStatus!=='reviewed'||sceneProtocol?.source?.reviewedAt!=='2026-09-23'||sceneProtocol?.source?.effectiveDate!=='2026-08-25')err('Y-01 protokol nüfus/inceleme/yürürlük metası bozuk');
+const sceneFlow=sceneProtocol?.flow||[];
+if(sceneFlow.length!==7)err('Y-01 olay yeri akışı 7 yapılandırılmış öğe içermeli');
+for(const phrase of ['SKKM/ÇM ile iletişime geç','Gerekli kişisel koruyucu malzemelerini kullan','Olay yeri güvenliği var mı?','Hasta/Yaralı güvenliği var mı?','olabilecek vaka sayısını','triyaj yap','İhtiyaç duyulan ekip ve ekipmanı iste','Acil Olgu Yönetimi algoritmasına geç'])if(!JSON.stringify(sceneProtocol).includes(phrase))err(`Y-01 resmî akış öğesi eksik: ${phrase}`);
+if(sceneFlow.filter(x=>x.skkmContact||x.noSkkmContact).length!==2)err('Y-01 resmî SKKM/ÇM telefon simgesi iki yerde yapılandırılmalı');
+if(sceneFlow.some(x=>x.practitionerAuthority&&x.practitionerAuthority!=='ATT_AABT'))err('Y-01 uygulayıcı basamaklarında turuncu AABT kısıtı olmamalı');
+if(sceneFlow.at(-1)?.type!=='transition'||sceneFlow.at(-1)?.targetCode!=='SB-ASH-Y-02')err('Y-01 sonu Acil Olgu Yönetimi SB-ASH-Y-02 geçişi olmalı');
+if(!APP_META?.adultCoverage?.foundationalProtocols?.includes('SB-ASH-Y-01')||APP_META?.adultCoverage?.foundationalProtocolPending!==null)err('Y-01 yetişkin temel protokol kapsam metası güncel değil');
 
 const roscCase=(CASES||[]).find(c=>c.code==='SB-ASH-Y-12');
 if(!roscCase)err('SB-ASH-Y-12 Resüsitasyon Sonrası Bakım vakası eksik');
@@ -36,8 +47,8 @@ if(!APP_META?.routes?.includes('SC')||APP_META?.routeLabels?.SC!=='Subkutan (SC)
 if(APP_META?.authority?.DIRECT?.symbol!=='✓'||APP_META?.authority?.DIRECT?.visualLabel!=='SKKM/ÇM onayı gerektirmez')err('DIRECT yeşil/doğrudan sembol metası eksik');
 if(APP_META?.authority?.SKKM?.symbol!=='◆'||APP_META?.authority?.SKKM?.visualLabel!=='SKKM/ÇM onayı gerekli')err('SKKM sarı/onay sembol metası eksik');
 if(APP_META?.authority?.ALGORITHM?.symbol!=='•'||APP_META?.authority?.ALGORITHM?.visualLabel!=='Kaynakta SKKM/ÇM yetkisi belirtilmemiş')err('ALGORITHM kaynakta belirtilmeyen yetki metası eksik');
-if(APP_META?.contentVersion!=='EK2-2026.08.25-full-audit-1-2026.09.23')err('contentVersion tam kapsam audit sürümüyle eşleşmiyor');
-if(APP_META?.productVersion!=='0.26')err('productVersion V0.26 olmalı');
+if(APP_META?.contentVersion!=='EK2-2026.08.25-foundation-protocol-1-2026.09.23')err('contentVersion Y-01 temel protokol sürümüyle eşleşmiyor');
+if(APP_META?.productVersion!=='0.27')err('productVersion V0.27 olmalı');
 if(APP_META?.practitionerAuthority?.ATT_AABT?.officialLabel!=='Acil Tıp Teknisyeni / Teknikeri'||APP_META?.practitionerAuthority?.AABT?.officialLabel!=='Acil Tıp Teknikeri'||APP_META?.practitionerAuthority?.UNVERIFIED?.symbol!=='□')err('ATT/AABT uygulayıcı yetki metası eksik veya bozuk');
 for(const code of ['SB-ASH-Y-04','SB-ASH-Y-05','SB-ASH-Y-06','SB-ASH-Y-07','SB-ASH-Y-08','SB-ASH-Y-09','SB-ASH-Y-10','SB-ASH-Y-11','SB-ASH-Y-12','SB-ASH-Y-13','SB-ASH-Y-14','SB-ASH-Y-15','SB-ASH-Y-17','SB-ASH-Y-19','SB-ASH-Y-21','SB-ASH-Y-22','SB-ASH-Y-23','SB-ASH-Y-24','SB-ASH-Y-28','SB-ASH-Y-29','SB-ASH-Y-34','SB-ASH-Y-35','SB-ASH-Y-36','SB-ASH-Y-37','SB-ASH-Y-39','SB-ASH-Y-40'])if(!APP_META?.practitionerAudit?.verifiedMedicationCases?.includes(code))err(`Uygulayıcı yetki görsel audit izi eksik: ${code}`);
 if(APP_META?.practitionerAudit?.adultMedicationCardsComplete!==true)err('Yetişkin ilaç kartları uygulayıcı audit tamamlama işareti eksik');

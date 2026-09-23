@@ -12,7 +12,7 @@ const $=s=>document.querySelector(s);
 const $$=s=>[...document.querySelectorAll(s)];
 const el={
   shell:$('.app-shell'),main:$('#mainView'),detail:$('#detailView'),source:$('#sourceSheet'),search:$('#searchInput'),
-  featured:$('#featuredGrid'),featuredSection:$('#featuredSection'),filters:$('#filterRow'),list:$('#caseList'),count:$('#caseCount'),
+  featured:$('#featuredGrid'),featuredSection:$('#featuredSection'),protocolSection:$('#protocolSection'),protocols:$('#protocolGrid'),filters:$('#filterRow'),list:$('#caseList'),count:$('#caseCount'),
   populations:$('#populationTabs'),shortcutSection:$('#shortcutSection'),shortcuts:$('#shortcutGrid'),clearRecents:$('#clearRecentsBtn'),
   statCases:$('#statCases'),statCasesText:$('#statCasesText'),statCategories:$('#statCategories'),filterTitle:$('#filterTitle'),
   themeToggle:$('#themeToggle'),fieldToggle:$('#fieldToggle'),themePill:$('#themePill'),modePill:$('#modePill'),
@@ -26,7 +26,7 @@ const casesForPopulation=()=>CASES.filter(c=>c.population===state.population&&c.
 const categories=()=>['Tümü',...new Set(casesForPopulation().map(c=>c.category))];
 const routeLabel=route=>APP_META.routeLabels?.[route]||route;
 const formatDateTR=iso=>{const m=String(iso||'').match(/^(\d{4})-(\d{2})-(\d{2})$/);return m?`${m[3]}.${m[2]}.${m[1]}`:String(iso||'—')};
-const latestReviewDate=()=>CASES.filter(c=>c.clinicalStatus==='reviewed').map(c=>c.source?.reviewedAt).filter(Boolean).sort().at(-1)||'';
+const latestReviewDate=()=>[...(CASES||[]),...(typeof PROTOCOLS!=='undefined'?PROTOCOLS:[])].filter(c=>c.clinicalStatus==='reviewed').map(c=>c.source?.reviewedAt).filter(Boolean).sort().at(-1)||'';
 function authorityClass(key){return key==='DIRECT'?'direct':key==='SKKM'?'skkm':'algorithm'}
 function authorityMarkup(key,{legend=false}={}){
   const a=APP_META.authority[key]||APP_META.authority.ALGORITHM;
@@ -104,6 +104,47 @@ function renderPopulations(){
 function renderFilters(){const cats=categories();if(!cats.includes(state.category))state.category='Tümü';el.filters.innerHTML=cats.map(c=>`<button type="button" aria-pressed="${state.category===c}" class="filter-chip ${state.category===c?'active':''}" data-filter="${esc(c)}">${esc(c)}</button>`).join('')}
 function renderStats(){const all=casesForPopulation();el.statCases.textContent=String(all.length);el.statCategories.textContent=String(new Set(all.map(c=>c.category)).size);el.statCasesText.textContent=all.length?'Doğrulanmış içerik':`${popMeta(state.population).algorithmRange} • QA bekliyor`}
 function emptyLibrary(){const p=popMeta(state.population);return `<div class="empty-state planned"><div class="empty-icon">◎</div><h3>${esc(p.label)} kütüphanesi QA aşamasında</h3><p>${esc(p.algorithmRange)} için altyapı hazır. Kaynak-kod-doz-yetki doğrulaması tamamlanmadan klinik kart yayınlanmıyor.</p></div>`}
+function protocolSearchText(p){
+  const flow=(p.flow||[]).flatMap(item=>[item.lead,item.question,item.yes,item.no,item.html,item.targetCode]);
+  return [p.title,p.subtitle,p.category,p.code,p.summary,...flow].filter(Boolean).map(strip).join(' ').toLocaleLowerCase('tr-TR');
+}
+function renderProtocols(){
+  if(!el.protocolSection||!el.protocols||typeof PROTOCOLS==='undefined')return;
+  const q=state.query.trim().toLocaleLowerCase('tr-TR');
+  const list=PROTOCOLS.filter(p=>p.population===state.population&&p.clinicalStatus==='reviewed'&&(!q||protocolSearchText(p).includes(q)));
+  el.protocolSection.classList.toggle('hidden',list.length===0||state.view==='favorites');
+  el.protocols.innerHTML=list.map(p=>`<button type="button" class="protocol-card" style="${caseStyle(p)}" data-protocol-open="${p.id}"><div class="protocol-card-icon">${esc(p.icon)}</div><div class="protocol-card-copy"><span>Temel protokol • ${esc(p.code)}</span><strong>${esc(p.title)}</strong><p>${esc(p.subtitle)}</p></div><span class="chev">›</span></button>`).join('');
+}
+function protocolContactBadge(){return '<span class="protocol-contact-badge" aria-label="SKKM/ÇM ile iletişim">☎ SKKM/ÇM</span>'}
+function renderProtocolFlow(p){
+  let n=0;
+  return (p.flow||[]).map(item=>{
+    if(item.type==='step'){
+      n+=1;
+      return `<div class="protocol-flow-step"><span class="protocol-step-no">${n}</span><div class="protocol-step-copy">${item.html}${item.skkmContact?protocolContactBadge():''}</div></div>`;
+    }
+    if(item.type==='decision'){
+      return `<div class="protocol-decision"><div class="protocol-decision-q">${item.lead?`<p>${esc(item.lead)}</p>`:''}<strong>${esc(item.question)}</strong></div><div class="protocol-decision-branches"><div class="protocol-branch yes"><b>EVET</b><span>${esc(item.yes)}</span></div><div class="protocol-branch no"><b>HAYIR</b><span>${esc(item.no)}</span>${item.noSkkmContact?protocolContactBadge():''}</div></div></div>`;
+    }
+    if(item.type==='transition'){
+      return `<div class="protocol-transition"><span>→</span><div><strong>${esc(item.html)}</strong><small>${esc(item.targetCode||'')}</small></div></div>`;
+    }
+    return '';
+  }).join('');
+}
+function openProtocol(id){
+  if(typeof PROTOCOLS==='undefined')return;
+  const p=PROTOCOLS.find(x=>x.id===id&&x.population===state.population);if(!p)return;
+  state.current=`protocol:${id}`;state.returnScrollY=scrollY;state.returnNav=state.nav;
+  const jumps=[['protocol-flow','Akış','critical'],['source','Kaynak','']];
+  el.detail.innerHTML=`<header class="detail-top"><div class="detail-bar"><button type="button" class="back-btn" data-action="back" aria-label="Geri">‹</button><div class="detail-title"><div class="kicker">TEMEL PROTOKOL • ${esc(p.category.toUpperCase())}</div><h2>${esc(p.title)}</h2></div><span class="detail-spacer" aria-hidden="true"></span></div><div class="source-ribbon"><span>§</span><span>${esc(p.code)} • PDF s.${esc(p.page)} • gözden geçirme ${formatDateTR(p.source.reviewedAt)}</span></div><div class="detail-jumps">${jumps.map(j=>`<button type="button" class="jump-chip ${j[2]}" data-jump="${j[0]}">${j[1]}</button>`).join('')}</div></header>
+  <div class="detail-body" style="${caseStyle(p)}">
+    <section class="case-summary protocol-summary"><span class="case-category">Temel Protokol</span><p>${esc(p.summary)}</p><small>Bu bölüm vaka kartı değildir; sahaya giriş ve kaynak yönetimi için temel akıştır.</small></section>
+    <section class="detail-section emphasis" id="protocol-flow"><div class="detail-heading"><span class="tiny-icon">⌖</span><div><h3>Olay yeri akışı</h3><p>Resmî Y-01 sırası korunmuştur.</p></div></div><div class="protocol-flow">${renderProtocolFlow(p)}</div></section>
+    ${renderSource(p)}
+  </div>`;
+  el.main.classList.add('hidden');el.detail.classList.remove('hidden');el.shell.classList.add('detail-open');scrollTo(0,0);
+}
 function renderCases(){
   const base=casesForPopulation();const list=visibleCases();el.filterTitle.textContent=state.view==='favorites'?'Favoriler':'Vaka kütüphanesi';el.count.textContent=state.view==='favorites'?`${list.length} favori`:`${list.length} vaka`;
   if(!base.length){el.list.innerHTML=emptyLibrary();return}
@@ -123,7 +164,7 @@ function renderShortcuts(){
   el.shortcutSection.classList.toggle('hidden',items.length===0||state.view==='favorites');el.clearRecents.classList.toggle('hidden',state.recent.length===0);
   el.shortcuts.innerHTML=items.map(({c,kind})=>`<button type="button" class="shortcut-card" style="${caseStyle(c)}" data-open="${c.id}"><span class="shortcut-kind">${kind}</span><div class="case-icon">${c.icon}</div><div class="shortcut-copy"><strong>${esc(c.title)}</strong><span>${esc(c.category)} • ${esc(c.code)}</span></div></button>`).join('');
 }
-function renderAll(){ensurePopulationAvailable();renderAppMeta();renderPopulations();renderFilters();renderStats();renderFeatured();renderShortcuts();renderCases()}
+function renderAll(){ensurePopulationAvailable();renderAppMeta();renderPopulations();renderFilters();renderStats();renderProtocols();renderFeatured();renderShortcuts();renderCases()}
 
 function authorityBadge(m){return authorityMarkup(m.authority)}
 function practitionerBadge(m){return practitionerMarkup(m.practitionerAuthority||'UNVERIFIED')}
@@ -205,6 +246,7 @@ function closeSourceSheet(){
 }
 
 document.addEventListener('click',e=>{
+  const protocolOpen=e.target.closest('[data-protocol-open]');if(protocolOpen){openProtocol(protocolOpen.dataset.protocolOpen);return}
   const open=e.target.closest('[data-open]');if(open){openCase(open.dataset.open);return}
   const pop=e.target.closest('[data-population]');if(pop){selectPopulation(pop.dataset.population);return}
   const filter=e.target.closest('[data-filter]');if(filter){state.category=filter.dataset.filter;renderFilters();renderCases();return}
