@@ -216,9 +216,10 @@ function renderAlgorithmSteps(c){
 }
 function renderAlgorithmBranch(branch,depth=0){
   const safeDepth=Math.min(depth,3);
+  const triage=['green','yellow','red','black'].includes(branch.triageCode)?` triage-${branch.triageCode}`:'';
   const steps=(branch.steps||[]).map(step=>renderActionStep(step,{branch:true})).join('');
   const children=(branch.branches||[]).map(child=>renderAlgorithmBranch(child,depth+1)).join('');
-  return `<section class="algo-branch algo-depth-${safeDepth}"><div class="algo-branch-head"><strong>${esc(branch.label)}</strong>${branch.note?`<p>${esc(branch.note)}</p>`:''}</div>${steps?`<div class="algo-branch-steps">${steps}</div>`:''}${children?`<div class="algo-branch-children">${children}</div>`:''}</section>`;
+  return `<section class="algo-branch algo-depth-${safeDepth}${triage}"><div class="algo-branch-head"><strong>${esc(branch.label)}</strong>${branch.note?`<p>${esc(branch.note)}</p>`:''}</div>${steps?`<div class="algo-branch-steps">${steps}</div>`:''}${children?`<div class="algo-branch-children">${children}</div>`:''}</section>`;
 }
 function renderAlgorithmBranches(c){
   if(!c.algorithmBranches?.length)return '';

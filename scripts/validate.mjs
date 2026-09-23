@@ -71,8 +71,8 @@ if(!APP_META?.routes?.includes('SC')||APP_META?.routeLabels?.SC!=='Subkutan (SC)
 if(APP_META?.authority?.DIRECT?.symbol!=='✓'||APP_META?.authority?.DIRECT?.visualLabel!=='SKKM/ÇM onayı gerektirmez')err('DIRECT yeşil/doğrudan sembol metası eksik');
 if(APP_META?.authority?.SKKM?.symbol!=='◆'||APP_META?.authority?.SKKM?.visualLabel!=='SKKM/ÇM onayı gerekli')err('SKKM sarı/onay sembol metası eksik');
 if(APP_META?.authority?.ALGORITHM?.symbol!=='•'||APP_META?.authority?.ALGORITHM?.visualLabel!=='Kaynakta SKKM/ÇM yetkisi belirtilmemiş')err('ALGORITHM kaynakta belirtilmeyen yetki metası eksik');
-if(APP_META?.contentVersion!=='EK2-2026.08.25-y18-structured-flow-1-2026.09.24')err('contentVersion Y-18 yapılandırılmış akış sürümüyle eşleşmiyor');
-if(APP_META?.productVersion!=='0.34')err('productVersion V0.34 olmalı');
+if(APP_META?.contentVersion!=='EK2-2026.08.25-y41-start-structured-flow-1-2026.09.24')err('contentVersion Y-41 START yapılandırılmış akış sürümüyle eşleşmiyor');
+if(APP_META?.productVersion!=='0.35')err('productVersion V0.35 olmalı');
 if(APP_META?.practitionerAuthority?.ATT_AABT?.officialLabel!=='Acil Tıp Teknisyeni / Teknikeri'||APP_META?.practitionerAuthority?.AABT?.officialLabel!=='Acil Tıp Teknikeri'||APP_META?.practitionerAuthority?.UNVERIFIED?.symbol!=='□')err('ATT/AABT uygulayıcı yetki metası eksik veya bozuk');
 for(const code of ['SB-ASH-Y-04','SB-ASH-Y-05','SB-ASH-Y-06','SB-ASH-Y-07','SB-ASH-Y-08','SB-ASH-Y-09','SB-ASH-Y-10','SB-ASH-Y-11','SB-ASH-Y-12','SB-ASH-Y-13','SB-ASH-Y-14','SB-ASH-Y-15','SB-ASH-Y-17','SB-ASH-Y-19','SB-ASH-Y-21','SB-ASH-Y-22','SB-ASH-Y-23','SB-ASH-Y-24','SB-ASH-Y-28','SB-ASH-Y-29','SB-ASH-Y-34','SB-ASH-Y-35','SB-ASH-Y-36','SB-ASH-Y-37','SB-ASH-Y-39','SB-ASH-Y-40'])if(!APP_META?.practitionerAudit?.verifiedMedicationCases?.includes(code))err(`Uygulayıcı yetki görsel audit izi eksik: ${code}`);
 if(APP_META?.practitionerAudit?.adultMedicationCardsComplete!==true)err('Yetişkin ilaç kartları uygulayıcı audit tamamlama işareti eksik');
@@ -257,8 +257,22 @@ if(headFluid?.authority!=='DIRECT'||headFluid?.practitionerAuthority!=='AABT'||J
 if(headMidazolam?.dose!=='1–2,5 mg'||JSON.stringify(headMidazolam?.routes)!==JSON.stringify(['IV'])||!String(headMidazolam?.repeat||'').includes('3–5 dk')||headMidazolam?.authority!=='ALGORITHM'||headMidazolam?.practitionerAuthority!=='UNVERIFIED'||headMidazolam?.sourceAuthorityStatus!=='KEYPOINT_NO_SYMBOL')err('Y-40 Anahtar Noktalar midazolam kaynak/yetki-belirsizliği bilgisi bozuk');
 
 const startCase=(CASES||[]).find(c=>c.id==='start-triage');
-if(!startCase||startCase.code!=='SB-ASH-Y-41'||startCase.page!=='73'||startCase.source?.page!=='72–73')err('Start Triyaj Y-41 kaynak izi bozuk');
+if(!startCase||startCase.code!=='SB-ASH-Y-41'||startCase.page!=='73'||startCase.source?.page!=='72–73'||startCase.source?.reviewedAt!=='2026-09-24')err('Start Triyaj Y-41 kaynak izi bozuk');
 for(const required of ['YEŞİL','SİYAH','KIRMIZI','SARI','<10/dk','>30/dk','KGD >2 sn','1 dakik'])if(!JSON.stringify(startCase).includes(required))err(`START triyaj kriteri eksik: ${required}`);
+if(startCase?.decisionIntegrated!==true||(startCase?.algorithmSteps||[]).length!==1||(startCase?.algorithmBranches||[]).length!==2)err('Y-41 START yapılandırılmış kök/yürüyen-yürüyemeyen akışı eksik');
+if(startCase?.algorithmSteps?.[0]?.approvalAuthority!=='DIRECT'||startCase?.algorithmSteps?.[0]?.practitionerAuthority!=='ATT_AABT')err('Y-41 START seslen/güvenli alan ortak basamağı ATT/AABT + DIRECT olmalı');
+const y41Green=(startCase?.algorithmBranches||[]).find(b=>b.triageCode==='green');
+const y41NonWalking=(startCase?.algorithmBranches||[]).find(b=>b.label==='Yürüyemeyenler');
+const y41NoBreath=(y41NonWalking?.branches||[]).find(b=>b.label==='Solunum yok');
+const y41Breath=(y41NonWalking?.branches||[]).find(b=>b.label==='Solunum var');
+if(!y41Green||!y41NonWalking||!y41NoBreath||!y41Breath)err('Y-41 START yürüyebilme/solunum ana dalları eksik');
+if(y41NonWalking?.steps?.[0]?.approvalAuthority!=='DIRECT'||y41NonWalking?.steps?.[0]?.practitionerAuthority!=='ATT_AABT'||y41NoBreath?.steps?.[0]?.practitionerAuthority!=='ATT_AABT')err('Y-41 START değerlendirme/başa pozisyon basamak yetkisi bozuk');
+const y41Outcomes=[];
+const collectY41=(branches=[])=>{for(const b of branches){if(b.triageCode)y41Outcomes.push([b.label,b.triageCode]);collectY41(b.branches||[]);}};
+collectY41(startCase?.algorithmBranches||[]);
+if(y41Outcomes.filter(([,code])=>code==='red').length!==4||y41Outcomes.filter(([,code])=>code==='green').length!==1||y41Outcomes.filter(([,code])=>code==='yellow').length!==1||y41Outcomes.filter(([,code])=>code==='black').length!==1)err('Y-41 START renk sonuçlarının sayısı/geometrisi bozuk');
+for(const phrase of ['Pozisyon sonrası solunum yok — SİYAH KOD','Pozisyon sonrası solunum var — KIRMIZI KOD','Solunum sayısı <10/dk veya >30/dk — KIRMIZI KOD','KGD >2 sn veya distal nabız yok — KIRMIZI KOD','Komutlara uyuyorsa — SARI KOD','Komutlara uymuyorsa — KIRMIZI KOD'])if(!JSON.stringify(startCase).includes(phrase))err(`Y-41 START dalı eksik: ${phrase}`);
+
 
 const coveredAdultCodes=new Set();
 for(const c of adultAuditCases)for(const code of (c.source?.algorithmCodes||[])){const m=String(code).match(/SB-ASH-Y-(\d+)/);if(m)coveredAdultCodes.add(Number(m[1]));}

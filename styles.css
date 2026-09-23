@@ -645,3 +645,24 @@ html.dialog-open,html.dialog-open body{overflow:hidden}
     grid-template-columns:minmax(0,1fr);
   }
 }
+
+
+/* V0.35 START triage outcome semantics */
+.algo-branch.triage-green,
+.algo-branch.triage-yellow,
+.algo-branch.triage-red,
+.algo-branch.triage-black{
+  border-left-width:5px;
+}
+.algo-branch.triage-green{border-color:#2f9d69;background:color-mix(in srgb,#2f9d69 9%,var(--solid))}
+.algo-branch.triage-green>.algo-branch-head strong{background:#e5f7ee;color:#176640}
+.algo-branch.triage-yellow{border-color:#d4a400;background:color-mix(in srgb,#f1cf00 10%,var(--solid))}
+.algo-branch.triage-yellow>.algo-branch-head strong{background:#fff7bf;color:#6e5700}
+.algo-branch.triage-red{border-color:#d83a42;background:color-mix(in srgb,#d83a42 9%,var(--solid))}
+.algo-branch.triage-red>.algo-branch-head strong{background:#ffedf0;color:#9f2029}
+.algo-branch.triage-black{border-color:#252525;background:color-mix(in srgb,#252525 8%,var(--solid))}
+.algo-branch.triage-black>.algo-branch-head strong{background:#252525;color:#fff}
+:root[data-theme='dark'] .algo-branch.triage-green>.algo-branch-head strong{background:#153628;color:#8ee0b2}
+:root[data-theme='dark'] .algo-branch.triage-yellow>.algo-branch-head strong{background:#3d3413;color:#ffe36a}
+:root[data-theme='dark'] .algo-branch.triage-red>.algo-branch-head strong{background:#402025;color:#ff9ca3}
+:root[data-theme='dark'] .algo-branch.triage-black>.algo-branch-head strong{background:#090b0e;color:#fff}

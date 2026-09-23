@@ -1,7 +1,7 @@
 const APP_META = {
   "schemaVersion": 5,
-  "contentVersion": "EK2-2026.08.25-y18-structured-flow-1-2026.09.24",
-  "productVersion": "0.34",
+  "contentVersion": "EK2-2026.08.25-y41-start-structured-flow-1-2026.09.24",
+  "productVersion": "0.35",
   "populations": [
     {
       "id": "adult",
@@ -217,7 +217,8 @@ const APP_META = {
       "SB-ASH-Y-14",
       "SB-ASH-Y-17",
       "SB-ASH-Y-18",
-      "SB-ASH-Y-22"
+      "SB-ASH-Y-22",
+      "SB-ASH-Y-41"
     ],
     "verifiedBranchCases": [
       "SB-ASH-Y-08",
@@ -228,7 +229,8 @@ const APP_META = {
       "SB-ASH-Y-13",
       "SB-ASH-Y-14",
       "SB-ASH-Y-17",
-      "SB-ASH-Y-22"
+      "SB-ASH-Y-22",
+      "SB-ASH-Y-41"
     ],
     "pilot": true
   },
@@ -4185,7 +4187,7 @@ const CASES = [
       "documentTitle": "Hastane Öncesi Acil Tıbbi Yardım ve Bakım Akış Şemaları",
       "effectiveDate": "2026-08-25",
       "officialPageDate": "2026-09-11",
-      "reviewedAt": "2026-09-22",
+      "reviewedAt": "2026-09-24",
       "officialPageUrl": "https://acilafet.saglik.gov.tr/TR-119840/hastane-oncesi-acil-tibbi-yardim-ve-bakim-akis-semalari.html",
       "officialPdfUrl": "https://dosyamerkez.saglik.gov.tr/Eklenti/55773/0/ek-2-hastane-oncesi-acil-tibbi-yardim-ve-bakim-akis-semalaripdf.pdf",
       "section": "adult",
@@ -4218,6 +4220,90 @@ const CASES = [
       "q": "Hasta yürüyebiliyor mu?",
       "yes": "Güvenli alana çağır → YEŞİL kod.",
       "no": "Solunum → solunum sayısı → dolaşım (KGD/distal nabız) → komutlara uyum sırasıyla START değerlendirmesini tamamla."
-    }
+    },
+    "decisionIntegrated": true,
+    "algorithmSteps": [
+      {
+        "html": "<strong>Seslen, güvenli alana çağır.</strong>",
+        "approvalAuthority": "DIRECT",
+        "practitionerAuthority": "ATT_AABT"
+      }
+    ],
+    "algorithmBranches": [
+      {
+        "label": "Yürüyenler — YEŞİL KOD",
+        "triageCode": "green"
+      },
+      {
+        "label": "Yürüyemeyenler",
+        "steps": [
+          {
+            "html": "<strong>Solunumu değerlendir.</strong>",
+            "approvalAuthority": "DIRECT",
+            "practitionerAuthority": "ATT_AABT"
+          }
+        ],
+        "branches": [
+          {
+            "label": "Solunum yok",
+            "steps": [
+              {
+                "html": "<strong>Başa pozisyon ver.</strong>",
+                "approvalAuthority": "DIRECT",
+                "practitionerAuthority": "ATT_AABT"
+              }
+            ],
+            "branches": [
+              {
+                "label": "Pozisyon sonrası solunum yok — SİYAH KOD",
+                "triageCode": "black"
+              },
+              {
+                "label": "Pozisyon sonrası solunum var — KIRMIZI KOD",
+                "triageCode": "red"
+              }
+            ]
+          },
+          {
+            "label": "Solunum var",
+            "branches": [
+              {
+                "label": "Solunum sayısı <10/dk veya >30/dk — KIRMIZI KOD",
+                "triageCode": "red"
+              },
+              {
+                "label": "Solunum sayısı 10–30/dk",
+                "steps": [
+                  {
+                    "html": "<strong>Dolaşımı değerlendir.</strong>",
+                    "approvalAuthority": "DIRECT",
+                    "practitionerAuthority": "ATT_AABT"
+                  }
+                ],
+                "branches": [
+                  {
+                    "label": "KGD >2 sn veya distal nabız yok — KIRMIZI KOD",
+                    "triageCode": "red"
+                  },
+                  {
+                    "label": "KGD <2 sn ve distal nabız var",
+                    "branches": [
+                      {
+                        "label": "Komutlara uyuyorsa — SARI KOD",
+                        "triageCode": "yellow"
+                      },
+                      {
+                        "label": "Komutlara uymuyorsa — KIRMIZI KOD",
+                        "triageCode": "red"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
   }
 ];

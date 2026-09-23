@@ -2,7 +2,14 @@
 
 Mobil-first, offline çekirdekli, vaka bazlı hastane öncesi acil sağlık eğitim ve hızlı hatırlatma uygulaması.
 
-## V0.34 mimarisi
+## V0.35 mimarisi
+
+- **V0.35 Y-41 START Triyaj:** Resmî sayfa 73'teki karar ağacı yapılandırıldı: yürüyebilme → solunum → solunum sayısı → dolaşım (KGD/distal nabız) → komutlara uyum. Eski ayrı “Karar noktası” kutusu gizlendi.
+- **Kaynak geometrisi:** Yürüyenler YEŞİL; solunum yoksa başa pozisyon sonrası solunum yok SİYAH / solunum başlarsa KIRMIZI; solunum <10 veya >30/dk KIRMIZI; 10–30/dk ise dolaşım; KGD >2 sn veya distal nabız yok KIRMIZI; KGD <2 sn ve distal nabız varsa komuta uyumla SARI/KIRMIZI ayrımı korunur.
+- **Triyaj rengi ≠ mesleki yetki rengi:** Yeşil/sarı/kırmızı/siyah sonuçlar ayrı `triageCode` görsel semantiğidir. ATT/AABT kutu rengi veya SKKM/ÇM onay anlamı taşımaz.
+- **Yetki sadakati:** START karar ağacındaki uygulayıcı basamakları resmî turkuaz ortak ATT/AABT kutularıdır; telefon simgesi bulunmadığından `DIRECT` olarak tutulur.
+
+### V0.34 önceki durum
 
 - **V0.34 Y-18 yapılandırılmış akış:** İnme / SVO, resmî SB-ASH-Y-18 sayfa 32 geometrisine göre dokuz adımlı saha akışına taşındı. Glukoz <60 mg/dL ve/veya hipoglisemi bulgusu ana akışa eşdeğer paralel dal yapılmadı; kan glikozu basamağından Diyabetik Aciller'e yan geçiş olarak korundu.
 - **Y-18 yetki sadakati:** Y-18'de turuncu yalnız AABT kutusu yoktur. İlk sekiz adım `ATT_AABT + DIRECT`; yalnız son uygun merkez nakil kutusunda telefon simgesi bulunduğu için `ATT_AABT + SKKM` olarak kilitlendi.
