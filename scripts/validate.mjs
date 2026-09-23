@@ -71,8 +71,8 @@ if(!APP_META?.routes?.includes('SC')||APP_META?.routeLabels?.SC!=='Subkutan (SC)
 if(APP_META?.authority?.DIRECT?.symbol!=='✓'||APP_META?.authority?.DIRECT?.visualLabel!=='SKKM/ÇM onayı gerektirmez')err('DIRECT yeşil/doğrudan sembol metası eksik');
 if(APP_META?.authority?.SKKM?.symbol!=='◆'||APP_META?.authority?.SKKM?.visualLabel!=='SKKM/ÇM onayı gerekli')err('SKKM sarı/onay sembol metası eksik');
 if(APP_META?.authority?.ALGORITHM?.symbol!=='•'||APP_META?.authority?.ALGORITHM?.visualLabel!=='Kaynakta SKKM/ÇM yetkisi belirtilmemiş')err('ALGORITHM kaynakta belirtilmeyen yetki metası eksik');
-if(APP_META?.contentVersion!=='EK2-2026.08.25-y25-hypothermic-arrest-flow-1-2026.09.24')err('contentVersion Y-25 Hipotermide Arrest yapılandırılmış akış sürümüyle eşleşmiyor');
-if(APP_META?.productVersion!=='0.36')err('productVersion V0.36 olmalı');
+if(APP_META?.contentVersion!=='EK2-2026.08.25-y38-trauma-flow-1-2026.09.24')err('contentVersion Y-38 Travma yapılandırılmış akış sürümüyle eşleşmiyor');
+if(APP_META?.productVersion!=='0.37')err('productVersion V0.37 olmalı');
 if(APP_META?.practitionerAuthority?.ATT_AABT?.officialLabel!=='Acil Tıp Teknisyeni / Teknikeri'||APP_META?.practitionerAuthority?.AABT?.officialLabel!=='Acil Tıp Teknikeri'||APP_META?.practitionerAuthority?.UNVERIFIED?.symbol!=='□')err('ATT/AABT uygulayıcı yetki metası eksik veya bozuk');
 for(const code of ['SB-ASH-Y-04','SB-ASH-Y-05','SB-ASH-Y-06','SB-ASH-Y-07','SB-ASH-Y-08','SB-ASH-Y-09','SB-ASH-Y-10','SB-ASH-Y-11','SB-ASH-Y-12','SB-ASH-Y-13','SB-ASH-Y-14','SB-ASH-Y-15','SB-ASH-Y-17','SB-ASH-Y-19','SB-ASH-Y-21','SB-ASH-Y-22','SB-ASH-Y-23','SB-ASH-Y-24','SB-ASH-Y-28','SB-ASH-Y-29','SB-ASH-Y-34','SB-ASH-Y-35','SB-ASH-Y-36','SB-ASH-Y-37','SB-ASH-Y-39','SB-ASH-Y-40'])if(!APP_META?.practitionerAudit?.verifiedMedicationCases?.includes(code))err(`Uygulayıcı yetki görsel audit izi eksik: ${code}`);
 if(APP_META?.practitionerAudit?.adultMedicationCardsComplete!==true)err('Yetişkin ilaç kartları uygulayıcı audit tamamlama işareti eksik');
@@ -331,7 +331,13 @@ const electricalRl=medByName(electricalBurnAuditCase,'Ringer Laktat — rabdomiy
 if(electricalRl?.authority!=='DIRECT'||electricalRl?.practitionerAuthority!=='AABT'||JSON.stringify(electricalRl?.routes)!==JSON.stringify(['OTHER'])||!String(electricalRl?.dose||'').includes('Erken ve yeterli'))err('Y-29 Ringer Laktat turuncu/DIRECT ve kaynakta miktar-yol türetmeme kartı eksik');
 
 const traumaCase=(CASES||[]).find(c=>c.id==='trauma');
-if(traumaCase?.title!=='Travmalı Hastada Acil Olgu Yönetimi'||traumaCase?.code!=='SB-ASH-Y-38'||traumaCase?.page!=='67'||!traumaCase?.source?.algorithmCodes?.includes('SB-ASH-Y-38')||!traumaCase?.source?.algorithmCodes?.includes('SB-ASH-Y-02'))err('Travma Y-38/Y-02 başlık-kod-sayfa kaynak izi bozuldu');
+if(traumaCase?.title!=='Travmalı Hastada Acil Olgu Yönetimi'||traumaCase?.code!=='SB-ASH-Y-38'||traumaCase?.page!=='67'||traumaCase?.source?.page!=='65–67 / 6–7'||traumaCase?.source?.reviewedAt!=='2026-09-24'||!traumaCase?.source?.algorithmCodes?.includes('SB-ASH-Y-38')||!traumaCase?.source?.algorithmCodes?.includes('SB-ASH-Y-02'))err('Travma Y-38/Y-02 başlık-kod-sayfa kaynak izi bozuldu');
+if(traumaCase?.decisionIntegrated!==true||(traumaCase?.algorithmSteps||[]).length!==9||traumaCase?.algorithmBranches!==undefined)err('Y-38 lineer X-ABCDE + yan geçiş yapılandırılmış akışı bozuk');
+for(const [i,s] of (traumaCase?.algorithmSteps||[]).entries())if(s.approvalAuthority!=='DIRECT'||s.practitionerAuthority!=='ATT_AABT')err(`Y-38 resmî turkuaz basamak ATT/AABT + DIRECT olmalı: ${i}`);
+for(const required of ['travma mekanizmasını','hayatı tehdit eden kanama','Servikal ve spinal immobilizasyonu','SpO₂ <strong>&gt;%94</strong>','10–30/dk','iğne dekompresyonu','Arrest Yönetimi algoritmasına git','KGD &gt;2 sn','nabız &gt;120','SKB &lt;90','Hipovolemik Şok algoritmasına git','GKS=15','Kafa Travmalı Hastaya Yaklaşım algoritmasına git','Tüm giysileri yararak','İkincil değerlendirmeyi nakil sırasında tamamla'])if(!JSON.stringify(traumaCase).includes(required))err(`Y-38 kritik akış öğesi eksik: ${required}`);
+if(!String(traumaCase?.algorithmSteps?.[2]?.followUp?.html||'').includes('Orofaringeal')||!String(traumaCase?.algorithmSteps?.[2]?.followUp?.html||'').includes('aspire et'))err('Y-38 hava yolu düzeltici yan geçişi eksik');
+if(!String(traumaCase?.algorithmSteps?.[3]?.followUp?.html||'').includes('Tansiyon pnömotoraks')||!String(traumaCase?.algorithmSteps?.[3]?.followUp?.html||'').includes('Hemotoraks'))err('Y-38 solunum düzeltici yan geçişi eksik');
+if(!JSON.stringify(traumaCase?.warningFindings||[]).includes('Kanıt olabilecek materyallerin'))err('Y-38 kanıt/giysi koruma uyarısı eksik');
 
 const koahCase=(CASES||[]).find(c=>c.id==='koah');
 if(koahCase?.code!=='SB-ASH-Y-04'||koahCase?.page!=='10'||koahCase?.source?.page!=='9–10')err('KOAH Y-04 kaynak izi bozuldu');

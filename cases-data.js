@@ -1,7 +1,7 @@
 const APP_META = {
   "schemaVersion": 5,
-  "contentVersion": "EK2-2026.08.25-y25-hypothermic-arrest-flow-1-2026.09.24",
-  "productVersion": "0.36",
+  "contentVersion": "EK2-2026.08.25-y38-trauma-flow-1-2026.09.24",
+  "productVersion": "0.37",
   "populations": [
     {
       "id": "adult",
@@ -219,6 +219,7 @@ const APP_META = {
       "SB-ASH-Y-18",
       "SB-ASH-Y-22",
       "SB-ASH-Y-25",
+      "SB-ASH-Y-38",
       "SB-ASH-Y-41"
     ],
     "verifiedBranchCases": [
@@ -4009,7 +4010,7 @@ const CASES = [
   {
     "id": "trauma",
     "title": "Travmalı Hastada Acil Olgu Yönetimi",
-    "subtitle": "xABCDE • kanama • hızlı nakil",
+    "subtitle": "X-ABCDE • kanama • hızlı nakil",
     "category": "Travma",
     "icon": "🛡️",
     "accent": "#a74d4d",
@@ -4025,7 +4026,7 @@ const CASES = [
       "documentTitle": "Hastane Öncesi Acil Tıbbi Yardım ve Bakım Akış Şemaları",
       "effectiveDate": "2026-08-25",
       "officialPageDate": "2026-09-11",
-      "reviewedAt": "2026-09-21",
+      "reviewedAt": "2026-09-24",
       "officialPageUrl": "https://acilafet.saglik.gov.tr/TR-119840/hastane-oncesi-acil-tibbi-yardim-ve-bakim-akis-semalari.html",
       "officialPdfUrl": "https://dosyamerkez.saglik.gov.tr/Eklenti/55773/0/ek-2-hastane-oncesi-acil-tibbi-yardim-ve-bakim-akis-semalaripdf.pdf",
       "section": "adult",
@@ -4036,31 +4037,101 @@ const CASES = [
       "page": "65–67 / 6–7",
       "codeStatus": "verified"
     },
-    "summary": "Travma mekanizmasını değerlendir; hayatı tehdit eden dış kanamayı hava yolundan önce kontrol et, ardından hava yolu-solunum-dolaşım-bilinç-tam vücut değerlendirmesi ve hızlı nakli sürdür.",
+    "summary": "Travma mekanizmasını değerlendir; hayatı tehdit eden dış kanamayı hava yolundan önce kontrol et, ardından hava yolu-solunum-dolaşım-bilinç-tam vücut değerlendirmesi ve nakli sürdür.",
     "criticalActions": [
       "Olay yeri yönetimini uygula, güvenliği sağla ve travma mekanizmasını değerlendir.",
-      "Hayatı tehdit eden dış kanama varsa doğrudan bası uygula.",
-      "Ardından hava yolu/servikal koruma, solunum, dolaşım, bilinç ve tam vücut değerlendirmesini sistematik tamamla."
+      "Dışa doğru hayatı tehdit eden kanama varsa doğrudan bası uygula.",
+      "Hava yolu/servikal-spinal koruma, solunum, nabız-dolaşım, bilinç ve tam vücut değerlendirmesini sırayla tamamla."
     ],
     "quick": [
-      "<strong>Kanama:</strong> hayatı tehdit eden dış kanama varsa doğrudan bası uygula.",
-      "<strong>Hava yolu / solunum:</strong> servikal-spinal immobilizasyonu gözet; hava yolunu aç, solunumu değerlendir ve yaşamı tehdit eden toraks sorunlarına müdahale et.",
-      "<strong>Dolaşım:</strong> nabız ve perfüzyonu değerlendir; pelvis travması/şüphesinde pelvisi sabitle ve hipovolemik şok algoritmasına gerektiğinde geç.",
-      "<strong>Bilinç / ekspojur:</strong> GKS-pupilleri değerlendir, tüm giysileri çıkararak vücut kontrolünü tamamla, hipotermiden koru; ikincil değerlendirmeyi ve immobilizasyonu nakil sırasında sürdür."
+      "<strong>X:</strong> Dışa doğru hayatı tehdit eden kanama varsa doğrudan bası uygula.",
+      "<strong>A/B:</strong> Servikal-spinal immobilizasyonu sağla; hava yolu güvenli değilse aç/aspire et, gerekirse ileri hava yolu düşün. Solunum stabil değilse ventilasyonu destekle ve yaşamı tehdit eden toraks sorunlarını tedavi et.",
+      "<strong>C:</strong> Nabız yoksa Arrest Yönetimi'ne geç. Dolaşım stabil değilse pelvis travması/şüphesinde pelvisi sabitle ve Hipovolemik Şok algoritmasına geç.",
+      "<strong>D/E:</strong> Bilinç normal değilse Kafa Travmalı Hastaya Yaklaşım algoritmasına geç; tüm giysileri yararak vücut kontrolünü tamamla ve hipotermiden koru.",
+      "<strong>Nakil:</strong> İkincil değerlendirmeyi nakil sırasında tamamla, immobilizasyonu sürdür ve naklet."
     ],
     "warningFindings": [
+      "Kanıt olabilecek materyallerin (giysilerin) korunması gerekir",
       "Kontrolsüz dış kanama",
-      "Hava yolu tehdidi",
-      "Tansiyon pnömotoraks / ciddi solunum yetmezliği",
-      "Şok / pelvis instabilitesi",
-      "GKS düşüşü veya fokal nörolojik bulgu"
+      "Hava yolu tehdidi veya SpO₂ >%94 sağlanamaması",
+      "Tansiyon pnömotoraks / açık pnömotoraks / hemotoraks",
+      "Nabız yokluğu veya dolaşım instabilitesi",
+      "GKS <13, nöbet, duyusal-motor defisit veya penetran yaralanma gibi kritik travma özellikleri"
     ],
     "meds": [],
     "decision": {
-      "q": "Hayatı tehdit eden veya çoklu yaralanma var mı?",
-      "yes": "Kritik sorunları hızla düzelt, immobilizasyon kararını kliniğe göre ver ve uygun travma merkezine hızlı naklet.",
-      "no": "İkincil değerlendirmeyi nakil sürecinde tamamla; seri yeniden değerlendirme yap."
-    }
+      "q": "Travmada X-ABCDE sırasında yaşamı tehdit eden bir sorun saptandı mı?",
+      "yes": "Sorunu bulunduğu basamakta düzelt veya ilgili algoritmaya geç; ardından değerlendirmeyi sürdür.",
+      "no": "İkincil değerlendirmeyi nakil sırasında tamamla, immobilizasyonu sürdür ve naklet."
+    },
+    "decisionIntegrated": true,
+    "algorithmSteps": [
+      {
+        "html": "<strong>Olay yeri yönetimini uygula ve güvenliği sağla.</strong> Travma mekanizmasını değerlendir.",
+        "approvalAuthority": "DIRECT",
+        "practitionerAuthority": "ATT_AABT"
+      },
+      {
+        "html": "Eğer dışa doğru <strong>hayatı tehdit eden kanama</strong> varsa doğrudan bası uygula.",
+        "approvalAuthority": "DIRECT",
+        "practitionerAuthority": "ATT_AABT"
+      },
+      {
+        "html": "<strong>Hava yolu açık ve güvenilir mi?</strong> Servikal ve spinal immobilizasyonu sağla.",
+        "approvalAuthority": "DIRECT",
+        "practitionerAuthority": "ATT_AABT",
+        "followUp": {
+          "label": "Hayır — hava yolu açık/güvenilir değilse",
+          "html": "Hava yolunu aç. Orofaringeal hava yolunu yerleştir. Ağız içi ve orofarinksi aspire et. İleri hava yolu uygulamalarını düşün."
+        }
+      },
+      {
+        "html": "<strong>Solunum stabil mi?</strong> Her iki akciğer eşit havalanıyor mu? SpO₂ <strong>&gt;%94</strong>, solunum sayısı <strong>10–30/dk</strong> mı?",
+        "approvalAuthority": "DIRECT",
+        "practitionerAuthority": "ATT_AABT",
+        "followUp": {
+          "label": "Hayır — solunum stabil değilse",
+          "html": "Solunumu destekle. İleri hava yolu uygulamalarını düşün. Tansiyon pnömotoraks varsa iğne dekompresyonu uygula. Açık pnömotoraks varsa uygun teknikle kapat. Hemotoraks varsa solunumu ve dolaşımı destekle."
+        }
+      },
+      {
+        "html": "<strong>Nabız var mı?</strong>",
+        "approvalAuthority": "DIRECT",
+        "practitionerAuthority": "ATT_AABT",
+        "followUp": {
+          "label": "Hayır",
+          "html": "<strong>Arrest Yönetimi algoritmasına git.</strong>"
+        }
+      },
+      {
+        "html": "<strong>Dolaşım stabil mi?</strong> Şemadaki eşikleri değerlendir: KGD &gt;2 sn, nabız &gt;120 atım/dk, SKB &lt;90 mmHg.",
+        "approvalAuthority": "DIRECT",
+        "practitionerAuthority": "ATT_AABT",
+        "followUp": {
+          "label": "Hayır — dolaşım stabil değilse",
+          "html": "Pelvis travması ya da şüphesi varsa pelvisi sabitle. Ardından <strong>Hipovolemik Şok algoritmasına git.</strong>"
+        }
+      },
+      {
+        "html": "<strong>Bilinç normal mi?</strong> GKS=15, uyanık ve basit komutlara uyuyor mu? Anizokori, midriyazis, pin-point pupil ve taraf bulgusuna dikkat et.",
+        "approvalAuthority": "DIRECT",
+        "practitionerAuthority": "ATT_AABT",
+        "followUp": {
+          "label": "Hayır",
+          "html": "<strong>Kafa Travmalı Hastaya Yaklaşım algoritmasına git.</strong>"
+        }
+      },
+      {
+        "html": "<strong>Tüm giysileri yararak vücut kontrolünü tamamla; hipotermiden koru.</strong>",
+        "approvalAuthority": "DIRECT",
+        "practitionerAuthority": "ATT_AABT"
+      },
+      {
+        "html": "<strong>İkincil değerlendirmeyi nakil sırasında tamamla.</strong> İmmobilizasyonu sürdür ve naklet.",
+        "approvalAuthority": "DIRECT",
+        "practitionerAuthority": "ATT_AABT"
+      }
+    ]
   },
   {
     "id": "crush-syndrome",

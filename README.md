@@ -2,7 +2,16 @@
 
 Mobil-first, offline çekirdekli, vaka bazlı hastane öncesi acil sağlık eğitim ve hızlı hatırlatma uygulaması.
 
-## V0.36 mimarisi
+## V0.37 mimarisi
+
+- **V0.37 Y-38 Travmalı Hastada Acil Olgu Yönetimi:** Resmî s.67 akışı, mobilde tekrar üretmeden okunabilen lineer X-ABCDE omurgasına taşındı. Düzeltici “Hayır” çıkışları ilgili basamağın hemen altında gösterilir; kaynakta olmayan paralel dallar üretilmedi.
+- **X / kanama:** Olay yeri güvenliği ve travma mekanizmasından sonra dışa doğru hayatı tehdit eden kanamada doğrudan bası korunur.
+- **A/B:** Servikal-spinal immobilizasyon, güvensiz hava yolunda açma–orofaringeal airway–aspirasyon–ileri hava yolu; stabil olmayan solunumda ventilasyon desteği, tansiyon pnömotoraksta iğne dekompresyonu, açık pnömotoraks kapatma ve hemotoraksta solunum/dolaşım desteği görünür.
+- **C/D/E ve geçişler:** Nabız yok → Arrest Yönetimi; dolaşım stabil değil → pelvis travması/şüphesinde sabitleme + Hipovolemik Şok; bilinç normal değil → Kafa Travmalı Hastaya Yaklaşım. Sonrasında giysileri yararak tam vücut kontrolü, hipotermiden koruma ve nakil sırasında ikincil değerlendirme/immobilizasyon sürdürme korunur.
+- **Yetki sadakati:** Y-38 eylem kutuları resmî sayfada turkuaz ve telefon simgesizdir; yapılandırılmış dokuz basamak `ATT_AABT + DIRECT` olarak kilitlendi. Mavi “ilgili algoritmaya git” kutuları ayrı klinik geçiştir, SKKM onayı olarak yorumlanmadı.
+- **Adli kanıt uyarısı:** Resmî gri uyarıdaki kanıt olabilecek materyallerin/giysilerin korunması Acil Uyarı Bulguları içinde görünür tutuldu.
+
+### V0.36 önceki durum
 
 - **V0.36 Y-25 Hipotermide Arrest Yönetimi:** Resmî s.42–43 akışı yapılandırıldı: <35°C + bilinç kapalı → en az 60 sn nabız kontrolü → Nabız var / Nabız yok → KPR başlama kriteri var / yok.
 - **KPR kolu:** Kriter varsa standart erişkin ileri yaşam desteği ile eş zamanlı pasif/aktif ısıtma; vücut ısısı ≥35°C olana kadar KPR'yi sonlandırmama ve >35°C olduğunda Arrest Yönetimi algoritmasına geçiş görünür hale getirildi.
