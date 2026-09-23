@@ -2,9 +2,10 @@
 
 Mobil-first, offline çekirdekli, vaka bazlı hastane öncesi acil sağlık eğitim ve hızlı hatırlatma uygulaması.
 
-## V0.28 mimarisi
+## V0.29 mimarisi
 
 - **Kaynak:** T.C. Sağlık Bakanlığı 25.08.2026 tarihli Ek-2 Hastane Öncesi Acil Tıbbi Yardım ve Bakım Akış Şemaları.
+- **V0.29 erişim iyileştirmesi:** Ana arama artık yalnız vaka kartlarını değil Temel Protokoller'i de anlık filtreler. Arama bir temel protokolle eşleşiyorsa ekran önce protokol sonucuna kayar; vaka sonucu yok diye kullanıcı protokol eşleşmesini kaçırmaz. Y-02 güvenlik kararındaki tekrar eden ekipman cümlesi de bir sonraki adıma yönlendiren daha kısa metne çevrildi.
 - **V0.28 Temel Protokoller — Y-02 Acil Olgu Yönetimi:** Y-02 de normal vaka kartı yapılmadan `PROTOCOLS[]` katmanına alındı. Ana ekranda protokoller 1. Olay Yeri Yönetimi → 2. Acil Olgu Yönetimi sırasıyla görünür. Y-01'in sonundaki geçiş Y-02'yi tek dokunuşla açar; Y-02'de olay yeri güvenli değil dalı Y-01'e geri bağlanır.
 - **Y-02 hızlı hatırlatma:** Resmî “Acil Olgu Yönetimi Anahtar Noktalar” sayfasındaki SAMPLE ve XABCDE içerikleri ayrı, kompakt hatırlatma kartları olarak gösterilir. Akış ekranında ekipman yerleşimi → birincil değerlendirme → ikincil değerlendirme → ön tanı → ilgili vaka algoritması → yeniden değerlendirme sırası korunur.
 - **Kolay erişim:** Y-02'de “Vaka algoritmalarını aç” geçişi kullanıcıyı doğrudan vaka kütüphanesine götürür. Protokoller arası geçişte geri düğmesi önce önceki protokole döner; kullanıcı ana ekrana fırlatılmaz.

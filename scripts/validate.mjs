@@ -40,7 +40,7 @@ if(emergencyFlow.length!==8)err('Y-02 Acil Olgu Yönetimi akışı 8 yapılandı
 for(const phrase of ['Olay yeri güvenli mi?','Gerekli tüm ekipmanları al','Ekip ve Malzeme Yerleşimi','Birincil Değerlendirme','XABCDE','İkincil Değerlendirme','Ön tanıyı belirle','Ön tanıya göre ilgili algoritmaya git','Yeniden değerlendir'])if(!JSON.stringify(emergencyProtocol).includes(phrase))err(`Y-02 resmî akış öğesi eksik: ${phrase}`);
 if(emergencyFlow.some(x=>x.skkmContact||x.noSkkmContact))err('Y-02 ana algoritmasında SKKM/ÇM telefon simgesi olmamalı');
 if(emergencyFlow.some(x=>x.practitionerAuthority&&x.practitionerAuthority!=='ATT_AABT'))err('Y-02 uygulayıcı basamaklarında turuncu AABT kısıtı olmamalı');
-if(emergencyFlow[0]?.noTargetProtocolId!=='scene-management')err('Y-02 güvenli değil dalı Y-01 Olay Yeri Yönetimi protokolüne dönmeli');
+if(emergencyFlow[0]?.yes!=='Gerekli ekipmanları alma basamağına geç.'||emergencyFlow[0]?.noTargetProtocolId!=='scene-management')err('Y-02 güvenlik kararı kısa yönlendirme / Y-01 geri dönüşü bozuk');
 if(!emergencyFlow.some(x=>x.type==='transition'&&x.targetAction==='cases'))err('Y-02 ön tanı sonrası vaka algoritmaları kısayolu eksik');
 const keyPointGroups=emergencyProtocol?.keyPoints||[];
 if(keyPointGroups.length!==2||keyPointGroups.find(g=>g.id==='sample')?.items?.length!==6||keyPointGroups.find(g=>g.id==='xabcde')?.items?.length!==6)err('Y-02 SAMPLE/XABCDE hızlı hatırlatma grupları eksik');
@@ -62,7 +62,7 @@ if(APP_META?.authority?.DIRECT?.symbol!=='✓'||APP_META?.authority?.DIRECT?.vis
 if(APP_META?.authority?.SKKM?.symbol!=='◆'||APP_META?.authority?.SKKM?.visualLabel!=='SKKM/ÇM onayı gerekli')err('SKKM sarı/onay sembol metası eksik');
 if(APP_META?.authority?.ALGORITHM?.symbol!=='•'||APP_META?.authority?.ALGORITHM?.visualLabel!=='Kaynakta SKKM/ÇM yetkisi belirtilmemiş')err('ALGORITHM kaynakta belirtilmeyen yetki metası eksik');
 if(APP_META?.contentVersion!=='EK2-2026.08.25-foundation-protocol-2-2026.09.23')err('contentVersion Y-01/Y-02 temel protokol sürümüyle eşleşmiyor');
-if(APP_META?.productVersion!=='0.28')err('productVersion V0.28 olmalı');
+if(APP_META?.productVersion!=='0.29')err('productVersion V0.29 olmalı');
 if(APP_META?.practitionerAuthority?.ATT_AABT?.officialLabel!=='Acil Tıp Teknisyeni / Teknikeri'||APP_META?.practitionerAuthority?.AABT?.officialLabel!=='Acil Tıp Teknikeri'||APP_META?.practitionerAuthority?.UNVERIFIED?.symbol!=='□')err('ATT/AABT uygulayıcı yetki metası eksik veya bozuk');
 for(const code of ['SB-ASH-Y-04','SB-ASH-Y-05','SB-ASH-Y-06','SB-ASH-Y-07','SB-ASH-Y-08','SB-ASH-Y-09','SB-ASH-Y-10','SB-ASH-Y-11','SB-ASH-Y-12','SB-ASH-Y-13','SB-ASH-Y-14','SB-ASH-Y-15','SB-ASH-Y-17','SB-ASH-Y-19','SB-ASH-Y-21','SB-ASH-Y-22','SB-ASH-Y-23','SB-ASH-Y-24','SB-ASH-Y-28','SB-ASH-Y-29','SB-ASH-Y-34','SB-ASH-Y-35','SB-ASH-Y-36','SB-ASH-Y-37','SB-ASH-Y-39','SB-ASH-Y-40'])if(!APP_META?.practitionerAudit?.verifiedMedicationCases?.includes(code))err(`Uygulayıcı yetki görsel audit izi eksik: ${code}`);
 if(APP_META?.practitionerAudit?.adultMedicationCardsComplete!==true)err('Yetişkin ilaç kartları uygulayıcı audit tamamlama işareti eksik');

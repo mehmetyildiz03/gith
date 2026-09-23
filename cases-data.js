@@ -1,7 +1,7 @@
 const APP_META = {
   "schemaVersion": 5,
   "contentVersion": "EK2-2026.08.25-foundation-protocol-2-2026.09.23",
-  "productVersion": "0.28",
+  "productVersion": "0.29",
   "populations": [
     {
       "id": "adult",
@@ -373,7 +373,7 @@ const PROTOCOLS = [
         "type": "decision",
         "lead": "Gerekli ise triyaj yap.",
         "question": "Olay yeri güvenli mi?",
-        "yes": "Gerekli tüm ekipmanları al ve ekip/malzeme yerleşimini düzenle.",
+        "yes": "Gerekli ekipmanları alma basamağına geç.",
         "no": "Olay Yeri Yönetimi algoritmasına geri dön.",
         "noTargetProtocolId": "scene-management",
         "noButtonLabel": "Olay Yeri Yönetimi'ni aç"

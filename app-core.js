@@ -289,7 +289,7 @@ document.addEventListener('click',e=>{
   const nav=e.target.closest('[data-nav]')?.dataset.nav;if(nav==='home'){showHome();return}if(nav==='cases'){showCases();return}if(nav==='favorites'){showFavorites();return}
   if(e.target===el.source)closeSourceSheet();
 });
-el.search.addEventListener('input',e=>{state.query=e.target.value;renderCases();if(state.query)el.filterTitle.scrollIntoView({behavior:'smooth',block:'start'})});
+el.search.addEventListener('input',e=>{state.query=e.target.value;renderProtocols();renderCases();if(state.query)requestAnimationFrame(()=>{const protocolMatch=!el.protocolSection?.classList.contains('hidden')&&el.protocols?.children.length;const target=protocolMatch?el.protocolSection:el.filterTitle;target?.scrollIntoView({behavior:'smooth',block:'start'})})});
 sourceBtn?.addEventListener('click',openSourceSheet);
 el.themeToggle.addEventListener('click',toggleTheme);el.fieldToggle.addEventListener('click',toggleDensity);
 addEventListener('keydown',e=>{

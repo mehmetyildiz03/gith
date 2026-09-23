@@ -30,8 +30,8 @@ assert(css.includes("/* V0.6.1 dark surface hardening */"),'Koyu mod yüzey hard
 assert(css.includes(":root[data-theme='dark'] .quick-step")&&css.includes("background:var(--detail-panel-deep)!important"),'Koyu mod algoritma adımı explicit yüzeyi eksik');
 assert(css.includes(":root[data-theme='dark'] .red-flag")&&css.includes("background:#2b202a!important"),'Koyu mod kırmızı bayrak yüzeyi eksik');
 assert(css.includes(":root[data-theme='dark'] .branch.yes")&&css.includes(":root[data-theme='dark'] .branch.no"),'Koyu mod karar kutuları explicit değil');
-assert(html.includes('styles.css?v=0.28')&&html.includes('app-core.js?v=0.28')&&html.includes('cases-data.js?v=0.28'),'Kritik asset cache-bust sürümü eksik');
-assert(sw.includes("saha112-v028")&&sw.includes('NETWORK_FIRST_DESTINATIONS'),'Service worker kritik asset güncelleme stratejisi eksik');
+assert(html.includes('styles.css?v=0.29')&&html.includes('app-core.js?v=0.29')&&html.includes('cases-data.js?v=0.29'),'Kritik asset cache-bust sürümü eksik');
+assert(sw.includes("saha112-v029")&&sw.includes('NETWORK_FIRST_DESTINATIONS'),'Service worker kritik asset güncelleme stratejisi eksik');
 assert(!app.includes('Kırmızı bayrak'),'Eski kullanıcı terimi hâlâ UI içinde');
 assert(app.includes('Acil Uyarı Bulguları'),'Acil Uyarı Bulguları başlığı eksik');
 assert(app.includes('Önceliği, müdahaleyi veya nakil kararını değiştirebilecek bulgular.'),'Acil uyarı açıklaması eksik');
@@ -54,7 +54,7 @@ assert(html.includes('updateBanner')&&app.includes('controllerchange')&&app.incl
 assert(app.includes('sourceFocusable')&&app.includes("e.key==='Tab'")&&css.includes('html.dialog-open'),'Kaynak dialog focus trap/scroll kilidi eksik');
 assert(data.includes('"title": "İnme / SVO"'),'İnme / SVO başlığı korunmamış');
 assert(data.includes('"title": "Nabızlı Taşikardi"'),'Nabızlı Taşikardi başlığı eksik');
-assert(data.includes('"contentVersion": "EK2-2026.08.25-foundation-protocol-2-2026.09.23"'),'V0.28 Y-01/Y-02 temel protokol sürümü eksik');
+assert(data.includes('"contentVersion": "EK2-2026.08.25-foundation-protocol-2-2026.09.23"'),'V0.29 protokol erişim/polish sürümü eksik');
 assert(html.includes('id="authorityLegend"')&&!html.includes('<span class="authority direct">Doğrudan</span>'),'Yetki legendi dinamik veri kaynağına bağlı değil');
 assert(app.includes("authorityMarkup")&&app.includes("authority-symbol")&&app.includes("✓ Yeşil: SKKM/ÇM onayı yok")&&app.includes("◆ Sarı: SKKM/ÇM onayı"),'Yetki sembol/yazı eşlemesi eksik');
 assert(css.includes('.authority.direct{')&&css.includes('var(--greenSoft)')&&css.includes('.authority.skkm{')&&css.includes('var(--amberSoft)'),'Yeşil/sarı yetki renk semantiği eksik');
@@ -85,6 +85,7 @@ assert(css.includes('/* V0.26 real-screen mobile stabilization */')&&css.include
 assert(data.includes('const PROTOCOLS = [')&&data.includes('"id": "scene-management"')&&data.includes('"code": "SB-ASH-Y-01"'),'Y-01 temel protokol veri katmanı eksik');
 assert(data.includes('"id": "emergency-case-management"')&&data.includes('"code": "SB-ASH-Y-02"')&&data.includes('"keyPoints": [')&&data.includes('"id": "sample"')&&data.includes('"id": "xabcde"'),'Y-02 temel protokol/SAMPLE/XABCDE veri katmanı eksik');
 assert(app.includes('function renderProtocolKeyPoints(p)')&&app.includes('function protocolBranchLink')&&app.includes('showCaseLibraryFromProtocol'),'Y-02 hızlı hatırlatma/protokoller arası navigasyon katmanı eksik');
+assert(app.includes("state.query=e.target.value;renderProtocols();renderCases()")&&app.includes("const protocolMatch=!el.protocolSection?.classList.contains('hidden')&&el.protocols?.children.length"),'Arama kutusu temel protokolleri anlık filtrelemiyor veya protokol eşleşmesine öncelik vermiyor');
 assert(app.includes("state.protocolHistory.push")&&app.includes("backFromDetail()"),'Temel protokoller arası geri navigasyon geçmişi eksik');
 assert(css.includes('/* V0.28 protocol sequence + key points */')&&css.includes('.protocol-keypoint-grid{')&&css.includes('.protocol-branch-link{'),'Y-02 hızlı hatırlatma/protokol geçiş stilleri eksik');
 assert(html.includes('Saha başlangıcı ve ilk değerlendirme'),'Temel Protokoller bölüm başlığı Y-01/Y-02 sırasını açıklamıyor');
