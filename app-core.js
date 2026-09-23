@@ -208,7 +208,7 @@ document.addEventListener('click',e=>{
   const open=e.target.closest('[data-open]');if(open){openCase(open.dataset.open);return}
   const pop=e.target.closest('[data-population]');if(pop){selectPopulation(pop.dataset.population);return}
   const filter=e.target.closest('[data-filter]');if(filter){state.category=filter.dataset.filter;renderFilters();renderCases();return}
-  const jump=e.target.closest('[data-jump]');if(jump){document.getElementById(jump.dataset.jump)?.scrollIntoView({behavior:'smooth',block:'start'});return}
+  const jump=e.target.closest('[data-jump]');if(jump){const target=document.getElementById(jump.dataset.jump);if(target){const headerH=el.detail.querySelector('.detail-top')?.getBoundingClientRect().height||0;const top=Math.max(0,target.getBoundingClientRect().top+scrollY-headerH-8);scrollTo({top,behavior:'smooth'})}return}
   const level=e.target.closest('[data-level]');if(level&&state.current){$$('.severity-tab').forEach(b=>{const active=b===level;b.classList.toggle('active',active);b.setAttribute('aria-selected',String(active))});const c=CASES.find(x=>x.id===state.current);$('#severityCard').outerHTML=renderSeverity(c,level.dataset.level);return}
   const action=e.target.closest('[data-action]')?.dataset.action;
   if(action==='show-all'){el.filterTitle.scrollIntoView({behavior:'smooth'});return}

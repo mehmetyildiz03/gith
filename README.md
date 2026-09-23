@@ -2,9 +2,10 @@
 
 Mobil-first, offline çekirdekli, vaka bazlı hastane öncesi acil sağlık eğitim ve hızlı hatırlatma uygulaması.
 
-## V0.25 mimarisi
+## V0.26 mimarisi
 
 - **Kaynak:** T.C. Sağlık Bakanlığı 25.08.2026 tarihli Ek-2 Hastane Öncesi Acil Tıbbi Yardım ve Bakım Akış Şemaları.
+- **V0.26 gerçek ekran stabilizasyonu:** V0.25 Pages artefaktı Chromium'da 360, 390, 768 ve 1280 px görünüm genişliklerinde 37 yetişkin vakanın tamamında render edildi. Yatay sayfa/algoritma/ilaç kartı taşması saptanmadı. Mobilde tek satırda kesilen uzun vaka başlıkları üç satıra kadar okunabilir hale getirildi; uzun kaynak şeritleri satır kırabilir yapıldı. Bölüm jump butonları artık sabit scroll-margin varsayımı yerine sticky başlığın gerçek yüksekliğini ölçerek hedefe kaydırır.
 - **V0.25 tam kapsam yeniden audit:** 37 yetişkin vaka kartı, Y-02–Y-41 kod kapsamı, ilaç/sıvı özetleri, kaynak izleri, yapılandırılmış action/branch yetkileri ve responsive UI tekrar tarandı. Eski `21 yetişkin` audit metadatası 37 kart olarak düzeltildi.
 - **Yeni yakalanan Y-29 eksiği:** Elektrik Yanıkları algoritmasındaki turuncu, telefon simgesiz “rabdomiyoliz riskine karşı erken ve yeterli Ringer Laktat sıvı tedavisi” artık ilaç/uygulama kartında da görünür. Resmî kutuda miktar, hız ve yol belirtilmediği için bunlar türetilmedi.
 - **Yeni yakalanan Y-40 eksikleri:** KŞ 60–300 mg/dL kolundaki turuncu, telefon simgesiz IV sıvı tedavisi (SKB >100 mmHg hedefi) eklendi. Anahtar Noktalar sayfasındaki midazolam 1–2,5 mg IV, 3–5 dk'da bir hasta sakinleşinceye kadar bilgisi de eklendi; tablo SKKM/ÇM veya uygulayıcı renk kodlaması yapmadığından bu kart nötr “Yetki belirtilmemiş” olarak tutulur ve yetki çıkarımı yapılmaz.
