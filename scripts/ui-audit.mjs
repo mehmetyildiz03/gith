@@ -89,7 +89,7 @@ assert(app.includes("state.protocolHistory.push")&&app.includes("backFromDetail(
 assert(css.includes('/* V0.28 protocol sequence + key points */')&&css.includes('.protocol-keypoint-grid{')&&css.includes('.protocol-branch-link{'),'Y-02 hızlı hatırlatma/protokol geçiş stilleri eksik');
 assert(html.includes('Saha başlangıcı ve ilk değerlendirme'),'Temel Protokoller bölüm başlığı Y-01/Y-02 sırasını açıklamıyor');
 assert(html.includes('id="protocolSection"')&&html.includes('id="protocolGrid"')&&html.includes('TEMEL PROTOKOLLER'),'Temel Protokoller ana ekran bölümü eksik');
-assert(app.includes('function renderProtocols()')&&app.includes('function openProtocol(id)')&&app.includes('function renderProtocolFlow(p)'),'Temel protokol render/açılış katmanı eksik');
+assert(app.includes('function renderProtocols()')&&app.includes('function openProtocol(id,{history=')&&app.includes('function renderProtocolFlow(p)'),'Temel protokol render/açılış katmanı eksik');
 assert(css.includes('/* V0.27 foundational protocol layer */')&&css.includes('.protocol-flow{')&&css.includes('.protocol-decision-branches{'),'Y-01 protokol görünüm katmanı eksik');
 assert(app.includes("const protocolOpen=e.target.closest('[data-protocol-open]')"),'Temel protokol tıklama olayı eksik');
 assert(app.includes("const headerH=el.detail.querySelector('.detail-top')?.getBoundingClientRect().height||0")&&app.includes("target.getBoundingClientRect().top+scrollY-headerH-8"),'Jump hedefleri sticky başlık gerçek yüksekliğine göre kaydırılmıyor');
