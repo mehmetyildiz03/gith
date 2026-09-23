@@ -2,7 +2,14 @@
 
 Mobil-first, offline çekirdekli, vaka bazlı hastane öncesi acil sağlık eğitim ve hızlı hatırlatma uygulaması.
 
-## V0.32 mimarisi
+## V0.33 mimarisi
+
+- **V0.33 Y-17 yapılandırılmış akış:** Diyabetik Aciller resmî SB-ASH-Y-17 geometrisine taşındı. Ortak “Acil olgu yönetimini uygula → Kan şekerini ölç” başlangıcından sonra hipoglisemi ve hiperglisemi ayrılır; hipoglisemi kolu ayrıca Bilinci açık / Bilinci kapalı olarak dallanır.
+- **Y-17 yetki sadakati:** Oral şekerli sıvı, yeniden kan şekeri/klinik değerlendirme ve ortak ölçüm adımları turkuaz `ATT_AABT + DIRECT`; IV dekstroz ve hiperglisemi %0,9 NaCl basamakları turuncu `AABT + DIRECT`. Resmî Y-17 sayfasında SKKM/ÇM telefon simgesi bulunmadığı için bu akışa SKKM rozeti eklenmedi.
+- **Kaynakta belirtilmeyeni ekleme yok:** Hiperglisemi kolundaki %0,9 NaCl için resmî şemada hacim/hız belirtilmediğinden uygulama bunları üretmez. Şok/dehidratasyon varsa Hipovolemik Şok algoritmasına geçiş ayrı devam öğesi olarak korunur.
+- **Responsive dallanma:** Y-17 ana hipoglisemi/hiperglisemi kolları geniş ekranda iki kolon, tablet/mobilde tek kolon; hipogliseminin Bilinci açık / Bilinci kapalı alt kolları da mevcut güvenli nested-branch düzenini kullanır.
+
+### V0.32 önceki durum
 
 - **Kaynak:** T.C. Sağlık Bakanlığı 25.08.2026 tarihli Ek-2 Hastane Öncesi Acil Tıbbi Yardım ve Bakım Akış Şemaları.
 - **V0.32 Y-14 yapılandırılmış akış:** Kalp Yetmezliğine Bağlı Akut Akciğer Ödemi ve Kardiyojenik Şok, resmî sayfa 25–26'ya göre üç ortak başlangıç adımı ve üç hemodinamik profile ayrıldı: Normotansif dekompanse kalp yetmezliği, Hipertansif kalp yetmezliği ve Kardiyojenik şok.

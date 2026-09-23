@@ -1,7 +1,7 @@
 const APP_META = {
   "schemaVersion": 5,
-  "contentVersion": "EK2-2026.08.25-y14-structured-flow-1-2026.09.23",
-  "productVersion": "0.32",
+  "contentVersion": "EK2-2026.08.25-y17-structured-flow-1-2026.09.23",
+  "productVersion": "0.33",
   "populations": [
     {
       "id": "adult",
@@ -215,6 +215,7 @@ const APP_META = {
       "SB-ASH-Y-12",
       "SB-ASH-Y-13",
       "SB-ASH-Y-14",
+      "SB-ASH-Y-17",
       "SB-ASH-Y-22"
     ],
     "verifiedBranchCases": [
@@ -225,6 +226,7 @@ const APP_META = {
       "SB-ASH-Y-12",
       "SB-ASH-Y-13",
       "SB-ASH-Y-14",
+      "SB-ASH-Y-17",
       "SB-ASH-Y-22"
     ],
     "pilot": true
@@ -2853,7 +2855,7 @@ const CASES = [
       "documentTitle": "Hastane Öncesi Acil Tıbbi Yardım ve Bakım Akış Şemaları",
       "effectiveDate": "2026-08-25",
       "officialPageDate": "2026-09-11",
-      "reviewedAt": "2026-09-22",
+      "reviewedAt": "2026-09-23",
       "officialPageUrl": "https://acilafet.saglik.gov.tr/TR-119840/hastane-oncesi-acil-tibbi-yardim-ve-bakim-akis-semalari.html",
       "officialPdfUrl": "https://dosyamerkez.saglik.gov.tr/Eklenti/55773/0/ek-2-hastane-oncesi-acil-tibbi-yardim-ve-bakim-akis-semalaripdf.pdf",
       "section": "adult",
@@ -2910,7 +2912,77 @@ const CASES = [
       "q": "Glukoz <60 mg/dL ve/veya klinik hipoglisemi var mı?",
       "yes": "Bilinç durumuna göre oral şekerli sıvı veya IV dekstroz uygula; seri kan şekeri ve klinik değerlendirme yap.",
       "no": "Glukoz >300 mg/dL ise %0,9 NaCl IV infüzyon başla; şok/dehidratasyonda Hipovolemik Şok algoritmasına geç."
-    }
+    },
+    "decisionIntegrated": true,
+    "algorithmBranchLayout": "split",
+    "algorithmSteps": [
+      {
+        "html": "<strong>Acil olgu yönetimini uygula.</strong>",
+        "approvalAuthority": "DIRECT",
+        "practitionerAuthority": "ATT_AABT"
+      },
+      {
+        "html": "<strong>Kan şekerini ölç.</strong>",
+        "approvalAuthority": "DIRECT",
+        "practitionerAuthority": "ATT_AABT"
+      }
+    ],
+    "algorithmBranches": [
+      {
+        "label": "Hipoglisemi — Glikoz <60 mg/dl ve/veya klinik hipoglisemiyi düşündürüyorsa",
+        "branches": [
+          {
+            "label": "Bilinci açık",
+            "steps": [
+              {
+                "html": "<strong>Ağızdan şekerli sıvı ver.</strong>",
+                "approvalAuthority": "DIRECT",
+                "practitionerAuthority": "ATT_AABT"
+              },
+              {
+                "html": "<strong>Kan şekerini kontrol et ve kliniği değerlendir.</strong> Gerekirse 15 dk'da bir tekrarla.",
+                "approvalAuthority": "DIRECT",
+                "practitionerAuthority": "ATT_AABT"
+              }
+            ]
+          },
+          {
+            "label": "Bilinci kapalı",
+            "steps": [
+              {
+                "html": "<strong>%10–%20'lik dekstroz solüsyonlarından 25 g glikoz IV bolus olarak ver.</strong>",
+                "approvalAuthority": "DIRECT",
+                "practitionerAuthority": "AABT"
+              },
+              {
+                "html": "<strong>Kan şekerini ölç.</strong>",
+                "approvalAuthority": "DIRECT",
+                "practitionerAuthority": "ATT_AABT"
+              },
+              {
+                "html": "Glikoz <strong>&lt;60 mg/dl</strong> ise her <strong>5–10 dk'da bir</strong> dekstroz solüsyonlarını tekrarla.",
+                "approvalAuthority": "DIRECT",
+                "practitionerAuthority": "AABT"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "label": "Hiperglisemi — Glikoz >300 mg/dl",
+        "steps": [
+          {
+            "html": "<strong>%0,9 NaCl IV infüzyon başla.</strong>",
+            "approvalAuthority": "DIRECT",
+            "practitionerAuthority": "AABT",
+            "followUp": {
+              "label": "Şok ve dehidratasyon bulguları varsa",
+              "html": "<strong>Hipovolemik Şok algoritmasına git.</strong>"
+            }
+          }
+        ]
+      }
+    ]
   },
   {
     "id": "stroke",

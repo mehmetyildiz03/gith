@@ -71,15 +71,15 @@ if(!APP_META?.routes?.includes('SC')||APP_META?.routeLabels?.SC!=='Subkutan (SC)
 if(APP_META?.authority?.DIRECT?.symbol!=='✓'||APP_META?.authority?.DIRECT?.visualLabel!=='SKKM/ÇM onayı gerektirmez')err('DIRECT yeşil/doğrudan sembol metası eksik');
 if(APP_META?.authority?.SKKM?.symbol!=='◆'||APP_META?.authority?.SKKM?.visualLabel!=='SKKM/ÇM onayı gerekli')err('SKKM sarı/onay sembol metası eksik');
 if(APP_META?.authority?.ALGORITHM?.symbol!=='•'||APP_META?.authority?.ALGORITHM?.visualLabel!=='Kaynakta SKKM/ÇM yetkisi belirtilmemiş')err('ALGORITHM kaynakta belirtilmeyen yetki metası eksik');
-if(APP_META?.contentVersion!=='EK2-2026.08.25-y14-structured-flow-1-2026.09.23')err('contentVersion Y-14 yapılandırılmış akış sürümüyle eşleşmiyor');
-if(APP_META?.productVersion!=='0.32')err('productVersion V0.32 olmalı');
+if(APP_META?.contentVersion!=='EK2-2026.08.25-y17-structured-flow-1-2026.09.23')err('contentVersion Y-17 yapılandırılmış akış sürümüyle eşleşmiyor');
+if(APP_META?.productVersion!=='0.33')err('productVersion V0.33 olmalı');
 if(APP_META?.practitionerAuthority?.ATT_AABT?.officialLabel!=='Acil Tıp Teknisyeni / Teknikeri'||APP_META?.practitionerAuthority?.AABT?.officialLabel!=='Acil Tıp Teknikeri'||APP_META?.practitionerAuthority?.UNVERIFIED?.symbol!=='□')err('ATT/AABT uygulayıcı yetki metası eksik veya bozuk');
 for(const code of ['SB-ASH-Y-04','SB-ASH-Y-05','SB-ASH-Y-06','SB-ASH-Y-07','SB-ASH-Y-08','SB-ASH-Y-09','SB-ASH-Y-10','SB-ASH-Y-11','SB-ASH-Y-12','SB-ASH-Y-13','SB-ASH-Y-14','SB-ASH-Y-15','SB-ASH-Y-17','SB-ASH-Y-19','SB-ASH-Y-21','SB-ASH-Y-22','SB-ASH-Y-23','SB-ASH-Y-24','SB-ASH-Y-28','SB-ASH-Y-29','SB-ASH-Y-34','SB-ASH-Y-35','SB-ASH-Y-36','SB-ASH-Y-37','SB-ASH-Y-39','SB-ASH-Y-40'])if(!APP_META?.practitionerAudit?.verifiedMedicationCases?.includes(code))err(`Uygulayıcı yetki görsel audit izi eksik: ${code}`);
 if(APP_META?.practitionerAudit?.adultMedicationCardsComplete!==true)err('Yetişkin ilaç kartları uygulayıcı audit tamamlama işareti eksik');
 if(APP_META?.clinicalAudit?.scope?.includes('21 yetişkin')||APP_META?.integrityAudit?.scope?.includes('21 yetişkin'))err('Audit metadata hâlâ eski 21 yetişkin kapsamını gösteriyor');
 if(APP_META?.adultCoverage?.verifiedCaseCards!==37||APP_META?.adultCoverage?.reviewedAt!=='2026-09-23')err('37 yetişkin kapsam metası güncel değil');
-for(const code of ['SB-ASH-Y-04','SB-ASH-Y-05','SB-ASH-Y-06','SB-ASH-Y-07','SB-ASH-Y-08','SB-ASH-Y-09','SB-ASH-Y-10','SB-ASH-Y-11','SB-ASH-Y-12','SB-ASH-Y-13','SB-ASH-Y-14','SB-ASH-Y-22'])if(!APP_META?.actionAudit?.verifiedCases?.includes(code))err(`Adım bazlı eylem yetki audit izi eksik: ${code}`);
-for(const code of ['SB-ASH-Y-08','SB-ASH-Y-09','SB-ASH-Y-10','SB-ASH-Y-11','SB-ASH-Y-12','SB-ASH-Y-13','SB-ASH-Y-14','SB-ASH-Y-22'])if(!APP_META?.actionAudit?.verifiedBranchCases?.includes(code))err(`Dallı algoritma audit izi eksik: ${code}`);
+for(const code of ['SB-ASH-Y-04','SB-ASH-Y-05','SB-ASH-Y-06','SB-ASH-Y-07','SB-ASH-Y-08','SB-ASH-Y-09','SB-ASH-Y-10','SB-ASH-Y-11','SB-ASH-Y-12','SB-ASH-Y-13','SB-ASH-Y-14','SB-ASH-Y-17','SB-ASH-Y-22'])if(!APP_META?.actionAudit?.verifiedCases?.includes(code))err(`Adım bazlı eylem yetki audit izi eksik: ${code}`);
+for(const code of ['SB-ASH-Y-08','SB-ASH-Y-09','SB-ASH-Y-10','SB-ASH-Y-11','SB-ASH-Y-12','SB-ASH-Y-13','SB-ASH-Y-14','SB-ASH-Y-17','SB-ASH-Y-22'])if(!APP_META?.actionAudit?.verifiedBranchCases?.includes(code))err(`Dallı algoritma audit izi eksik: ${code}`);
 if(APP_META?.actionAudit?.reviewedAt!=='2026-09-23')err('Dallı eylem yetki audit tarihi 2026-09-23 olmalı');
 if(APP_META?.medicationContentAudit?.status!=='complete'||APP_META?.medicationContentAudit?.reviewedAt!=='2026-09-23')err('Yetişkin ilaç içerik audit metası eksik');
 for(const code of ['SB-ASH-Y-05','SB-ASH-Y-09','SB-ASH-Y-10','SB-ASH-Y-11','SB-ASH-Y-22','SB-ASH-Y-23','SB-ASH-Y-29','SB-ASH-Y-40'])if(!APP_META?.medicationContentAudit?.correctedCases?.includes(code))err(`İlaç içerik audit düzeltme izi eksik: ${code}`);
@@ -364,6 +364,28 @@ for(const b of [y14Norm,y14Hyper,y14Shock])for(const s of (b?.steps||[]))if(s.ap
 if(!String(y14Norm?.note||'').includes('SKB >100 mmHg')||!JSON.stringify(y14Norm).includes('Furosemid 20–40 mg IV'))err('Y-14 normotansif profil SKB/furosemid bilgisi bozuk');
 if(!String(y14Hyper?.note||'').includes('SKB >140 mmHg')||!JSON.stringify(y14Hyper).includes('İzosorbid dinitrat 5 mg SL')||!JSON.stringify(y14Hyper).includes('maksimum 3 doz')||!JSON.stringify(y14Hyper).includes('furosemid 20–40 mg IV')||!JSON.stringify(y14Hyper).includes('CPAP'))err('Y-14 hipertansif profil nitrat/furosemid/CPAP bilgisi bozuk');
 if(!String(y14Shock?.note||'').includes('SKB genellikle <90 mmHg')||!JSON.stringify(y14Shock).includes('250 mL %0,9 NaCl')||!JSON.stringify(y14Shock).includes('Dopamin 2–5 mcg/kg/dk IV')||!JSON.stringify(y14Shock).includes('20 mcg/kg/dk'))err('Y-14 kardiyojenik şok sıvı/dopamin bilgisi bozuk');
+
+const diabeticCase=(CASES||[]).find(c=>c.id==='hypoglycemia');
+if(diabeticCase?.code!=='SB-ASH-Y-17'||diabeticCase?.page!=='31'||diabeticCase?.source?.page!=='31'||diabeticCase?.source?.reviewedAt!=='2026-09-23')err('Y-17 kaynak izi bozuldu');
+if(diabeticCase?.decisionIntegrated!==true||diabeticCase?.algorithmBranchLayout!=='split'||(diabeticCase?.algorithmSteps||[]).length!==2||(diabeticCase?.algorithmBranches||[]).length!==2)err('Y-17 ortak başlangıç / hipoglisemi-hiperglisemi dallı yapısı eksik');
+for(const s of (diabeticCase?.algorithmSteps||[]))if(s.approvalAuthority!=='DIRECT'||s.practitionerAuthority!=='ATT_AABT')err('Y-17 ortak başlangıç basamakları turkuaz ATT/AABT + DIRECT olmalı');
+const y17Hypo=(diabeticCase?.algorithmBranches||[]).find(b=>String(b.label).startsWith('Hipoglisemi'));
+const y17Hyper=(diabeticCase?.algorithmBranches||[]).find(b=>String(b.label).startsWith('Hiperglisemi'));
+const y17Awake=(y17Hypo?.branches||[]).find(b=>b.label==='Bilinci açık');
+const y17Unconscious=(y17Hypo?.branches||[]).find(b=>b.label==='Bilinci kapalı');
+if(!y17Hypo||!y17Hyper||!y17Awake||!y17Unconscious)err('Y-17 resmî hipoglisemi/hiperglisemi ve bilinç dalları eksik');
+if(!JSON.stringify(y17Hypo).includes('<60 mg/dl')||!JSON.stringify(y17Hyper).includes('>300 mg/dl'))err('Y-17 glikoz eşikleri bozuldu');
+if((y17Awake?.steps||[]).length!==2||!JSON.stringify(y17Awake).includes('Ağızdan şekerli sıvı')||!JSON.stringify(y17Awake).includes("15 dk'da bir"))err('Y-17 bilinç açık hipoglisemi kolu eksik');
+for(const s of (y17Awake?.steps||[]))if(s.approvalAuthority!=='DIRECT'||s.practitionerAuthority!=='ATT_AABT')err('Y-17 bilinç açık kolu turkuaz ATT/AABT + DIRECT olmalı');
+if((y17Unconscious?.steps||[]).length!==3||!JSON.stringify(y17Unconscious).includes("25 g glikoz IV bolus")||!JSON.stringify(y17Unconscious).includes("5–10 dk'da bir"))err('Y-17 bilinç kapalı dekstroz/yeniden ölçüm akışı eksik');
+if(y17Unconscious?.steps?.[0]?.approvalAuthority!=='DIRECT'||y17Unconscious?.steps?.[0]?.practitionerAuthority!=='AABT'||y17Unconscious?.steps?.[1]?.practitionerAuthority!=='ATT_AABT'||y17Unconscious?.steps?.[2]?.approvalAuthority!=='DIRECT'||y17Unconscious?.steps?.[2]?.practitionerAuthority!=='AABT')err('Y-17 bilinç kapalı turuncu/turkuaz uygulayıcı ayrımı bozuk');
+const y17Saline=y17Hyper?.steps?.[0];
+if(y17Saline?.approvalAuthority!=='DIRECT'||y17Saline?.practitionerAuthority!=='AABT'||!String(y17Saline?.html||'').includes('%0,9 NaCl IV infüzyon başla')||!String(y17Saline?.followUp?.html||'').includes('Hipovolemik Şok algoritmasına git'))err('Y-17 hiperglisemi NaCl / Hipovolemik Şok geçişi bozuk');
+if(medByName(diabeticCase,'Dekstroz')?.authority!=='DIRECT'||medByName(diabeticCase,'Dekstroz')?.practitionerAuthority!=='AABT'||medByName(diabeticCase,'Dekstroz')?.dose!=='25 g glikoz (%10–%20 dekstrozdan)')err('Y-17 dekstroz ilaç kartı bozuk');
+if(medByName(diabeticCase,'%0,9 NaCl — hiperglisemi')?.authority!=='DIRECT'||medByName(diabeticCase,'%0,9 NaCl — hiperglisemi')?.practitionerAuthority!=='AABT'||medByName(diabeticCase,'%0,9 NaCl — hiperglisemi')?.dose!=='IV infüzyon')err('Y-17 hiperglisemi NaCl kartı bozuk');
+const y17BranchSteps=(branches=[])=>branches.flatMap(b=>[...(b.steps||[]),...y17BranchSteps(b.branches||[])]);
+if([...(diabeticCase?.algorithmSteps||[]),...y17BranchSteps(diabeticCase?.algorithmBranches||[])].some(s=>s.approvalAuthority==='SKKM'))err('Y-17 resmî sayfada telefon simgesi olmadığı halde SKKM basamağı eklenmiş');
+
 
 const consciousnessCase=(CASES||[]).find(c=>c.id==='altered-consciousness');
 if(consciousnessCase?.code!=='SB-ASH-Y-16'||consciousnessCase?.page!=='30'||consciousnessCase?.source?.page!=='29–30'||(consciousnessCase?.meds||[]).length)err('Bilinç Değişikliği Y-16 kaynak/ilaç yapısı bozuldu');

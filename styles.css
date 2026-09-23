@@ -631,3 +631,17 @@ html.dialog-open,html.dialog-open body{overflow:hidden}
     grid-template-columns:minmax(0,1fr);
   }
 }
+
+
+/* V0.33 Y17 diabetic split flow */
+@media(min-width:980px){
+  .algorithm-branches.split{
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    align-items:start;
+  }
+}
+@media(max-width:979px){
+  .algorithm-branches.split{
+    grid-template-columns:minmax(0,1fr);
+  }
+}

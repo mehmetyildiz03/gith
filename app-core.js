@@ -223,6 +223,7 @@ function renderAlgorithmBranch(branch,depth=0){
 function renderAlgorithmBranches(c){
   if(!c.algorithmBranches?.length)return '';
   const layout=c.algorithmBranchLayout==='profiles'?' profiles':'';
+  if(c.algorithmBranchLayout==='split')layout=' split';
   return `<div class="algorithm-branches${layout}" aria-label="Algoritma dalları">${c.algorithmBranches.map(branch=>renderAlgorithmBranch(branch)).join('')}</div>`;
 }
 function renderAlgorithmAfter(c){
