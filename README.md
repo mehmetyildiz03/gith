@@ -2,7 +2,16 @@
 
 Mobil-first, offline çekirdekli, vaka bazlı hastane öncesi acil sağlık eğitim ve hızlı hatırlatma uygulaması.
 
-## V0.39 mimarisi
+## V0.40 mimarisi
+
+- **V0.40 Y-40 Kafa Travmalı Hastaya Yaklaşım:** Resmî s.71 ana akışı yapılandırıldı: Acil olgu yönetimi → GKS ≤8/solunum yetmezliği/hava yolu tehlikesinde ileri hava yolu → SpO₂ %94–98 ve yaşa göre ventilasyon → kan şekeri → iki glukoz kolu.
+- **Glukoz dalları:** KŞ <60 veya >300 mg/dL → mavi Diyabetik Aciller geçişi. 60–300 mg/dL → turuncu AABT/DIRECT IV sıvı tedavisi ve SKB >100 mmHg hedefi.
+- **Nöbet/KİBAS:** Normal glukoz kolunda nöbet → mavi Nöbet/Konvülziyon geçişi; KİBAS → s.70 Anahtar Noktasındaki “şok yoksa baş-gövde 30–45° yukarıda sevk” gri uyarısı. Gri uyarıya ATT/AABT/SKKM yetkisi uydurulmaz.
+- **KİBAS/herniasyon bulguları:** Cushing triadı, GKS'nin ≥2 puan azalması, hemipleji/hemiparalizi ve anizokori Acil Uyarı Bulgularında korunur.
+- **Ajite hasta Midazolamı:** 1–2,5 mg IV, 3–5 dk'da bir hasta sakinleşinceye kadar bilgisi Anahtar Noktalar kaynaklıdır; bu tabloda kutu rengi/telefon simgesi olmadığı için `ALGORITHM + UNVERIFIED` kalır.
+- **Kaynak sadakati:** Y-40'ın dört ortak ana basamağı turkuaz `ATT_AABT + DIRECT`; IV sıvı kutusu turuncu `AABT + DIRECT`. Mavi algoritma geçişleri yetki rozeti değildir.
+
+### V0.39 önceki durum
 
 - **Y-17/Y-18/Y-38 ortak geçiş modeli:** Resmî mavi “... ALGORİTMASINA GİT” kutuları artık `followUp.transition` ile ortak biçimde modellenir. Gri koşul/uyarı ile turkuaz eylem aynı mavi kutuya dönüştürülmez.
 - **Y-18 gri KB uyarısı:** “Tansiyon değerleri normalin üstünde olsa da tansiyonu düşürme” ayrı `followUp.notice` olarak gösterilir.
