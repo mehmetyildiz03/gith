@@ -389,7 +389,7 @@ const traumaCase=(CASES||[]).find(c=>c.id==='trauma');
 if(traumaCase?.title!=='Travmalı Hastada Acil Olgu Yönetimi'||traumaCase?.code!=='SB-ASH-Y-38'||traumaCase?.page!=='67'||traumaCase?.source?.page!=='65–67 / 6–7'||traumaCase?.source?.reviewedAt!=='2026-09-24'||!traumaCase?.source?.algorithmCodes?.includes('SB-ASH-Y-38')||!traumaCase?.source?.algorithmCodes?.includes('SB-ASH-Y-02'))err('Travma Y-38/Y-02 başlık-kod-sayfa kaynak izi bozuldu');
 if(traumaCase?.decisionIntegrated!==true||(traumaCase?.algorithmSteps||[]).length!==9||traumaCase?.algorithmBranches!==undefined)err('Y-38 lineer X-ABCDE + yan geçiş yapılandırılmış akışı bozuk');
 for(const [i,s] of (traumaCase?.algorithmSteps||[]).entries())if(s.approvalAuthority!=='DIRECT'||s.practitionerAuthority!=='ATT_AABT')err(`Y-38 resmî turkuaz basamak ATT/AABT + DIRECT olmalı: ${i}`);
-for(const required of ['travma mekanizmasını','hayatı tehdit eden kanama','Servikal ve spinal immobilizasyonu','SpO₂ <strong>&gt;%94</strong>','10–30/dk','iğne dekompresyonu','KGD &gt;2 sn','nabız &gt;120','SKB &lt;90','GKS=15','Tüm giysileri çıkararak','İkincil değerlendirmeyi nakil sırasında tamamla'])if(!JSON.stringify(traumaCase).includes(required))err(`Y-38 kritik akış öğesi eksik: ${required}`);
+for(const required of ['travma mekanizmasını','hayatı tehdit eden kanama','Servikal ve spinal immobilizasyonu','SpO₂ <strong>&gt;%94</strong>','10–30/dk','iğne dekompresyonu','KGD &gt;2 sn','nabız &gt;120','SKB &lt;90','GKS=15','Tüm giysileri yararak','İkincil değerlendirmeyi nakil sırasında tamamla'])if(!JSON.stringify(traumaCase).includes(required))err(`Y-38 kritik akış öğesi eksik: ${required}`);
 if(!String(traumaCase?.algorithmSteps?.[2]?.followUp?.html||'').includes('Orofaringeal')||!String(traumaCase?.algorithmSteps?.[2]?.followUp?.html||'').includes('aspire et'))err('Y-38 hava yolu düzeltici yan geçişi eksik');
 if(!String(traumaCase?.algorithmSteps?.[3]?.followUp?.html||'').includes('Tansiyon pnömotoraks')||!String(traumaCase?.algorithmSteps?.[3]?.followUp?.html||'').includes('Hemotoraks'))err('Y-38 solunum düzeltici yan geçişi eksik');
 if(!JSON.stringify(traumaCase?.warningFindings||[]).includes('Kanıt olabilecek materyallerin'))err('Y-38 kanıt/giysi koruma uyarısı eksik');
@@ -397,7 +397,7 @@ for(const term of ['anormal hızlı ya da yavaş solunum','oksijen desteği ile 
 if((traumaCase?.algorithmSteps||[]).filter(s=>s.followUp?.transition).length!==3)err('Y-38 mavi algoritma geçişleri transition semantiğine ayrılmamış');
 const y38CirculationFollow=traumaCase?.algorithmSteps?.[5]?.followUp;
 if(!String(y38CirculationFollow?.html||'').includes('pelvisi sabitle')||y38CirculationFollow?.transition!=='HİPOVOLEMİK ŞOK ALGORİTMASINA GİT')err('Y-38 pelvis sabitleme turkuaz eylemi ile Hipovolemik Şok mavi geçişi ayrılmamış');
-if(JSON.stringify(traumaCase).includes('giysileri yararak'))err('Y-38 resmî “giysileri çıkararak” ifadesi yararak şeklinde bozulmuş');
+if(JSON.stringify(traumaCase).includes('Tüm giysileri çıkararak'))err('Y-38 s.67 giysi ifadesi kaynakla eşleşmiyor');
 
 const koahCase=(CASES||[]).find(c=>c.id==='koah');
 if(koahCase?.code!=='SB-ASH-Y-04'||koahCase?.page!=='10'||koahCase?.source?.page!=='9–10')err('KOAH Y-04 kaynak izi bozuldu');
