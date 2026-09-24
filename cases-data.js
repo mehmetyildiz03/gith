@@ -1020,7 +1020,7 @@ const CASES = [
     "quick": [
       "<strong>Acil olgu yönetimini uygula, ağrı sorgula.</strong> Hastayı sakinleştir; gereksiz efordan kaçın ve kesinlikle yürütme.",
       "<strong>En kısa sürede vital bulgular + 12 derivasyonlu EKG.</strong>",
-      "<strong>SpO₂ < %90 ise O₂ ver.</strong>",
+      "<strong>Oksijen:</strong> SpO₂ < %90 ise O₂ ver. SpO₂ >%90 ise rutin O₂ uygulamasından kaçın; solunum sıkıntısı veya ritim bozukluğunda uygulanabilir.",
       "<strong>Asetilsalisilik asit 160–325 mg çiğnet.</strong> Hipotansiyon/bradikardi yoksa SKKM/ÇM ile isosorbid dinitrat 5 mg SL; ağrı sürerse 3–5 dk arayla toplam 3 doza kadar.",
       "<strong>Nitrat güvenliği:</strong> hipotansiyon, sağ ventrikül MI, bradikardi veya sildenafil/vardenafil/tadalafil kullanımı varsa izosorbid dinitrat verme.",
       "<strong>Fentanil:</strong> diğer girişimlere rağmen tolere edilemeyen şiddetli ağrıda SKKM/ÇM ile 1 mcg/kg IV yavaş bolus; bulantı ve solunum depresyonu açısından izle.",
@@ -1042,7 +1042,7 @@ const CASES = [
         "authority": "DIRECT",
         "repeat": "",
         "maxDose": "",
-        "note": "Alerji ve aktif kanama kontraendikasyonlarını kontrol et.",
+        "note": "Alerji ve aktif kanama kontraendikasyonlarını kontrol et. Hasta günlük yeterli doz aspirin kullanmış olsa bile resmî Anahtar Noktada yükleme dozu verilmesi önerilir.",
         "practitionerAuthority": "AABT"
       },
       {
@@ -1748,7 +1748,7 @@ const CASES = [
         "authority": "SKKM",
         "repeat": "Titrasyon",
         "maxDose": "",
-        "note": "Atropine yanıtsız semptomatik bradikardide; resmî şemada SKKM/ÇM telefon simgeli ileri basamak. Anahtar Nokta pratik hesabı: 500 mL %0,9 NaCl içine 100 mg dopamin; dakikada hastanın kilosunun yarısı kadar damla gönderildiğinde 5 mcg/kg/dk infüzyon başlangıcı ('YARIM-YARIM-YARIM').",
+        "note": "Atropine yanıtsız semptomatik bradikardide; resmî şemada SKKM/ÇM telefon simgeli ileri basamak. Anahtar Nokta pratik hesabı: Dopamin ampul 200 mg; 500 mL %0,9 NaCl içine 100 mg dopamin; dakikada hastanın kilosunun yarısı kadar damla gönderildiğinde 5 mcg/kg/dk infüzyon başlangıcı ('YARIM-YARIM-YARIM').",
         "practitionerAuthority": "AABT"
       },
       {
@@ -2064,7 +2064,7 @@ const CASES = [
       "documentTitle": "Hastane Öncesi Acil Tıbbi Yardım ve Bakım Akış Şemaları",
       "effectiveDate": "2026-08-25",
       "officialPageDate": "2026-09-11",
-      "reviewedAt": "2026-09-23",
+      "reviewedAt": "2026-09-24",
       "officialPageUrl": "https://acilafet.saglik.gov.tr/TR-119840/hastane-oncesi-acil-tibbi-yardim-ve-bakim-akis-semalari.html",
       "officialPdfUrl": "https://dosyamerkez.saglik.gov.tr/Eklenti/55773/0/ek-2-hastane-oncesi-acil-tibbi-yardim-ve-bakim-akis-semalaripdf.pdf",
       "section": "adult",
@@ -2083,14 +2083,16 @@ const CASES = [
       "IV/IO yolu geciktirme; şoklanamaz ritimde adrenalin erişim sağlanır sağlanmaz, şoklanabilir ritimde şema sırasına göre uygula."
     ],
     "quick": [
-      "<strong>Yüksek kaliteli KPR</strong> ve ritim analizi; kompresyon kesintilerini en aza indir.",
+      "<strong>Yüksek kaliteli KPR:</strong> göğse <strong>5–6 cm</strong> derinlikte, <strong>100–120/dk</strong> bası yap; kompresyona <strong>10 sn'den fazla ara verme</strong>, hiperventilasyondan kaçın ve göğsün tamamen gevşemesine izin ver. Kompresyon uygulayanı her 2 dk'da bir veya yorulursa daha sık değiştir.",
+      "<strong>Hava yolu/ventilasyon:</strong> ileri hava yolundan önce 30:2; ileri hava yolundan sonra kesintisiz 100–120 bası/dk + <strong>10 solunum/dk</strong>. SpO₂ <strong>%90–98</strong> olacak şekilde O₂ ver.",
       "<strong>Asistoli/NEA:</strong> adrenalin 1 mg IV/IO, 3–5 dk arayla. Güncel Y-10/Y-11 arrest akışında atropin veya rutin NaHCO₃ arrest ilacı olarak yer almıyor.",
       "<strong>VF/nVT:</strong> 2. defibrilasyon sonrası adrenalin 1 mg IV, 3–5 dk arayla; 3. defibrilasyon sonrası amiodaron 300 mg IV/IO veya %2 lidokain 1–1,5 mg/kg IV/IO; tekrarlayan/dirençli VF/nVT'de 5. şok sonrası amiodaron 150 mg IV/IO veya lidokain 0,5–0,75 mg/kg IV/IO.",
       "<strong>Şok enerjisi:</strong> firma önerisine göre; anahtar noktalarda bifazik 120–200 J, monofazik 360 J, cihaz tipi bilinmiyorsa en yüksek enerji. Sonraki şoklar aynı veya artan doz; 4. şoktan sonra en yüksek enerji.",
+      "<strong>Geri döndürülebilir nedenler:</strong> hipoksi, hipovolemi, hiper/hipokalemi-metabolik nedenler-hipoglisemi, hipotermi, hidrojen iyonu/asidoz; koroner veya pulmoner tromboz, tansiyon pnömotoraks, kardiyak tamponad ve toksin/terapötik bozuklukları gözden geçir.",
       "ROSC olursa Resüsitasyon Sonrası Bakım algoritmasına geç."
     ],
     "warningFindings": [
-      "Kompresyon kesintilerinin uzaması",
+      "Kompresyon kesintisinin 10 sn'yi aşması veya bası hız/derinliğinin 100–120/dk ve 5–6 cm hedefinden sapması",
       "IV/IO yerine ET ilaç uygulaması",
       "Şoklanabilir ritimde defibrilasyonun gecikmesi",
       "Geri döndürülebilir H/T nedenlerinin atlanması"
@@ -2478,7 +2480,8 @@ const CASES = [
       "<strong>Hemorajik şok:</strong> direkt bası, sıkı bandaj/arter bası noktaları, turnike veya kanama durdurucu ajan ile kanama kontrolü.",
       "Hipotansif hemorajik hastada <strong>%0,9 NaCl veya Ringer Laktat 250–500 mL hızlı infüzyon</strong>; maksimum 1000 mL, SKB <strong>80–90 mmHg</strong> olacak şekilde titre et.",
       "<strong>Non-hemorajik şok:</strong> %0,9 NaCl veya Ringer Laktat 500–1000 mL bolusu 5–10 dk; sonra volüm durumunu kontrol et ve nedeni tanı/tedavi et. Hedef MAP 65–70 mmHg.",
-      "MAP <65 mmHg ve hipovolemi sürüyor, yanıtsızsa <strong>SKKM/ÇM ile adrenalin 2–10 mcg/dk veya dopamin 5–20 mcg/kg/dk IV infüzyon.</strong>"
+      "MAP <65 mmHg ve hipovolemi sürüyor, yanıtsızsa <strong>SKKM/ÇM ile adrenalin 2–10 mcg/dk veya dopamin 5–20 mcg/kg/dk IV infüzyon.</strong>",
+      "<strong>MAP (Ortalama Arter Basıncı) = (SKB + 2 × DKB) / 3.</strong>"
     ],
     "warningFindings": [
       "Taşikardi ve hipotansiyon",
@@ -2546,7 +2549,7 @@ const CASES = [
       "documentTitle": "Hastane Öncesi Acil Tıbbi Yardım ve Bakım Akış Şemaları",
       "effectiveDate": "2026-08-25",
       "officialPageDate": "2026-09-11",
-      "reviewedAt": "2026-09-23",
+      "reviewedAt": "2026-09-24",
       "officialPageUrl": "https://acilafet.saglik.gov.tr/TR-119840/hastane-oncesi-acil-tibbi-yardim-ve-bakim-akis-semalari.html",
       "officialPdfUrl": "https://dosyamerkez.saglik.gov.tr/Eklenti/55773/0/ek-2-hastane-oncesi-acil-tibbi-yardim-ve-bakim-akis-semalaripdf.pdf",
       "section": "adult",
@@ -3485,7 +3488,7 @@ const CASES = [
       "Yanma sürecini durdur; acil olgu yönetimini uygula. <strong>Termal yanığı musluk suyu ile yıka ve kurula.</strong>",
       "İnhalasyon yanığı/hava yolu ödemi riski varsa oksijenizasyon ve ventilasyonu destekle, erken ileri hava yolunu düşün.",
       "Yanık alanını değerlendirmek için uygun yüzdelik yöntem kullan; yanık yüzeyini steril örtüyle koru.",
-      "<strong>Ringer Laktat başla.</strong> Şok yoksa 1 saatten kısa nakilde 500 mL Ringer Laktat; daha uzun nakilde Parkland yaklaşımı <strong>(2 × VYA% × kg) / 16 mL/saat</strong>. Ağrı için fentanil 1 mcg/kg IV yavaş/IM, SKKM/ÇM ile.",
+      "<strong>Ringer Laktat başla.</strong> Şok yoksa 1 saatten kısa nakilde 500 mL Ringer Laktat; daha uzun nakilde Parkland yaklaşımı <strong>(2 × VYA% × kg) / 16 mL/saat</strong>. <strong>1. derece yanıklar Parkland hesabına dahil edilmez.</strong> Ağrı için fentanil 1 mcg/kg IV yavaş/IM, SKKM/ÇM ile.",
       "Giysi ve takıları çıkar; <strong>cilde yapışmış giysiyi ayırmaya çalışma.</strong> Yanık yüzeyini uygun yanık örtüsü/steril örtü ile koru.",
       "Hastane öncesi sıvı tedavisini; ağırlığı <strong>≥30 kg ve yanık alanı ≥%15</strong> veya ağırlığı <strong><30 kg ve yanık alanı ≥%10</strong> ise değerlendir. İdrar çıkışına göre sıvı hızını saatlik <strong>%10–30</strong> artır veya azalt. Uzun nakilde vital bulgular, monitörizasyon ve idrar çıkışını takip et; resmî Anahtar Nokta tablosunda idrar çıkışı <strong>0,5–1 mL/saat</strong> olarak yazılıdır.",
       "<strong>Yanık merkezi/ünitesi:</strong> yaş 10–50'de kısmi kalınlık >%25 VYA; <10 veya >50 yaşta >%20 VYA; tam kalınlık >%10 VYA; el-yüz-ayak-perine, büyük eklem, sirküler ekstremite, inhalasyon, elektrik/kimyasal yanık, eşlik eden kırık/majör travma veya yüksek riskli hastada SKKM/ÇM ile uygun merkeze nakli değerlendir."
@@ -3507,7 +3510,7 @@ const CASES = [
         "authority": "DIRECT",
         "repeat": "Daha uzun nakil: (2 × VYA% × kg) / 16 mL/saat",
         "maxDose": "",
-        "note": "Resmî Y-28'de Ringer Laktat başla; şok yoksa 1 saatten kısa nakilde 500 mL, daha uzun nakilde erişkin Parkland saatlik başlangıç formülü. Uygulama yolu kutuda açık yazılmadığından türetilmemiştir.",
+        "note": "Resmî Y-28'de Ringer Laktat başla; şok yoksa 1 saatten kısa nakilde 500 mL, daha uzun nakilde erişkin Parkland saatlik başlangıç formülü. Ortak Yanık Anahtar Noktasına göre 1. derece yanıklar hesaplamaya dahil edilmez. Uygulama yolu kutuda açık yazılmadığından türetilmemiştir.",
         "practitionerAuthority": "AABT"
       },
       {
