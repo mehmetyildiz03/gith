@@ -2,7 +2,16 @@
 
 Mobil-first, offline çekirdekli, vaka bazlı hastane öncesi acil sağlık eğitim ve hızlı hatırlatma uygulaması.
 
-## V0.41 mimarisi
+## V0.42 mimarisi
+
+- **Geniş yapılandırılmış akış audit'i:** Y-14, Y-17, Y-18, Y-19, Y-25, Y-38, Y-40 ve Y-41 resmî 25.08.2026 Ek-2 sayfalarıyla yeniden karşılaştırıldı; Y-14/Y-17 kaynak gözden geçirme tarihi 24.09.2026 olarak yenilendi.
+- **Y-25 ECMO semantiği:** “SKKM/ÇM ile görüşerek ECMO merkezine yönlendirmeyi düşün” kaynaktaki bağlantısız gri uyarı niteliğine döndürüldü; yalnız KPR “Evet” koluna bağlıymış gibi gösterilmez.
+- **Y-25 ısıtma Anahtar Noktaları:** Vücut ısısı takibi/uzun nabız değerlendirmesi, aktif dış ısıtma teknikleri, 42–46°C ısıtılmış-nemlendirilmiş oksijen ve 40–42°C ısıtılmış IV sıvı bilgileri eklendi; orta-ciddi hipotermide bilinç değişikliği koşulu korunur.
+- **Y-41 START Anahtar Noktaları:** Triyaj kartında yalnız renk kodu işaretleme, triyaj sırasında tedavi/KPR yapmama, ideal tek sağlık personeli ve geniş alan/çok yaralıda alan paylaşımı ile birden fazla personel kullanımı görünür hale getirildi.
+- **Yetki rozeti yerleşimi:** AABT/SKKM rozetleri artık eylem metninin hemen altında, gri koşul/mavi algoritma geçişinden önce gösterilir. Böylece rozetler follow-up koşul veya geçişin yetkisiymiş gibi görünmez.
+- **Regresyon:** Runtime smoke testi, AABT rozetinin `followUp` içeriğinden önce render edildiğini ayrıca doğrular.
+
+### V0.41 önceki durum
 
 - **V0.41 Y-19 Nöbet / Konvülziyon:** Resmî s.33 akışı yapılandırıldı: Acil olgu yönetimi → hava yolu/SpO₂ %94–98/PBV → DAKŞ → glukoz → kardiyak monitörizasyon → nöbet sonlandı/devam ediyor ayrımı.
 - **Hipoglisemi geçişi:** Glikoz <60 mg/dl ve/veya hipoglisemi bulguları gri koşul; Diyabetik Aciller bağlantısı mavi `transition` olarak gösterilir.
