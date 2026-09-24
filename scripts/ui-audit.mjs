@@ -120,7 +120,7 @@ assert(data.includes('"algorithmAfter": [')&&data.includes('"label": "Arrest tek
 assert(data.includes('"followUp": {')&&data.includes('"Dirençli / tekrarlayan VF-nVT — 5. şok sonrası"'),'Y-11 3./5. şok okunabilir ayrımı eksik');
 assert(css.includes('/* V0.31 source geometry + scanability polish */')&&css.includes('.algo-step-followup{')&&css.includes('.algorithm-after-card{'),'V0.31 kaynak geometrisi okunabilirlik stilleri eksik');
 assert(data.includes('"id": "acute-heart-failure-cardiogenic-shock"')&&data.includes('"algorithmBranchLayout": "profiles"')&&data.includes('"label": "Normotansif dekompanse kalp yetmezliği"')&&data.includes('"label": "Hipertansif kalp yetmezliği"')&&data.includes('"label": "Kardiyojenik şok"'),'Y-14 üç profil yapılandırılmış akışı eksik');
-assert(app.includes("c.algorithmBranchLayout==='profiles'?' profiles':''"),'Y-14 profil yerleşimi render katmanı eksik');
+assert(app.includes("c.algorithmBranchLayout==='profiles'?' profiles'"),'Y-14 profil yerleşimi render katmanı eksik');
 assert(css.includes('/* V0.32 Y14 profile layout */')&&css.includes('.algorithm-branches.profiles')&&css.includes('grid-template-columns:repeat(3,minmax(0,1fr))'),'Y-14 profil masaüstü/tek kolon responsive stili eksik');
 assert((data.match(/"decisionIntegrated": true/g)||[]).length>=11,'Y-38 dahil entegre karar işaretleri eksik');
 assert(css.includes('.detail-jumps::after')&&css.includes('content:"›"'),'Mobil jump şeridinde devam göstergesi eksik');
@@ -135,7 +135,7 @@ for(const medName of ['Ringer Laktat','%0,9 NaCl / Ringer Laktat','%0,9 NaCl —
 for(const medName of ['Fentanil','Amiodaron — stabil geniş QRS','Magnezyum sülfat','Adenozin','Metoprolol','Diltiazem','Midazolam','Amiodaron — kardiyoversiyon sonrası'])assert(data.includes(`"name": "${medName}"`),`Taşikardi resmî ilaç basamağı eksik: ${medName}`);
 assert(data.includes('"title": "Diyabetik Aciller"')&&data.includes('"name": "%0,9 NaCl — hiperglisemi"'),'Y-17 Diyabetik Aciller tam kapsamı eksik');
 assert(data.includes('"algorithmBranchLayout": "split"')&&data.includes('"label": "Bilinci açık"')&&data.includes('"label": "Bilinci kapalı"')&&data.includes('"label": "Hiperglisemi — Glikoz >300 mg/dl"'),'Y-17 yapılandırılmış glikoz/bilinç dalları eksik');
-assert(app.includes("if(c.algorithmBranchLayout==='split')layout=' split'"),'Y-17 split branch render katmanı eksik');
+assert(app.includes("c.algorithmBranchLayout==='split'?' split'"),'Y-17 split branch render katmanı eksik');
 assert(css.includes('/* V0.33 Y17 diabetic split flow */')&&css.includes('.algorithm-branches.split')&&css.includes('grid-template-columns:repeat(2,minmax(0,1fr))'),'Y-17 masaüstü iki kol / mobil tek kolon stili eksik');
 assert(data.includes('"title": "Nöbet / Konvülziyon"'),'Nöbet / Konvülziyon resmî başlığı eksik');
 for(const title of ['Ajite Hastaya Yaklaşım','Vertigo','Alerjik Reaksiyon','Hipotermide Arrest Yönetimi'])assert(data.includes(`"title": "${title}"`),`İkinci yetişkin paketinde eksik vaka: ${title}`);
