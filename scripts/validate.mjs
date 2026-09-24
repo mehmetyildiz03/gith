@@ -24,7 +24,7 @@ if(!Array.isArray(CASES)||!CASES.length)err('CASES boş veya dizi değil');
 if(!Array.isArray(PROTOCOLS)||PROTOCOLS.length!==2)err('PROTOCOLS tam olarak 2 doğrulanmış temel protokol içermeli');
 const sceneProtocol=(PROTOCOLS||[]).find(p=>p.id==='scene-management');
 if(!sceneProtocol||sceneProtocol.title!=='Olay Yeri Yönetimi'||sceneProtocol.code!=='SB-ASH-Y-01'||sceneProtocol.page!=='5')err('Y-01 Olay Yeri Yönetimi temel protokolü eksik veya kaynak izi bozuk');
-if(sceneProtocol?.population!=='adult'||sceneProtocol?.clinicalStatus!=='reviewed'||sceneProtocol?.source?.reviewedAt!=='2026-09-23'||sceneProtocol?.source?.effectiveDate!=='2026-08-25')err('Y-01 protokol nüfus/inceleme/yürürlük metası bozuk');
+if(sceneProtocol?.population!=='adult'||sceneProtocol?.clinicalStatus!=='reviewed'||sceneProtocol?.source?.reviewedAt!=='2026-09-24'||sceneProtocol?.source?.effectiveDate!=='2026-08-25')err('Y-01 protokol nüfus/inceleme/yürürlük metası bozuk');
 const sceneFlow=sceneProtocol?.flow||[];
 if(sceneFlow.length!==7)err('Y-01 olay yeri akışı 7 yapılandırılmış öğe içermeli');
 for(const phrase of ['SKKM/ÇM ile iletişime geç','Gerekli kişisel koruyucu malzemelerini kullan','Olay yeri güvenliği var mı?','Hasta/Yaralı güvenliği var mı?','olabilecek vaka sayısını','triyaj yap','İhtiyaç duyulan ekip ve ekipmanı iste','Acil Olgu Yönetimi algoritmasına geç'])if(!JSON.stringify(sceneProtocol).includes(phrase))err(`Y-01 resmî akış öğesi eksik: ${phrase}`);
@@ -34,7 +34,7 @@ if(sceneFlow.at(-1)?.type!=='transition'||sceneFlow.at(-1)?.targetCode!=='SB-ASH
 if(sceneFlow.at(-1)?.targetProtocolId!=='emergency-case-management')err('Y-01 → Y-02 tek dokunuş protokol geçişi eksik');
 const emergencyProtocol=(PROTOCOLS||[]).find(p=>p.id==='emergency-case-management');
 if(!emergencyProtocol||emergencyProtocol.order!==2||emergencyProtocol.title!=='Acil Olgu Yönetimi'||emergencyProtocol.code!=='SB-ASH-Y-02'||emergencyProtocol.page!=='6–7')err('Y-02 Acil Olgu Yönetimi temel protokolü eksik veya kaynak izi bozuk');
-if(emergencyProtocol?.population!=='adult'||emergencyProtocol?.clinicalStatus!=='reviewed'||emergencyProtocol?.source?.reviewedAt!=='2026-09-23'||emergencyProtocol?.source?.effectiveDate!=='2026-08-25')err('Y-02 protokol nüfus/inceleme/yürürlük metası bozuk');
+if(emergencyProtocol?.population!=='adult'||emergencyProtocol?.clinicalStatus!=='reviewed'||emergencyProtocol?.source?.reviewedAt!=='2026-09-24'||emergencyProtocol?.source?.effectiveDate!=='2026-08-25')err('Y-02 protokol nüfus/inceleme/yürürlük metası bozuk');
 const emergencyFlow=emergencyProtocol?.flow||[];
 if(emergencyFlow.length!==8)err('Y-02 Acil Olgu Yönetimi akışı 8 yapılandırılmış öğe içermeli');
 for(const phrase of ['Olay yeri güvenli mi?','Gerekli tüm ekipmanları al','Ekip ve Malzeme Yerleşimi','Birincil Değerlendirme','XABCDE','İkincil Değerlendirme','Ön tanıyı belirle','Ön tanıya göre ilgili algoritmaya git','Yeniden değerlendir'])if(!JSON.stringify(emergencyProtocol).includes(phrase))err(`Y-02 resmî akış öğesi eksik: ${phrase}`);
