@@ -59,6 +59,8 @@ const roscEctopy=(roscCase?.algorithmBranches||[]).find(b=>String(b.label).start
 if(roscHypo?.steps?.[0]?.approvalAuthority!=='DIRECT'||roscHypo?.steps?.[0]?.practitionerAuthority!=='ATT_AABT')err('Y-12 hipotansiyon neden araştırma basamağı turkuaz/DIRECT olmalı');
 if(roscHypo?.steps?.[1]?.approvalAuthority!=='SKKM'||roscHypo?.steps?.[1]?.practitionerAuthority!=='AABT'||!String(roscHypo?.steps?.[1]?.html||'').includes('adrenalin 2–10 mcg/dk')||!String(roscHypo?.steps?.[1]?.html||'').includes('dopamin 5–20 mcg/kg/dk'))err('Y-12 hipotansiyon ilaç basamağı SKKM + AABT ve doğru dozlarda olmalı');
 if(roscEctopy?.steps?.[0]?.approvalAuthority!=='SKKM'||roscEctopy?.steps?.[0]?.practitionerAuthority!=='AABT'||!String(roscEctopy?.steps?.[0]?.html||'').includes('lidokain 1–1,5 mg/kg')||!String(roscEctopy?.steps?.[0]?.html||'').includes('amiodaron 150 mg'))err('Y-12 ventriküler ektopi ilaç basamağı SKKM + AABT olmalı');
+const roscNacl=medByName(roscCase,'%0,9 NaCl');
+if(JSON.stringify(roscNacl?.routes)!==JSON.stringify(['OTHER']))err('Y-12 %0,9 NaCl uygulama yolu kaynakta ayrıca belirtilmediği için türetilmemeli');
 for(const label of ['Bradiaritmi','Hipo / Hiperglisemi','Taşiaritmi','Nöbet']){const b=(roscCase?.algorithmBranches||[]).find(x=>x.label===label);if(!b||b.steps?.[0]?.approvalAuthority!=='DIRECT'||b.steps?.[0]?.practitionerAuthority!=='ATT_AABT')err(`Y-12 yönlendirme kolu bozuk: ${label}`);}
 if((roscCase?.algorithmBranches||[]).some(b=>b.label==='Arrest tekrarı'))err('Y-12 arrest tekrarı bağımsız üst dal olmamalı');
 if((roscCase?.algorithmAfter||[]).length!==1||roscCase?.algorithmAfter?.[0]?.label!=='Arrest tekrar ederse'||roscCase?.algorithmAfter?.[0]?.approvalAuthority!=='DIRECT'||roscCase?.algorithmAfter?.[0]?.practitionerAuthority!=='ATT_AABT'||!String(roscCase?.algorithmAfter?.[0]?.html||'').includes('İlgili ritim algoritmasına git'))err('Y-12 arrest tekrarı resmî alt sonuç/geçiş yapısında olmalı');
@@ -518,6 +520,7 @@ for(const term of ['BEFAST','vertikal','pür torsiyonel','Bağımsız ayakta dur
 const allergicCase=(CASES||[]).find(c=>c.id==='allergic-reaction');
 if(allergicCase?.code!=='SB-ASH-Y-21'||allergicCase?.page!=='35'||allergicCase?.source?.page!=='35')err('Alerjik Reaksiyon Y-21 kaynak izi bozuldu');
 if(medByName(allergicCase,'%0,9 NaCl')?.authority!=='DIRECT'||medByName(allergicCase,'%0,9 NaCl')?.dose!=='500 mL')err('Y-21 NaCl 500 mL DIRECT sabiti bozuldu');
+if(JSON.stringify(medByName(allergicCase,'%0,9 NaCl')?.routes)!==JSON.stringify(['OTHER']))err('Y-21 NaCl 500 mL bolus uygulama yolu kaynakta ayrıca belirtilmediği için türetilmemeli');
 if(medByName(allergicCase,'Feniramin maleat veya Difenhidramin')?.authority!=='SKKM'||medByName(allergicCase,'Feniramin maleat veya Difenhidramin')?.dose!=='45,5 mg / 25–50 mg')err('Y-21 antihistaminik doz/yetki sabiti bozuldu');
 if(medByName(allergicCase,'Metilprednizolon')?.authority!=='SKKM'||medByName(allergicCase,'Metilprednizolon')?.dose!=='1–2 mg/kg'||medByName(allergicCase,'Metilprednizolon')?.maxDose!=='125 mg')err('Y-21 metilprednizolon sabiti bozuldu');
 if(!JSON.stringify(allergicCase).includes('Anafilaksi algoritmasına geç'))err('Y-21 hayatı tehdit eden bulguda Anafilaksi geçişi eksik');
