@@ -71,8 +71,8 @@ if(!APP_META?.routes?.includes('SC')||APP_META?.routeLabels?.SC!=='Subkutan (SC)
 if(APP_META?.authority?.DIRECT?.symbol!=='✓'||APP_META?.authority?.DIRECT?.visualLabel!=='SKKM/ÇM onayı gerektirmez')err('DIRECT yeşil/doğrudan sembol metası eksik');
 if(APP_META?.authority?.SKKM?.symbol!=='◆'||APP_META?.authority?.SKKM?.visualLabel!=='SKKM/ÇM onayı gerekli')err('SKKM sarı/onay sembol metası eksik');
 if(APP_META?.authority?.ALGORITHM?.symbol!=='•'||APP_META?.authority?.ALGORITHM?.visualLabel!=='Kaynakta SKKM/ÇM yetkisi belirtilmemiş')err('ALGORITHM kaynakta belirtilmeyen yetki metası eksik');
-if(APP_META?.contentVersion!=='EK2-2026.08.25-y19-seizure-structured-1-2026.09.24')err('contentVersion V0.41 Y-19 yapılandırılmış akış sürümüyle eşleşmiyor');
-if(APP_META?.productVersion!=='0.41')err('productVersion V0.41 olmalı');
+if(APP_META?.contentVersion!=='EK2-2026.08.25-structured-flow-audit-fix-1-2026.09.24')err('contentVersion V0.42 yapılandırılmış akış audit-düzeltme sürümüyle eşleşmiyor');
+if(APP_META?.productVersion!=='0.42')err('productVersion V0.42 olmalı');
 if(APP_META?.practitionerAuthority?.ATT_AABT?.officialLabel!=='Acil Tıp Teknisyeni / Teknikeri'||APP_META?.practitionerAuthority?.AABT?.officialLabel!=='Acil Tıp Teknikeri'||APP_META?.practitionerAuthority?.UNVERIFIED?.symbol!=='□')err('ATT/AABT uygulayıcı yetki metası eksik veya bozuk');
 for(const code of ['SB-ASH-Y-04','SB-ASH-Y-05','SB-ASH-Y-06','SB-ASH-Y-07','SB-ASH-Y-08','SB-ASH-Y-09','SB-ASH-Y-10','SB-ASH-Y-11','SB-ASH-Y-12','SB-ASH-Y-13','SB-ASH-Y-14','SB-ASH-Y-15','SB-ASH-Y-17','SB-ASH-Y-19','SB-ASH-Y-21','SB-ASH-Y-22','SB-ASH-Y-23','SB-ASH-Y-24','SB-ASH-Y-28','SB-ASH-Y-29','SB-ASH-Y-34','SB-ASH-Y-35','SB-ASH-Y-36','SB-ASH-Y-37','SB-ASH-Y-39','SB-ASH-Y-40'])if(!APP_META?.practitionerAudit?.verifiedMedicationCases?.includes(code))err(`Uygulayıcı yetki görsel audit izi eksik: ${code}`);
 if(APP_META?.practitionerAudit?.adultMedicationCardsComplete!==true)err('Yetişkin ilaç kartları uygulayıcı audit tamamlama işareti eksik');
@@ -294,6 +294,7 @@ const startCase=(CASES||[]).find(c=>c.id==='start-triage');
 if(!startCase||startCase.code!=='SB-ASH-Y-41'||startCase.page!=='73'||startCase.source?.page!=='72–73'||startCase.source?.reviewedAt!=='2026-09-24')err('Start Triyaj Y-41 kaynak izi bozuk');
 for(const required of ['YEŞİL','SİYAH','KIRMIZI','SARI','<10/dk','>30/dk','KGD >2 sn','1 dakik'])if(!JSON.stringify(startCase).includes(required))err(`START triyaj kriteri eksik: ${required}`);
 if(!JSON.stringify(startCase).includes('daha ciddi triyaj kodu verilebilir'))err('Y-41 yeniden triyajda daha ciddi kod verilebilmesi Anahtar Noktası eksik');
+for(const term of ['sadece renk kodu işaretlenir','triyaj sırasında tedavi/KPR yapılmaz','tek sağlık personeli','birden fazla sağlık personeli','1 dk’dan kısa','Kanama kontrolü gibi hayat kurtarıcı müdahaleler'])if(!JSON.stringify(startCase).includes(term))err(`Y-41 Anahtar Nokta eksik: ${term}`);
 if(startCase?.decisionIntegrated!==true||(startCase?.algorithmSteps||[]).length!==1||(startCase?.algorithmBranches||[]).length!==2)err('Y-41 START yapılandırılmış kök/yürüyen-yürüyemeyen akışı eksik');
 if(startCase?.algorithmSteps?.[0]?.approvalAuthority!=='DIRECT'||startCase?.algorithmSteps?.[0]?.practitionerAuthority!=='ATT_AABT')err('Y-41 START seslen/güvenli alan ortak basamağı ATT/AABT + DIRECT olmalı');
 const y41Green=(startCase?.algorithmBranches||[]).find(b=>b.triageCode==='green');
@@ -426,6 +427,7 @@ if(medByName(hypovolemicCase,'Kristalloid — hemorajik şok')?.authority!=='DIR
 if(medByName(hypovolemicCase,'Adrenalin')?.authority!=='SKKM'||medByName(hypovolemicCase,'Dopamin')?.authority!=='SKKM')err('Hipovolemik Şok vazopressör basamağı SKKM olmalı');
 
 const heartFailureCase=(CASES||[]).find(c=>c.id==='acute-heart-failure-cardiogenic-shock');
+if(heartFailureCase?.source?.reviewedAt!=='2026-09-24')err('Y-14 son kaynak gözden geçirme tarihi güncel değil');
 if(heartFailureCase?.code!=='SB-ASH-Y-14'||heartFailureCase?.page!=='26'||heartFailureCase?.source?.page!=='25–26')err('Y-14 kaynak izi bozuldu');
 if(!JSON.stringify(heartFailureCase).includes('%94–98'))err('Y-14 SpO2 %94–98 hedefi eksik');
 for(const name of ['Furosemid','İzosorbid dinitrat','%0,9 NaCl','Dopamin'])if(medByName(heartFailureCase,name)?.authority!=='SKKM')err(`Y-14 ${name} SKKM telefon simgesiyle eşleşmiyor`);
@@ -442,6 +444,7 @@ if(!String(y14Hyper?.note||'').includes('SKB >140 mmHg')||!JSON.stringify(y14Hyp
 if(!String(y14Shock?.note||'').includes('SKB genellikle <90 mmHg')||!JSON.stringify(y14Shock).includes('250 mL %0,9 NaCl')||!JSON.stringify(y14Shock).includes('Dopamin 2–5 mcg/kg/dk IV')||!JSON.stringify(y14Shock).includes('20 mcg/kg/dk'))err('Y-14 kardiyojenik şok sıvı/dopamin bilgisi bozuk');
 
 const diabeticCase=(CASES||[]).find(c=>c.id==='hypoglycemia');
+if(diabeticCase?.source?.reviewedAt!=='2026-09-24')err('Y-17 son kaynak gözden geçirme tarihi güncel değil');
 if(diabeticCase?.code!=='SB-ASH-Y-17'||diabeticCase?.page!=='31'||diabeticCase?.source?.page!=='31'||diabeticCase?.source?.reviewedAt!=='2026-09-23')err('Y-17 kaynak izi bozuldu');
 if(diabeticCase?.decisionIntegrated!==true||diabeticCase?.algorithmBranchLayout!=='split'||(diabeticCase?.algorithmSteps||[]).length!==2||(diabeticCase?.algorithmBranches||[]).length!==2)err('Y-17 ortak başlangıç / hipoglisemi-hiperglisemi dallı yapısı eksik');
 for(const s of (diabeticCase?.algorithmSteps||[]))if(s.approvalAuthority!=='DIRECT'||s.practitionerAuthority!=='ATT_AABT')err('Y-17 ortak başlangıç basamakları turkuaz ATT/AABT + DIRECT olmalı');
@@ -489,7 +492,7 @@ if(hypothermicArrestCase?.code!=='SB-ASH-Y-25'||hypothermicArrestCase?.page!=='4
 if(hypothermicArrestCase?.decisionIntegrated!==true||(hypothermicArrestCase?.algorithmSteps||[]).length!==2||(hypothermicArrestCase?.algorithmBranches||[]).length!==2)err('Y-25 yapılandırılmış akış bozuk');
 if(hypothermicArrestCase?.algorithmSteps?.[1]?.precondition!=='Vücut ısısı <35°C ve bilinç kapalı ise'||hypothermicArrestCase?.algorithmSteps?.[1]?.html!=='<strong>En az 60 sn nabız kontrolü yap.</strong>')err('Y-25 gri önkoşul ile turkuaz 60 sn eylemi ayrılmamış');
 for(const s of (hypothermicArrestCase?.algorithmSteps||[]))if(s.approvalAuthority!=='DIRECT'||s.practitionerAuthority!=='ATT_AABT')err('Y-25 gerçek eylem basamakları ATT/AABT + DIRECT olmalı');
-if((hypothermicArrestCase?.algorithmNotices||[]).length!==1||!hypothermicArrestCase.algorithmNotices[0].includes('30°C'))err('Y-25 bağımsız defibrilasyon gri uyarısı eksik');
+if((hypothermicArrestCase?.algorithmNotices||[]).length!==2||!hypothermicArrestCase.algorithmNotices.some(n=>n.includes('30°C'))||!hypothermicArrestCase.algorithmNotices.some(n=>n.includes('SKKM/ÇM ile görüşerek ECMO')))err('Y-25 bağımsız defibrilasyon/ECMO gri uyarıları eksik');
 const y25Pulse=(hypothermicArrestCase?.algorithmBranches||[]).find(b=>b.label==='Nabız var');
 const y25NoPulse=(hypothermicArrestCase?.algorithmBranches||[]).find(b=>b.label==='Nabız yok');
 const y25CprYes=(y25NoPulse?.branches||[]).find(b=>b.label==='Evet');
@@ -497,12 +500,12 @@ const y25CprNo=(y25NoPulse?.branches||[]).find(b=>b.label==='Hayır');
 if(y25Pulse?.transition!=='HİPOTERMİ ALGORİTMASINA GİT'||y25Pulse?.steps?.length)err('Y-25 Hipotermi mavi geçişi eylem/yetki basamağına dönüştürülmüş');
 if(y25NoPulse?.steps?.length!==1||!String(y25NoPulse.steps[0].html).includes('KPR başlama kriterleri var mı?'))err('Y-25 KPR başlama kriterleri turkuaz karar basamağı eksik');
 if(y25CprYes?.transition!=='ARREST YÖNETİMİ ALGORİTMASINA GİT'||!String(y25CprYes?.steps?.[1]?.html||'').includes('&gt;35°C'))err('Y-25 Arrest mavi geçişi ayrılmamış');
-if((y25CprYes?.notices||[]).length!==1||!y25CprYes.notices[0].includes('SKKM/ÇM ile görüşerek ECMO'))err('Y-25 ECMO bağımsız gri uyarısı eksik');
+if((y25CprYes?.notices||[]).length)err('Y-25 ECMO uyarısı KPR Evet koluna yanlış bağlanmış');
 if(!String(y25CprYes?.steps?.[0]?.followUp?.html||'').includes('&lt;28°C')||!String(y25CprYes?.steps?.[0]?.followUp?.html||'').includes('&lt;20°C'))err('Y-25 aralıklı KPR kuralları eksik');
 for(const term of ['karla/buzla kaplı','35 dk\'dan fazla çığ','ortam güvenliğinin sağlanamaması','bütün vücudun donması'])if(!String(y25CprNo?.note||'').includes(term))err(`Y-25 KPR endikasyonu olmayan durum eksik: ${term}`);
 if(!String(y25CprNo?.steps?.[0]?.html||'').includes("KPR'ye başlama"))err('Y-25 KPR başlanmama sonucu eksik');
 if(!String(hypothermicArrestCase?.quick?.[5]||'').includes('KPR endikasyonu olmayan')||String(hypothermicArrestCase?.quick?.[5]||'').includes('ECMO')||!String(hypothermicArrestCase?.quick?.[6]||'').includes('ECMO'))err('Y-25 KPR başlanmama kriterleri ile ECMO hızlı özetinde ayrılmamış');
-for(const term of ['Uzun resüsitasyon süreleri önerilir','sert fiziksel hareketlerden kaçın','ölüm belirtisi değildir'])if(!JSON.stringify(hypothermicArrestCase).includes(term))err(`Y-25 Anahtar Nokta eksik: ${term}`);
+for(const term of ['Uzun resüsitasyon süreleri önerilir','sert fiziksel hareketlerden kaçın','ölüm belirtisi değildir','Vücut ısısını takip et','Aktif dış ısıtma teknikleri','42–46°C','40–42°C'])if(!JSON.stringify(hypothermicArrestCase).includes(term))err(`Y-25 Anahtar Nokta eksik: ${term}`);
 
 const electricalBurnCase=(CASES||[]).find(c=>c.id==='electrical-burn');
 if(electricalBurnCase?.code!=='SB-ASH-Y-29'||electricalBurnCase?.page!=='51'||electricalBurnCase?.source?.page!=='51'||(electricalBurnCase?.meds||[]).length!==1)err('Elektrik Yanıkları Y-29 kaynak/ilaç yapısı bozuldu');
