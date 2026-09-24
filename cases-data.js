@@ -622,12 +622,12 @@ const CASES = [
         "name": "%0,9 NaCl",
         "dose": "500 mL",
         "routes": [
-          "IV"
+          "OTHER"
         ],
         "authority": "DIRECT",
         "repeat": "Bolus",
         "maxDose": "",
-        "note": "Hayatı tehdit eden bulgu yok dalında, resmî şemada telefon simgesi olmayan sıvı basamağı.",
+        "note": "Hayatı tehdit eden bulgu yok dalında, resmî şemada telefon simgesi olmayan sıvı basamağı. Kaynak bu NaCl bolusu için uygulama yolunu ayrıca belirtmediğinden yol türetilmemiştir.",
         "practitionerAuthority": "AABT"
       },
       {
@@ -2308,12 +2308,12 @@ const CASES = [
         "name": "%0,9 NaCl",
         "dose": "İnfüzyon",
         "routes": [
-          "IV"
+          "OTHER"
         ],
         "authority": "SKKM",
         "repeat": "Hipotansiyon devam ediyorsa",
         "maxDose": "",
-        "note": "ROSC sonrası MAP <65 mmHg / devam eden hipotansiyonda, resmî şemadaki telefon simgeli basamakta.",
+        "note": "ROSC sonrası MAP <65 mmHg / devam eden hipotansiyonda, resmî şemadaki telefon simgeli basamakta. Kaynak %0,9 NaCl için uygulama yolunu ayrıca belirtmediğinden yol türetilmemiştir.",
         "practitionerAuthority": "AABT"
       },
       {
