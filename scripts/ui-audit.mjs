@@ -30,8 +30,8 @@ assert(css.includes("/* V0.6.1 dark surface hardening */"),'Koyu mod yüzey hard
 assert(css.includes(":root[data-theme='dark'] .quick-step")&&css.includes("background:var(--detail-panel-deep)!important"),'Koyu mod algoritma adımı explicit yüzeyi eksik');
 assert(css.includes(":root[data-theme='dark'] .red-flag")&&css.includes("background:#2b202a!important"),'Koyu mod kırmızı bayrak yüzeyi eksik');
 assert(css.includes(":root[data-theme='dark'] .branch.yes")&&css.includes(":root[data-theme='dark'] .branch.no"),'Koyu mod karar kutuları explicit değil');
-assert(html.includes('styles.css?v=0.43')&&html.includes('app-core.js?v=0.43')&&html.includes('cases-data.js?v=0.43'),'Kritik asset cache-bust sürümü eksik');
-assert(sw.includes("saha112-v043")&&sw.includes('NETWORK_FIRST_DESTINATIONS'),'Service worker kritik asset güncelleme stratejisi eksik');
+assert(html.includes('styles.css?v=0.44')&&html.includes('app-core.js?v=0.44')&&html.includes('cases-data.js?v=0.44'),'Kritik asset cache-bust sürümü eksik');
+assert(sw.includes("saha112-v044")&&sw.includes('NETWORK_FIRST_DESTINATIONS'),'Service worker kritik asset güncelleme stratejisi eksik');
 assert(!app.includes('Kırmızı bayrak'),'Eski kullanıcı terimi hâlâ UI içinde');
 assert(app.includes('Acil Uyarı Bulguları'),'Acil Uyarı Bulguları başlığı eksik');
 assert(app.includes('Önceliği, müdahaleyi veya nakil kararını değiştirebilecek bulgular.'),'Acil uyarı açıklaması eksik');
@@ -57,7 +57,7 @@ assert(data.includes('"reviewedAt": "2026-09-24"')&&data.includes('"Glikoz <60 m
 assert(data.includes('"transition": "DİYABETİK ACİLLER ALGORİTMASINA GİT"')&&data.includes('"notice": "Tansiyon değerleri normalin üstünde olsa da tansiyonu düşürme."'),'Y-18 mavi geçiş / gri KB uyarısı semantiği eksik');
 
 assert(data.includes('"title": "Nabızlı Taşikardi"'),'Nabızlı Taşikardi başlığı eksik');
-assert(data.includes('"contentVersion": "EK2-2026.08.25-full-adult-audit-fix-1-2026.09.24"'),'V0.43 tam yetişkin audit-düzeltme sürümü eksik');
+assert(data.includes('"contentVersion": "EK2-2026.08.25-source-fidelity-recheck-2-2026.09.24"'),'V0.44 sıkı kaynak sadakati yeniden kontrol sürümü eksik');
 assert(html.includes('id="authorityLegend"')&&!html.includes('<span class="authority direct">Doğrudan</span>'),'Yetki legendi dinamik veri kaynağına bağlı değil');
 assert(app.includes("authorityMarkup")&&app.includes("authority-symbol")&&app.includes("✓ Yeşil: SKKM/ÇM onayı yok")&&app.includes("◆ Sarı: SKKM/ÇM onayı"),'Yetki sembol/yazı eşlemesi eksik');
 assert(css.includes('.authority.direct{')&&css.includes('var(--greenSoft)')&&css.includes('.authority.skkm{')&&css.includes('var(--amberSoft)'),'Yeşil/sarı yetki renk semantiği eksik');
@@ -67,8 +67,12 @@ assert(data.includes('"title": "Nöbet / Konvülziyon"'),'Nöbet resmî başlı�
 assert(data.includes('"title": "Hava Yolu Tıkanıklıkları"')&&data.includes('"title": "Astım"')&&data.includes('"title": "Bradikardi"'),'Resmî mevcut vaka başlıklarından biri eski');
 assert(data.includes('"title": "Termal Yanık"')&&data.includes('"title": "Travmalı Hastada Acil Olgu Yönetimi"'),'Yanık/travma resmî başlıkları eksik');
 assert(data.includes('"code": "SB-ASH-Y-38"')&&data.includes('"page": "67"'),'Travma Y-38/s.67 kaynak düzeltmesi eksik');
-assert(data.includes('"subtitle": "X-ABCDE • kanama • hızlı nakil"')&&data.includes('"Hayır — hava yolu açık/güvenilir değilse"')&&data.includes('"Hayır — solunum stabil değilse"')&&data.includes('"transition": "ARREST YÖNETİMİ ALGORİTMASINA GİT"')&&data.includes('"transition": "HİPOVOLEMİK ŞOK ALGORİTMASINA GİT"')&&data.includes('"transition": "KAFA TRAVMALI HASTAYA YAKLAŞIM ALGORİTMASINA GİT"')&&data.includes('Tüm giysileri çıkararak vücut kontrolünü tamamla; hipotermiden koru.'),'Y-38 yapılandırılmış X-ABCDE saha akışı eksik');
-assert(data.includes("oksijen desteği ile düzelmeyen, SpO₂'nin %94 altında kalması")&&data.includes('55 yaş üstü, yanık, hipotermi veya gebelik')&&(data.match(/"transition":/g)||[]).length>=6&&!data.includes('giysileri yararak')&&data.includes('Tüm giysileri çıkararak'),'Y-38 kritik travma tablosu / mavi geçiş / giysi ifadesi eksik');
+assert(data.includes('"subtitle": "X-ABCDE • kanama • hızlı nakil"')&&data.includes('"Hayır — hava yolu açık/güvenilir değilse"')&&data.includes('"Hayır — solunum stabil değilse"')&&data.includes('"transition": "ARREST YÖNETİMİ ALGORİTMASINA GİT"')&&data.includes('"transition": "HİPOVOLEMİK ŞOK ALGORİTMASINA GİT"')&&data.includes('"transition": "KAFA TRAVMALI HASTAYA YAKLAŞIM ALGORİTMASINA GİT"')&&data.includes('Tüm giysileri yararak vücut kontrolünü tamamla; hipotermiden koru.'),'Y-38 yapılandırılmış X-ABCDE saha akışı eksik');
+assert(data.includes("oksijen desteği ile düzelmeyen, SpO₂'nin %94 altında kalması")&&data.includes('55 yaş üstü, yanık, hipotermi veya gebelik')&&(data.match(/"transition":/g)||[]).length>=6&&!data.includes('Tüm giysileri çıkararak')&&data.includes('Tüm giysileri yararak'),'Y-38 kritik travma tablosu / mavi geçiş / giysi ifadesi eksik');
+assert(data.includes('kurşun giriş yeri kesilmemeli')&&data.includes('kıyafetler tamamen çıkarıldıktan sonra muhafaza'),'Y-38 adli vaka giysi/kurşun giriş yeri Anahtar Noktası eksik');
+assert(data.includes('Alerjen madde uzaklaştırılmalıdır')&&data.includes("%30'dan fazla düşme"),'Y-22 anafilaksi Anahtar Nokta/tanı ölçütü eksik');
+assert(data.includes('soğuk ya da ılık su sıkıp havalandırma')&&data.includes('Koltuk altı ve kasık bölgelerine'),'Y-23 pasif eksternal soğutma yöntemleri eksik');
+assert(data.includes('PVC, naylon')&&data.includes('toksik ve irritan gaz'),'Y-33 yangın dumanı toksik/irritan gaz uyarısı eksik');
 assert(!data.includes('"code": "Ek-2 • Travma"'),'Eski travma kaynak kodu kaldı');
 assert(!app.includes('--soft:${c.soft}')&&app.includes('--case-soft:${c.soft}')&&css.includes('var(--case-soft,var(--soft))'),'Case-local --soft tema çakışması düzeltilmemiş');
 assert(app.includes("c.severityView?.title")&&app.includes("c.severity.mild.label")&&app.includes("c.severity.moderate.label")&&app.includes("c.severity.severe.label"),'Severity UI vaka verisine bağlı değil');
