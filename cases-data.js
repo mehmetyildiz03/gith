@@ -1,7 +1,7 @@
 const APP_META = {
   "schemaVersion": 5,
-  "contentVersion": "EK2-2026.08.25-structured-flow-audit-fix-1-2026.09.24",
-  "productVersion": "0.42",
+  "contentVersion": "EK2-2026.08.25-full-adult-audit-fix-1-2026.09.24",
+  "productVersion": "0.43",
   "populations": [
     {
       "id": "adult",
@@ -103,17 +103,17 @@ const APP_META = {
     "source": "T.C. Sağlık Bakanlığı Ek-2 Hastane Öncesi Acil Tıbbi Yardım ve Bakım Akış Şemaları",
     "effectiveDate": "2026-08-25",
     "officialPageDate": "2026-09-11",
-    "reviewedAt": "2026-09-23"
+    "reviewedAt": "2026-09-24"
   },
   "authorityAudit": {
     "source": "25.08.2026 tarihli Ek-2 resmî PDF",
-    "reviewedAt": "2026-09-23",
+    "reviewedAt": "2026-09-24",
     "method": "Telefon/SKKM-ÇM simgesi görsel olarak doğrulandı",
     "scope": "Yetişkin ilaç/sıvı kutuları ve yapılandırılmış eylem basamaklarında SKKM/ÇM telefon simgesi; yetki kodlaması olmayan Anahtar Noktalar öğelerinde çıkarım yapılmaz"
   },
   "integrityAudit": {
     "source": "25.08.2026 tarihli Ek-2 resmî PDF",
-    "reviewedAt": "2026-09-23",
+    "reviewedAt": "2026-09-24",
     "scope": "37 yetişkin kartı + Y-01/Y-02 temel protokollerinde başlık/kod/PDF sayfa izi ve kaynakla doğrulanan basamaklar",
     "status": "verified"
   },
@@ -159,7 +159,7 @@ const APP_META = {
     "source": "25.08.2026 tarihli Ek-2 resmî PDF"
   },
   "practitionerAudit": {
-    "reviewedAt": "2026-09-23",
+    "reviewedAt": "2026-09-24",
     "source": "25.08.2026 tarihli Ek-2 resmî PDF",
     "method": "Resmî turkuaz/turuncu uygulayıcı kutu rengi sayfa görüntüsünden doğrulandı; SKKM/ÇM telefon simgesi ayrı tutuldu",
     "legend": {
@@ -220,6 +220,7 @@ const APP_META = {
       "SB-ASH-Y-19",
       "SB-ASH-Y-22",
       "SB-ASH-Y-25",
+      "SB-ASH-Y-26",
       "SB-ASH-Y-38",
       "SB-ASH-Y-40",
       "SB-ASH-Y-41"
@@ -236,13 +237,14 @@ const APP_META = {
       "SB-ASH-Y-19",
       "SB-ASH-Y-22",
       "SB-ASH-Y-25",
+      "SB-ASH-Y-26",
       "SB-ASH-Y-40",
       "SB-ASH-Y-41"
     ],
     "pilot": true
   },
   "medicationContentAudit": {
-    "reviewedAt": "2026-09-23",
+    "reviewedAt": "2026-09-24",
     "source": "25.08.2026 tarihli Ek-2 resmî PDF",
     "scope": "Tüm yetişkin ilaç/sıvı kartları resmî algoritma ve anahtar nokta sayfalarına karşı yeniden kontrol edildi",
     "correctedCases": [
@@ -261,7 +263,7 @@ const APP_META = {
     "status": "complete"
   },
   "adultCoverage": {
-    "reviewedAt": "2026-09-23",
+    "reviewedAt": "2026-09-24",
     "verifiedCaseCards": 37,
     "coveredAlgorithmRange": "SB-ASH-Y-01–Y-41",
     "foundationalProtocols": [
@@ -456,161 +458,131 @@ const PROTOCOLS = [
 const CASES = [
   {
     "id": "bee",
-    "title": "Arı Sokması",
-    "subtitle": "Isırma ve sokmalar • lokalden anafilaksiye",
-    "category": "Alerji",
-    "icon": "🐝",
+    "title": "Isırma ve Sokmalar",
+    "subtitle": "Arı • yılan/akrep • kene • deniz canlıları",
+    "category": "Çevresel",
+    "icon": "🐾",
     "accent": "#b77708",
     "soft": "#fff3d4",
-    "code": "SB-ASH-Y-26 + SB-ASH-Y-22",
-    "page": "44–45 / 37",
+    "code": "SB-ASH-Y-26",
+    "page": "45",
     "uiFeatured": true,
-    "summary": "İğneyi, lokal bakımı ve sistemik reaksiyona geçişi tek ekranda ayır. Lokal reaksiyon, sistemik bulgu ve anafilaksiye geçiş eğitim amaçlı ayrılır; resmî şema ayrı bir üçlü tedavi sınıflaması tanımlamaz.",
-    "quick": [
-      "<strong>Acil olgu yönetimini uygula</strong>; etkeni belirle, ısırılan/sokulan yeri ve yarayı değerlendir.",
-      "<strong>Arı iğnesi görünüyorsa çıkar.</strong> Kara canlısı sokmalarında lokal soğuk uygula; bölgeyi yıka ve sabitle.",
-      "<strong>Ödem sınırını yaklaşık 5 dakikada bir izle.</strong> Vital bulgular, zehirlenme, alerjik reaksiyon ve anafilaksi bulgularını takip et.",
-      "<strong>Alerjik reaksiyon / anafilaksi varsa ilgili algoritmaya geç.</strong> Her aşamada hastaneye nakil esastır."
-    ],
-    "warningFindings": [
-      "Ağız-dil-boğaz/anjiyoödem, stridor veya belirgin hırıltı",
-      "Takipne, siyanoz, SpO₂ < %90 veya konfüzyon",
-      "Soluk cilt, hipotansiyon, bilinç kaybı/koma",
-      "Hızlı ilerleyen sistemik reaksiyon veya bronkospazm"
-    ],
-    "severity": {
-      "mild": {
-        "label": "Lokal reaksiyon",
-        "bullets": [
-          "Reaksiyon sokma bölgesiyle sınırlı",
-          "Yaşamı tehdit eden hava yolu, solunum veya dolaşım bulgusu yok"
-        ],
-        "action": "İğne görünüyorsa çıkar. Lokal soğuk uygula, yıka/sabitle, ödem sınırını takip et ve vital bulguları izle. Sistemik bulgu gelişirse düzeyi yükselt."
-      },
-      "moderate": {
-        "label": "Sistemik bulgu",
-        "bullets": [
-          "Lokal alanın dışına taşan alerjik/sistemik bulgu var",
-          "Henüz yaşamı tehdit eden hava yolu, solunum veya dolaşım bulgusu yok"
-        ],
-        "action": "Bu görünüm eğitimsel bir ara ayrımdır. 2026 resmî şema arı sokması için ayrı bir üçlü tedavi sınıflaması tanımlamaz; alerjik reaksiyon/anafilaksi açısından değerlendirip Anafilaksi algoritmasına geçiş yap."
-      },
-      "severe": {
-        "label": "Anafilaksi",
-        "bullets": [
-          "Hava yolu: anjiyoödem, stridor, hırıltılı solunum",
-          "Solunum: takipne, wheezing, siyanoz, SpO₂ < %90, konfüzyon",
-          "Dolaşım: solukluk, hipotansiyon, koma"
-        ],
-        "action": "Anafilaksi algoritması: Adrenalin 0,3–0,5 mg IM. Hava yolunu güvenceye al, SpO₂ %94–98 hedefli O₂, damar yolu ve monitörizasyon; hipoperfüzyon sürerse 5 dk içinde IM adrenalin tekrarı + %0,9 NaCl bolus."
-      }
-    },
-    "meds": [
-      {
-        "name": "Adrenalin",
-        "dose": "0,3–0,5 mg IM",
-        "routes": [
-          "IM"
-        ],
-        "authority": "DIRECT",
-        "repeat": "Hipoperfüzyon sürerse 5 dk içinde",
-        "maxDose": "",
-        "note": "Akut başlangıç + yaşamı tehdit eden bulguda. Hipoperfüzyon sürerse 5 dk içinde tekrar.",
-        "practitionerAuthority": "AABT"
-      },
-      {
-        "name": "%0,9 NaCl",
-        "dose": "500 ml bolus",
-        "routes": [
-          "IV"
-        ],
-        "authority": "DIRECT",
-        "repeat": "",
-        "maxDose": "",
-        "note": "Anafilakside dolaşım desteği; şemadaki sıraya göre.",
-        "practitionerAuthority": "AABT"
-      },
-      {
-        "name": "Adrenalin infüzyon",
-        "dose": "1 mcg/dk IV",
-        "routes": [
-          "IV"
-        ],
-        "authority": "SKKM",
-        "repeat": "",
-        "maxDose": "",
-        "note": "Düzelme olmazsa resmî şemada SKKM/ÇM simgesiyle gösterilmiş.",
-        "practitionerAuthority": "AABT"
-      },
-      {
-        "name": "Difenhidramin / Feniramin",
-        "dose": "25–50 mg / 45,5 mg IV yavaş",
-        "routes": [
-          "IV"
-        ],
-        "authority": "SKKM",
-        "repeat": "",
-        "maxDose": "",
-        "note": "Anafilaksi Y-22 ileri basamağındaki antihistaminikler; resmî telefon simgeli basamak.",
-        "practitionerAuthority": "AABT"
-      },
-      {
-        "name": "Salbutamol",
-        "dose": "2,5–5 mg",
-        "routes": [
-          "OTHER"
-        ],
-        "authority": "SKKM",
-        "repeat": "",
-        "maxDose": "",
-        "note": "Anafilaksi Y-22'de bronkospazm için; resmî kutu uygulama yolunu belirtmediğinden yol türetilmemiştir.",
-        "practitionerAuthority": "AABT"
-      },
-      {
-        "name": "Metilprednizolon",
-        "dose": "1–2 mg/kg IV (maks 125 mg)",
-        "routes": [
-          "IV"
-        ],
-        "authority": "SKKM",
-        "repeat": "",
-        "maxDose": "",
-        "note": "Resmî şemada profilaktik basamak olarak gösterilmiş.",
-        "practitionerAuthority": "AABT"
-      }
-    ],
-    "decision": {
-      "q": "Sokma sonrası sistemik alerjik bulgu var mı?",
-      "yes": "Anafilaksi bulgularını kontrol et → gerekiyorsa SB-ASH-Y-22 Anafilaksi algoritmasına geç.",
-      "no": "Lokal bakım + seri yeniden değerlendirme + nakil."
-    },
     "population": "adult",
     "uiPriority": "high",
     "clinicalStatus": "reviewed",
+    "summary": "Isıran veya sokan etkeni belirle; kara ve deniz canlılarında resmî Y-26 bakımını uygula, vital/zehirlenme/alergi bulgularını izle ve gerektiğinde ilgili alerji-anafilaksi algoritmasına geç.",
     "criticalActions": [
-      "Etkeni ve sokma yerini değerlendir; görünür arı iğnesi varsa çıkar.",
-      "Hava yolu-solunum-dolaşım tehdidi ve sistemik alerji/anafilaksi bulgularını aynı anda ara.",
-      "Yaşamı tehdit eden anafilaksi bulgusu varsa gecikmeden anafilaksi algoritmasına geç ve IM adrenalini önceliklendir."
+      "Acil olgu yönetimini uygula; ısıran/sokan etkeni belirle, ısırılan yeri ve yarayı değerlendir.",
+      "Kara canlılarında lokal soğuk; deniz canlılarında %0,9 NaCl veya steril su ile 100–250 mL irrigasyon ve tolere edilebilir sıcak suda en az 20 dk bekletme yaklaşımını uygula.",
+      "Yıka ve sabitle; ödem sınırını her 5 dk'da bir izle. Vital bulgularla birlikte zehirlenme, alerjik reaksiyon ve anafilaksi bulgularını gözle."
+    ],
+    "quick": [
+      "<strong>Arı:</strong> Görülebilen arı iğnesini çıkar.",
+      "<strong>Yılan/akrep:</strong> Turnike uygulama. Kompresyon bandı/sıkı bandaj kullanılıyorsa bir parmak girecek kadar gevşek olmalıdır.",
+      "<strong>Kene:</strong> Ezmeden ve parçalamadan çıkar. Eğitimli, kendinden emin ve gerekli ekipmanı olan ambulans ekibi hastane öncesinde çıkarabilir; aksi durumda keneyi çıkarmadan naklet.",
+      "<strong>Kişisel korunma:</strong> İlk müdahale ve taşıma sırasında bulaş riskine karşı uygun kişisel koruyucu ekipman kullan.",
+      "<strong>Alerjik reaksiyon / anafilaksi:</strong> Y-26 içinde ilaç basamağı türetilmez; ilgili algoritmaya geç."
+    ],
+    "warningFindings": [
+      "Yılan/akrep ısırma-sokmalarında turnike kullanımı",
+      "Kenenin ezilmesi, parçalanması veya deneyimsiz müdahaleyle çıkarılması",
+      "Hızla artan ödem, zehirlenme bulguları, alerjik reaksiyon veya anafilaksi",
+      "Deniz canlısı temasında uygun irrigasyon/sıcak su uygulamasının atlanması"
+    ],
+    "meds": [],
+    "decision": {
+      "q": "Isıran/sokan etken kara canlısı mı, deniz canlısı mı?",
+      "yes": "Kara canlısı yaklaşımını uygula; lokal soğuk sonrası ortak yara bakımı ve seri değerlendirmeye geç.",
+      "no": "Deniz canlısı yaklaşımını uygula; irrigasyon + en az 20 dk tolere edilebilir sıcak su sonrası ortak bakıma geç."
+    },
+    "decisionIntegrated": true,
+    "algorithmBranchLayout": "split",
+    "algorithmSteps": [
+      {
+        "html": "<strong>Acil olgu yönetimini uygula.</strong>",
+        "approvalAuthority": "DIRECT",
+        "practitionerAuthority": "ATT_AABT"
+      },
+      {
+        "html": "<strong>Isıran veya sokan etkeni belirle.</strong> Isırılan yeri tespit et, yaralanma izini değerlendir.",
+        "approvalAuthority": "DIRECT",
+        "practitionerAuthority": "ATT_AABT"
+      }
+    ],
+    "algorithmBranches": [
+      {
+        "label": "Kara canlıları",
+        "steps": [
+          {
+            "html": "<strong>Isırılan bölgeye lokal soğuk uygula.</strong>",
+            "approvalAuthority": "DIRECT",
+            "practitionerAuthority": "ATT_AABT"
+          },
+          {
+            "html": "<strong>Yıka ve sabitle.</strong>",
+            "approvalAuthority": "DIRECT",
+            "practitionerAuthority": "ATT_AABT"
+          },
+          {
+            "html": "<strong>Her 5 dk'da bir ödemin sınırını izle.</strong>",
+            "approvalAuthority": "DIRECT",
+            "practitionerAuthority": "ATT_AABT"
+          },
+          {
+            "html": "Hastanın <strong>vitallerini takip et; zehirlenme, alerjik reaksiyon ve anafilaksi bulgularını gözlemle.</strong>",
+            "approvalAuthority": "DIRECT",
+            "practitionerAuthority": "ATT_AABT",
+            "followUp": {
+              "label": "Alerjik reaksiyon / anafilaksi varsa",
+              "transition": "İLGİLİ ALGORİTMAYA GİT"
+            }
+          }
+        ]
+      },
+      {
+        "label": "Deniz canlıları",
+        "steps": [
+          {
+            "html": "Isırılan bölgeyi <strong>%0,9 NaCl veya steril su ile 100–250 mL arasında sıvı ile irrige et.</strong> Bölgeyi mümkünse yakmayacak seviyede lokal sıcak su içinde <strong>en az 20 dk</strong> beklet.",
+            "approvalAuthority": "DIRECT",
+            "practitionerAuthority": "ATT_AABT"
+          },
+          {
+            "html": "<strong>Yıka ve sabitle.</strong>",
+            "approvalAuthority": "DIRECT",
+            "practitionerAuthority": "ATT_AABT"
+          },
+          {
+            "html": "<strong>Her 5 dk'da bir ödemin sınırını izle.</strong>",
+            "approvalAuthority": "DIRECT",
+            "practitionerAuthority": "ATT_AABT"
+          },
+          {
+            "html": "Hastanın <strong>vitallerini takip et; zehirlenme, alerjik reaksiyon ve anafilaksi bulgularını gözlemle.</strong>",
+            "approvalAuthority": "DIRECT",
+            "practitionerAuthority": "ATT_AABT",
+            "followUp": {
+              "label": "Alerjik reaksiyon / anafilaksi varsa",
+              "transition": "İLGİLİ ALGORİTMAYA GİT"
+            }
+          }
+        ]
+      }
     ],
     "source": {
       "documentId": "EK2-2026",
       "documentTitle": "Hastane Öncesi Acil Tıbbi Yardım ve Bakım Akış Şemaları",
       "effectiveDate": "2026-08-25",
       "officialPageDate": "2026-09-11",
-      "reviewedAt": "2026-09-22",
+      "reviewedAt": "2026-09-24",
       "officialPageUrl": "https://acilafet.saglik.gov.tr/TR-119840/hastane-oncesi-acil-tibbi-yardim-ve-bakim-akis-semalari.html",
       "officialPdfUrl": "https://dosyamerkez.saglik.gov.tr/Eklenti/55773/0/ek-2-hastane-oncesi-acil-tibbi-yardim-ve-bakim-akis-semalaripdf.pdf",
       "section": "adult",
       "algorithmCodes": [
-        "SB-ASH-Y-26",
-        "SB-ASH-Y-22"
+        "SB-ASH-Y-26"
       ],
-      "page": "44–45 / 37",
+      "page": "44–45",
       "codeStatus": "verified"
-    },
-    "severityView": {
-      "title": "Klinik görünüm",
-      "note": "Bu ayrım hızlı eğitim görünümüdür; resmî arı sokması şemasında ayrı bir üçlü tedavi sınıflaması değildir."
     }
   },
   {
@@ -1043,7 +1015,10 @@ const CASES = [
       "<strong>Acil olgu yönetimini uygula, ağrı sorgula.</strong> Hastayı sakinleştir; gereksiz efordan kaçın ve kesinlikle yürütme.",
       "<strong>En kısa sürede vital bulgular + 12 derivasyonlu EKG.</strong>",
       "<strong>SpO₂ < %90 ise O₂ ver.</strong>",
-      "<strong>Asetilsalisilik asit 160–325 mg çiğnet.</strong> Hipotansiyon/bradikardi yoksa SKKM/ÇM ile isosorbid dinitrat 5 mg SL; ağrı sürerse 3–5 dk arayla toplam 3 doza kadar."
+      "<strong>Asetilsalisilik asit 160–325 mg çiğnet.</strong> Hipotansiyon/bradikardi yoksa SKKM/ÇM ile isosorbid dinitrat 5 mg SL; ağrı sürerse 3–5 dk arayla toplam 3 doza kadar.",
+      "<strong>Nitrat güvenliği:</strong> hipotansiyon, sağ ventrikül MI, bradikardi veya sildenafil/vardenafil/tadalafil kullanımı varsa izosorbid dinitrat verme.",
+      "<strong>Fentanil:</strong> diğer girişimlere rağmen tolere edilemeyen şiddetli ağrıda SKKM/ÇM ile 1 mcg/kg IV yavaş bolus; bulantı ve solunum depresyonu açısından izle.",
+      "<strong>STEMI:</strong> ilk tıbbi temastan itibaren primer perkütan girişimin 120 dk içinde yapılabilirliğini reperfüzyon/nakil planında dikkate al."
     ],
     "warningFindings": [
       "ST elevasyonlu MI bulguları",
@@ -1107,7 +1082,7 @@ const CASES = [
       "documentTitle": "Hastane Öncesi Acil Tıbbi Yardım ve Bakım Akış Şemaları",
       "effectiveDate": "2026-08-25",
       "officialPageDate": "2026-09-11",
-      "reviewedAt": "2026-09-22",
+      "reviewedAt": "2026-09-24",
       "officialPageUrl": "https://acilafet.saglik.gov.tr/TR-119840/hastane-oncesi-acil-tibbi-yardim-ve-bakim-akis-semalari.html",
       "officialPdfUrl": "https://dosyamerkez.saglik.gov.tr/Eklenti/55773/0/ek-2-hastane-oncesi-acil-tibbi-yardim-ve-bakim-akis-semalaripdf.pdf",
       "section": "adult",
@@ -1162,7 +1137,8 @@ const CASES = [
       "Ses çıkaramama / konuşamama",
       "Etkisiz veya sessiz öksürük",
       "Siyanoz",
-      "Bilinç kaybı"
+      "Bilinç kaybı",
+      "Kısmi hava yolu tıkanıklığında sırta vurma gibi müdahaleler tam tıkanıklığa dönüşmeye neden olabilir."
     ],
     "meds": [],
     "decision": {
@@ -1183,7 +1159,7 @@ const CASES = [
       "documentTitle": "Hastane Öncesi Acil Tıbbi Yardım ve Bakım Akış Şemaları",
       "effectiveDate": "2026-08-25",
       "officialPageDate": "2026-09-11",
-      "reviewedAt": "2026-09-21",
+      "reviewedAt": "2026-09-24",
       "officialPageUrl": "https://acilafet.saglik.gov.tr/TR-119840/hastane-oncesi-acil-tibbi-yardim-ve-bakim-akis-semalari.html",
       "officialPdfUrl": "https://dosyamerkez.saglik.gov.tr/Eklenti/55773/0/ek-2-hastane-oncesi-acil-tibbi-yardim-ve-bakim-akis-semalaripdf.pdf",
       "section": "adult",
@@ -1378,7 +1354,8 @@ const CASES = [
       "<strong>Acil olgu yönetimini uygula.</strong> Soğuk çevreden uzaklaştır; ıslak/soğuk kıyafetleri çıkar, ısı kaybını engelle.",
       "<strong>Hafif:</strong> bilinç açık, titreme, 32–35°C → sıcak ortam/kıyafet/battaniye, sıcak içecek ve minimal hareket.",
       "<strong>Orta:</strong> bilinç bozukluğu, 28–32°C → monitörize et, ılık O₂, ısı paketleri/termal battaniye, ılık %0,9 NaCl ve immobilizasyon.",
-      "<strong>Ağır:</strong> bilinç kapalı, <28°C → orta hipotermi tedavisine ek hava yolu güvenliği."
+      "<strong>Ağır:</strong> bilinç kapalı, <28°C → orta hipotermi tedavisine ek hava yolu güvenliği.",
+      "<strong>Anahtar Nokta:</strong> Orta/ciddi hipotermide bilinç değişikliği varsa aktif dış ısıtmayı düşün; ısıtılmış-nemlendirilmiş O₂ <strong>42–46°C</strong>, ısıtılmış IV sıvılar <strong>40–42°C</strong>."
     ],
     "warningFindings": [
       "Vücut ısısı <28°C",
@@ -1418,7 +1395,7 @@ const CASES = [
       "documentTitle": "Hastane Öncesi Acil Tıbbi Yardım ve Bakım Akış Şemaları",
       "effectiveDate": "2026-08-25",
       "officialPageDate": "2026-09-11",
-      "reviewedAt": "2026-09-22",
+      "reviewedAt": "2026-09-24",
       "officialPageUrl": "https://acilafet.saglik.gov.tr/TR-119840/hastane-oncesi-acil-tibbi-yardim-ve-bakim-akis-semalari.html",
       "officialPdfUrl": "https://dosyamerkez.saglik.gov.tr/Eklenti/55773/0/ek-2-hastane-oncesi-acil-tibbi-yardim-ve-bakim-akis-semalaripdf.pdf",
       "section": "adult",
@@ -1575,7 +1552,9 @@ const CASES = [
       "<strong>Acil olgu yönetimini uygula.</strong> Hava yolu güvenliğini sağla ve solunumu kontrol et.",
       "<strong>Spontan solunum varsa</strong> maske ile O₂ ver.",
       "<strong>Spontan solunum yoksa</strong> BVM ile solunumu destekle.",
-      "<strong>Solunum geri gelirse O₂;</strong> solunum yok/gasping ise arrest yönetimi algoritmasına geç."
+      "<strong>Solunum geri gelirse O₂;</strong> solunum yok/gasping ise arrest yönetimi algoritmasına geç.",
+      "Bilinç kapalıysa veya travma şüphesi varsa (sığ suya dalma/atlama, su sporları vb.) <strong>spinal stabilizasyon sağla.</strong>",
+      "Sudan çıkarıldıktan sonra <strong>ıslak giysileri çıkar, hastayı kurula ve hipotermiden koru.</strong>"
     ],
     "warningFindings": [
       "Apne / gasping",
@@ -1602,7 +1581,7 @@ const CASES = [
       "documentTitle": "Hastane Öncesi Acil Tıbbi Yardım ve Bakım Akış Şemaları",
       "effectiveDate": "2026-08-25",
       "officialPageDate": "2026-09-11",
-      "reviewedAt": "2026-09-21",
+      "reviewedAt": "2026-09-24",
       "officialPageUrl": "https://acilafet.saglik.gov.tr/TR-119840/hastane-oncesi-acil-tibbi-yardim-ve-bakim-akis-semalari.html",
       "officialPdfUrl": "https://dosyamerkez.saglik.gov.tr/Eklenti/55773/0/ek-2-hastane-oncesi-acil-tibbi-yardim-ve-bakim-akis-semalaripdf.pdf",
       "section": "adult",
@@ -3478,7 +3457,7 @@ const CASES = [
       "documentTitle": "Hastane Öncesi Acil Tıbbi Yardım ve Bakım Akış Şemaları",
       "effectiveDate": "2026-08-25",
       "officialPageDate": "2026-09-11",
-      "reviewedAt": "2026-09-22",
+      "reviewedAt": "2026-09-24",
       "officialPageUrl": "https://acilafet.saglik.gov.tr/TR-119840/hastane-oncesi-acil-tibbi-yardim-ve-bakim-akis-semalari.html",
       "officialPdfUrl": "https://dosyamerkez.saglik.gov.tr/Eklenti/55773/0/ek-2-hastane-oncesi-acil-tibbi-yardim-ve-bakim-akis-semalaripdf.pdf",
       "section": "adult",
@@ -3498,7 +3477,10 @@ const CASES = [
       "Yanma sürecini durdur; acil olgu yönetimini uygula.",
       "İnhalasyon yanığı/hava yolu ödemi riski varsa oksijenizasyon ve ventilasyonu destekle, erken ileri hava yolunu düşün.",
       "Yanık alanını değerlendirmek için uygun yüzdelik yöntem kullan; yanık yüzeyini steril örtüyle koru.",
-      "<strong>Ringer Laktat başla.</strong> Şok yoksa 1 saatten kısa nakilde 500 mL Ringer Laktat; daha uzun nakilde Parkland yaklaşımı <strong>(2 × VYA% × kg) / 16 mL/saat</strong>. Ağrı için fentanil 1 mcg/kg IV yavaş/IM, SKKM/ÇM ile."
+      "<strong>Ringer Laktat başla.</strong> Şok yoksa 1 saatten kısa nakilde 500 mL Ringer Laktat; daha uzun nakilde Parkland yaklaşımı <strong>(2 × VYA% × kg) / 16 mL/saat</strong>. Ağrı için fentanil 1 mcg/kg IV yavaş/IM, SKKM/ÇM ile.",
+      "Giysi ve takıları çıkar; <strong>cilde yapışmış giysiyi ayırmaya çalışma.</strong> Yanık yüzeyini uygun yanık örtüsü/steril örtü ile koru.",
+      "Hastane öncesi sıvı tedavisini; ağırlığı <strong>≥30 kg ve yanık alanı ≥%15</strong> veya ağırlığı <strong><30 kg ve yanık alanı ≥%10</strong> ise değerlendir. Uzun nakilde vital bulgular, monitörizasyon ve idrar çıkışını takip et.",
+      "<strong>Yanık merkezi/ünitesi:</strong> yaş 10–50'de kısmi kalınlık >%25 VYA; <10 veya >50 yaşta >%20 VYA; tam kalınlık >%10 VYA; el-yüz-ayak-perine, büyük eklem, sirküler ekstremite, inhalasyon, elektrik/kimyasal yanık, eşlik eden kırık/majör travma veya yüksek riskli hastada SKKM/ÇM ile uygun merkeze nakli değerlendir."
     ],
     "warningFindings": [
       "Yüz/boyun yanığı, inhalasyon bulgusu, stridor",
@@ -3926,7 +3908,8 @@ const CASES = [
       "<strong>Ciddi bulgular (SLUDGE-BBB):</strong> salivasyon, lakrimasyon, ürinasyon, defekasyon, GİS krampları, emezis, bradikardi, bronkore ve bronkospazm.",
       "<strong>Atropin:</strong> 1–2 mg IV; IV yol açılamıyorsa 2–5 mg IM.",
       "Trakeobronşiyal sekresyonlar azalıncaya kadar <strong>5 dk'da bir tekrarla</strong>.",
-      "Kolinerjik etkili ajanlar arasında sinir gazları ve tarım ilaçları bulunur."
+      "Kolinerjik etkili ajanlar arasında sinir gazları ve tarım ilaçları bulunur.",
+      "Oral alımda ilk 30 dk içinde gastrik lavaj etkili olabilir; <strong>resmî Anahtar Noktaya göre acil serviste uygulanmalıdır.</strong>"
     ],
     "warningFindings": [
       "Yoğun sekresyon / bronkore ve bronkospazm",
@@ -3959,7 +3942,7 @@ const CASES = [
       "documentTitle": "Hastane Öncesi Acil Tıbbi Yardım ve Bakım Akış Şemaları",
       "effectiveDate": "2026-08-25",
       "officialPageDate": "2026-09-11",
-      "reviewedAt": "2026-09-22",
+      "reviewedAt": "2026-09-24",
       "officialPageUrl": "https://acilafet.saglik.gov.tr/TR-119840/hastane-oncesi-acil-tibbi-yardim-ve-bakim-akis-semalari.html",
       "officialPdfUrl": "https://dosyamerkez.saglik.gov.tr/Eklenti/55773/0/ek-2-hastane-oncesi-acil-tibbi-yardim-ve-bakim-akis-semalaripdf.pdf",
       "section": "adult",
@@ -3994,7 +3977,8 @@ const CASES = [
       "<strong>Nalokson:</strong> SKKM/ÇM ile başlangıç 0,4–2 mg IM / IV / IO / SC; maksimum 10 mg.",
       "Algoritmada düzelme olmazsa <strong>2–3 dk'da bir tekrar</strong>; anahtar noktalarda istenen etkiye kadar 0,1–0,4 mg titrasyon belirtilir.",
       "Apne veya siyanoz varsa anahtar noktalarda <strong>2 mg IV</strong> belirtilir.",
-      "Hipotansiyonda %0,9 NaCl IV yüklemesi yap; solunum depresyonu sürerse ileri hava yolu uygulaması için hazırlan."
+      "Hipotansiyonda %0,9 NaCl IV yüklemesi yap; solunum depresyonu sürerse ileri hava yolu uygulaması için hazırlan.",
+      "<strong>Naloksonu kesme koşulu:</strong> spontan solunum eforu geri dönerse veya ajitasyon gelişirse IV nalokson uygulamasını durdur."
     ],
     "warningFindings": [
       "Solunum depresyonu / apne / siyanoz",
@@ -4015,7 +3999,7 @@ const CASES = [
         "authority": "SKKM",
         "repeat": "Düzelme olmazsa 2–3 dk; anahtar noktalarda yanıta göre 0,1–0,4 mg titrasyon",
         "maxDose": "10 mg",
-        "note": "Resmî Y-36 telefon simgeli basamak. Anahtar noktada apne/siyanozda 2 mg IV; 0,4–2 mg başlangıç dozu opioid bağımlısı olmayan hasta için belirtilmiştir.",
+        "note": "Resmî Y-36 telefon simgeli basamak. Anahtar noktada apne/siyanozda 2 mg IV; 0,4–2 mg başlangıç dozu opioid bağımlısı olmayan hasta için belirtilmiştir. Spontan solunum eforu geri dönerse veya ajitasyon gelişirse IV nalokson durdurulur.",
         "practitionerAuthority": "AABT"
       },
       {
@@ -4041,7 +4025,7 @@ const CASES = [
       "documentTitle": "Hastane Öncesi Acil Tıbbi Yardım ve Bakım Akış Şemaları",
       "effectiveDate": "2026-08-25",
       "officialPageDate": "2026-09-11",
-      "reviewedAt": "2026-09-22",
+      "reviewedAt": "2026-09-24",
       "officialPageUrl": "https://acilafet.saglik.gov.tr/TR-119840/hastane-oncesi-acil-tibbi-yardim-ve-bakim-akis-semalari.html",
       "officialPdfUrl": "https://dosyamerkez.saglik.gov.tr/Eklenti/55773/0/ek-2-hastane-oncesi-acil-tibbi-yardim-ve-bakim-akis-semalaripdf.pdf",
       "section": "adult",
@@ -4276,7 +4260,7 @@ const CASES = [
       "documentTitle": "Hastane Öncesi Acil Tıbbi Yardım ve Bakım Akış Şemaları",
       "effectiveDate": "2026-08-25",
       "officialPageDate": "2026-09-11",
-      "reviewedAt": "2026-09-22",
+      "reviewedAt": "2026-09-24",
       "officialPageUrl": "https://acilafet.saglik.gov.tr/TR-119840/hastane-oncesi-acil-tibbi-yardim-ve-bakim-akis-semalari.html",
       "officialPdfUrl": "https://dosyamerkez.saglik.gov.tr/Eklenti/55773/0/ek-2-hastane-oncesi-acil-tibbi-yardim-ve-bakim-akis-semalaripdf.pdf",
       "section": "adult",
@@ -4296,7 +4280,10 @@ const CASES = [
       "Kurtarma öncesinde damar yolu yoksa aç; damar yolu bulunduğunda <strong>%0,9 NaCl 1000 mL/saat</strong> başla.",
       "Kurtarma sırasında verilen %0,9 NaCl hidrasyonuna devam et. Kurtarma <strong>2 saatten uzun</strong> sürerse hızı <strong>500 mL/saat veya daha aza</strong> indir.",
       "Kurtarma sonrası Travmalı Hastada Acil Olgu Yönetimini uygula; hiperkalemi açısından EKG çek. <strong>Normal EKG hiperkalemiyi dışlamaz.</strong>",
-      "Resmî telefon simgeli ileri basamakta toplam <strong>3000–6000 mL</strong> sıvı; hiperkalemi bulgusu varsa <strong>%10 kalsiyum glukonat 10–30 mL IV, 2–3 dk içinde</strong>."
+      "Resmî telefon simgeli ileri basamakta toplam <strong>3000–6000 mL</strong> sıvı; hiperkalemi bulgusu varsa <strong>%10 kalsiyum glukonat 10–30 mL IV, 2–3 dk içinde</strong>.",
+      "<strong>Anahtar Nokta — idrar takibi:</strong> sıvı tedavisi başlandıktan sonra 6 saat izle. İdrar çıkışı ve yakın takip varsa >6000 mL/gün; idrar çıkışı var ancak yakın takip yoksa 3000–6000 mL/gün; idrar çıkışı yoksa 500–1000 mL/gün + bir önceki gün tahmini toplam kayıp kadar IV sıvı bilgisi resmî tabloda yer alır.",
+      "Hiperkalemi acil tedavi seçenekleri Anahtar Noktalarda <strong>kalsiyum glukonat, insülin-dekstroz, sodyum bikarbonat ve diyaliz</strong> olarak sayılır; burada kaynakta olmayan doz türetilmez.",
+      "<strong>Hastanın kendi imkânıyla çıkmış veya yürüyebiliyor olması crush sendromunu dışlamaz.</strong>"
     ],
     "warningFindings": [
       "Yarım saatten uzun sıkışma/göçük altında kalma",
@@ -4525,6 +4512,7 @@ const CASES = [
       "<strong>Yeniden triyaj:</strong> Zaman ve olanak olduğunda tekrarla; gerekirse daha ciddi triyaj kodu verilebilir."
     ],
     "warningFindings": [
+      "Triyaja, uygulayıcıya en yakın hastadan başlanır.",
       "Triyaj kartında yaralıların nakil öncelik sırasını belirlemek amacıyla sadece renk kodu işaretlenir; triyaj sırasında tedavi/KPR yapılmaz.",
       "İdeal olarak triyajı tek sağlık personeli yapar; geniş alanlarda veya yaralı sayısının çok olduğu durumlarda birden fazla sağlık personeli alanı paylaşarak triyaj yapabilir.",
       "Triyaj süresi her hasta için 1 dk’dan kısa olmalıdır.",
