@@ -564,7 +564,7 @@ for(const term of ['MI, KKY, disritmi','şok, sepsis, menenjit','üremi','elektr
 const vertigoAudit=(CASES||[]).find(c=>c.id==='vertigo');
 for(const term of ['tekrarlayan ve kontrolsüz','kapiller geri dolum','nabız dolgunluğu ve hızı','cilt dolaşımı','kan basıncı ve bilinç'])if(!JSON.stringify(vertigoAudit).includes(term))err(`Y-20 Vertigo Anahtar Nokta eksik: ${term}`);
 for(const term of ['kulak çınlaması','batında hassasiyet','tükürük salgısında artma veya azalma','lakrimasyon'])if(!JSON.stringify(poisoningGeneralCase).includes(term))err(`Y-31 genel zehirlenme bulgu tablosu eksik: ${term}`);
-for(const term of ['antikolinerjik sendrom','deliryum','kırmızı-kuru cilt','solunum arresti','şok tedavisini geciktirme','erken monitörizasyon'])if(!JSON.stringify(tcaCase).toLocaleLowerCase('tr-TR').includes(term.toLocaleLowerCase('tr-TR')))err(`Y-37 TCA Anahtar Nokta eksik: ${term}`);
+
 
 const coCase=(CASES||[]).find(c=>c.id==='carbon-monoxide');
 if(coCase?.source?.reviewedAt!=='2026-09-24')err('Y-33 son kaynak gözden geçirme tarihi güncel değil');
@@ -601,6 +601,7 @@ if(medByName(tcaCase,'%0,9 NaCl — hipotansiyon')?.authority!=='DIRECT')err('TC
 const bicarbonate=medByName(tcaCase,'Sodyum bikarbonat (NaHCO₃)');
 if(bicarbonate?.authority!=='SKKM'||bicarbonate?.dose!=='1–2 mEq/kg'||!String(bicarbonate?.repeat||'').includes('3–5 dk'))err('Y-37 NaHCO3 doz/tekrar/yetki sabiti bozuldu');
 for(const term of ['QRS >0,10 sn','>100 ms','>160 ms'])if(!JSON.stringify(tcaCase).includes(term))err(`Y-37 QRS öğesi eksik: ${term}`);
+for(const term of ['antikolinerjik sendrom','deliryum','kırmızı-kuru cilt','solunum arresti','şok tedavisini geciktirme','erken monitörizasyon'])if(!JSON.stringify(tcaCase).toLocaleLowerCase('tr-TR').includes(term.toLocaleLowerCase('tr-TR')))err(`Y-37 TCA Anahtar Nokta eksik: ${term}`);
 
 for(const [i,c] of (CASES||[]).entries()){
   const at=`CASES[${i}] ${c?.id||'(id yok)'}`;
