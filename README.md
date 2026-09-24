@@ -2,7 +2,17 @@
 
 Mobil-first, offline çekirdekli, vaka bazlı hastane öncesi acil sağlık eğitim ve hızlı hatırlatma uygulaması.
 
-## V0.43 mimarisi
+## V0.44 mimarisi
+
+- **Sıkı ikinci kaynak audit'i:** Önceki audit sonuçları doğru kabul edilmeden resmî PDF sayfa görüntüleri yeniden okundu; metin, doz, yol, tekrar/maksimum, ATT/AABT rengi, SKKM/ÇM simgesi, Anahtar Nokta ve akış geometrisi tekrar çaprazlandı.
+- **Y-38 önemli düzeltme:** Resmî s.67'deki ifade **“Tüm giysileri yararak vücut kontrolünü tamamla hipotermiden koru”**. V0.39'da bunu yanlışlıkla “çıkararak” diye değiştirmiştik. V0.44'te kaynak metnine geri dönüldü ve eski yanlış regresyon testi kaldırıldı.
+- **Y-38 adli vaka ayrıntısı:** Ateşli silah yaralanmasında kıyafet kesilirken kurşun giriş yerinin kesilmemesi; kıyafetlerin tamamen çıkarıldıktan sonra muhafaza edilerek bilgi verilmesi Anahtar Noktası eklendi.
+- **Y-22 Anafilaksi:** Alerjen maddenin uzaklaştırılması ve bilinen alerjenle temas sonrası hipotansiyon / sistolik KB'de %30'dan fazla düşme dahil eksik tanı Anahtar Noktaları eklendi.
+- **Y-23 Hipertermi:** Pasif eksternal soğutma yöntemi açıklaştırıldı: üzerini çıkarma, soğuk/ılık su + havalandırma ile buharlaştırma, koltuk altı/kasığa ıslak bez veya spanç ve <39°C hedefi; aşırı soğutmadan kaçınma.
+- **Y-33 Karbonmonoksit:** Yangın dumanında PVC, naylon ve diğer sentetik materyaller nedeniyle CO dışında toksik/irritan gazların bulunabileceği resmî uyarı eklendi.
+- **Regresyon sertleştirmesi:** Y-38'in yanlış “çıkararak” metnine dönmesi artık hata; Y-22/Y-23/Y-33 yeni Anahtar Noktaları da validator/UI audit ile kilitlenir.
+
+### V0.43 önceki durum
 
 - **Baştan sona yetişkin audit'i:** Y-01/Y-02 temel protokoller + 37 yetişkin vaka, ilaç/sıvı kartları, ATT/AABT kutu rengi, SKKM/ÇM telefon simgesi, Anahtar Noktalar ve algoritma geçişleri 25.08.2026 Ek-2'ye karşı yeniden tarandı.
 - **Y-26 kapsam düzeltmesi:** Eski “Arı Sokması” kartı resmî **Isırma ve Sokmalar (SB-ASH-Y-26)** kapsamına döndürüldü. Kara ve deniz canlıları ayrı dallar; deniz canlılarında %0,9 NaCl/steril su 100–250 mL irrigasyon + en az 20 dk tolere edilebilir sıcak su; ortak yıkama-sabitleme, 5 dk ödem takibi ve vital/zehirlenme/alergi izlemi görünür.
@@ -44,7 +54,7 @@ Mobil-first, offline çekirdekli, vaka bazlı hastane öncesi acil sağlık eği
 - **Y-17/Y-18/Y-38 ortak geçiş modeli:** Resmî mavi “... ALGORİTMASINA GİT” kutuları artık `followUp.transition` ile ortak biçimde modellenir. Gri koşul/uyarı ile turkuaz eylem aynı mavi kutuya dönüştürülmez.
 - **Y-18 gri KB uyarısı:** “Tansiyon değerleri normalin üstünde olsa da tansiyonu düşürme” ayrı `followUp.notice` olarak gösterilir.
 - **Y-38 pelvis kolu:** “Pelvis travması ya da şüphesi varsa pelvisi sabitle” turkuaz eylem olarak kalır; yalnız sonraki Hipovolemik Şok bağlantısı mavi geçiştir.
-- **Y-38 metin düzeltmesi:** Resmî s.67'deki ifade “Tüm giysileri çıkararak vücut kontrolünü tamamla”; yanlış “yararak” kullanımı temizlendi.
+- **Y-38 metin notu (V0.39 — V0.44'te düzeltilmiştir):** V0.39'da “yararak” yanlışlıkla “çıkararak” yapılmıştı. V0.44 yeniden incelemede resmî s.67'nin “Tüm giysileri yararak vücut kontrolünü tamamla” dediği doğrulanarak geri alındı.
 - **Y-25 Anahtar Noktalar:** Uzun resüsitasyon süreleri önerisi, ıslak giysi/termal örtü/sıcak ortam ve sert fiziksel hareketten kaçınma; ciddi hipotermide ölçülemeyen KB, ağrılı uyarana yanıtsızlık ve pupil refleksi kaybının tek başına ölüm belirtisi olmadığı eklendi.
 - **Y-41 yeniden triyaj:** Zaman ve olanak olduğunda triyajın tekrarlanması ve daha ciddi triyaj kodu verilebilmesi açık hale getirildi.
 - **Regresyon:** Follow-up renderer smoke testi artık hem mavi `transition` hem gri `notice` yollarını gerçek fonksiyon çağrısıyla doğrular.
@@ -63,7 +73,7 @@ Mobil-first, offline çekirdekli, vaka bazlı hastane öncesi acil sağlık eği
 - **V0.37 Y-38 Travmalı Hastada Acil Olgu Yönetimi:** Resmî s.67 akışı, mobilde tekrar üretmeden okunabilen lineer X-ABCDE omurgasına taşındı. Düzeltici “Hayır” çıkışları ilgili basamağın hemen altında gösterilir; kaynakta olmayan paralel dallar üretilmedi.
 - **X / kanama:** Olay yeri güvenliği ve travma mekanizmasından sonra dışa doğru hayatı tehdit eden kanamada doğrudan bası korunur.
 - **A/B:** Servikal-spinal immobilizasyon, güvensiz hava yolunda açma–orofaringeal airway–aspirasyon–ileri hava yolu; stabil olmayan solunumda ventilasyon desteği, tansiyon pnömotoraksta iğne dekompresyonu, açık pnömotoraks kapatma ve hemotoraksta solunum/dolaşım desteği görünür.
-- **C/D/E ve geçişler:** Nabız yok → Arrest Yönetimi; dolaşım stabil değil → pelvis travması/şüphesinde sabitleme + Hipovolemik Şok; bilinç normal değil → Kafa Travmalı Hastaya Yaklaşım. Sonrasında giysileri çıkararak tam vücut kontrolü, hipotermiden koruma ve nakil sırasında ikincil değerlendirme/immobilizasyon sürdürme korunur.
+- **C/D/E ve geçişler:** Nabız yok → Arrest Yönetimi; dolaşım stabil değil → pelvis travması/şüphesinde sabitleme + Hipovolemik Şok; bilinç normal değil → Kafa Travmalı Hastaya Yaklaşım. Sonrasında giysileri yararak tam vücut kontrolü, hipotermiden koruma ve nakil sırasında ikincil değerlendirme/immobilizasyon sürdürme korunur.
 - **Yetki sadakati:** Y-38 eylem kutuları resmî sayfada turkuaz ve telefon simgesizdir; yapılandırılmış dokuz basamak `ATT_AABT + DIRECT` olarak kilitlendi. Mavi “ilgili algoritmaya git” kutuları ayrı klinik geçiştir, SKKM onayı olarak yorumlanmadı.
 - **Adli kanıt uyarısı:** Resmî gri uyarıdaki kanıt olabilecek materyallerin/giysilerin korunması Acil Uyarı Bulguları içinde görünür tutuldu.
 
@@ -137,7 +147,7 @@ Mobil-first, offline çekirdekli, vaka bazlı hastane öncesi acil sağlık eği
 - **V0.20 lineer eylem yetki genişlemesi:** `algorithmSteps[]` pilotu Astım Y-05, Akut Koroner Sendrom Y-06 ve Bradikardi Y-07'ye genişletildi. Turkuaz ortak ATT/AABT basamakları rozet üretmez; resmî turuncu basamaklarda yalnız `Yalnız AABT` gösterilir. SKKM/ÇM telefon simgesi bilgisi `approvalAuthority` alanında renk katmanından bağımsız tutulur. Nabızlı Taşikardi gibi çok dallı şemalar düz listeye zorlanmadan ayrı dal modeliyle ele alınacaktır.
 - **V0.19 eylem yetki pilotu — KOAH Y-04:** İlaç kartlarından bağımsız olarak algoritma adımları için `algorithmSteps[]` modeli eklendi. Her adım SKKM/ÇM durumunu (`approvalAuthority`) ve uygulayıcı kapsamını (`practitionerAuthority`) ayrı tutar. Resmî KOAH şemasında başlangıç/acil olgu yönetimi + pozisyon + O₂/PBV turkuaz `ATT_AABT`; ilk bronkodilatör, 20 dk tedavisi ve yanıtsız ağır hastada ileri hava yolu/NIMV turuncu `AABT` olarak görsel audit edildi. Arayüzde turkuaz/ortak adım için ek rozet gösterilmez; yalnız turuncu adımda `Yalnız AABT` görünür.
 - **V0.18 yetişkin ilaç uygulayıcı auditi tamamlandı:** Hipertermi Y-23, Hipotermi Y-24, Termal Yanık Y-28, Kalsiyum Kanal/Beta Bloker Zehirlenmesi Y-34, Kolinerjik Zehirlenme Y-35, Opioid Y-36, TCA Y-37 ve Crush Y-39 resmî kutu renkleri de görsel olarak doğrulandı. Mevcut yetişkin ilaç/sıvı kartlarının tamamında uygulayıcı sonucu artık açıkça veri alanında bulunur.
-- **Kaynak sadakati düzeltmeleri:** Termal Yanık Ringer Laktat, Y-34 IV %0,9 NaCl/RL hidrasyon, Y-36 hipotansiyon %0,9 NaCl ve Y-37 hipotansiyon %0,9 NaCl basamakları ilaç/sıvı kartlarına eklendi. Arı Sokması kartındaki Y-22 anafilaksi ilaç setine salbutamol eklendi. Y-22 salbutamol kutusunda uygulama yolu yazmadığı için önceki NEB çıkarımı kaldırılarak `Şemaya göre` yapıldı.
+- **Kaynak sadakati düzeltmeleri:** Termal Yanık Ringer Laktat, Y-34 IV %0,9 NaCl/RL hidrasyon, Y-36 hipotansiyon %0,9 NaCl ve Y-37 hipotansiyon %0,9 NaCl basamakları ilaç/sıvı kartlarına eklendi. Tarihsel olarak Arı Sokması kartında Y-22 anafilaksi ilaçları gösterilmişti; V0.43'te Y-26 resmî “Isırma ve Sokmalar” kapsamına ayrılarak bu ilaç seti karttan kaldırıldı. Y-22 salbutamol kutusunda uygulama yolu yazmadığı için önceki NEB çıkarımı kaldırılarak `Şemaya göre` yapıldı.
 - **V0.17 uygulayıcı audit paketi:** ROSC Y-12, Hipovolemik Şok Y-13, Kalp Yetmezliğine Bağlı Akut Akciğer Ödemi ve Kardiyojenik Şok Y-14, Ajite Hastaya Yaklaşım Y-15, Diyabetik Aciller Y-17, Nöbet/Konvülziyon Y-19, Alerjik Reaksiyon Y-21 ve Anafilaksi Y-22 ilaç/sıvı kutuları resmî PDF görüntülerinden doğrulandı ve turuncu kutular `Yalnız AABT` olarak işlendi.
 - **Y-17 kapsam düzeltmesi:** Önceki “Hipoglisemi” kartı resmî “Diyabetik Aciller” kapsamına geri getirildi. Glukoz >300 mg/dL kolundaki %0,9 NaCl IV infüzyon ve şok/dehidratasyonda Hipovolemik Şok algoritmasına geçiş eklendi; resmî şemada belirtilmeyen sıvı hacmi/hızı türetilmedi.
 - **V0.16 uygulayıcı audit paketi:** Astım Y-05, AKS Y-06, Bradikardi Y-07, Nabızlı Taşikardi Y-08 ve Kardiyak Arrest Y-09/Y-10/Y-11 ilaç kutuları resmî PDF sayfa görüntülerinden renk bazında doğrulandı; bu paketteki ilaç basamakları turuncu “Acil Tıp Teknikeri” kutusuyla eşleştiği için `Yalnız AABT` kısıtı veri modeline işlendi.
