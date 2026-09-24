@@ -376,7 +376,9 @@ const airwayCase=(CASES||[]).find(c=>c.id==='airway');
 if(airwayCase?.title!=='Hava Yolu Tıkanıklıkları'||airwayCase?.page!=='8')err('Hava Yolu Tıkanıklıkları resmî başlık/sayfa bozuldu');
 if(!JSON.stringify(airwayCase).includes('Kısmi hava yolu tıkanıklığında sırta vurma'))err('Y-03 kısmi tıkanıklıkta sırta vurma/tam tıkanma uyarısı eksik');
 if(asthmaCase?.title==='Astım Atağı')err('Astım resmî başlığı eski kaldı');
+for(const term of ['solunum sayısı ≥30/dk','SpO₂ <%90','kalp hızı >120 atım/dk','huzursuz/ajite','Etiyolojide anafilaksiyi'])if(!JSON.stringify(asthmaCase).includes(term))err(`Y-05 Astım ağır/ölümcül atak Anahtar Noktası eksik: ${term}`);
 if(bradyCase?.title!=='Bradikardi'||bradyCase?.page!=='16')err('Bradikardi resmî başlık/sayfa bozuldu');
+for(const term of ['hipotansiyon veya nabız <40 atım/dk','yakın asistoli öyküsü','Mobitz Tip 2 AV blok','ventriküler duraklama >3 sn','YARIM-YARIM-YARIM','250 mL izotonik/dekstroz','4 mcg/mL','2 mcg/mL','1 mcg/mL'])if(!JSON.stringify(bradyCase).includes(term))err(`Y-07 Bradikardi Anahtar Noktası eksik: ${term}`);
 if(JSON.stringify(arrestCase?.source?.algorithmCodes)!==JSON.stringify(['SB-ASH-Y-09','SB-ASH-Y-10','SB-ASH-Y-11'])||arrestCase?.page!=='18–22')err('Kardiyak Arrest Y-09/Y-10/Y-11 kaynak izi bozuldu');
 const drowningCase=(CASES||[]).find(c=>c.id==='drowning');
 if(!String(drowningCase?.criticalActions?.[0]||'').includes('suya girme')||!String(drowningCase?.criticalActions?.[0]||'').includes('at-çek-uzat'))err('Suda Boğulma at-çek-uzat güvenlik kuralı eksik');
@@ -407,6 +409,7 @@ if(JSON.stringify(traumaCase).includes('Tüm giysileri çıkararak'))err('Y-38 s
 const koahCase=(CASES||[]).find(c=>c.id==='koah');
 if(koahCase?.code!=='SB-ASH-Y-04'||koahCase?.page!=='10'||koahCase?.source?.page!=='9–10')err('KOAH Y-04 kaynak izi bozuldu');
 if(!JSON.stringify(koahCase).includes('%88–92'))err('KOAH SpO2 %88–92 hedefi eksik');
+for(const term of ['NIMV başarısızlığı','sedasyonla kontrol edilemeyen ajitasyon','inatçı kusma/aspirasyon riski','paradoksal karın hareketi/interkostal çekilme','klinik şiddetli dispne'])if(!JSON.stringify(koahCase).includes(term))err(`Y-04 KOAH ventilasyon Anahtar Noktası eksik: ${term}`);
 if(!JSON.stringify(koahCase?.severity?.mild?.bullets||[]).includes('O₂ desteğine ihtiyaç olmaması'))err('KOAH hafif kriterinde O₂ desteğine ihtiyaç olmaması eksik');
 if(!JSON.stringify(koahCase?.severity?.moderate?.bullets||[]).includes('Oksijen desteği ile hipoksemi görülmemesi'))err('KOAH orta kriterinde oksijen desteğiyle hipoksemi görülmemesi eksik');
 if(JSON.stringify(koahCase).includes('hipoksemi görülebilir'))err('KOAH orta kriterinde resmî anlamı tersine çeviren hipoksemi ifadesi var');
