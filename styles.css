@@ -681,5 +681,3 @@ html.dialog-open,html.dialog-open body{overflow:hidden}
 .algo-step-followup.transition>div{color:var(--blue);font-weight:750}
 :root[data-theme='dark'] .algo-precondition,:root[data-theme='dark'] .algo-notice{background:var(--detail-panel-deep);border-color:var(--detail-border)}
 :root[data-theme='dark'] .algo-transition{background:#245b96;color:#fff}
-:root[data-theme='dark'] .algo-step-followup.transition{background:color-mix(in srgb,#245b96 22%,var(--detail-panel-deep))}
-:root[data-theme='dark'] .algo-step-followup.transition>div{color:#9bc7f3}
