@@ -666,3 +666,20 @@ html.dialog-open,html.dialog-open body{overflow:hidden}
 :root[data-theme='dark'] .algo-branch.triage-yellow>.algo-branch-head strong{background:#3d3413;color:#ffe36a}
 :root[data-theme='dark'] .algo-branch.triage-red>.algo-branch-head strong{background:#402025;color:#ff9ca3}
 :root[data-theme='dark'] .algo-branch.triage-black>.algo-branch-head strong{background:#090b0e;color:#fff}
+
+
+/* V0.38 source-geometry fidelity + runtime-safe flow polish */
+.algo-precondition{margin:0 0 7px;padding:7px 9px;border:1px solid color-mix(in srgb,var(--muted) 28%,var(--line));border-radius:10px;background:color-mix(in srgb,var(--muted) 9%,var(--solid));color:var(--ink2);font-size:10.5px;font-weight:800;line-height:1.4}
+.algorithm-notices{display:grid;gap:8px;margin:10px 0}
+.algo-notice{display:grid;grid-template-columns:24px minmax(0,1fr);gap:8px;align-items:start;padding:9px 10px;border:1px solid color-mix(in srgb,var(--muted) 28%,var(--line));border-radius:12px;background:color-mix(in srgb,var(--muted) 8%,var(--solid))}
+.algo-notice>span{width:24px;height:24px;border-radius:50%;display:grid;place-items:center;background:color-mix(in srgb,var(--red) 15%,var(--solid));color:var(--red);font-weight:950}
+.algo-notice p{margin:0;font-size:10.5px;line-height:1.48;color:var(--ink2)}
+.algo-branch>.algo-notice{margin:0 0 8px}
+.algo-transition{display:flex;align-items:center;gap:8px;margin-top:8px;padding:9px 10px;border-radius:11px;background:color-mix(in srgb,var(--blue) 88%,#15345b);color:#fff;font-size:10.5px;line-height:1.35}
+.algo-transition>span{font-size:15px;font-weight:950}.algo-transition strong{font-weight:900}
+.algo-step-followup.transition{border-color:color-mix(in srgb,var(--blue) 35%,var(--line));background:color-mix(in srgb,var(--blue) 8%,var(--solid))}
+.algo-step-followup.transition>div{color:var(--blue);font-weight:750}
+:root[data-theme='dark'] .algo-precondition,:root[data-theme='dark'] .algo-notice{background:var(--detail-panel-deep);border-color:var(--detail-border)}
+:root[data-theme='dark'] .algo-transition{background:#245b96;color:#fff}
+:root[data-theme='dark'] .algo-step-followup.transition{background:color-mix(in srgb,#245b96 22%,var(--detail-panel-deep))}
+:root[data-theme='dark'] .algo-step-followup.transition>div{color:#9bc7f3}
