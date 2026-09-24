@@ -2,7 +2,16 @@
 
 Mobil-first, offline çekirdekli, vaka bazlı hastane öncesi acil sağlık eğitim ve hızlı hatırlatma uygulaması.
 
-## V0.40 mimarisi
+## V0.41 mimarisi
+
+- **V0.41 Y-19 Nöbet / Konvülziyon:** Resmî s.33 akışı yapılandırıldı: Acil olgu yönetimi → hava yolu/SpO₂ %94–98/PBV → DAKŞ → glukoz → kardiyak monitörizasyon → nöbet sonlandı/devam ediyor ayrımı.
+- **Hipoglisemi geçişi:** Glikoz <60 mg/dl ve/veya hipoglisemi bulguları gri koşul; Diyabetik Aciller bağlantısı mavi `transition` olarak gösterilir.
+- **Devam eden nöbet:** İlk diazepam 5 mg IV yavaş puşe veya midazolam 5 mg IV / 10 mg IM basamağı turuncu `AABT + SKKM`. Nöbet sürerse fenitoin 20 mg/kg (resmî şemada infüzyon hızı en fazla 25 mg/kg/dk) veya valproik asit 40 mg/kg IV infüzyon veya levetirasetam 60 mg/kg IV infüzyon yine `AABT + SKKM`.
+- **5 dk tekrar:** İkinci basamak sonrası nöbet devam ediyorsa diazepam/midazolam tekrar basamağı `AABT + SKKM`; son kararda nöbet devam ediyorsa turkuaz ileri hava yolu hazırlığı, sonlandıysa turkuaz postiktal hava yolu takibi.
+- **Kaynak geometrisi:** İlk benzodiazepinden sonra nöbet sonlanırsa doğrudan postiktal kola çıkılabilir; nöbet sürerse ikinci basamaklara ilerlenir. Böylece kaynakta olmayan “her hastaya tüm ilaçları sırayla ver” algısı oluşturulmaz.
+- **Gri güvenlik uyarısı:** Hastayı engellemeye çalışmama; yaralanmayı önlemek için baş altına yastık/katlanmış battaniye yerleştirme ayrı nötr uyarı olarak korunur.
+
+### V0.40 önceki durum
 
 - **V0.40 Y-40 Kafa Travmalı Hastaya Yaklaşım:** Resmî s.71 ana akışı yapılandırıldı: Acil olgu yönetimi → GKS ≤8/solunum yetmezliği/hava yolu tehlikesinde ileri hava yolu → SpO₂ %94–98 ve yaşa göre ventilasyon → kan şekeri → iki glukoz kolu.
 - **Glukoz dalları:** KŞ <60 veya >300 mg/dL → mavi Diyabetik Aciller geçişi. 60–300 mg/dL → turuncu AABT/DIRECT IV sıvı tedavisi ve SKB >100 mmHg hedefi.
