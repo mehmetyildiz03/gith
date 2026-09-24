@@ -797,7 +797,7 @@ const CASES = [
       "documentTitle": "Hastane Öncesi Acil Tıbbi Yardım ve Bakım Akış Şemaları",
       "effectiveDate": "2026-08-25",
       "officialPageDate": "2026-09-11",
-      "reviewedAt": "2026-09-23",
+      "reviewedAt": "2026-09-24",
       "officialPageUrl": "https://acilafet.saglik.gov.tr/TR-119840/hastane-oncesi-acil-tibbi-yardim-ve-bakim-akis-semalari.html",
       "officialPdfUrl": "https://dosyamerkez.saglik.gov.tr/Eklenti/55773/0/ek-2-hastane-oncesi-acil-tibbi-yardim-ve-bakim-akis-semalaripdf.pdf",
       "section": "adult",
