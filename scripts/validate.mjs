@@ -71,8 +71,8 @@ if(!APP_META?.routes?.includes('SC')||APP_META?.routeLabels?.SC!=='Subkutan (SC)
 if(APP_META?.authority?.DIRECT?.symbol!=='✓'||APP_META?.authority?.DIRECT?.visualLabel!=='SKKM/ÇM onayı gerektirmez')err('DIRECT yeşil/doğrudan sembol metası eksik');
 if(APP_META?.authority?.SKKM?.symbol!=='◆'||APP_META?.authority?.SKKM?.visualLabel!=='SKKM/ÇM onayı gerekli')err('SKKM sarı/onay sembol metası eksik');
 if(APP_META?.authority?.ALGORITHM?.symbol!=='•'||APP_META?.authority?.ALGORITHM?.visualLabel!=='Kaynakta SKKM/ÇM yetkisi belirtilmemiş')err('ALGORITHM kaynakta belirtilmeyen yetki metası eksik');
-if(APP_META?.contentVersion!=='EK2-2026.08.25-runtime-y25-y38-fidelity-1-2026.09.24')err('contentVersion V0.38 runtime/Y-25/Y-38 kaynak sadakati sürümüyle eşleşmiyor');
-if(APP_META?.productVersion!=='0.38')err('productVersion V0.38 olmalı');
+if(APP_META?.contentVersion!=='EK2-2026.08.25-runtime-y17-y18-y25-y38-fidelity-2-2026.09.24')err('contentVersion V0.39 kaynak geometrisi/regresyon sürümüyle eşleşmiyor');
+if(APP_META?.productVersion!=='0.39')err('productVersion V0.39 olmalı');
 if(APP_META?.practitionerAuthority?.ATT_AABT?.officialLabel!=='Acil Tıp Teknisyeni / Teknikeri'||APP_META?.practitionerAuthority?.AABT?.officialLabel!=='Acil Tıp Teknikeri'||APP_META?.practitionerAuthority?.UNVERIFIED?.symbol!=='□')err('ATT/AABT uygulayıcı yetki metası eksik veya bozuk');
 for(const code of ['SB-ASH-Y-04','SB-ASH-Y-05','SB-ASH-Y-06','SB-ASH-Y-07','SB-ASH-Y-08','SB-ASH-Y-09','SB-ASH-Y-10','SB-ASH-Y-11','SB-ASH-Y-12','SB-ASH-Y-13','SB-ASH-Y-14','SB-ASH-Y-15','SB-ASH-Y-17','SB-ASH-Y-19','SB-ASH-Y-21','SB-ASH-Y-22','SB-ASH-Y-23','SB-ASH-Y-24','SB-ASH-Y-28','SB-ASH-Y-29','SB-ASH-Y-34','SB-ASH-Y-35','SB-ASH-Y-36','SB-ASH-Y-37','SB-ASH-Y-39','SB-ASH-Y-40'])if(!APP_META?.practitionerAudit?.verifiedMedicationCases?.includes(code))err(`Uygulayıcı yetki görsel audit izi eksik: ${code}`);
 if(APP_META?.practitionerAudit?.adultMedicationCardsComplete!==true)err('Yetişkin ilaç kartları uygulayıcı audit tamamlama işareti eksik');
@@ -98,8 +98,8 @@ if((strokeCase?.algorithmSteps||[]).some(s=>s.practitionerAuthority==='AABT'))er
 const y18Glucose=strokeCase?.algorithmSteps?.[4];
 const y18BP=strokeCase?.algorithmSteps?.[7];
 const y18Transport=strokeCase?.algorithmSteps?.[8];
-if(!String(y18Glucose?.followUp?.label||'').includes('Glikoz <60 mg/dl')||!String(y18Glucose?.followUp?.html||'').includes('Diyabetik Aciller algoritmasına git'))err('Y-18 hipoglisemi yan geçişi bozuk');
-if(!String(y18BP?.followUp?.html||'').includes('tansiyonu düşürme'))err('Y-18 kan basıncı uyarısı eksik');
+if(!String(y18Glucose?.followUp?.label||'').includes('Glikoz <60 mg/dl')||y18Glucose?.followUp?.transition!=='DİYABETİK ACİLLER ALGORİTMASINA GİT')err('Y-18 hipoglisemi gri koşul/mavi geçişi bozuk');
+if(!String(y18BP?.followUp?.notice||'').includes('tansiyonu düşürme'))err('Y-18 gri kan basıncı uyarısı eksik');
 for(const required of ['Aspirasyon','%94–98','DAKŞ','BEFAST','30°','Kardiyak monitörizasyon','4,5 saat','6 saat'])if(!JSON.stringify(strokeCase).includes(required))err(`Y-18 kritik kaynak öğesi eksik: ${required}`);
 if(!String(y18Transport?.html||'').includes('uygun merkeze naklet'))err('Y-18 son uygun merkez nakil basamağı eksik');
 
@@ -203,6 +203,8 @@ if(hypoCase?.title!=='Diyabetik Aciller'||hypoCase?.page!=='31')err('Diyabetik A
 if(medByName(hypoCase,'Dekstroz')?.authority!=='DIRECT'||medByName(hypoCase,'Dekstroz')?.practitionerAuthority!=='AABT'||!String(medByName(hypoCase,'Dekstroz')?.repeat||'').includes('5–10 dk')||!JSON.stringify(hypoCase).includes('15 dk'))err('Diyabetik Aciller hipoglisemi dekstroz/tekrar sabitleri bozuldu');
 const hyperNaCl=medByName(hypoCase,'%0,9 NaCl — hiperglisemi');
 if(hyperNaCl?.dose!=='IV infüzyon'||hyperNaCl?.authority!=='DIRECT'||hyperNaCl?.practitionerAuthority!=='AABT'||!JSON.stringify(hypoCase).includes('>300 mg/dL'))err('Diyabetik Aciller hiperglisemi %0,9 NaCl kolu eksik');
+const y17HyperStep=hypoCase?.algorithmBranches?.find(b=>String(b.label||'').startsWith('Hiperglisemi'))?.steps?.[0];
+if(y17HyperStep?.followUp?.transition!=='HİPOVOLEMİK ŞOK ALGORİTMASINA GİT')err('Y-17 şok/dehidratasyon gri koşul + Hipovolemik Şok mavi geçişi eksik');
 
 if(strokeCase?.page!=='32'||!JSON.stringify(strokeCase).includes('BEFAST')||!JSON.stringify(strokeCase).includes('%94–98')||!JSON.stringify(strokeCase).includes('30°'))err('İnme / SVO sayfa/BEFAST/O2/30° sabitleri bozuldu');
 if(seizureCase?.page!=='33'||medByName(seizureCase,'Valproik asit')?.dose!=='40 mg/kg'||medByName(seizureCase,'Levetirasetam')?.dose!=='60 mg/kg')err('Nöbet sayfa/2026 ikinci basamak dozları bozuldu');
@@ -259,6 +261,7 @@ if(headMidazolam?.dose!=='1–2,5 mg'||JSON.stringify(headMidazolam?.routes)!==J
 const startCase=(CASES||[]).find(c=>c.id==='start-triage');
 if(!startCase||startCase.code!=='SB-ASH-Y-41'||startCase.page!=='73'||startCase.source?.page!=='72–73'||startCase.source?.reviewedAt!=='2026-09-24')err('Start Triyaj Y-41 kaynak izi bozuk');
 for(const required of ['YEŞİL','SİYAH','KIRMIZI','SARI','<10/dk','>30/dk','KGD >2 sn','1 dakik'])if(!JSON.stringify(startCase).includes(required))err(`START triyaj kriteri eksik: ${required}`);
+if(!JSON.stringify(startCase).includes('daha ciddi triyaj kodu verilebilir'))err('Y-41 yeniden triyajda daha ciddi kod verilebilmesi Anahtar Noktası eksik');
 if(startCase?.decisionIntegrated!==true||(startCase?.algorithmSteps||[]).length!==1||(startCase?.algorithmBranches||[]).length!==2)err('Y-41 START yapılandırılmış kök/yürüyen-yürüyemeyen akışı eksik');
 if(startCase?.algorithmSteps?.[0]?.approvalAuthority!=='DIRECT'||startCase?.algorithmSteps?.[0]?.practitionerAuthority!=='ATT_AABT')err('Y-41 START seslen/güvenli alan ortak basamağı ATT/AABT + DIRECT olmalı');
 const y41Green=(startCase?.algorithmBranches||[]).find(b=>b.triageCode==='green');
@@ -334,12 +337,15 @@ const traumaCase=(CASES||[]).find(c=>c.id==='trauma');
 if(traumaCase?.title!=='Travmalı Hastada Acil Olgu Yönetimi'||traumaCase?.code!=='SB-ASH-Y-38'||traumaCase?.page!=='67'||traumaCase?.source?.page!=='65–67 / 6–7'||traumaCase?.source?.reviewedAt!=='2026-09-24'||!traumaCase?.source?.algorithmCodes?.includes('SB-ASH-Y-38')||!traumaCase?.source?.algorithmCodes?.includes('SB-ASH-Y-02'))err('Travma Y-38/Y-02 başlık-kod-sayfa kaynak izi bozuldu');
 if(traumaCase?.decisionIntegrated!==true||(traumaCase?.algorithmSteps||[]).length!==9||traumaCase?.algorithmBranches!==undefined)err('Y-38 lineer X-ABCDE + yan geçiş yapılandırılmış akışı bozuk');
 for(const [i,s] of (traumaCase?.algorithmSteps||[]).entries())if(s.approvalAuthority!=='DIRECT'||s.practitionerAuthority!=='ATT_AABT')err(`Y-38 resmî turkuaz basamak ATT/AABT + DIRECT olmalı: ${i}`);
-for(const required of ['travma mekanizmasını','hayatı tehdit eden kanama','Servikal ve spinal immobilizasyonu','SpO₂ <strong>&gt;%94</strong>','10–30/dk','iğne dekompresyonu','Arrest Yönetimi algoritmasına git','KGD &gt;2 sn','nabız &gt;120','SKB &lt;90','Hipovolemik Şok algoritmasına git','GKS=15','Kafa Travmalı Hastaya Yaklaşım algoritmasına git','Tüm giysileri yararak','İkincil değerlendirmeyi nakil sırasında tamamla'])if(!JSON.stringify(traumaCase).includes(required))err(`Y-38 kritik akış öğesi eksik: ${required}`);
+for(const required of ['travma mekanizmasını','hayatı tehdit eden kanama','Servikal ve spinal immobilizasyonu','SpO₂ <strong>&gt;%94</strong>','10–30/dk','iğne dekompresyonu','Arrest Yönetimi algoritmasına git','KGD &gt;2 sn','nabız &gt;120','SKB &lt;90','Hipovolemik Şok algoritmasına git','GKS=15','Kafa Travmalı Hastaya Yaklaşım algoritmasına git','Tüm giysileri çıkararak','İkincil değerlendirmeyi nakil sırasında tamamla'])if(!JSON.stringify(traumaCase).includes(required))err(`Y-38 kritik akış öğesi eksik: ${required}`);
 if(!String(traumaCase?.algorithmSteps?.[2]?.followUp?.html||'').includes('Orofaringeal')||!String(traumaCase?.algorithmSteps?.[2]?.followUp?.html||'').includes('aspire et'))err('Y-38 hava yolu düzeltici yan geçişi eksik');
 if(!String(traumaCase?.algorithmSteps?.[3]?.followUp?.html||'').includes('Tansiyon pnömotoraks')||!String(traumaCase?.algorithmSteps?.[3]?.followUp?.html||'').includes('Hemotoraks'))err('Y-38 solunum düzeltici yan geçişi eksik');
 if(!JSON.stringify(traumaCase?.warningFindings||[]).includes('Kanıt olabilecek materyallerin'))err('Y-38 kanıt/giysi koruma uyarısı eksik');
 for(const term of ['anormal hızlı ya da yavaş solunum','oksijen desteği ile düzelmeyen','SpO₂\'nin %94 altında','açık pnömotoraks ya da yelken göğüs','GKS <13','geçirilen ya da geçirilmiş nöbet','duyusal ya da motor defisit','diz ve dirsek proksimalinde','ekstremite amputasyonları','KAH, KOAH, kanama bozuklukları','55 yaş üstü','yanık','hipotermi','gebelik'])if(!JSON.stringify(traumaCase?.warningFindings||[]).toLocaleLowerCase('tr-TR').includes(term.toLocaleLowerCase('tr-TR')))err(`Y-38 kritik travma tablosu öğesi eksik: ${term}`);
-if((traumaCase?.algorithmSteps||[]).filter(s=>s.followUp?.kind==='transition').length!==3)err('Y-38 mavi algoritma geçişleri transition semantiğine ayrılmamış');
+if((traumaCase?.algorithmSteps||[]).filter(s=>s.followUp?.transition).length!==3)err('Y-38 mavi algoritma geçişleri transition semantiğine ayrılmamış');
+const y38CirculationFollow=traumaCase?.algorithmSteps?.[5]?.followUp;
+if(!String(y38CirculationFollow?.html||'').includes('pelvisi sabitle')||y38CirculationFollow?.transition!=='HİPOVOLEMİK ŞOK ALGORİTMASINA GİT')err('Y-38 pelvis sabitleme turkuaz eylemi ile Hipovolemik Şok mavi geçişi ayrılmamış');
+if(JSON.stringify(traumaCase).includes('giysileri yararak'))err('Y-38 resmî “giysileri çıkararak” ifadesi yararak şeklinde bozulmuş');
 
 const koahCase=(CASES||[]).find(c=>c.id==='koah');
 if(koahCase?.code!=='SB-ASH-Y-04'||koahCase?.page!=='10'||koahCase?.source?.page!=='9–10')err('KOAH Y-04 kaynak izi bozuldu');
@@ -464,6 +470,7 @@ if(!String(y25CprYes?.steps?.[0]?.followUp?.html||'').includes('&lt;28°C')||!St
 for(const term of ['karla/buzla kaplı','35 dk\'dan fazla çığ','ortam güvenliğinin sağlanamaması','bütün vücudun donması'])if(!String(y25CprNo?.note||'').includes(term))err(`Y-25 KPR endikasyonu olmayan durum eksik: ${term}`);
 if(!String(y25CprNo?.steps?.[0]?.html||'').includes("KPR'ye başlama"))err('Y-25 KPR başlanmama sonucu eksik');
 if(!String(hypothermicArrestCase?.quick?.[5]||'').includes('KPR endikasyonu olmayan')||String(hypothermicArrestCase?.quick?.[5]||'').includes('ECMO')||!String(hypothermicArrestCase?.quick?.[6]||'').includes('ECMO'))err('Y-25 KPR başlanmama kriterleri ile ECMO hızlı özetinde ayrılmamış');
+for(const term of ['Uzun resüsitasyon süreleri önerilir','sert fiziksel hareketlerden kaçın','ölüm belirtisi değildir'])if(!JSON.stringify(hypothermicArrestCase).includes(term))err(`Y-25 Anahtar Nokta eksik: ${term}`);
 
 const electricalBurnCase=(CASES||[]).find(c=>c.id==='electrical-burn');
 if(electricalBurnCase?.code!=='SB-ASH-Y-29'||electricalBurnCase?.page!=='51'||electricalBurnCase?.source?.page!=='51'||(electricalBurnCase?.meds||[]).length!==1)err('Elektrik Yanıkları Y-29 kaynak/ilaç yapısı bozuldu');
@@ -531,8 +538,12 @@ for(const [i,c] of (CASES||[]).entries()){
       if(!allowedAuthority.has(step?.approvalAuthority))err(`${st}: approvalAuthority geçersiz (${step?.approvalAuthority})`);
       if(!allowedPractitionerAuthority.has(step?.practitionerAuthority))err(`${st}: practitionerAuthority geçersiz (${step?.practitionerAuthority})`);
       if(step?.precondition!==undefined&&typeof step.precondition!=='string')err(`${st}: precondition metin olmalı`);
-      if(step?.followUp!==undefined&&(!step.followUp?.label||!step.followUp?.html))err(`${st}: followUp label/html eksik`);
-      if(step?.followUp?.kind!==undefined&&!['transition'].includes(step.followUp.kind))err(`${st}: followUp kind geçersiz (${step.followUp.kind})`);
+      if(step?.followUp!==undefined){
+        if(!step.followUp?.label)err(`${st}: followUp label eksik`);
+        if(!(step.followUp?.html||step.followUp?.transition||step.followUp?.notice))err(`${st}: followUp içerik/transition/notice eksik`);
+        if(step.followUp?.transition!==undefined&&typeof step.followUp.transition!=='string')err(`${st}: followUp transition metin olmalı`);
+        if(step.followUp?.notice!==undefined&&typeof step.followUp.notice!=='string')err(`${st}: followUp notice metin olmalı`);
+      }
     }
   }
   if(c.algorithmNotices!==undefined&&(!Array.isArray(c.algorithmNotices)||!c.algorithmNotices.length||c.algorithmNotices.some(n=>typeof n!=='string'||!n.trim())))err(`${at}: algorithmNotices geçerli metin listesi olmalı`);
@@ -548,8 +559,12 @@ for(const [i,c] of (CASES||[]).entries()){
           if(!allowedAuthority.has(step?.approvalAuthority))err(`${st}: approvalAuthority geçersiz (${step?.approvalAuthority})`);
           if(!allowedPractitionerAuthority.has(step?.practitionerAuthority))err(`${st}: practitionerAuthority geçersiz (${step?.practitionerAuthority})`);
           if(step?.precondition!==undefined&&typeof step.precondition!=='string')err(`${st}: precondition metin olmalı`);
-          if(step?.followUp!==undefined&&(!step.followUp?.label||!step.followUp?.html))err(`${st}: followUp label/html eksik`);
-          if(step?.followUp?.kind!==undefined&&!['transition'].includes(step.followUp.kind))err(`${st}: followUp kind geçersiz (${step.followUp.kind})`);
+          if(step?.followUp!==undefined){
+            if(!step.followUp?.label)err(`${st}: followUp label eksik`);
+            if(!(step.followUp?.html||step.followUp?.transition||step.followUp?.notice))err(`${st}: followUp içerik/transition/notice eksik`);
+            if(step.followUp?.transition!==undefined&&typeof step.followUp.transition!=='string')err(`${st}: followUp transition metin olmalı`);
+            if(step.followUp?.notice!==undefined&&typeof step.followUp.notice!=='string')err(`${st}: followUp notice metin olmalı`);
+          }
         }
         if(branch?.branches!==undefined){
           if(!Array.isArray(branch.branches)||!branch.branches.length)err(`${bt}: alt branches boş/geçersiz`);
