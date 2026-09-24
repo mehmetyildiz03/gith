@@ -2,7 +2,17 @@
 
 Mobil-first, offline çekirdekli, vaka bazlı hastane öncesi acil sağlık eğitim ve hızlı hatırlatma uygulaması.
 
-## V0.44 mimarisi
+## V0.45 mimarisi
+
+- **Final tam kaynak audit'i:** 2 temel protokol ve 37 yetişkin vakanın tamamı 24.09.2026'da güncel 25.08.2026 Ek-2 sayfa görüntülerine karşı yeniden kontrol edildi; tüm vaka `reviewedAt` değerleri artık 24.09.2026 ve CI bunu zorunlu tutar.
+- **Y-06 AKS:** SpO₂ >%90'da rutin O₂'den kaçınma, solunum sıkıntısı/ritim bozukluğunda O₂ kullanımı ve günlük yeterli aspirin alınmış olsa bile yükleme dozu önerisi tamamlandı.
+- **Y-09/Y-10/Y-11 Arrest:** Yüksek kaliteli KPR ölçütleri (5–6 cm, 100–120/dk, >10 sn ara vermeme, recoil, hiperventilasyondan kaçınma, 2 dk'da uygulayıcı değişimi), ileri hava yolu öncesi/sonrası ventilasyon ve resmî geri döndürülebilir nedenler görünür hale getirildi.
+- **Y-13 Hipovolemik Şok:** Resmî gri nottaki `MAP = (SKB + 2 × DKB) / 3` formülü eklendi.
+- **Y-28 Yanık:** Parkland hesabında 1. derece yanıkların hesaplamaya dahil edilmediği açıkça belirtildi.
+- **Son eski-tarihli vaka turu:** Y-08, Y-12, Y-15, Y-16, Y-20, Y-21, Y-31, Y-32 ve Y-37 tekrar okundu. Y-16 neden tablosu, Y-20 nistagmus/şok bileşenleri, Y-31 genel zehirlenme bulguları ve Y-37 antikolinerjik sendrom/erken destek ilkeleri tamamlandı.
+- **Temiz PWA sürümü:** İçerik, HTML asset query'leri ve service-worker cache birlikte V0.45'e yükseltilir; böylece V0.44 altında değişmiş içerik bırakılmaz.
+
+### V0.44 önceki durum
 
 - **Sıkı ikinci kaynak audit'i:** Önceki audit sonuçları doğru kabul edilmeden resmî PDF sayfa görüntüleri yeniden okundu; metin, doz, yol, tekrar/maksimum, ATT/AABT rengi, SKKM/ÇM simgesi, Anahtar Nokta ve akış geometrisi tekrar çaprazlandı.
 - **Y-38 önemli düzeltme:** Resmî s.67'deki ifade **“Tüm giysileri yararak vücut kontrolünü tamamla hipotermiden koru”**. V0.39'da bunu yanlışlıkla “çıkararak” diye değiştirmiştik. V0.44'te kaynak metnine geri dönüldü ve eski yanlış regresyon testi kaldırıldı.
