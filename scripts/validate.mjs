@@ -71,8 +71,8 @@ if(!APP_META?.routes?.includes('SC')||APP_META?.routeLabels?.SC!=='Subkutan (SC)
 if(APP_META?.authority?.DIRECT?.symbol!=='✓'||APP_META?.authority?.DIRECT?.visualLabel!=='SKKM/ÇM onayı gerektirmez')err('DIRECT yeşil/doğrudan sembol metası eksik');
 if(APP_META?.authority?.SKKM?.symbol!=='◆'||APP_META?.authority?.SKKM?.visualLabel!=='SKKM/ÇM onayı gerekli')err('SKKM sarı/onay sembol metası eksik');
 if(APP_META?.authority?.ALGORITHM?.symbol!=='•'||APP_META?.authority?.ALGORITHM?.visualLabel!=='Kaynakta SKKM/ÇM yetkisi belirtilmemiş')err('ALGORITHM kaynakta belirtilmeyen yetki metası eksik');
-if(APP_META?.contentVersion!=='EK2-2026.08.25-y40-head-trauma-structured-1-2026.09.24')err('contentVersion V0.40 Y-40 yapılandırılmış akış sürümüyle eşleşmiyor');
-if(APP_META?.productVersion!=='0.40')err('productVersion V0.40 olmalı');
+if(APP_META?.contentVersion!=='EK2-2026.08.25-y19-seizure-structured-1-2026.09.24')err('contentVersion V0.41 Y-19 yapılandırılmış akış sürümüyle eşleşmiyor');
+if(APP_META?.productVersion!=='0.41')err('productVersion V0.41 olmalı');
 if(APP_META?.practitionerAuthority?.ATT_AABT?.officialLabel!=='Acil Tıp Teknisyeni / Teknikeri'||APP_META?.practitionerAuthority?.AABT?.officialLabel!=='Acil Tıp Teknikeri'||APP_META?.practitionerAuthority?.UNVERIFIED?.symbol!=='□')err('ATT/AABT uygulayıcı yetki metası eksik veya bozuk');
 for(const code of ['SB-ASH-Y-04','SB-ASH-Y-05','SB-ASH-Y-06','SB-ASH-Y-07','SB-ASH-Y-08','SB-ASH-Y-09','SB-ASH-Y-10','SB-ASH-Y-11','SB-ASH-Y-12','SB-ASH-Y-13','SB-ASH-Y-14','SB-ASH-Y-15','SB-ASH-Y-17','SB-ASH-Y-19','SB-ASH-Y-21','SB-ASH-Y-22','SB-ASH-Y-23','SB-ASH-Y-24','SB-ASH-Y-28','SB-ASH-Y-29','SB-ASH-Y-34','SB-ASH-Y-35','SB-ASH-Y-36','SB-ASH-Y-37','SB-ASH-Y-39','SB-ASH-Y-40'])if(!APP_META?.practitionerAudit?.verifiedMedicationCases?.includes(code))err(`Uygulayıcı yetki görsel audit izi eksik: ${code}`);
 if(APP_META?.practitionerAudit?.adultMedicationCardsComplete!==true)err('Yetişkin ilaç kartları uygulayıcı audit tamamlama işareti eksik');
@@ -104,7 +104,27 @@ for(const required of ['Aspirasyon','%94–98','DAKŞ','BEFAST','30°','Kardiyak
 if(!String(y18Transport?.html||'').includes('uygun merkeze naklet'))err('Y-18 son uygun merkez nakil basamağı eksik');
 
 const seizureCase=(CASES||[]).find(c=>c.id==='seizure');
-if(!seizureCase||seizureCase.title!=='Nöbet / Konvülziyon')err('Nöbet başlığı resmî SB-ASH-Y-19 adıyla Nöbet / Konvülziyon olmalı');
+if(!seizureCase||seizureCase.title!=='Nöbet / Konvülziyon'||seizureCase.code!=='SB-ASH-Y-19'||seizureCase.page!=='33'||seizureCase.source?.page!=='33'||seizureCase.source?.reviewedAt!=='2026-09-24')err('Nöbet / Konvülziyon Y-19 kaynak izi bozuk');
+if(seizureCase?.decisionIntegrated!==true||seizureCase?.algorithmBranchLayout!=='split'||(seizureCase?.algorithmSteps||[]).length!==5||(seizureCase?.algorithmBranches||[]).length!==2)err('Y-19 yapılandırılmış ortak akış / nöbet sonlandı-devam ediyor dalları eksik');
+for(const [i,step] of (seizureCase?.algorithmSteps||[]).entries())if(step.approvalAuthority!=='DIRECT'||step.practitionerAuthority!=='ATT_AABT')err(`Y-19 ortak turkuaz basamak ATT/AABT + DIRECT olmalı: ${i}`);
+const y19Glucose=seizureCase?.algorithmSteps?.[3];
+if(y19Glucose?.followUp?.transition!=='DİYABETİK ACİLLER ALGORİTMASINA GİT'||!String(y19Glucose?.followUp?.label||'').includes('Glikoz <60 mg/dl'))err('Y-19 hipoglisemi gri koşul / mavi Diyabetik Aciller geçişi eksik');
+if((seizureCase?.algorithmNotices||[]).length!==1||!seizureCase.algorithmNotices[0].includes('Hastayı engellemeye çalışma')||!seizureCase.algorithmNotices[0].includes('katlanmış battaniye'))err('Y-19 yaralanmayı önleme gri uyarısı eksik');
+const y19Stopped=(seizureCase?.algorithmBranches||[]).find(b=>b.label==='Nöbet sonlandı');
+const y19Ongoing=(seizureCase?.algorithmBranches||[]).find(b=>b.label==='Nöbet devam ediyor');
+if(!y19Stopped||!y19Ongoing||(y19Stopped.steps||[]).length!==1||(y19Ongoing.steps||[]).length!==1)err('Y-19 ana sonlandı/devam ediyor dalları bozuk');
+if(y19Stopped?.steps?.[0]?.approvalAuthority!=='DIRECT'||y19Stopped?.steps?.[0]?.practitionerAuthority!=='ATT_AABT'||!String(y19Stopped?.steps?.[0]?.html||'').includes('Postiktal'))err('Y-19 postiktal hava yolu turkuaz/DIRECT basamağı eksik');
+if(y19Ongoing?.steps?.[0]?.approvalAuthority!=='SKKM'||y19Ongoing?.steps?.[0]?.practitionerAuthority!=='AABT'||!String(y19Ongoing?.steps?.[0]?.html||'').includes('Diazepam 5 mg IV yavaş puşe')||!String(y19Ongoing?.steps?.[0]?.html||'').includes('Midazolam 5 mg IV / 10 mg IM'))err('Y-19 ilk benzodiazepin SKKM + AABT basamağı bozuk');
+const y19AfterBenzoStopped=(y19Ongoing?.branches||[]).find(b=>b.label==='İlk benzodiazepin sonrası nöbet sonlandı');
+const y19AfterBenzoOngoing=(y19Ongoing?.branches||[]).find(b=>b.label==='İlk benzodiazepin sonrası nöbet devam ediyor');
+if(!y19AfterBenzoStopped||!y19AfterBenzoOngoing||(y19AfterBenzoOngoing.steps||[]).length!==2)err('Y-19 benzodiazepin sonrası devam/sonlanma alt dalları eksik');
+if(y19AfterBenzoOngoing?.steps?.[0]?.approvalAuthority!=='SKKM'||y19AfterBenzoOngoing?.steps?.[0]?.practitionerAuthority!=='AABT'||!String(y19AfterBenzoOngoing?.steps?.[0]?.html||'').includes('Fenitoin 20 mg/kg')||!String(y19AfterBenzoOngoing?.steps?.[0]?.html||'').includes('25 mg/kg/dk')||!String(y19AfterBenzoOngoing?.steps?.[0]?.html||'').includes('Valproik asit 40 mg/kg')||!String(y19AfterBenzoOngoing?.steps?.[0]?.html||'').includes('Levetirasetam 60 mg/kg'))err('Y-19 ikinci basamak antikonvülzan seçenekleri SKKM + AABT/doz bilgisi bozuk');
+if(y19AfterBenzoOngoing?.steps?.[1]?.approvalAuthority!=='SKKM'||y19AfterBenzoOngoing?.steps?.[1]?.practitionerAuthority!=='AABT'||!String(y19AfterBenzoOngoing?.steps?.[1]?.html||'').includes('5 dk sonra')||!String(y19AfterBenzoOngoing?.steps?.[1]?.html||'').includes('Diazepam 5 mg IV yavaş puşe'))err('Y-19 5 dk sonraki benzodiazepin tekrar basamağı bozuk');
+const y19FinalYes=(y19AfterBenzoOngoing?.branches||[]).find(b=>b.label==='Evet — nöbet devam ediyor');
+const y19FinalNo=(y19AfterBenzoOngoing?.branches||[]).find(b=>b.label==='Hayır — nöbet sonlandı');
+if(y19FinalYes?.steps?.[0]?.approvalAuthority!=='DIRECT'||y19FinalYes?.steps?.[0]?.practitionerAuthority!=='ATT_AABT'||!String(y19FinalYes?.steps?.[0]?.html||'').includes('İleri hava yolu uygulaması için hazırlan'))err('Y-19 son devam eden nöbet ileri hava yolu turkuaz basamağı eksik');
+if(y19FinalNo?.steps?.[0]?.approvalAuthority!=='DIRECT'||y19FinalNo?.steps?.[0]?.practitionerAuthority!=='ATT_AABT'||!String(y19FinalNo?.steps?.[0]?.html||'').includes('Postiktal'))err('Y-19 sonlanan nöbet postiktal basamağı eksik');
+if(!APP_META?.actionAudit?.verifiedCases?.includes('SB-ASH-Y-19')||!APP_META?.actionAudit?.verifiedBranchCases?.includes('SB-ASH-Y-19'))err('Y-19 actionAudit kapsamına eklenmemiş');
 const beeCase=(CASES||[]).find(c=>c.id==='bee');
 if(!beeCase||beeCase.severity?.mild?.label!=='Lokal reaksiyon'||beeCase.severity?.moderate?.label!=='Sistemik bulgu'||beeCase.severity?.severe?.label!=='Anafilaksi')err('Arı sokması klinik görünüm etiketleri eksik');
 const medByName=(c,name)=>(c?.meds||[]).find(m=>m.name===name);
@@ -208,6 +228,7 @@ if(y17HyperStep?.followUp?.transition!=='HİPOVOLEMİK ŞOK ALGORİTMASINA GİT'
 
 if(strokeCase?.page!=='32'||!JSON.stringify(strokeCase).includes('BEFAST')||!JSON.stringify(strokeCase).includes('%94–98')||!JSON.stringify(strokeCase).includes('30°'))err('İnme / SVO sayfa/BEFAST/O2/30° sabitleri bozuldu');
 if(seizureCase?.page!=='33'||medByName(seizureCase,'Valproik asit')?.dose!=='40 mg/kg'||medByName(seizureCase,'Levetirasetam')?.dose!=='60 mg/kg')err('Nöbet sayfa/2026 ikinci basamak dozları bozuldu');
+if(medByName(seizureCase,'Fenitoin')?.dose!=='20 mg/kg'||!String(medByName(seizureCase,'Fenitoin')?.note||'').includes('25 mg/kg/dk')||medByName(seizureCase,'Diazepam')?.authority!=='SKKM'||medByName(seizureCase,'Midazolam')?.authority!=='SKKM')err('Y-19 fenitoin infüzyon / benzodiazepin SKKM sabitleri bozuk');
 
 const burnCase=(CASES||[]).find(c=>c.id==='burn');
 if(!JSON.stringify(burnCase?.quick||[]).includes('(2 × VYA% × kg) / 16 mL/saat'))err('Yanık Parkland/Ringer Laktat 2026 formülü eksik');
