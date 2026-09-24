@@ -64,7 +64,7 @@ function toggleDensity(){
 }
 function updateNetwork(){const online=navigator.onLine;el.network.dataset.state=online?'online':'offline';el.network.querySelector('span:last-child').textContent=online?'Çevrimiçi':'Çevrimdışı';el.offline.classList.toggle('hidden',online)}
 
-function algorithmStepSearch(step){return [step?.precondition,step?.html,step?.followUp?.label,step?.followUp?.html,APP_META.authority?.[step?.approvalAuthority]?.label,APP_META.practitionerAuthority?.[step?.practitionerAuthority]?.label,APP_META.practitionerAuthority?.[step?.practitionerAuthority]?.officialLabel]}
+function algorithmStepSearch(step){return [step?.precondition,step?.html,step?.followUp?.label,step?.followUp?.html,step?.followUp?.transition,step?.followUp?.notice,APP_META.authority?.[step?.approvalAuthority]?.label,APP_META.practitionerAuthority?.[step?.practitionerAuthority]?.label,APP_META.practitionerAuthority?.[step?.practitionerAuthority]?.officialLabel]}
 function algorithmBranchSearch(branches=[]){
   return branches.flatMap(branch=>[branch?.label,branch?.note,branch?.transition,...(branch?.notices||[]),...(branch?.steps||[]).flatMap(algorithmStepSearch),...algorithmBranchSearch(branch?.branches||[])]);
 }
@@ -209,8 +209,12 @@ function renderActionStep(step,{branch=false}={}){
   const cls=branch?'algo-step':'quick-step';
   const copyClass=branch?'algo-step-copy':'quick-step-copy';
   const precondition=step.precondition?`<div class="algo-precondition">${esc(step.precondition)}</div>`:'';
-  const followUpClass=step.followUp?.kind==='transition'?' transition':'';
-  const followUp=step.followUp?`<div class="algo-step-followup${followUpClass}"><span>${esc(step.followUp.label||'Devam')}</span><div>${step.followUp.html}</div></div>`:'';
+  const followUp=step.followUp?(()=>{
+    const body=step.followUp.html?`<div>${step.followUp.html}</div>`:'';
+    const transition=step.followUp.transition?`<div class="algo-transition"><span aria-hidden="true">→</span><strong>${esc(step.followUp.transition)}</strong></div>`:'';
+    const notice=step.followUp.notice?`<div class="algo-notice"><span aria-hidden="true">!</span><p>${esc(step.followUp.notice)}</p></div>`:'';
+    return `<div class="algo-step-followup"><span>${esc(step.followUp.label||'Devam')}</span>${body}${transition}${notice}</div>`;
+  })():'';
   return `<div class="${cls}">${precondition}<div class="${copyClass}">${step.html}</div>${followUp}${badges?`<div class="action-step-badges">${badges}</div>`:''}</div>`;
 }
 function renderAlgorithmSteps(c){
@@ -228,7 +232,7 @@ function renderAlgorithmBranch(branch,depth=0){
   const steps=(branch.steps||[]).map(step=>renderActionStep(step,{branch:true})).join('');
   const transition=branch.transition?`<div class="algo-transition"><span aria-hidden="true">→</span><strong>${esc(branch.transition)}</strong></div>`:'';
   const children=(branch.branches||[]).map(child=>renderAlgorithmBranch(child,depth+1)).join('');
-  return `<section class="algo-branch algo-depth-${safeDepth}${triage}"><div class="algo-branch-head"><strong>${esc(branch.label)}</strong>${branch.note?`<p>${esc(branch.note)}</p>`:''}</div>${notices}${steps?`<div class="algo-branch-steps">${steps}</div>`:''}${transition}${children?`<div class="algo-branch-children">${children}</div>`:''}</section>`;
+  return `<section class="algo-branch algo-depth-${safeDepth}${triage}"><div class="algo-branch-head"><strong>${esc(branch.label)}</strong>${branch.note?`<p>${esc(branch.note)}</p>`:''}</div>${steps?`<div class="algo-branch-steps">${steps}</div>`:''}${transition}${notices}${children?`<div class="algo-branch-children">${children}</div>`:''}</section>`;
 }
 function algorithmBranchLayoutClass(c){
   return c.algorithmBranchLayout==='profiles'?' profiles':c.algorithmBranchLayout==='split'?' split':'';
