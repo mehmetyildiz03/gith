@@ -144,6 +144,8 @@ for(const term of ['Görülebilen arı iğnesini çıkar','Turnike uygulama','bi
 if(!APP_META?.actionAudit?.verifiedCases?.includes('SB-ASH-Y-26')||!APP_META?.actionAudit?.verifiedBranchCases?.includes('SB-ASH-Y-26'))err('Y-26 actionAudit kapsamına eklenmemiş');
 
 const anaphylaxisCase=(CASES||[]).find(c=>c.id==='anaphylaxis');
+if(anaphylaxisCase?.source?.reviewedAt!=='2026-09-24')err('Y-22 son kaynak gözden geçirme tarihi güncel değil');
+for(const term of ['Alerjen madde uzaklaştırılmalıdır','%30\'dan fazla düşme','Deri/mukoza tutulumu','gastrointestinal bulgulardan en az ikisinin'])if(!JSON.stringify(anaphylaxisCase).includes(term))err(`Y-22 Anahtar Nokta/tanı ölçütü eksik: ${term}`);
 if(JSON.stringify(medByName(anaphylaxisCase,'Salbutamol')?.routes)!==JSON.stringify(['OTHER']))err('Anafilaksi salbutamol yolu resmî Y-22 kutusunda belirtilmediğinden OTHER/Şemaya göre olmalı');
 if(medByName(anaphylaxisCase,'Adrenalin')?.authority!=='DIRECT'||!String(medByName(anaphylaxisCase,'Adrenalin')?.repeat||'').includes('5 dk'))err('Anafilaksi adrenalin doğrudan/5 dk tekrar bilgisi eksik');
 const anaNaCl=medByName(anaphylaxisCase,'%0,9 NaCl');
@@ -250,6 +252,8 @@ if(medByName(burnCase,'Ringer Laktat')?.authority!=='DIRECT'||medByName(burnCase
 for(const term of ['cilde yapışmış giysiyi ayırmaya çalışma','≥30 kg ve yanık alanı ≥%15','<30 kg ve yanık alanı ≥%10','%10–30','0,5–1 mL/saat','kısmi kalınlık >%25 VYA','tam kalınlık >%10 VYA','el-yüz-ayak-perine','sirküler ekstremite'])if(!JSON.stringify(burnCase).includes(term))err(`Y-28 Termal Yanık Anahtar Nokta eksik: ${term}`);
 
 const hyperthermiaCase=(CASES||[]).find(c=>c.id==='hyperthermia');
+if(hyperthermiaCase?.source?.reviewedAt!=='2026-09-24')err('Y-23 son kaynak gözden geçirme tarihi güncel değil');
+for(const term of ['Hastanın üzerini çıkar','soğuk ya da ılık su sıkıp havalandırma','Koltuk altı ve kasık bölgelerine','aşırı soğutma ile hipotermi'])if(!JSON.stringify(hyperthermiaCase).includes(term))err(`Y-23 pasif eksternal soğutma Anahtar Noktası eksik: ${term}`);
 if(medByName(hyperthermiaCase,'%0,9 NaCl — ısı stresi')?.dose!=='1000–2000 mL bolus'||medByName(hyperthermiaCase,'%0,9 NaCl — ısı çarpması')?.dose!=='1000 mL bolus')err('Y-23 ısı stresi / ısı çarpması NaCl doz ayrımı bozuk');
 
 const hypovolemicFlowCase=(CASES||[]).find(c=>c.id==='hypovolemic-shock');
@@ -393,6 +397,7 @@ for(const required of ['travma mekanizmasını','hayatı tehdit eden kanama','Se
 if(!String(traumaCase?.algorithmSteps?.[2]?.followUp?.html||'').includes('Orofaringeal')||!String(traumaCase?.algorithmSteps?.[2]?.followUp?.html||'').includes('aspire et'))err('Y-38 hava yolu düzeltici yan geçişi eksik');
 if(!String(traumaCase?.algorithmSteps?.[3]?.followUp?.html||'').includes('Tansiyon pnömotoraks')||!String(traumaCase?.algorithmSteps?.[3]?.followUp?.html||'').includes('Hemotoraks'))err('Y-38 solunum düzeltici yan geçişi eksik');
 if(!JSON.stringify(traumaCase?.warningFindings||[]).includes('Kanıt olabilecek materyallerin'))err('Y-38 kanıt/giysi koruma uyarısı eksik');
+if(!JSON.stringify(traumaCase).includes('kurşun giriş yeri kesilmemeli')||!JSON.stringify(traumaCase).includes('kıyafetler tamamen çıkarıldıktan sonra muhafaza'))err('Y-38 adli vaka giysi/kurşun giriş yeri Anahtar Noktası eksik');
 for(const term of ['anormal hızlı ya da yavaş solunum','oksijen desteği ile düzelmeyen','SpO₂\'nin %94 altında','açık pnömotoraks ya da yelken göğüs','GKS <13','geçirilen ya da geçirilmiş nöbet','duyusal ya da motor defisit','diz ve dirsek proksimalinde','ekstremite amputasyonları','KAH, KOAH, kanama bozuklukları','55 yaş üstü','yanık','hipotermi','gebelik'])if(!JSON.stringify(traumaCase?.warningFindings||[]).toLocaleLowerCase('tr-TR').includes(term.toLocaleLowerCase('tr-TR')))err(`Y-38 kritik travma tablosu öğesi eksik: ${term}`);
 if((traumaCase?.algorithmSteps||[]).filter(s=>s.followUp?.transition).length!==3)err('Y-38 mavi algoritma geçişleri transition semantiğine ayrılmamış');
 const y38CirculationFollow=traumaCase?.algorithmSteps?.[5]?.followUp;
@@ -543,6 +548,8 @@ if(highDoseCase?.code!=='SB-ASH-Y-32'||highDoseCase?.page!=='55'||highDoseCase?.
 for(const term of ['Kolinerjik Ajanlarla Zehirlenme','Nöbet / Konvülziyon','Diyabetik Aciller','Narkotik / Opioid Zehirlenmeleri','Hipotermi'])if(!JSON.stringify(highDoseCase).includes(term))err(`Y-32 yönlendirme eksik: ${term}`);
 
 const coCase=(CASES||[]).find(c=>c.id==='carbon-monoxide');
+if(coCase?.source?.reviewedAt!=='2026-09-24')err('Y-33 son kaynak gözden geçirme tarihi güncel değil');
+if(!JSON.stringify(coCase).includes('PVC, naylon')||!JSON.stringify(coCase).includes('toksik ve irritan gaz'))err('Y-33 yangın dumanı toksik/irritan gaz uyarısı eksik');
 if(coCase?.code!=='SB-ASH-Y-33'||coCase?.page!=='56'||coCase?.source?.page!=='56'||(coCase?.meds||[]).length)err('Karbonmonoksit Y-33 kaynak/ilaç yapısı bozuldu');
 for(const term of ['10 L/dk','PBV','Nöbet / Konvülziyon'])if(!JSON.stringify(coCase).includes(term))err(`Y-33 öğesi eksik: ${term}`);
 
