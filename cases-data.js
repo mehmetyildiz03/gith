@@ -1618,7 +1618,7 @@ const CASES = [
       "<strong>Isı çarpması:</strong> >40°C vücut ısısı + bilinç bulanıklığı; vital/kan şekeri, damar yolu, monitörizasyon.",
       "<strong>%0,9 NaCl 1000 ml bolus</strong> ve vücut ısısını <39°C olacak şekilde pasif eksternal soğutma.",
       "<strong>Pasif eksternal soğutma:</strong> Hastanın üzerini çıkar; vücuda soğuk ya da ılık su sıkıp havalandırma ile buharlaşmayı sağla. Koltuk altı ve kasık bölgelerine ıslak bez veya spanç koy.",
-      "<strong>Soğutma hedefi:</strong> vücut ısısını <39°C'ye indir; aşırı soğutma ile hipotermi oluşturmaktan kaçın."
+      "<strong>Soğutma hedefi:</strong> vücut ısısını <39°C'ye indir; hastayı serin ortama al, kıyafetlerini çıkar ve ambulans kabinini soğut; aşırı soğutma ile hipotermi oluşturmaktan kaçın."
     ],
     "warningFindings": [
       "Vücut ısısı >40°C",
@@ -3482,7 +3482,7 @@ const CASES = [
       "Yanık alanını ve derecesini belirle; şok bulgusu varsa ilgili şok algoritmasına geç."
     ],
     "quick": [
-      "Yanma sürecini durdur; acil olgu yönetimini uygula.",
+      "Yanma sürecini durdur; acil olgu yönetimini uygula. <strong>Termal yanığı musluk suyu ile yıka ve kurula.</strong>",
       "İnhalasyon yanığı/hava yolu ödemi riski varsa oksijenizasyon ve ventilasyonu destekle, erken ileri hava yolunu düşün.",
       "Yanık alanını değerlendirmek için uygun yüzdelik yöntem kullan; yanık yüzeyini steril örtüyle koru.",
       "<strong>Ringer Laktat başla.</strong> Şok yoksa 1 saatten kısa nakilde 500 mL Ringer Laktat; daha uzun nakilde Parkland yaklaşımı <strong>(2 × VYA% × kg) / 16 mL/saat</strong>. Ağrı için fentanil 1 mcg/kg IV yavaş/IM, SKKM/ÇM ile.",
@@ -3554,7 +3554,8 @@ const CASES = [
       "<strong>Elektrik güvenliği:</strong> yerdeki kabloların sıçrama/akım oluşturma riskine karşı en az 10 metre mesafede dur.",
       "Rabdomyoliz riskine karşı resmî şemaya göre <strong>erken ve yeterli Ringer Laktat sıvı tedavisi</strong> başla.",
       "Spinal immobilizasyonu sağla; eşlik eden travmayı değerlendir.",
-      "Yanık alanları için <strong>Termal Yanık</strong> algoritmasına geç."
+      "Yanık alanları için <strong>Termal Yanık</strong> algoritmasına geç.",
+      "<strong>Yanık Anahtar Noktası:</strong> Elektrik çarpmalarında saatlik başlangıç Ringer Laktat miktarı <strong>(4 × yanmış VYA% × kg) / 16</strong> formülüyle belirtilmiştir."
     ],
     "warningFindings": [
       "Elektrik kaynağının kesilmemiş olması veya yaralının kaynaktan ayrılmamış olması",
@@ -3586,7 +3587,7 @@ const CASES = [
       "documentTitle": "Hastane Öncesi Acil Tıbbi Yardım ve Bakım Akış Şemaları",
       "effectiveDate": "2026-08-25",
       "officialPageDate": "2026-09-11",
-      "reviewedAt": "2026-09-23",
+      "reviewedAt": "2026-09-24",
       "officialPageUrl": "https://acilafet.saglik.gov.tr/TR-119840/hastane-oncesi-acil-tibbi-yardim-ve-bakim-akis-semalari.html",
       "officialPdfUrl": "https://dosyamerkez.saglik.gov.tr/Eklenti/55773/0/ek-2-hastane-oncesi-acil-tibbi-yardim-ve-bakim-akis-semalaripdf.pdf",
       "section": "adult",
@@ -3594,7 +3595,7 @@ const CASES = [
       "algorithmCodes": [
         "SB-ASH-Y-29"
       ],
-      "page": "51"
+      "page": "48–49 / 51"
     }
   },
   {
@@ -3621,7 +3622,8 @@ const CASES = [
       "<strong>Kontaminasyonu sonlandır:</strong> kimyasalla teması kes ve görülebilen partikül/kalıntıları uzaklaştır.",
       "<strong>Dekontaminasyon:</strong> bol su veya %0,9 NaCl ile <strong>20 dk</strong> boyunca nazikçe yıka.",
       "Olası KBRN maruziyetinde olay yeri güvenliği ve kişisel korunmayı önceliklendir.",
-      "Dekontaminasyon sonrası <strong>Termal Yanık</strong> algoritmasına geç."
+      "Dekontaminasyon sonrası <strong>Termal Yanık</strong> algoritmasına geç.",
+      "<strong>Yanık Anahtar Noktası:</strong> Toz kimyasal yanıkta sil → süpür → fırçala → yıka → kurula; sıvı kimyasal yanıkta yıka → sil → kurula."
     ],
     "warningFindings": [
       "Devam eden kimyasal kontaminasyon",
@@ -3640,7 +3642,7 @@ const CASES = [
       "documentTitle": "Hastane Öncesi Acil Tıbbi Yardım ve Bakım Akış Şemaları",
       "effectiveDate": "2026-08-25",
       "officialPageDate": "2026-09-11",
-      "reviewedAt": "2026-09-22",
+      "reviewedAt": "2026-09-24",
       "officialPageUrl": "https://acilafet.saglik.gov.tr/TR-119840/hastane-oncesi-acil-tibbi-yardim-ve-bakim-akis-semalari.html",
       "officialPdfUrl": "https://dosyamerkez.saglik.gov.tr/Eklenti/55773/0/ek-2-hastane-oncesi-acil-tibbi-yardim-ve-bakim-akis-semalaripdf.pdf",
       "section": "adult",
@@ -3648,7 +3650,7 @@ const CASES = [
       "algorithmCodes": [
         "SB-ASH-Y-30"
       ],
-      "page": "52"
+      "page": "48 / 52"
     }
   },
   {
