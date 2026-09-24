@@ -177,6 +177,7 @@ if((asthmaCase?.meds||[]).some(m=>String(m.name).toLocaleLowerCase('tr-TR').incl
 const acsCase=(CASES||[]).find(c=>c.id==='acs'), nitrate=medByName(acsCase,'İzosorbid dinitrat');
 if(!String(nitrate?.repeat||'').includes('3–5 dk')||!String(nitrate?.maxDose||'').includes('3 doz'))err('AKS nitrat tekrar/maksimum doz bilgisi eksik');
 for(const term of ['sağ ventrikül MI','sildenafil/vardenafil/tadalafil','IV yavaş bolus','bulantı ve solunum depresyonu','120 dk'])if(!JSON.stringify(acsCase).includes(term))err(`Y-06 AKS Anahtar Nokta eksik: ${term}`);
+for(const term of ['SpO₂ >%90 ise rutin O₂ uygulamasından kaçın','solunum sıkıntısı veya ritim bozukluğunda','günlük yeterli doz aspirin kullanmış olsa bile','yükleme dozu verilmesi önerilir'])if(!JSON.stringify(acsCase).includes(term))err(`Y-06 AKS O2/ASA Anahtar Noktası eksik: ${term}`);
 
 const tachyCase=(CASES||[]).find(c=>c.id==='tachycardia');
 if(tachyCase?.title!=='Nabızlı Taşikardi'||tachyCase?.page!=='17')err('Nabızlı Taşikardi başlık/sayfa sabiti bozuldu');
@@ -229,6 +230,8 @@ if(JSON.stringify(arrestAdrShock?.routes)!==JSON.stringify(['IV'])||arrestAdrSho
 if(medByName(arrestCase,'Amiodaron')?.dose!=='300 mg'||JSON.stringify(medByName(arrestCase,'Amiodaron')?.routes)!==JSON.stringify(['IV','IO'])||!String(medByName(arrestCase,'Amiodaron')?.repeat||'').includes('150 mg'))err('Y-11 amiodaron 300 mg + 150 mg IV/IO sırası bozuk');
 if(medByName(arrestCase,'Lidokain')?.dose!=='1–1,5 mg/kg'||!String(medByName(arrestCase,'Lidokain')?.repeat||'').includes('0,5–0,75 mg/kg'))err('Y-11 lidokain başlangıç/5. şok tekrar dozu bozuk');
 if(!JSON.stringify(arrestCase?.quick||[]).includes('bifazik 120–200 J')||!JSON.stringify(arrestCase?.quick||[]).includes('monofazik 360 J'))err('Arrest şok enerji anahtar noktaları eksik');
+for(const term of ['5–6 cm','100–120/dk','10 sn\'den fazla ara verme','hiperventilasyondan kaçın','tamamen gevşemesine izin ver','her 2 dk\'da bir','ileri hava yolundan önce 30:2','10 solunum/dk','%90–98','hipoksi','hipovolemi','hiper/hipokalemi','hipoglisemi','hidrojen iyonu/asidoz','koroner veya pulmoner tromboz','tansiyon pnömotoraks','kardiyak tamponad','toksin/terapötik bozuklukları'])if(!JSON.stringify(arrestCase).toLocaleLowerCase('tr-TR').includes(term.toLocaleLowerCase('tr-TR')))err(`Y-09/10/11 Arrest Anahtar Nokta eksik: ${term}`);
+if(arrestCase?.source?.reviewedAt!=='2026-09-24')err('Y-09/10/11 son kaynak gözden geçirme tarihi güncel değil');
 for(const forbidden of ['Atropin 3 mg','NaHCO₃ 1 mEq/kg'])if(arrestText.includes(forbidden))err(`2026 arrest algoritmasında kaldırılmış içerik var: ${forbidden}`);
 
 if(roscCase?.page!=='23'||!JSON.stringify(roscCase).includes('MAP ≥65 mmHg')||!JSON.stringify(roscCase).includes('32–37,5°C'))err('Resüsitasyon Sonrası Bakım sayfa/hedef sabitleri bozuldu');
@@ -251,6 +254,7 @@ if(medByName(burnCase,'Fentanil')?.dose!=='1 mcg/kg'||medByName(burnCase,'Fentan
 if(medByName(burnCase,'Ringer Laktat')?.authority!=='DIRECT'||medByName(burnCase,'Ringer Laktat')?.practitionerAuthority!=='AABT'||!String(medByName(burnCase,'Ringer Laktat')?.repeat||'').includes('(2 × VYA% × kg) / 16 mL/saat'))err('Yanık Ringer Laktat doğrudan/AABT/formül kartı eksik');
 for(const term of ['cilde yapışmış giysiyi ayırmaya çalışma','≥30 kg ve yanık alanı ≥%15','<30 kg ve yanık alanı ≥%10','%10–30','0,5–1 mL/saat','kısmi kalınlık >%25 VYA','tam kalınlık >%10 VYA','el-yüz-ayak-perine','sirküler ekstremite'])if(!JSON.stringify(burnCase).includes(term))err(`Y-28 Termal Yanık Anahtar Nokta eksik: ${term}`);
 if(!JSON.stringify(burnCase).includes('Termal yanığı musluk suyu ile yıka ve kurula'))err('Y-28 termal yanık yıka/kurula Anahtar Noktası eksik');
+if(!JSON.stringify(burnCase).includes('1. derece yanıklar Parkland hesabına dahil edilmez'))err('Y-28 Parkland hesabında 1. derece yanıkların dışlanması eksik');
 
 const hyperthermiaCase=(CASES||[]).find(c=>c.id==='hyperthermia');
 if(hyperthermiaCase?.source?.reviewedAt!=='2026-09-24')err('Y-23 son kaynak gözden geçirme tarihi güncel değil');
@@ -267,10 +271,11 @@ if(hemorrhagic?.steps?.[1]?.approvalAuthority!=='DIRECT'||hemorrhagic?.steps?.[1
 if(nonHemorrhagic?.steps?.[0]?.approvalAuthority!=='DIRECT'||nonHemorrhagic?.steps?.[0]?.practitionerAuthority!=='AABT'||!String(nonHemorrhagic?.steps?.[0]?.html||'').includes('500–1000 mL'))err('Y-13 non-hemorajik sıvı DIRECT + AABT olmalı');
 if(nonHemorrhagic?.steps?.[1]?.approvalAuthority!=='DIRECT'||nonHemorrhagic?.steps?.[1]?.practitionerAuthority!=='ATT_AABT'||!String(nonHemorrhagic?.steps?.[1]?.html||'').includes('MAP 65–70 mmHg'))err('Y-13 neden araştırma/MAP hedefi turkuaz/DIRECT olmalı');
 if(nonHemorrhagic?.steps?.[2]?.approvalAuthority!=='SKKM'||nonHemorrhagic?.steps?.[2]?.practitionerAuthority!=='AABT'||!String(nonHemorrhagic?.steps?.[2]?.html||'').includes('MAP <65 mmHg'))err('Y-13 yanıtsız hipotansiyon vazopressör basamağı SKKM + AABT olmalı');
+if(!JSON.stringify(hypovolemicFlowCase).includes('(SKB + 2 × DKB) / 3'))err('Y-13 MAP formülü eksik');
 
 const adultAuditCases=(CASES||[]).filter(c=>c.population==='adult');
 if(adultAuditCases.length!==37)err('Yetişkin kütüphanesi 37 doğrulanmış vaka olmalı');
-for(const c of adultAuditCases)if(!['2026-09-21','2026-09-22','2026-09-23','2026-09-24'].includes(c.source?.reviewedAt))err(`${c.id}: beklenmeyen reviewedAt ${c.source?.reviewedAt}`);
+for(const c of adultAuditCases)if(c.source?.reviewedAt!=='2026-09-24')err(`${c.id}: tam yetişkin yeniden audit reviewedAt 2026-09-24 olmalı (${c.source?.reviewedAt})`);
 for(const c of adultAuditCases)for(const m of (c.meds||[])){
   const sourceUnspecified=m.sourceAuthorityStatus==='KEYPOINT_NO_SYMBOL';
   if(sourceUnspecified){
@@ -381,6 +386,7 @@ if(asthmaCase?.title==='Astım Atağı')err('Astım resmî başlığı eski kald
 for(const term of ['solunum sayısı ≥30/dk','SpO₂ <%90','kalp hızı >120 atım/dk','huzursuz/ajite','Etiyolojide anafilaksiyi'])if(!JSON.stringify(asthmaCase).includes(term))err(`Y-05 Astım ağır/ölümcül atak Anahtar Noktası eksik: ${term}`);
 if(bradyCase?.title!=='Bradikardi'||bradyCase?.page!=='16')err('Bradikardi resmî başlık/sayfa bozuldu');
 for(const term of ['hipotansiyon veya nabız <40 atım/dk','yakın asistoli öyküsü','Mobitz Tip 2 AV blok','ventriküler duraklama >3 sn','YARIM-YARIM-YARIM','250 mL izotonik/dekstroz','4 mcg/mL','2 mcg/mL','1 mcg/mL'])if(!JSON.stringify(bradyCase).includes(term))err(`Y-07 Bradikardi Anahtar Noktası eksik: ${term}`);
+if(!JSON.stringify(bradyCase).includes('Dopamin ampul 200 mg'))err('Y-07 dopamin ampul 200 mg Anahtar Nokta bilgisi eksik');
 if(JSON.stringify(arrestCase?.source?.algorithmCodes)!==JSON.stringify(['SB-ASH-Y-09','SB-ASH-Y-10','SB-ASH-Y-11'])||arrestCase?.page!=='18–22')err('Kardiyak Arrest Y-09/Y-10/Y-11 kaynak izi bozuldu');
 const drowningCase=(CASES||[]).find(c=>c.id==='drowning');
 if(!String(drowningCase?.criticalActions?.[0]||'').includes('suya girme')||!String(drowningCase?.criticalActions?.[0]||'').includes('at-çek-uzat'))err('Suda Boğulma at-çek-uzat güvenlik kuralı eksik');
@@ -553,6 +559,12 @@ for(const term of ['SpO₂ %94–98','UZEM','DAKŞ','Sürekli gözlem'])if(!JSON
 const highDoseCase=(CASES||[]).find(c=>c.id==='high-dose-drug');
 if(highDoseCase?.code!=='SB-ASH-Y-32'||highDoseCase?.page!=='55'||highDoseCase?.source?.page!=='55'||(highDoseCase?.meds||[]).length)err('Yüksek Doz İlaç Alımı Y-32 kaynak/ilaç yapısı bozuldu');
 for(const term of ['Kolinerjik Ajanlarla Zehirlenme','Nöbet / Konvülziyon','Diyabetik Aciller','Narkotik / Opioid Zehirlenmeleri','Hipotermi'])if(!JSON.stringify(highDoseCase).includes(term))err(`Y-32 yönlendirme eksik: ${term}`);
+const alteredCase=(CASES||[]).find(c=>c.id==='altered-consciousness');
+for(const term of ['MI, KKY, disritmi','şok, sepsis, menenjit','üremi','elektrolit bozuklukları','CO, ilaçlar, hipotermi, kolinerjikler, alkol'])if(!JSON.stringify(alteredCase).includes(term))err(`Y-16 Bilinç Değişikliği neden tablosu eksik: ${term}`);
+const vertigoAudit=(CASES||[]).find(c=>c.id==='vertigo');
+for(const term of ['tekrarlayan ve kontrolsüz','kapiller geri dolum','nabız dolgunluğu ve hızı','cilt dolaşımı','kan basıncı ve bilinç'])if(!JSON.stringify(vertigoAudit).includes(term))err(`Y-20 Vertigo Anahtar Nokta eksik: ${term}`);
+for(const term of ['kulak çınlaması','batında hassasiyet','tükürük salgısında artma veya azalma','lakrimasyon'])if(!JSON.stringify(poisoningGeneralCase).includes(term))err(`Y-31 genel zehirlenme bulgu tablosu eksik: ${term}`);
+for(const term of ['antikolinerjik sendrom','deliryum','kırmızı-kuru cilt','solunum arresti','şok tedavisini geciktirme','erken monitörizasyon'])if(!JSON.stringify(tcaCase).toLocaleLowerCase('tr-TR').includes(term.toLocaleLowerCase('tr-TR')))err(`Y-37 TCA Anahtar Nokta eksik: ${term}`);
 
 const coCase=(CASES||[]).find(c=>c.id==='carbon-monoxide');
 if(coCase?.source?.reviewedAt!=='2026-09-24')err('Y-33 son kaynak gözden geçirme tarihi güncel değil');
