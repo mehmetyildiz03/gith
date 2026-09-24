@@ -30,8 +30,8 @@ assert(css.includes("/* V0.6.1 dark surface hardening */"),'Koyu mod yüzey hard
 assert(css.includes(":root[data-theme='dark'] .quick-step")&&css.includes("background:var(--detail-panel-deep)!important"),'Koyu mod algoritma adımı explicit yüzeyi eksik');
 assert(css.includes(":root[data-theme='dark'] .red-flag")&&css.includes("background:#2b202a!important"),'Koyu mod kırmızı bayrak yüzeyi eksik');
 assert(css.includes(":root[data-theme='dark'] .branch.yes")&&css.includes(":root[data-theme='dark'] .branch.no"),'Koyu mod karar kutuları explicit değil');
-assert(html.includes('styles.css?v=0.37')&&html.includes('app-core.js?v=0.37')&&html.includes('cases-data.js?v=0.37'),'Kritik asset cache-bust sürümü eksik');
-assert(sw.includes("saha112-v037")&&sw.includes('NETWORK_FIRST_DESTINATIONS'),'Service worker kritik asset güncelleme stratejisi eksik');
+assert(html.includes('styles.css?v=0.38')&&html.includes('app-core.js?v=0.38')&&html.includes('cases-data.js?v=0.38'),'Kritik asset cache-bust sürümü eksik');
+assert(sw.includes("saha112-v038")&&sw.includes('NETWORK_FIRST_DESTINATIONS'),'Service worker kritik asset güncelleme stratejisi eksik');
 assert(!app.includes('Kırmızı bayrak'),'Eski kullanıcı terimi hâlâ UI içinde');
 assert(app.includes('Acil Uyarı Bulguları'),'Acil Uyarı Bulguları başlığı eksik');
 assert(app.includes('Önceliği, müdahaleyi veya nakil kararını değiştirebilecek bulgular.'),'Acil uyarı açıklaması eksik');
@@ -56,7 +56,7 @@ assert(data.includes('"title": "İnme / SVO"'),'İnme / SVO başlığı korunmam
 assert(data.includes('"reviewedAt": "2026-09-24"')&&data.includes('"Glikoz <60 mg/dl ve/veya hipoglisemi bulguları varsa"')&&data.includes('"Kan basıncı takibi"')&&data.includes('4,5 saat içinde trombolitik')&&data.includes('6 saat içinde endovasküler girişim'),'Y-18 yapılandırılmış inme akışı eksik');
 
 assert(data.includes('"title": "Nabızlı Taşikardi"'),'Nabızlı Taşikardi başlığı eksik');
-assert(data.includes('"contentVersion": "EK2-2026.08.25-y38-trauma-flow-1-2026.09.24"'),'V0.37 Y-38 Travma yapılandırılmış akış sürümü eksik');
+assert(data.includes('"contentVersion": "EK2-2026.08.25-runtime-y25-y38-fidelity-1-2026.09.24"'),'V0.38 runtime/Y-25/Y-38 kaynak sadakati sürümü eksik');
 assert(html.includes('id="authorityLegend"')&&!html.includes('<span class="authority direct">Doğrudan</span>'),'Yetki legendi dinamik veri kaynağına bağlı değil');
 assert(app.includes("authorityMarkup")&&app.includes("authority-symbol")&&app.includes("✓ Yeşil: SKKM/ÇM onayı yok")&&app.includes("◆ Sarı: SKKM/ÇM onayı"),'Yetki sembol/yazı eşlemesi eksik');
 assert(css.includes('.authority.direct{')&&css.includes('var(--greenSoft)')&&css.includes('.authority.skkm{')&&css.includes('var(--amberSoft)'),'Yeşil/sarı yetki renk semantiği eksik');
@@ -67,6 +67,7 @@ assert(data.includes('"title": "Hava Yolu Tıkanıklıkları"')&&data.includes('
 assert(data.includes('"title": "Termal Yanık"')&&data.includes('"title": "Travmalı Hastada Acil Olgu Yönetimi"'),'Yanık/travma resmî başlıkları eksik');
 assert(data.includes('"code": "SB-ASH-Y-38"')&&data.includes('"page": "67"'),'Travma Y-38/s.67 kaynak düzeltmesi eksik');
 assert(data.includes('"subtitle": "X-ABCDE • kanama • hızlı nakil"')&&data.includes('"Hayır — hava yolu açık/güvenilir değilse"')&&data.includes('"Hayır — solunum stabil değilse"')&&data.includes('Hipovolemik Şok algoritmasına git.')&&data.includes('Kafa Travmalı Hastaya Yaklaşım algoritmasına git.')&&data.includes('Tüm giysileri yararak vücut kontrolünü tamamla; hipotermiden koru.'),'Y-38 yapılandırılmış X-ABCDE saha akışı eksik');
+assert(data.includes("oksijen desteği ile düzelmeyen, SpO₂'nin %94 altında kalması")&&data.includes('55 yaş üstü, yanık, hipotermi veya gebelik')&&(data.match(/"kind": "transition"/g)||[]).length>=3,'Y-38 kritik travma tablosu / mavi geçiş semantiği eksik');
 assert(!data.includes('"code": "Ek-2 • Travma"'),'Eski travma kaynak kodu kaldı');
 assert(!app.includes('--soft:${c.soft}')&&app.includes('--case-soft:${c.soft}')&&css.includes('var(--case-soft,var(--soft))'),'Case-local --soft tema çakışması düzeltilmemiş');
 assert(app.includes("c.severityView?.title")&&app.includes("c.severity.mild.label")&&app.includes("c.severity.moderate.label")&&app.includes("c.severity.severe.label"),'Severity UI vaka verisine bağlı değil');
@@ -112,6 +113,8 @@ assert((data.match(/"decisionIntegrated": true/g)||[]).length>=5,'Y-08/Y-09-11/Y
 assert(app.includes("!c.decisionIntegrated")&&app.includes("detail-columns ${c.decisionIntegrated?'single':''}"),'Entegre karar vakalarında yinelenen Karar bölümü/jump gizlenmiyor');
 assert(css.includes('/* V0.30 high-priority structured flows */')&&css.includes('.detail-columns.single{grid-template-columns:minmax(0,1fr)}'),'Entegre karar tek kolon görünüm stili eksik');
 assert(app.includes('function renderAlgorithmBranch')&&app.includes('function renderAlgorithmBranches')&&app.includes('algorithmBranchSearch'),'Dallı algoritma render/arama katmanı eksik');
+assert(app.includes('function algorithmBranchLayoutClass(c)')&&!app.includes("if(c.algorithmBranchLayout==='split')layout=' split'"),'Branch layout runtime const yeniden-atama riski giderilmemiş');
+assert(app.includes('algo-precondition')&&app.includes('algo-transition')&&app.includes('renderAlgorithmNotices(c)')&&css.includes('/* V0.38 source-geometry fidelity + runtime-safe flow polish */'),'Koşul/geçiş/gri uyarı render katmanı eksik');
 assert(app.includes('function renderAlgorithmAfter(c)')&&app.includes('algo-step-followup')&&app.includes('step?.followUp?.label'),'ROSC alt geçişi / Y-11 takip dozu render-arama katmanı eksik');
 assert(data.includes('"algorithmAfter": [')&&data.includes('"label": "Arrest tekrar ederse"')&&!data.includes('"label": "Arrest tekrarı"'),'Y-12 arrest tekrarında ilgili ritim geçişi yanlış üst dal olarak kalmış');
 assert(data.includes('"followUp": {')&&data.includes('"Dirençli / tekrarlayan VF-nVT — 5. şok sonrası"'),'Y-11 3./5. şok okunabilir ayrımı eksik');
@@ -136,7 +139,7 @@ assert(app.includes("if(c.algorithmBranchLayout==='split')layout=' split'"),'Y-1
 assert(css.includes('/* V0.33 Y17 diabetic split flow */')&&css.includes('.algorithm-branches.split')&&css.includes('grid-template-columns:repeat(2,minmax(0,1fr))'),'Y-17 masaüstü iki kol / mobil tek kolon stili eksik');
 assert(data.includes('"title": "Nöbet / Konvülziyon"'),'Nöbet / Konvülziyon resmî başlığı eksik');
 for(const title of ['Ajite Hastaya Yaklaşım','Vertigo','Alerjik Reaksiyon','Hipotermide Arrest Yönetimi'])assert(data.includes(`"title": "${title}"`),`İkinci yetişkin paketinde eksik vaka: ${title}`);
-assert(data.includes('"label": "Evet — KPR başlama kriteri var"')&&data.includes('"label": "Hayır — KPR başlama kriteri yok"')&&data.includes("vücut sıcaklığı 30°C'ye ulaşıncaya kadar defibrilasyonu ertele")&&data.includes('SKKM/ÇM ile görüşerek ECMO merkezine yönlendirmeyi düşün'),'Y-25 Hipotermide Arrest yapılandırılmış akışı eksik');
+assert(data.includes('"precondition": "Vücut ısısı <35°C ve bilinç kapalı ise"')&&data.includes('"transition": "HİPOTERMİ ALGORİTMASINA GİT"')&&data.includes('"transition": "ARREST YÖNETİMİ ALGORİTMASINA GİT"')&&data.includes("vücut sıcaklığı 30°C'ye ulaşıncaya kadar defibrilasyon ertelenmelidir")&&data.includes('SKKM/ÇM ile görüşerek ECMO merkezine yönlendirmeyi düşün'),'Y-25 koşul/geçiş/gri uyarı kaynak geometrisi eksik');
 for(const title of ['Crush Sendromu','Kafa Travmalı Hastaya Yaklaşım','Start Triyaj'])assert(data.includes(`"title": "${title}"`),`Beşinci yetişkin paketinde eksik vaka: ${title}`);
 for(const code of ['SB-ASH-Y-39','SB-ASH-Y-40','SB-ASH-Y-41'])assert(data.includes(`"code": "${code}"`),`Beşinci yetişkin paketinde eksik kod: ${code}`);
 assert(data.includes('"label": "Yürüyenler — YEŞİL KOD"')&&data.includes('"triageCode": "black"')&&data.includes('"triageCode": "yellow"')&&data.includes('"label": "Komutlara uymuyorsa — KIRMIZI KOD"'),'Y-41 START yapılandırılmış karar ağacı eksik');
@@ -147,6 +150,31 @@ for(const selector of ['.icon-btn,','.search-wrap input{','.filter-chip{','.text
   assert(css.includes(selector),`Dokunma hedefi kuralı eksik: ${selector}`);
 }
 assert(css.includes('min-height:44px'),'44px minimum dokunma hedefi kuralı eksik');
+
+
+try{
+  const start=app.indexOf('function renderActionStep');
+  const end=app.indexOf('function renderAlgorithmAfter');
+  assert(start>=0&&end>start,'Renderer runtime smoke fonksiyon bloğu bulunamadı');
+  if(start>=0&&end>start){
+    const source=app.slice(start,end);
+    const escSmoke=v=>String(v??'').replace(/[&<>"']/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));
+    const api=new Function('authorityMarkup','practitionerMarkup','esc',`${source}; return {renderActionStep,renderAlgorithmBranch,renderAlgorithmBranches,algorithmBranchLayoutClass,renderAlgorithmNotices};`)(
+      key=>`<i data-authority="${key}"></i>`,
+      key=>key==='AABT'?'<i data-practitioner="AABT"></i>':'',
+      escSmoke
+    );
+    assert(api.algorithmBranchLayoutClass({algorithmBranchLayout:'split'})===' split','Runtime smoke: split layout sonucu yanlış');
+    assert(api.algorithmBranchLayoutClass({algorithmBranchLayout:'profiles'})===' profiles','Runtime smoke: profiles layout sonucu yanlış');
+    assert(api.algorithmBranchLayoutClass({})==='','Runtime smoke: varsayılan layout sonucu yanlış');
+    assert(api.renderAlgorithmBranches({algorithmBranchLayout:'split',algorithmBranches:[{label:'A',steps:[{html:'x',approvalAuthority:'DIRECT',practitionerAuthority:'ATT_AABT'}]}]}).includes('algorithm-branches split'),'Runtime smoke: split render başarısız');
+    const terminal=api.renderAlgorithmBranches({algorithmBranches:[{label:'Yeşil',triageCode:'green'},{label:'Geçiş',transition:'ALGORİTMAYA GİT'}]});
+    assert(terminal.includes('triage-green')&&terminal.includes('algo-transition'),'Runtime smoke: terminal triage/transition render başarısız');
+    assert(api.renderActionStep({precondition:'Koşul',html:'Eylem',approvalAuthority:'DIRECT',practitionerAuthority:'ATT_AABT'}).includes('algo-precondition'),'Runtime smoke: precondition render başarısız');
+    assert(api.renderActionStep({html:'Eylem',approvalAuthority:'DIRECT',practitionerAuthority:'ATT_AABT',followUp:{label:'Hayır',kind:'transition',html:'Geçiş'}}).includes('algo-step-followup transition'),'Runtime smoke: followUp transition render başarısız');
+    assert(api.renderAlgorithmNotices({algorithmNotices:['Uyarı']}).includes('algo-notice'),'Runtime smoke: gri uyarı render başarısız');
+  }
+}catch(e){errors.push('Renderer runtime smoke: '+e.message)}
 
 console.log(`Saha112 UI audit: ${errors.length} hata`);
 for(const e of errors)console.error('ERROR '+e);
