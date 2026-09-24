@@ -1,7 +1,7 @@
 const APP_META = {
   "schemaVersion": 5,
-  "contentVersion": "EK2-2026.08.25-y38-trauma-flow-1-2026.09.24",
-  "productVersion": "0.37",
+  "contentVersion": "EK2-2026.08.25-runtime-y25-y38-fidelity-1-2026.09.24",
+  "productVersion": "0.38",
   "populations": [
     {
       "id": "adult",
@@ -1447,11 +1447,13 @@ const CASES = [
       "Vücut ısısı ≥35°C olana kadar KPR'yi sonlandırma; ilk defibrilasyon başarısızsa vücut sıcaklığı 30°C'ye ulaşıncaya kadar sonraki defibrilasyonu ertele."
     ],
     "quick": [
-      "Nabız varsa <strong>Hipotermi</strong> algoritmasına geç. Nabız yoksa KPR başlama kriterlerini değerlendir.",
+      "Vücut ısısı <strong><35°C</strong> ve bilinç kapalıysa en az <strong>60 sn nabız kontrolü</strong> yap.",
+      "Nabız varsa <strong>Hipotermi algoritmasına geç.</strong> Nabız yoksa KPR başlama kriterlerini değerlendir.",
       "KPR başlama kriteri varsa standart erişkin ileri yaşam desteği + eş zamanlı pasif/aktif ısıtma uygula; <strong>vücut ısısı ≥35°C olana kadar KPR'yi sonlandırma</strong>, >35°C olduğunda Arrest Yönetimi algoritmasına geç.",
       "Kesintisiz KPR olanağı yoksa: <strong><28°C: 5 dk KPR / 5 dk KPR'siz</strong>; <strong><20°C: 5 dk KPR / 10 dk KPR'siz</strong>. KPR'siz periyodu taşıma ve kurtarma için kullan.",
       "İlk defibrilasyon girişimi başarısızsa <strong>vücut sıcaklığı 30°C'ye ulaşıncaya kadar defibrilasyonu ertele.</strong>",
-      "KPR endikasyonu olmayan durumları kontrol et: hava yolunun kar/buzla kaplı olması, 35 dk'dan fazla çığ altında kalma, ortam güvenliğinin sağlanamaması veya kardiyak kompresyona izin vermeyecek şekilde tüm vücudun donması. <strong>SKKM/ÇM ile görüşerek ECMO merkezine yönlendirmeyi düşün.</strong>"
+      "KPR endikasyonu olmayan durumlar: hava yolunun kar/buzla kaplı olması, 35 dk'dan fazla çığ altında kalma, ortam güvenliğinin sağlanamaması veya kardiyak kompresyona izin vermeyecek şekilde tüm vücudun donması.",
+      "<strong>SKKM/ÇM ile görüşerek ECMO merkezine yönlendirmeyi düşün.</strong>"
     ],
     "warningFindings": [
       "İlk defibrilasyon başarısızsa vücut sıcaklığı 30°C'ye ulaşıncaya kadar defibrilasyonu ertele",
@@ -1488,29 +1490,32 @@ const CASES = [
         "practitionerAuthority": "ATT_AABT"
       },
       {
-        "html": "Vücut ısısı <strong>&lt;35°C</strong> ve bilinç kapalı ise <strong>en az 60 sn nabız kontrolü yap.</strong>",
+        "precondition": "Vücut ısısı <35°C ve bilinç kapalı ise",
+        "html": "<strong>En az 60 sn nabız kontrolü yap.</strong>",
         "approvalAuthority": "DIRECT",
         "practitionerAuthority": "ATT_AABT"
       }
     ],
+    "algorithmNotices": [
+      "Hipotermiye bağlı kardiyak arrestte, ilk defibrilasyon girişiminin başarısız olması durumunda, vücut sıcaklığı 30°C'ye ulaşıncaya kadar defibrilasyon ertelenmelidir."
+    ],
     "algorithmBranches": [
       {
         "label": "Nabız var",
-        "steps": [
-          {
-            "html": "<strong>Hipotermi algoritmasına git.</strong>",
-            "approvalAuthority": "DIRECT",
-            "practitionerAuthority": "ATT_AABT"
-          }
-        ]
+        "transition": "HİPOTERMİ ALGORİTMASINA GİT"
       },
       {
         "label": "Nabız yok",
-        "note": "Resmî akışta sonraki karar: KPR başlama kriterleri var mı?",
+        "steps": [
+          {
+            "html": "<strong>KPR başlama kriterleri var mı?</strong>",
+            "approvalAuthority": "DIRECT",
+            "practitionerAuthority": "ATT_AABT"
+          }
+        ],
         "branches": [
           {
-            "label": "Evet — KPR başlama kriteri var",
-            "note": "İlk defibrilasyon girişimi başarısızsa vücut sıcaklığı 30°C'ye ulaşıncaya kadar defibrilasyonu ertele. SKKM/ÇM ile görüşerek ECMO merkezine yönlendirmeyi düşün.",
+            "label": "Evet",
             "steps": [
               {
                 "html": "<strong>Standart erişkin ileri yaşam desteği uygulamasına başla.</strong> Eş zamanlı olarak pasif ve aktif ısıtma yöntemlerini uygula.",
@@ -1522,14 +1527,18 @@ const CASES = [
                 }
               },
               {
-                "html": "<strong>Vücut ısısı ≥35°C olana kadar KPR'yi sonlandırma.</strong> Vücut ısısı <strong>&gt;35°C</strong> olduğunda Arrest Yönetimi algoritmasına git.",
+                "html": "<strong>Vücut ısısı ≥35°C olana kadar KPR'yi sonlandırma.</strong> Vücut ısısı <strong>&gt;35°C</strong> olduğunda:",
                 "approvalAuthority": "DIRECT",
                 "practitionerAuthority": "ATT_AABT"
               }
+            ],
+            "transition": "ARREST YÖNETİMİ ALGORİTMASINA GİT",
+            "notices": [
+              "SKKM/ÇM ile görüşerek ECMO merkezine yönlendirmeyi düşün."
             ]
           },
           {
-            "label": "Hayır — KPR başlama kriteri yok",
+            "label": "Hayır",
             "note": "KPR endikasyonu olmayan durumlar: hava yolunun karla/buzla kaplı olması; 35 dk'dan fazla çığ altında kalma; ortam güvenliğinin sağlanamaması; kardiyak kompresyona izin vermeyecek şekilde bütün vücudun donması.",
             "steps": [
               {
@@ -4051,12 +4060,11 @@ const CASES = [
       "<strong>Nakil:</strong> İkincil değerlendirmeyi nakil sırasında tamamla, immobilizasyonu sürdür ve naklet."
     ],
     "warningFindings": [
-      "Kanıt olabilecek materyallerin (giysilerin) korunması gerekir",
-      "Kontrolsüz dış kanama",
-      "Hava yolu tehdidi veya SpO₂ >%94 sağlanamaması",
-      "Tansiyon pnömotoraks / açık pnömotoraks / hemotoraks",
-      "Nabız yokluğu veya dolaşım instabilitesi",
-      "GKS <13, nöbet, duyusal-motor defisit veya penetran yaralanma gibi kritik travma özellikleri"
+      "Yetersiz/bozulmuş hava yolu veya ventilasyon: anormal hızlı ya da yavaş solunum; oksijen desteği ile düzelmeyen, SpO₂'nin %94 altında kalması; dispne; açık pnömotoraks ya da yelken göğüs; şüpheli pnömotoraks.",
+      "Önemli dış kanama ya da şüphelenilen iç kanama / anormal nörolojik durum: GKS <13; geçirilen ya da geçirilmiş nöbet; duyusal ya da motor defisit.",
+      "Penetran yaralanmanın kafa, boyun, gövdede veya diz ve dirsek proksimalinde olması; parmaklar hariç distale doğru oluşan ekstremite amputasyonları.",
+      "Herhangi bir travma ile birlikte: yandaş hastalık öyküsü (KAH, KOAH, kanama bozuklukları), 55 yaş üstü, yanık, hipotermi veya gebelik.",
+      "Kanıt olabilecek materyallerin (giysilerin) korunması gerekir."
     ],
     "meds": [],
     "decision": {
@@ -4100,6 +4108,7 @@ const CASES = [
         "practitionerAuthority": "ATT_AABT",
         "followUp": {
           "label": "Hayır",
+          "kind": "transition",
           "html": "<strong>Arrest Yönetimi algoritmasına git.</strong>"
         }
       },
@@ -4109,6 +4118,7 @@ const CASES = [
         "practitionerAuthority": "ATT_AABT",
         "followUp": {
           "label": "Hayır — dolaşım stabil değilse",
+          "kind": "transition",
           "html": "Pelvis travması ya da şüphesi varsa pelvisi sabitle. Ardından <strong>Hipovolemik Şok algoritmasına git.</strong>"
         }
       },
@@ -4118,6 +4128,7 @@ const CASES = [
         "practitionerAuthority": "ATT_AABT",
         "followUp": {
           "label": "Hayır",
+          "kind": "transition",
           "html": "<strong>Kafa Travmalı Hastaya Yaklaşım algoritmasına git.</strong>"
         }
       },
