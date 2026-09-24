@@ -215,7 +215,7 @@ function renderActionStep(step,{branch=false}={}){
     const notice=step.followUp.notice?`<div class="algo-notice"><span aria-hidden="true">!</span><p>${esc(step.followUp.notice)}</p></div>`:'';
     return `<div class="algo-step-followup"><span>${esc(step.followUp.label||'Devam')}</span>${body}${transition}${notice}</div>`;
   })():'';
-  return `<div class="${cls}">${precondition}<div class="${copyClass}">${step.html}</div>${followUp}${badges?`<div class="action-step-badges">${badges}</div>`:''}</div>`;
+  return `<div class="${cls}">${precondition}<div class="${copyClass}">${step.html}</div>${badges?`<div class="action-step-badges">${badges}</div>`:''}${followUp}</div>`;
 }
 function renderAlgorithmSteps(c){
   const steps=c.algorithmSteps?.length?c.algorithmSteps:(c.quick||[]).map(html=>({html}));
