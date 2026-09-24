@@ -3829,7 +3829,8 @@ const CASES = [
       "Bradiaritmi varsa <strong>Bradikardi</strong> algoritmasına geç.",
       "Ciddi bulgu ve hipotansiyonda <strong>SKB >90 mmHg</strong> olacak şekilde %0,9 NaCl / Ringer Laktat IV hidrasyona başla.",
       "Kalsiyum kanal blokeri zehirlenmesinden emin olunan hipotansif hastada <strong>SKKM/ÇM ile 3 ampul kalsiyum glukonat</strong>, 100 mL %0,9 NaCl içinde 10 dk'da IV verilebilir.",
-      "Hipoglisemi varsa <strong>Diyabetik Aciller</strong> algoritmasına geç."
+      "Hipoglisemi varsa <strong>Diyabetik Aciller</strong> algoritmasına geç.",
+      "<strong>Anahtar Nokta — semptomatik bradikardi:</strong> Atropin 1 mg IV; 3–5 dk arayla maksimum 3 mg'a kadar uygulanabilir. Eksternal pacemaker uygulanabilir. Bu bilgi Anahtar Nokta tablosundadır; akışta bradiaritmide Bradikardi algoritmasına geçilir."
     ],
     "warningFindings": [
       "Bilinç kaybı veya solunum depresyonu",
@@ -3873,7 +3874,7 @@ const CASES = [
       "documentTitle": "Hastane Öncesi Acil Tıbbi Yardım ve Bakım Akış Şemaları",
       "effectiveDate": "2026-08-25",
       "officialPageDate": "2026-09-11",
-      "reviewedAt": "2026-09-22",
+      "reviewedAt": "2026-09-24",
       "officialPageUrl": "https://acilafet.saglik.gov.tr/TR-119840/hastane-oncesi-acil-tibbi-yardim-ve-bakim-akis-semalari.html",
       "officialPdfUrl": "https://dosyamerkez.saglik.gov.tr/Eklenti/55773/0/ek-2-hastane-oncesi-acil-tibbi-yardim-ve-bakim-akis-semalaripdf.pdf",
       "section": "adult",
@@ -3909,7 +3910,8 @@ const CASES = [
       "<strong>Atropin:</strong> 1–2 mg IV; IV yol açılamıyorsa 2–5 mg IM.",
       "Trakeobronşiyal sekresyonlar azalıncaya kadar <strong>5 dk'da bir tekrarla</strong>.",
       "Kolinerjik etkili ajanlar arasında sinir gazları ve tarım ilaçları bulunur.",
-      "Oral alımda ilk 30 dk içinde gastrik lavaj etkili olabilir; <strong>resmî Anahtar Noktaya göre acil serviste uygulanmalıdır.</strong>"
+      "Oral alımda ilk 30 dk içinde gastrik lavaj etkili olabilir; <strong>resmî Anahtar Noktaya göre acil serviste uygulanmalıdır.</strong>",
+      "Kontaminasyonda hasta <strong>ambulans kabinine alınmadan önce kıyafetleri çıkarılmalı</strong>; hasta yıkanmalı veya ıslak bezle silinmelidir."
     ],
     "warningFindings": [
       "Yoğun sekresyon / bronkore ve bronkospazm",
