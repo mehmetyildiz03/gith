@@ -1,7 +1,7 @@
 const APP_META = {
   "schemaVersion": 5,
-  "contentVersion": "EK2-2026.08.25-runtime-y25-y38-fidelity-1-2026.09.24",
-  "productVersion": "0.38",
+  "contentVersion": "EK2-2026.08.25-runtime-y17-y18-y25-y38-fidelity-2-2026.09.24",
+  "productVersion": "0.39",
   "populations": [
     {
       "id": "adult",
@@ -1450,13 +1450,15 @@ const CASES = [
       "Vücut ısısı <strong><35°C</strong> ve bilinç kapalıysa en az <strong>60 sn nabız kontrolü</strong> yap.",
       "Nabız varsa <strong>Hipotermi algoritmasına geç.</strong> Nabız yoksa KPR başlama kriterlerini değerlendir.",
       "KPR başlama kriteri varsa standart erişkin ileri yaşam desteği + eş zamanlı pasif/aktif ısıtma uygula; <strong>vücut ısısı ≥35°C olana kadar KPR'yi sonlandırma</strong>, >35°C olduğunda Arrest Yönetimi algoritmasına geç.",
-      "Kesintisiz KPR olanağı yoksa: <strong><28°C: 5 dk KPR / 5 dk KPR'siz</strong>; <strong><20°C: 5 dk KPR / 10 dk KPR'siz</strong>. KPR'siz periyodu taşıma ve kurtarma için kullan.",
+      "Kesintisiz KPR olanağı yoksa: <strong><28°C: 5 dk KPR / 5 dk KPR'siz</strong>; <strong><20°C: 5 dk KPR / 10 dk KPR'siz</strong>. KPR'siz periyodu taşıma ve kurtarma için kullan. <strong>Uzun resüsitasyon süreleri önerilir.</strong>",
       "İlk defibrilasyon girişimi başarısızsa <strong>vücut sıcaklığı 30°C'ye ulaşıncaya kadar defibrilasyonu ertele.</strong>",
       "KPR endikasyonu olmayan durumlar: hava yolunun kar/buzla kaplı olması, 35 dk'dan fazla çığ altında kalma, ortam güvenliğinin sağlanamaması veya kardiyak kompresyona izin vermeyecek şekilde tüm vücudun donması.",
       "<strong>SKKM/ÇM ile görüşerek ECMO merkezine yönlendirmeyi düşün.</strong>"
     ],
     "warningFindings": [
       "İlk defibrilasyon başarısızsa vücut sıcaklığı 30°C'ye ulaşıncaya kadar defibrilasyonu ertele",
+      "Islak giysileri çıkar; battaniye ya da termal örtü ile ört; sıcak ortama al; uygulamalarda sert fiziksel hareketlerden kaçın (örn. entübasyon ve aspirasyon sırasında).",
+      "Ciddi hipotermide kan basıncının ölçülememesi, ağrılı uyarana yanıt olmaması ve pupil refleksinin kaybı ölüm belirtisi değildir.",
       "Hava yolunun kar/buzla kaplı olması",
       "35 dk'dan fazla çığ altında kalma",
       "Ortam güvenliğinin sağlanamaması veya kardiyak kompresyona izin vermeyecek şekilde tüm vücudun donması"
@@ -3055,7 +3057,7 @@ const CASES = [
             "practitionerAuthority": "AABT",
             "followUp": {
               "label": "Şok ve dehidratasyon bulguları varsa",
-              "html": "<strong>Hipovolemik Şok algoritmasına git.</strong>"
+              "transition": "HİPOVOLEMİK ŞOK ALGORİTMASINA GİT"
             }
           }
         ]
@@ -3144,7 +3146,7 @@ const CASES = [
         "practitionerAuthority": "ATT_AABT",
         "followUp": {
           "label": "Glikoz <60 mg/dl ve/veya hipoglisemi bulguları varsa",
-          "html": "<strong>Diyabetik Aciller algoritmasına git.</strong>"
+          "transition": "DİYABETİK ACİLLER ALGORİTMASINA GİT"
         }
       },
       {
@@ -3163,7 +3165,7 @@ const CASES = [
         "practitionerAuthority": "ATT_AABT",
         "followUp": {
           "label": "Kan basıncı takibi",
-          "html": "Tansiyon değerleri normalin üstünde olsa da <strong>tansiyonu düşürme.</strong>"
+          "notice": "Tansiyon değerleri normalin üstünde olsa da tansiyonu düşürme."
         }
       },
       {
@@ -4056,7 +4058,7 @@ const CASES = [
       "<strong>X:</strong> Dışa doğru hayatı tehdit eden kanama varsa doğrudan bası uygula.",
       "<strong>A/B:</strong> Servikal-spinal immobilizasyonu sağla; hava yolu güvenli değilse aç/aspire et, gerekirse ileri hava yolu düşün. Solunum stabil değilse ventilasyonu destekle ve yaşamı tehdit eden toraks sorunlarını tedavi et.",
       "<strong>C:</strong> Nabız yoksa Arrest Yönetimi'ne geç. Dolaşım stabil değilse pelvis travması/şüphesinde pelvisi sabitle ve Hipovolemik Şok algoritmasına geç.",
-      "<strong>D/E:</strong> Bilinç normal değilse Kafa Travmalı Hastaya Yaklaşım algoritmasına geç; tüm giysileri yararak vücut kontrolünü tamamla ve hipotermiden koru.",
+      "<strong>D/E:</strong> Bilinç normal değilse Kafa Travmalı Hastaya Yaklaşım algoritmasına geç; tüm giysileri çıkararak vücut kontrolünü tamamla ve hipotermiden koru.",
       "<strong>Nakil:</strong> İkincil değerlendirmeyi nakil sırasında tamamla, immobilizasyonu sürdür ve naklet."
     ],
     "warningFindings": [
@@ -4108,8 +4110,7 @@ const CASES = [
         "practitionerAuthority": "ATT_AABT",
         "followUp": {
           "label": "Hayır",
-          "kind": "transition",
-          "html": "<strong>Arrest Yönetimi algoritmasına git.</strong>"
+          "transition": "ARREST YÖNETİMİ ALGORİTMASINA GİT"
         }
       },
       {
@@ -4118,8 +4119,8 @@ const CASES = [
         "practitionerAuthority": "ATT_AABT",
         "followUp": {
           "label": "Hayır — dolaşım stabil değilse",
-          "kind": "transition",
-          "html": "Pelvis travması ya da şüphesi varsa pelvisi sabitle. Ardından <strong>Hipovolemik Şok algoritmasına git.</strong>"
+          "html": "Pelvis travması ya da şüphesi varsa pelvisi sabitle.",
+          "transition": "HİPOVOLEMİK ŞOK ALGORİTMASINA GİT"
         }
       },
       {
@@ -4128,12 +4129,11 @@ const CASES = [
         "practitionerAuthority": "ATT_AABT",
         "followUp": {
           "label": "Hayır",
-          "kind": "transition",
-          "html": "<strong>Kafa Travmalı Hastaya Yaklaşım algoritmasına git.</strong>"
+          "transition": "KAFA TRAVMALI HASTAYA YAKLAŞIM ALGORİTMASINA GİT"
         }
       },
       {
-        "html": "<strong>Tüm giysileri yararak vücut kontrolünü tamamla; hipotermiden koru.</strong>",
+        "html": "<strong>Tüm giysileri çıkararak vücut kontrolünü tamamla; hipotermiden koru.</strong>",
         "approvalAuthority": "DIRECT",
         "practitionerAuthority": "ATT_AABT"
       },
@@ -4354,12 +4354,13 @@ const CASES = [
       "<strong>Yürüyebilen → YEŞİL.</strong> Yürüyemeyende önce solunumu değerlendir.",
       "Solunum yok → başa pozisyon ver; hâlâ yoksa <strong>SİYAH</strong>, solunum başlarsa <strong>KIRMIZI</strong>.",
       "Solunum sayısı <strong><10/dk veya >30/dk → KIRMIZI</strong>. 10–30/dk ise dolaşımı değerlendir.",
-      "KGD >2 sn veya distal nabız yok → <strong>KIRMIZI</strong>. KGD <2 sn ve distal nabız varsa: komuta uyuyorsa <strong>SARI</strong>, uymuyorsa <strong>KIRMIZI</strong>."
+      "KGD >2 sn veya distal nabız yok → <strong>KIRMIZI</strong>. KGD <2 sn ve distal nabız varsa: komuta uyuyorsa <strong>SARI</strong>, uymuyorsa <strong>KIRMIZI</strong>.",
+      "<strong>Yeniden triyaj:</strong> Zaman ve olanak olduğunda tekrarla; gerekirse daha ciddi triyaj kodu verilebilir."
     ],
     "warningFindings": [
       "Triyaj sırasında tedavi/KPR yapmak — resmî anahtar noktada yapılmaması belirtilir",
       "Bir hasta için triyajın 1 dakikayı aşması",
-      "Yeniden triyaj ihtiyacının atlanması",
+      "Zaman ve olanak olduğunda triyaj tekrarlanmalıdır; yeniden triyajda yaralıya daha ciddi triyaj kodu verilebilir.",
       "Hayat kurtarıcı kanama kontrolü ihtiyacında çevredeki uygun kişilerden destek alınmaması"
     ],
     "meds": [],
