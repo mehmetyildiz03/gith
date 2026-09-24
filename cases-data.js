@@ -1,7 +1,7 @@
 const APP_META = {
   "schemaVersion": 5,
-  "contentVersion": "EK2-2026.08.25-y40-head-trauma-structured-1-2026.09.24",
-  "productVersion": "0.40",
+  "contentVersion": "EK2-2026.08.25-y19-seizure-structured-1-2026.09.24",
+  "productVersion": "0.41",
   "populations": [
     {
       "id": "adult",
@@ -217,6 +217,7 @@ const APP_META = {
       "SB-ASH-Y-14",
       "SB-ASH-Y-17",
       "SB-ASH-Y-18",
+      "SB-ASH-Y-19",
       "SB-ASH-Y-22",
       "SB-ASH-Y-25",
       "SB-ASH-Y-38",
@@ -232,6 +233,7 @@ const APP_META = {
       "SB-ASH-Y-13",
       "SB-ASH-Y-14",
       "SB-ASH-Y-17",
+      "SB-ASH-Y-19",
       "SB-ASH-Y-22",
       "SB-ASH-Y-25",
       "SB-ASH-Y-40",
@@ -3180,7 +3182,7 @@ const CASES = [
   {
     "id": "seizure",
     "title": "Nöbet / Konvülziyon",
-    "subtitle": "Status epileptikus yönetimi • SKKM/ÇM ilaç basamakları",
+    "subtitle": "Devam eden nöbet • ilaç basamakları • postiktal bakım",
     "category": "Nörolojik",
     "icon": "〽️",
     "accent": "#7556a8",
@@ -3196,7 +3198,7 @@ const CASES = [
       "documentTitle": "Hastane Öncesi Acil Tıbbi Yardım ve Bakım Akış Şemaları",
       "effectiveDate": "2026-08-25",
       "officialPageDate": "2026-09-11",
-      "reviewedAt": "2026-09-22",
+      "reviewedAt": "2026-09-24",
       "officialPageUrl": "https://acilafet.saglik.gov.tr/TR-119840/hastane-oncesi-acil-tibbi-yardim-ve-bakim-akis-semalari.html",
       "officialPdfUrl": "https://dosyamerkez.saglik.gov.tr/Eklenti/55773/0/ek-2-hastane-oncesi-acil-tibbi-yardim-ve-bakim-akis-semalaripdf.pdf",
       "section": "adult",
@@ -3206,24 +3208,25 @@ const CASES = [
       "page": "33",
       "codeStatus": "verified"
     },
-    "summary": "Nöbeti güvenli ABC yaklaşımıyla yönet; devam eden nöbette resmî şemadaki benzodiazepin ve ikinci basamak antiepileptiklerin tamamı SKKM/ÇM telefon simgelidir.",
+    "summary": "Nöbet/konvülziyonda hava yolunu ve oksijenasyonu güvenceye al; glukozu değerlendir, devam eden nöbette SKKM/ÇM telefon simgeli ilaç basamaklarını sırayla uygula ve postiktal hava yolunu izle.",
     "criticalActions": [
-      "Hastayı yaralanmadan koru; hava yolunu aç, oksijenasyon/ventilasyonu değerlendir.",
-      "Kan glikozunu ölç ve düzeltilebilir nedeni ara.",
-      "Devam eden nöbette ilk benzodiazepin basamağını geciktirme; dirençliyse 2026 ikinci basamak seçeneklerine geç."
+      "Hava yolu açıklığını sağla; SpO₂ %94–98 olacak şekilde oksijen ver, gerekirse PBV ile solunumu destekle.",
+      "DAKŞ aç, kan glikoz seviyesini ölç ve kardiyak monitörizasyon yap.",
+      "Nöbet devam ediyorsa SKKM/ÇM telefon simgeli benzodiazepin ve ikinci basamak antikonvülzan akışını sırayla uygula; nöbet sürerse ileri hava yolu için hazırlan."
     ],
     "quick": [
-      "Acil olgu yönetimi; hava yolunu sağla, <strong>SpO₂ %94–98</strong> hedefle, damar yolu (DAKŞ), kan glikozu ve kardiyak monitörizasyonu yap.",
-      "Nöbet sürüyorsa <strong>SKKM/ÇM ile diazepam 5 mg IV yavaş puşe</strong> veya <strong>midazolam 5 mg IV / 10 mg IM</strong>.",
-      "Ardından SKKM/ÇM ile <strong>fenitoin 20 mg/kg</strong> (infüzyon hızı resmî şemada en fazla 25 mg/kg/dk) veya <strong>valproik asit 40 mg/kg IV infüzyon</strong> veya <strong>levetirasetam 60 mg/kg IV infüzyon</strong>.",
-      "5 dk sonra nöbet devam ediyorsa SKKM/ÇM ile <strong>diazepam 5 mg IV yavaş puşe</strong> veya <strong>midazolam 5 mg IV / 10 mg IM</strong> tekrar; devam ederse ileri hava yolu için hazırlan."
+      "Acil olgu yönetimi → hava yolu → <strong>SpO₂ %94–98</strong> → gerekirse PBV → DAKŞ → kan glikozu → kardiyak monitörizasyon.",
+      "Glikoz <strong><60 mg/dl ve/veya hipoglisemi bulguları</strong> varsa Diyabetik Aciller algoritmasına geç.",
+      "Nöbet devam ediyorsa SKKM/ÇM ile <strong>diazepam 5 mg IV yavaş puşe</strong> veya <strong>midazolam 5 mg IV / 10 mg IM</strong>.",
+      "Nöbet sürerse SKKM/ÇM ile <strong>fenitoin 20 mg/kg</strong> (resmî şemada infüzyon hızı en fazla 25 mg/kg/dk) veya <strong>valproik asit 40 mg/kg IV infüzyon</strong> veya <strong>levetirasetam 60 mg/kg IV infüzyon</strong>.",
+      "5 dk sonra hâlâ devam ediyorsa SKKM/ÇM ile <strong>diazepam 5 mg IV yavaş puşe</strong> veya <strong>midazolam 5 mg IV / 10 mg IM</strong>; nöbet yine sürüyorsa ileri hava yolu uygulaması için hazırlan.",
+      "Nöbet sonlandıysa <strong>postiktal dönemde hava yolu açıklığına dikkat et.</strong>"
     ],
     "warningFindings": [
-      "Status epileptikus / tekrarlayan nöbet",
-      "Solunum depresyonu veya hipoksi",
-      "Hipoglisemi",
-      "Travma / gebelik / toksik neden şüphesi",
-      "Nöbet sonrası uzamış bilinç bozukluğu"
+      "Hastayı engellemeye çalışma; yaralanmayı önlemek için başının altına yastık, katlanmış battaniye vb. yerleştir.",
+      "Glikoz <60 mg/dl ve/veya hipoglisemi bulguları",
+      "İlaç basamaklarına rağmen nöbetin devam etmesi",
+      "Postiktal dönemde hava yolu açıklığının bozulması"
     ],
     "meds": [
       {
@@ -3289,10 +3292,117 @@ const CASES = [
       }
     ],
     "decision": {
-      "q": "İlk benzodiazepin ve ikinci basamak antiepileptik sonrası nöbet sürüyor mu?",
-      "yes": "5 dk sonra SKKM/ÇM ile diazepam veya midazolam tekrarını uygula; nöbet sürerse ileri hava yolu uygulaması için hazırlan.",
-      "no": "Postiktal dönemde hava yolu açıklığına dikkat et ve nakli sürdür."
-    }
+      "q": "Nöbet devam ediyor mu?",
+      "yes": "SKKM/ÇM telefon simgeli ilaç basamaklarını sırayla uygula; son tekrar sonrası hâlâ sürüyorsa ileri hava yolu için hazırlan.",
+      "no": "Postiktal dönemde hastanın hava yolu açıklığına dikkat et."
+    },
+    "decisionIntegrated": true,
+    "algorithmBranchLayout": "split",
+    "algorithmSteps": [
+      {
+        "html": "<strong>Acil olgu yönetimini uygula.</strong>",
+        "approvalAuthority": "DIRECT",
+        "practitionerAuthority": "ATT_AABT"
+      },
+      {
+        "html": "Hava yolu açıklığını sağla. SpO₂ <strong>%94–98</strong> olacak şekilde uygun yöntemle oksijen ver; gerekirse solunumu PBV ile destekle.",
+        "approvalAuthority": "DIRECT",
+        "practitionerAuthority": "ATT_AABT"
+      },
+      {
+        "html": "<strong>Damar yolu aç (DAKŞ).</strong>",
+        "approvalAuthority": "DIRECT",
+        "practitionerAuthority": "ATT_AABT"
+      },
+      {
+        "html": "<strong>Kan glikoz seviyesini ölç.</strong>",
+        "approvalAuthority": "DIRECT",
+        "practitionerAuthority": "ATT_AABT",
+        "followUp": {
+          "label": "Glikoz <60 mg/dl ve/veya hipoglisemi bulguları varsa",
+          "transition": "DİYABETİK ACİLLER ALGORİTMASINA GİT"
+        }
+      },
+      {
+        "html": "<strong>Kardiyak monitörizasyon yap.</strong>",
+        "approvalAuthority": "DIRECT",
+        "practitionerAuthority": "ATT_AABT"
+      }
+    ],
+    "algorithmNotices": [
+      "Hastayı engellemeye çalışma; yaralanmayı önlemek için hastanın başının altına yastık, katlanmış battaniye vb. yerleştir."
+    ],
+    "algorithmBranches": [
+      {
+        "label": "Nöbet sonlandı",
+        "steps": [
+          {
+            "html": "<strong>Postiktal dönemde hastanın hava yolu açıklığına dikkat et.</strong>",
+            "approvalAuthority": "DIRECT",
+            "practitionerAuthority": "ATT_AABT"
+          }
+        ]
+      },
+      {
+        "label": "Nöbet devam ediyor",
+        "steps": [
+          {
+            "html": "<strong>Diazepam 5 mg IV yavaş puşe</strong> ya da <strong>Midazolam 5 mg IV / 10 mg IM</strong> uygula.",
+            "approvalAuthority": "SKKM",
+            "practitionerAuthority": "AABT"
+          }
+        ],
+        "branches": [
+          {
+            "label": "İlk benzodiazepin sonrası nöbet sonlandı",
+            "steps": [
+              {
+                "html": "<strong>Postiktal dönemde hastanın hava yolu açıklığına dikkat et.</strong>",
+                "approvalAuthority": "DIRECT",
+                "practitionerAuthority": "ATT_AABT"
+              }
+            ]
+          },
+          {
+            "label": "İlk benzodiazepin sonrası nöbet devam ediyor",
+            "steps": [
+              {
+                "html": "<strong>Fenitoin 20 mg/kg</strong> (infüzyon hızı en fazla 25 mg/kg/dk) ya da <strong>Valproik asit 40 mg/kg IV infüzyon</strong> ya da <strong>Levetirasetam 60 mg/kg IV infüzyon</strong> uygula.",
+                "approvalAuthority": "SKKM",
+                "practitionerAuthority": "AABT"
+              },
+              {
+                "html": "5 dk sonra nöbet devam ediyorsa <strong>Diazepam 5 mg IV yavaş puşe</strong> ya da <strong>Midazolam 5 mg IV / 10 mg IM</strong> uygula.",
+                "approvalAuthority": "SKKM",
+                "practitionerAuthority": "AABT"
+              }
+            ],
+            "branches": [
+              {
+                "label": "Evet — nöbet devam ediyor",
+                "steps": [
+                  {
+                    "html": "<strong>İleri hava yolu uygulaması için hazırlan.</strong>",
+                    "approvalAuthority": "DIRECT",
+                    "practitionerAuthority": "ATT_AABT"
+                  }
+                ]
+              },
+              {
+                "label": "Hayır — nöbet sonlandı",
+                "steps": [
+                  {
+                    "html": "<strong>Postiktal dönemde hastanın hava yolu açıklığına dikkat et.</strong>",
+                    "approvalAuthority": "DIRECT",
+                    "practitionerAuthority": "ATT_AABT"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
   },
   {
     "id": "vertigo",
