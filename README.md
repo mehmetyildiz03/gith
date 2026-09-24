@@ -2,7 +2,16 @@
 
 Mobil-first, offline çekirdekli, vaka bazlı hastane öncesi acil sağlık eğitim ve hızlı hatırlatma uygulaması.
 
-## V0.37 mimarisi
+## V0.38 mimarisi
+
+- **Renderer runtime düzeltmesi:** `algorithmBranchLayout === "split"` yolundaki `const` yeniden-atama hatası kaldırıldı. Layout seçimi yan etkisiz `algorithmBranchLayoutClass()` ile yapılır; Y-17 split görünümü çalışma zamanında hata üretmez.
+- **Gerçek runtime smoke:** Mevcut UI audit artık `app-core.js` içindeki gerçek renderer fonksiyonlarını çalıştırarak default/profiles/split, terminal triyaj, mavi geçiş, gri önkoşul ve gri uyarı yollarını doğrular.
+- **Y-25 kaynak geometrisi:** “Vücut ısısı <35°C ve bilinç kapalı ise” gri önkoşul olarak eylem yetkisinden ayrıldı; Hipotermi ve Arrest algoritmalarına git kutuları mavi `transition` öğeleridir ve ATT/AABT/SKKM rozeti taşımaz.
+- **Y-25 gri uyarılar:** Defibrilasyonun 30°C'ye kadar ertelenmesi bağımsız üst uyarı; ECMO merkezine yönlendirmeyi düşünme ifadesi KPR uygulanan kolda bağımsız gri uyarıdır. KPR endikasyonu olmayan durumlarla ECMO aynı hızlı özet maddesinde birleştirilmez.
+- **Y-38 kritik travma tablosu:** s.65'teki kriterler tamamlandı: anormal solunum, oksijen desteğine rağmen SpO₂ %94 altı, dispne, pnömotoraks/yelken göğüs; kanama-nörolojik kriterler; penetran yaralanma/amputasyon; herhangi bir travmayla birlikte KAH-KOAH-kanama bozukluğu, 55 yaş üstü, yanık, hipotermi veya gebelik.
+- **Y-38 mavi geçişler:** Arrest, Hipovolemik Şok ve Kafa Travmalı Hastaya Yaklaşım bağlantıları `followUp.kind="transition"` ile klinik geçiş olarak ayrılır; onay/yetki rozeti değildir.
+
+### V0.37 önceki durum
 
 - **V0.37 Y-38 Travmalı Hastada Acil Olgu Yönetimi:** Resmî s.67 akışı, mobilde tekrar üretmeden okunabilen lineer X-ABCDE omurgasına taşındı. Düzeltici “Hayır” çıkışları ilgili basamağın hemen altında gösterilir; kaynakta olmayan paralel dallar üretilmedi.
 - **X / kanama:** Olay yeri güvenliği ve travma mekanizmasından sonra dışa doğru hayatı tehdit eden kanamada doğrudan bası korunur.
