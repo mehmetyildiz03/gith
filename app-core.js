@@ -64,17 +64,18 @@ function toggleDensity(){
 }
 function updateNetwork(){const online=navigator.onLine;el.network.dataset.state=online?'online':'offline';el.network.querySelector('span:last-child').textContent=online?'Çevrimiçi':'Çevrimdışı';el.offline.classList.toggle('hidden',online)}
 
-function algorithmStepSearch(step){return [step?.html,step?.followUp?.label,step?.followUp?.html,APP_META.authority?.[step?.approvalAuthority]?.label,APP_META.practitionerAuthority?.[step?.practitionerAuthority]?.label,APP_META.practitionerAuthority?.[step?.practitionerAuthority]?.officialLabel]}
+function algorithmStepSearch(step){return [step?.precondition,step?.html,step?.followUp?.label,step?.followUp?.html,APP_META.authority?.[step?.approvalAuthority]?.label,APP_META.practitionerAuthority?.[step?.practitionerAuthority]?.label,APP_META.practitionerAuthority?.[step?.practitionerAuthority]?.officialLabel]}
 function algorithmBranchSearch(branches=[]){
-  return branches.flatMap(branch=>[branch?.label,branch?.note,...(branch?.steps||[]).flatMap(algorithmStepSearch),...algorithmBranchSearch(branch?.branches||[])]);
+  return branches.flatMap(branch=>[branch?.label,branch?.note,branch?.transition,...(branch?.notices||[]),...(branch?.steps||[]).flatMap(algorithmStepSearch),...algorithmBranchSearch(branch?.branches||[])]);
 }
 function searchText(c){
   const sev=c.severity?Object.values(c.severity).flatMap(s=>[s.label,...s.bullets,s.action]):[];
   const meds=(c.meds||[]).flatMap(m=>[m.name,m.dose,...(m.routes||[]).flatMap(r=>[r,routeLabel(r)]),m.repeat,m.maxDose,m.note,APP_META.authority[m.authority]?.label,APP_META.practitionerAuthority?.[m.practitionerAuthority||'UNVERIFIED']?.label,APP_META.practitionerAuthority?.[m.practitionerAuthority||'UNVERIFIED']?.officialLabel]);
   const algorithmSteps=(c.algorithmSteps||[]).flatMap(algorithmStepSearch);
   const algorithmBranches=algorithmBranchSearch(c.algorithmBranches||[]);
+  const algorithmNotices=c.algorithmNotices||[];
   const algorithmAfter=(c.algorithmAfter||[]).flatMap(algorithmStepSearch);
-  return [c.title,c.subtitle,c.category,c.code,c.summary,...c.criticalActions,...c.quick,...algorithmSteps,...algorithmBranches,...algorithmAfter,...c.warningFindings,c.decision?.q,c.decision?.yes,c.decision?.no,...sev,...meds].filter(Boolean).map(strip).join(' ').toLocaleLowerCase('tr-TR');
+  return [c.title,c.subtitle,c.category,c.code,c.summary,...c.criticalActions,...c.quick,...algorithmSteps,...algorithmNotices,...algorithmBranches,...algorithmAfter,...c.warningFindings,c.decision?.q,c.decision?.yes,c.decision?.no,...sev,...meds].filter(Boolean).map(strip).join(' ').toLocaleLowerCase('tr-TR');
 }
 function priorityRank(c){return ({critical:0,high:1,standard:2}[c.uiPriority]??9)}
 function visibleCases(){
@@ -207,24 +208,34 @@ function renderActionStep(step,{branch=false}={}){
   const badges=[approval,restriction].filter(Boolean).join('');
   const cls=branch?'algo-step':'quick-step';
   const copyClass=branch?'algo-step-copy':'quick-step-copy';
-  const followUp=step.followUp?`<div class="algo-step-followup"><span>${esc(step.followUp.label||'Devam')}</span><div>${step.followUp.html}</div></div>`:'';
-  return `<div class="${cls}"><div class="${copyClass}">${step.html}</div>${followUp}${badges?`<div class="action-step-badges">${badges}</div>`:''}</div>`;
+  const precondition=step.precondition?`<div class="algo-precondition">${esc(step.precondition)}</div>`:'';
+  const followUpClass=step.followUp?.kind==='transition'?' transition':'';
+  const followUp=step.followUp?`<div class="algo-step-followup${followUpClass}"><span>${esc(step.followUp.label||'Devam')}</span><div>${step.followUp.html}</div></div>`:'';
+  return `<div class="${cls}">${precondition}<div class="${copyClass}">${step.html}</div>${followUp}${badges?`<div class="action-step-badges">${badges}</div>`:''}</div>`;
 }
 function renderAlgorithmSteps(c){
   const steps=c.algorithmSteps?.length?c.algorithmSteps:(c.quick||[]).map(html=>({html}));
   return steps.map(step=>renderActionStep(step)).join('');
 }
+function renderAlgorithmNotices(c){
+  if(!c.algorithmNotices?.length)return '';
+  return `<div class="algorithm-notices">${c.algorithmNotices.map(note=>`<div class="algo-notice"><span aria-hidden="true">!</span><p>${esc(note)}</p></div>`).join('')}</div>`;
+}
 function renderAlgorithmBranch(branch,depth=0){
   const safeDepth=Math.min(depth,3);
   const triage=['green','yellow','red','black'].includes(branch.triageCode)?` triage-${branch.triageCode}`:'';
+  const notices=(branch.notices||[]).map(note=>`<div class="algo-notice"><span aria-hidden="true">!</span><p>${esc(note)}</p></div>`).join('');
   const steps=(branch.steps||[]).map(step=>renderActionStep(step,{branch:true})).join('');
+  const transition=branch.transition?`<div class="algo-transition"><span aria-hidden="true">→</span><strong>${esc(branch.transition)}</strong></div>`:'';
   const children=(branch.branches||[]).map(child=>renderAlgorithmBranch(child,depth+1)).join('');
-  return `<section class="algo-branch algo-depth-${safeDepth}${triage}"><div class="algo-branch-head"><strong>${esc(branch.label)}</strong>${branch.note?`<p>${esc(branch.note)}</p>`:''}</div>${steps?`<div class="algo-branch-steps">${steps}</div>`:''}${children?`<div class="algo-branch-children">${children}</div>`:''}</section>`;
+  return `<section class="algo-branch algo-depth-${safeDepth}${triage}"><div class="algo-branch-head"><strong>${esc(branch.label)}</strong>${branch.note?`<p>${esc(branch.note)}</p>`:''}</div>${notices}${steps?`<div class="algo-branch-steps">${steps}</div>`:''}${transition}${children?`<div class="algo-branch-children">${children}</div>`:''}</section>`;
+}
+function algorithmBranchLayoutClass(c){
+  return c.algorithmBranchLayout==='profiles'?' profiles':c.algorithmBranchLayout==='split'?' split':'';
 }
 function renderAlgorithmBranches(c){
   if(!c.algorithmBranches?.length)return '';
-  const layout=c.algorithmBranchLayout==='profiles'?' profiles':'';
-  if(c.algorithmBranchLayout==='split')layout=' split';
+  const layout=algorithmBranchLayoutClass(c);
   return `<div class="algorithm-branches${layout}" aria-label="Algoritma dalları">${c.algorithmBranches.map(branch=>renderAlgorithmBranch(branch)).join('')}</div>`;
 }
 function renderAlgorithmAfter(c){
@@ -241,7 +252,7 @@ function openCase(id){
   <div class="detail-body" style="${caseStyle(c)}">
     <section class="first30-card" id="critical-actions"><div class="first30-head"><span>ÖNCE</span><div><strong>İlk Kritik Adımlar</strong><p>Önce bunları gör; ardından algoritma ve karar ayrıntısına ilerle.</p></div></div><ol>${c.criticalActions.map(x=>`<li>${esc(x)}</li>`).join('')}</ol></section>
     <section class="case-summary"><span class="case-category">${esc(c.category)}</span><p>${esc(c.summary)}</p></section>
-    <section class="detail-section emphasis" id="algorithm"><div class="detail-heading"><span class="tiny-icon">↯</span><div><h3>İlk bakışta algoritma</h3><p>Sıralamayı seri klinik yeniden değerlendirmeyle birlikte oku.</p></div></div><div class="quick-steps">${renderAlgorithmSteps(c)}</div>${renderAlgorithmBranches(c)}${renderAlgorithmAfter(c)}</section>
+    <section class="detail-section emphasis" id="algorithm"><div class="detail-heading"><span class="tiny-icon">↯</span><div><h3>İlk bakışta algoritma</h3><p>Sıralamayı seri klinik yeniden değerlendirmeyle birlikte oku.</p></div></div><div class="quick-steps">${renderAlgorithmSteps(c)}</div>${renderAlgorithmNotices(c)}${renderAlgorithmBranches(c)}${renderAlgorithmAfter(c)}</section>
     ${c.severity?`<section class="detail-section" id="severity"><div class="detail-heading"><span class="tiny-icon">3</span><div><h3>${esc(c.severityView?.title||'Klinik ayrım')}</h3><p>${esc(c.severityView?.note||'Klinik ayrımı resmî kaynakla birlikte değerlendir.')}</p></div></div><div class="severity-tabs" role="tablist"><button type="button" role="tab" aria-selected="true" class="severity-tab active" data-level="mild">${esc(c.severity.mild.label)}</button><button type="button" role="tab" aria-selected="false" class="severity-tab" data-level="moderate">${esc(c.severity.moderate.label)}</button><button type="button" role="tab" aria-selected="false" class="severity-tab" data-level="severe">${esc(c.severity.severe.label)}</button></div>${renderSeverity(c)}</section>`:''}
     <div class="detail-columns ${c.decisionIntegrated?'single':''}"><section class="detail-section critical-section" id="red-flags"><div class="detail-heading"><span class="tiny-icon danger">!</span><div><h3>Acil Uyarı Bulguları</h3><p>Önceliği, müdahaleyi veya nakil kararını değiştirebilecek bulgular.</p></div></div><div class="red-flag-list">${c.warningFindings.map(r=>`<div class="red-flag">${esc(r)}</div>`).join('')}</div></section>${!c.decisionIntegrated?`<section class="detail-section decision-section" id="decision"><div class="detail-heading"><span class="tiny-icon">◇</span><div><h3>Karar noktası</h3><p>Şemadaki ana dallanma.</p></div></div><div class="decision-box"><strong>${esc(c.decision.q)}</strong><div class="decision-branches"><div class="branch yes"><b>EVET</b><span>${esc(c.decision.yes)}</span></div><div class="branch no"><b>HAYIR</b><span>${esc(c.decision.no)}</span></div></div></div></section>`:''}</div>
     ${renderMeds(c)}${renderSource(c)}
