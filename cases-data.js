@@ -665,7 +665,7 @@ const CASES = [
       "documentTitle": "Hastane Öncesi Acil Tıbbi Yardım ve Bakım Akış Şemaları",
       "effectiveDate": "2026-08-25",
       "officialPageDate": "2026-09-11",
-      "reviewedAt": "2026-09-22",
+      "reviewedAt": "2026-09-24",
       "officialPageUrl": "https://acilafet.saglik.gov.tr/TR-119840/hastane-oncesi-acil-tibbi-yardim-ve-bakim-akis-semalari.html",
       "officialPdfUrl": "https://dosyamerkez.saglik.gov.tr/Eklenti/55773/0/ek-2-hastane-oncesi-acil-tibbi-yardim-ve-bakim-akis-semalaripdf.pdf",
       "section": "adult",
@@ -1811,7 +1811,7 @@ const CASES = [
       "documentTitle": "Hastane Öncesi Acil Tıbbi Yardım ve Bakım Akış Şemaları",
       "effectiveDate": "2026-08-25",
       "officialPageDate": "2026-09-11",
-      "reviewedAt": "2026-09-23",
+      "reviewedAt": "2026-09-24",
       "officialPageUrl": "https://acilafet.saglik.gov.tr/TR-119840/hastane-oncesi-acil-tibbi-yardim-ve-bakim-akis-semalari.html",
       "officialPdfUrl": "https://dosyamerkez.saglik.gov.tr/Eklenti/55773/0/ek-2-hastane-oncesi-acil-tibbi-yardim-ve-bakim-akis-semalaripdf.pdf",
       "section": "adult",
@@ -2274,7 +2274,7 @@ const CASES = [
       "documentTitle": "Hastane Öncesi Acil Tıbbi Yardım ve Bakım Akış Şemaları",
       "effectiveDate": "2026-08-25",
       "officialPageDate": "2026-09-11",
-      "reviewedAt": "2026-09-23",
+      "reviewedAt": "2026-09-24",
       "officialPageUrl": "https://acilafet.saglik.gov.tr/TR-119840/hastane-oncesi-acil-tibbi-yardim-ve-bakim-akis-semalari.html",
       "officialPdfUrl": "https://dosyamerkez.saglik.gov.tr/Eklenti/55773/0/ek-2-hastane-oncesi-acil-tibbi-yardim-ve-bakim-akis-semalaripdf.pdf",
       "section": "adult",
@@ -2846,7 +2846,7 @@ const CASES = [
       "documentTitle": "Hastane Öncesi Acil Tıbbi Yardım ve Bakım Akış Şemaları",
       "effectiveDate": "2026-08-25",
       "officialPageDate": "2026-09-11",
-      "reviewedAt": "2026-09-22",
+      "reviewedAt": "2026-09-24",
       "officialPageUrl": "https://acilafet.saglik.gov.tr/TR-119840/hastane-oncesi-acil-tibbi-yardim-ve-bakim-akis-semalari.html",
       "officialPdfUrl": "https://dosyamerkez.saglik.gov.tr/Eklenti/55773/0/ek-2-hastane-oncesi-acil-tibbi-yardim-ve-bakim-akis-semalaripdf.pdf",
       "section": "adult",
@@ -2879,7 +2879,7 @@ const CASES = [
     ],
     "quick": [
       "<strong>Öykü:</strong> diyabet, ilaç/toksik maruziyet, tıbbi geçmiş ve travmayı sorgula.",
-      "<strong>Olası nedenler:</strong> kafa travması; SSS (inme, tümör, nöbet, enfeksiyon); kardiyovasküler; enfeksiyon; metabolik; hipoksi; hipo/hiperglisemi; çevresel/zehirlenme; psikiyatrik.",
+      "<strong>Olası nedenler:</strong> kafa travması; SSS (inme, tümör, nöbet, enfeksiyon); kardiyovasküler (MI, KKY, disritmi); enfeksiyon (şok, sepsis, menenjit vb.); metabolik (üremi, hepatik nedenler, tiroidit, elektrolit bozuklukları, asidoz/alkaloz); hipoksi; hipo/hiperglisemi; çevresel/zehirlenme (CO, ilaçlar, hipotermi, kolinerjikler, alkol vb.); psikiyatrik nedenler.",
       "Travmada Travmalı Hastada Acil Olgu Yönetimi; inmede <strong>İnme / SVO</strong>; nöbette <strong>Nöbet / Konvülziyon</strong>; zehirlenmede <strong>Zehirlenmelere Genel Yaklaşım</strong> algoritmasına geç.",
       "Dolaşımsal nedende ritim analizi ve ilgili algoritma; hipokside oksijenizasyon/ventilasyon; hipo/hiperglisemide <strong>Diyabetik Aciller</strong> algoritmasına geç."
     ],
@@ -2900,7 +2900,7 @@ const CASES = [
       "documentTitle": "Hastane Öncesi Acil Tıbbi Yardım ve Bakım Akış Şemaları",
       "effectiveDate": "2026-08-25",
       "officialPageDate": "2026-09-11",
-      "reviewedAt": "2026-09-22",
+      "reviewedAt": "2026-09-24",
       "officialPageUrl": "https://acilafet.saglik.gov.tr/TR-119840/hastane-oncesi-acil-tibbi-yardim-ve-bakim-akis-semalari.html",
       "officialPdfUrl": "https://dosyamerkez.saglik.gov.tr/Eklenti/55773/0/ek-2-hastane-oncesi-acil-tibbi-yardim-ve-bakim-akis-semalaripdf.pdf",
       "section": "adult",
@@ -3416,10 +3416,12 @@ const CASES = [
       "Spontan nistagmusun yönünü/tipini ve hastanın bağımsız ayakta durup yürüyebilmesini değerlendir."
     ],
     "quick": [
+      "<strong>Nistagmus:</strong> gözlerin tekrarlayan ve kontrolsüz biçimde yana, aşağı-yukarı veya dairesel düzende hareket etmesidir.",
       "Spontan nistagmus <strong>yön değiştiren, vertikal veya pür torsiyonel</strong> ise santral neden kabul ederek <strong>İnme / SVO</strong> algoritmasına geç.",
       "Horizontal nistagmus varsa veya nistagmus yoksa hastanın <strong>bağımsız ayakta durup yürüyebilmesini</strong> değerlendir.",
       "Bağımsız ayakta duramıyor/yürüyemiyorsa santral neden → <strong>İnme / SVO</strong> algoritması.",
-      "Bağımsız yürüyebiliyorsa periferik neden düşün; şok bulgusu varsa ilgili şok algoritmasına geç."
+      "Bağımsız yürüyebiliyorsa periferik neden düşün; şok bulgusu varsa ilgili şok algoritmasına geç.",
+      "<strong>Şok değerlendirmesi:</strong> sistemik dolaşım bulguları, kapiller geri dolum, nabız dolgunluğu ve hızı, cilt dolaşımı, kan basıncı ve bilinç durumunu değerlendir."
     ],
     "warningFindings": [
       "BEFAST kriterlerinde pozitiflik",
@@ -3438,7 +3440,7 @@ const CASES = [
       "documentTitle": "Hastane Öncesi Acil Tıbbi Yardım ve Bakım Akış Şemaları",
       "effectiveDate": "2026-08-25",
       "officialPageDate": "2026-09-11",
-      "reviewedAt": "2026-09-22",
+      "reviewedAt": "2026-09-24",
       "officialPageUrl": "https://acilafet.saglik.gov.tr/TR-119840/hastane-oncesi-acil-tibbi-yardim-ve-bakim-akis-semalari.html",
       "officialPdfUrl": "https://dosyamerkez.saglik.gov.tr/Eklenti/55773/0/ek-2-hastane-oncesi-acil-tibbi-yardim-ve-bakim-akis-semalaripdf.pdf",
       "section": "adult",
@@ -3683,10 +3685,14 @@ const CASES = [
       "Sürekli gözlem yap. Zehirlenme olgularının adli vaka olduğunu ve dekontaminasyon/tedavide SKKM hekiminin Zehir Danışma Merkezi önerisi alabileceğini unutma."
     ],
     "warningFindings": [
-      "Bilinç bozukluğu, konfüzyon, konvülziyon veya koma",
-      "Solunum frekansında belirgin değişiklik",
-      "Bradikardi/taşikardi veya hipotansiyon/hipertansiyon",
-      "Pupil değişikliği, aşırı terleme-tükürük/lakrimasyon veya belirgin gastrointestinal bulgular"
+      "Bilinç durumunda bozulma, konfüzyon, konvülziyonlar veya koma",
+      "Solunum frekansında değişiklik",
+      "Pupil çapında değişiklik veya lakrimasyon (gözyaşı miktarında artma)",
+      "Bradikardi veya taşikardi",
+      "Baş ağrısı, baş dönmesi veya kulak çınlaması",
+      "Bulantı-kusma, karın ağrısı, batında hassasiyet veya diyare",
+      "Aşırı terleme; tükürük salgısında artma veya azalma",
+      "Hipotansiyon veya hipertansiyon"
     ],
     "meds": [],
     "decision": {
@@ -3699,7 +3705,7 @@ const CASES = [
       "documentTitle": "Hastane Öncesi Acil Tıbbi Yardım ve Bakım Akış Şemaları",
       "effectiveDate": "2026-08-25",
       "officialPageDate": "2026-09-11",
-      "reviewedAt": "2026-09-22",
+      "reviewedAt": "2026-09-24",
       "officialPageUrl": "https://acilafet.saglik.gov.tr/TR-119840/hastane-oncesi-acil-tibbi-yardim-ve-bakim-akis-semalari.html",
       "officialPdfUrl": "https://dosyamerkez.saglik.gov.tr/Eklenti/55773/0/ek-2-hastane-oncesi-acil-tibbi-yardim-ve-bakim-akis-semalaripdf.pdf",
       "section": "adult",
@@ -3753,7 +3759,7 @@ const CASES = [
       "documentTitle": "Hastane Öncesi Acil Tıbbi Yardım ve Bakım Akış Şemaları",
       "effectiveDate": "2026-08-25",
       "officialPageDate": "2026-09-11",
-      "reviewedAt": "2026-09-22",
+      "reviewedAt": "2026-09-24",
       "officialPageUrl": "https://acilafet.saglik.gov.tr/TR-119840/hastane-oncesi-acil-tibbi-yardim-ve-bakim-akis-semalari.html",
       "officialPdfUrl": "https://dosyamerkez.saglik.gov.tr/Eklenti/55773/0/ek-2-hastane-oncesi-acil-tibbi-yardim-ve-bakim-akis-semalaripdf.pdf",
       "section": "adult",
@@ -4073,6 +4079,8 @@ const CASES = [
       "QRS >0,10 sn ise SKKM/ÇM ile sodyum bikarbonat basamağına geç."
     ],
     "quick": [
+      "<strong>Antikolinerjik sendrom:</strong> sedasyon, deliryum, koma, midriyazis, kırmızı-kuru cilt, ritim bozuklukları, konvülziyonlar, solunum arresti ve hipertermi görülebilir.",
+      "<strong>Tedavi ilkeleri:</strong> erken solunum desteğini sağla, ileri yaşam desteğine hazır ol; şok tedavisini geciktirme, erken monitörizasyonla ritim bozukluğu/konvülziyonları tedavi et ve hipertermiye yönelik önlem al.",
       "Disritmi varsa ilgili ritim algoritmasına geç.",
       "<strong>QRS >0,10 sn:</strong> SKKM/ÇM ile sodyum bikarbonat (NaHCO₃) 1–2 mEq/kg IV puşe; 3–5 dk'da bir tekrarla.",
       "Hipotansiyonda %0,9 NaCl yüklemesi yap.",
@@ -4120,7 +4128,7 @@ const CASES = [
       "documentTitle": "Hastane Öncesi Acil Tıbbi Yardım ve Bakım Akış Şemaları",
       "effectiveDate": "2026-08-25",
       "officialPageDate": "2026-09-11",
-      "reviewedAt": "2026-09-22",
+      "reviewedAt": "2026-09-24",
       "officialPageUrl": "https://acilafet.saglik.gov.tr/TR-119840/hastane-oncesi-acil-tibbi-yardim-ve-bakim-akis-semalari.html",
       "officialPdfUrl": "https://dosyamerkez.saglik.gov.tr/Eklenti/55773/0/ek-2-hastane-oncesi-acil-tibbi-yardim-ve-bakim-akis-semalaripdf.pdf",
       "section": "adult",
