@@ -4527,9 +4527,9 @@ const CASES = [
     "warningFindings": [
       "Triyaj kartında yaralıların nakil öncelik sırasını belirlemek amacıyla sadece renk kodu işaretlenir; triyaj sırasında tedavi/KPR yapılmaz.",
       "İdeal olarak triyajı tek sağlık personeli yapar; geniş alanlarda veya yaralı sayısının çok olduğu durumlarda birden fazla sağlık personeli alanı paylaşarak triyaj yapabilir.",
-      "Bir hasta için triyajın 1 dakikayı aşması",
+      "Triyaj süresi her hasta için 1 dk’dan kısa olmalıdır.",
       "Zaman ve olanak olduğunda triyaj tekrarlanmalıdır; yeniden triyajda yaralıya daha ciddi triyaj kodu verilebilir.",
-      "Hayat kurtarıcı kanama kontrolü ihtiyacında çevredeki uygun kişilerden destek alınmaması"
+      "Kanama kontrolü gibi hayat kurtarıcı müdahaleler için çevredeki uygun kişiler değerlendirilebilir."
     ],
     "meds": [],
     "decision": {
