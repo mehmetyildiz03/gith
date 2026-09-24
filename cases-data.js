@@ -1,7 +1,7 @@
 const APP_META = {
   "schemaVersion": 5,
-  "contentVersion": "EK2-2026.08.25-runtime-y17-y18-y25-y38-fidelity-2-2026.09.24",
-  "productVersion": "0.39",
+  "contentVersion": "EK2-2026.08.25-y40-head-trauma-structured-1-2026.09.24",
+  "productVersion": "0.40",
   "populations": [
     {
       "id": "adult",
@@ -220,6 +220,7 @@ const APP_META = {
       "SB-ASH-Y-22",
       "SB-ASH-Y-25",
       "SB-ASH-Y-38",
+      "SB-ASH-Y-40",
       "SB-ASH-Y-41"
     ],
     "verifiedBranchCases": [
@@ -233,6 +234,7 @@ const APP_META = {
       "SB-ASH-Y-17",
       "SB-ASH-Y-22",
       "SB-ASH-Y-25",
+      "SB-ASH-Y-40",
       "SB-ASH-Y-41"
     ],
     "pilot": true
@@ -4254,7 +4256,7 @@ const CASES = [
       "documentTitle": "Hastane Öncesi Acil Tıbbi Yardım ve Bakım Akış Şemaları",
       "effectiveDate": "2026-08-25",
       "officialPageDate": "2026-09-11",
-      "reviewedAt": "2026-09-23",
+      "reviewedAt": "2026-09-24",
       "officialPageUrl": "https://acilafet.saglik.gov.tr/TR-119840/hastane-oncesi-acil-tibbi-yardim-ve-bakim-akis-semalari.html",
       "officialPdfUrl": "https://dosyamerkez.saglik.gov.tr/Eklenti/55773/0/ek-2-hastane-oncesi-acil-tibbi-yardim-ve-bakim-akis-semalaripdf.pdf",
       "section": "adult",
@@ -4266,21 +4268,23 @@ const CASES = [
     },
     "summary": "Kafa travmasında hava yolu ve oksijenasyonu güvenceye al; GKS, glukoz ve dolaşımı değerlendir, KİBAS/herniasyon bulgularını erken tanı.",
     "criticalActions": [
-      "Acil olgu yönetimini uygula; GKS ≤8, solunum yetmezliği veya hava yolu tehdidinde ileri hava yolu yönetimine geç.",
-      "SpO₂ %94–98 hedefli oksijenizasyon/ventilasyon sağla; yetişkinde ventilasyon hızını 10/dk olarak sürdür.",
-      "Kan şekerini ölç; 60–300 mg/dL aralığında IV sıvı tedavisiyle SKB >100 mmHg hedefle. Nöbet/KİBAS varsa ilgili dala geç."
+      "Acil olgu yönetimini uygula; GKS ≤8, solunum yetmezliği veya hava yolu tehlikesi varsa ileri hava yolu yönetimi uygula.",
+      "SpO₂ %94–98 olacak şekilde oksijenizasyon ve ventilasyonu sağla; yetişkinde ventilasyon sayısını 10/dk sürdür.",
+      "Kan şekerini ölç; 60–300 mg/dL aralığında IV sıvı tedavisiyle SKB >100 mmHg hedefle; nöbet ve KİBAS bulgularını değerlendir."
     ],
     "quick": [
-      "<strong>GKS ≤8</strong> veya solunum yetmezliği/hava yolu tehlikesinde ileri hava yolu yönetimi uygula.",
-      "<strong>SpO₂ %94–98</strong>; yetişkinde ventilasyon 10/dk. Kan şekerini ölç.",
-      "KŞ <60 mg/dL veya >300 mg/dL ise Diyabetik Aciller algoritmasına geç. 60–300 mg/dL ise IV sıvı tedavisine başla ve <strong>SKB >100 mmHg</strong> olacak şekilde sürdür.",
-      "KİBAS/herniasyon bulguları: Cushing triadı, GKS'de ≥2 puan düşüş, hemipleji/hemiparalizi, anizokori. Şok yoksa baş-gövdeyi <strong>30–45°</strong> yükselterek sevk et."
+      "<strong>GKS ≤8</strong> ya da solunum yetmezliği veya hava yolu tehlikesi varsa ileri hava yolu yönetimi uygula.",
+      "<strong>SpO₂ %94–98</strong>; ventilasyon sayısı yetişkinlerde 10/dk, çocuklarda 20/dk, bebeklerde 25/dk.",
+      "Kan şekerini ölç. <strong>KŞ <60 mg/dL veya >300 mg/dL</strong> ise Diyabetik Aciller algoritmasına geç.",
+      "<strong>60 mg/dL < KŞ <300 mg/dL:</strong> IV sıvı tedavisine başla; <strong>SKB >100 mmHg</strong> olacak şekilde sıvı tedavisini sürdür.",
+      "Nöbet varsa Nöbet / Konvülziyon algoritmasına geç. KİBAS varsa ve şok bulguları yoksa sırt tahtasının baş kısmını gövdesiyle birlikte <strong>30–45°</strong> yukarıda olacak şekilde sevk et."
     ],
     "warningFindings": [
-      "GKS ≤8 veya hızlı GKS düşüşü",
-      "Cushing triadı: bradikardi + solunum düzensizliği + hipertansiyon",
-      "Hemipleji/hemiparalizi veya anizokori",
-      "Hava yolu tehdidi, hipoksi veya hipotansiyon"
+      "Cushing Triadı: bradikardi, solunum düzensizliği, hipertansiyon",
+      "GKS'nin 2 puan veya daha fazla azalması",
+      "Hemipleji veya hemiparalizi gelişmesi",
+      "Anizokori",
+      "GKS ≤8, solunum yetmezliği veya hava yolu tehlikesi"
     ],
     "meds": [
       {
@@ -4310,10 +4314,62 @@ const CASES = [
       }
     ],
     "decision": {
-      "q": "GKS ≤8, hava yolu tehdidi, nöbet veya KİBAS bulgusu var mı?",
-      "yes": "Hava yolu tehdidinde ileri hava yolu; nöbette Y-19; KİBAS varsa şok yokluğunda baş-gövde 30–45° ve hızlı nakil.",
-      "no": "SpO₂ %94–98, glukoz ve SKB >100 mmHg hedeflerini koruyarak seri nörolojik değerlendirme ve nakli sürdür."
-    }
+      "q": "Kan şekeri <60 mg/dL veya >300 mg/dL mi?",
+      "yes": "Diyabetik Aciller algoritmasına geç.",
+      "no": "60–300 mg/dL aralığında IV sıvı tedavisine başla; SKB >100 mmHg hedefini koru ve nöbet/KİBAS açısından değerlendir."
+    },
+    "decisionIntegrated": true,
+    "algorithmBranchLayout": "split",
+    "algorithmSteps": [
+      {
+        "html": "<strong>Acil olgu yönetimini uygula.</strong>",
+        "approvalAuthority": "DIRECT",
+        "practitionerAuthority": "ATT_AABT"
+      },
+      {
+        "html": "<strong>GKS ≤8 ya da solunum yetmezliği veya hava yolu tehlikesi varsa ileri hava yolu yönetimi uygula.</strong>",
+        "approvalAuthority": "DIRECT",
+        "practitionerAuthority": "ATT_AABT"
+      },
+      {
+        "html": "SpO₂ <strong>%94–98</strong> olacak şekilde oksijenizasyon ve ventilasyonu sağla. Ventilasyon sayısı: yetişkinlerde <strong>10/dk</strong>, çocuklarda <strong>20/dk</strong>, bebeklerde <strong>25/dk</strong>.",
+        "approvalAuthority": "DIRECT",
+        "practitionerAuthority": "ATT_AABT"
+      },
+      {
+        "html": "<strong>Kan şekerini ölç.</strong>",
+        "approvalAuthority": "DIRECT",
+        "practitionerAuthority": "ATT_AABT"
+      }
+    ],
+    "algorithmBranches": [
+      {
+        "label": "KŞ <60 mg/dL veya >300 mg/dL",
+        "transition": "DİYABETİK ACİLLER ALGORİTMASINA GİT"
+      },
+      {
+        "label": "60 mg/dL < KŞ <300 mg/dL",
+        "steps": [
+          {
+            "html": "<strong>IV sıvı tedavisine başla.</strong> SKB <strong>>100 mmHg</strong> olacak şekilde sıvı tedavisini sürdür.",
+            "approvalAuthority": "DIRECT",
+            "practitionerAuthority": "AABT"
+          }
+        ],
+        "branches": [
+          {
+            "label": "Nöbet varsa",
+            "transition": "NÖBET / KONVÜLZİYON ALGORİTMASINA GİT"
+          },
+          {
+            "label": "KİBAS varsa",
+            "notices": [
+              "Şok bulguları yoksa sırt tahtasının baş kısmı gövdesiyle birlikte 30–45° yukarıda olacak şekilde sevk edilmelidir."
+            ]
+          }
+        ]
+      }
+    ]
   },
   {
     "id": "start-triage",
