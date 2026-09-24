@@ -1,7 +1,7 @@
 const APP_META = {
   "schemaVersion": 5,
-  "contentVersion": "EK2-2026.08.25-y19-seizure-structured-1-2026.09.24",
-  "productVersion": "0.41",
+  "contentVersion": "EK2-2026.08.25-structured-flow-audit-fix-1-2026.09.24",
+  "productVersion": "0.42",
   "populations": [
     {
       "id": "adult",
@@ -1463,6 +1463,9 @@ const CASES = [
       "İlk defibrilasyon başarısızsa vücut sıcaklığı 30°C'ye ulaşıncaya kadar defibrilasyonu ertele",
       "Islak giysileri çıkar; battaniye ya da termal örtü ile ört; sıcak ortama al; uygulamalarda sert fiziksel hareketlerden kaçın (örn. entübasyon ve aspirasyon sırasında).",
       "Ciddi hipotermide kan basıncının ölçülememesi, ağrılı uyarana yanıt olmaması ve pupil refleksinin kaybı ölüm belirtisi değildir.",
+      "Vücut ısısını takip et; nabzı uzun süre değerlendir (en az 60 sn).",
+      "Aktif dış ısıtma teknikleri: ısıtma cihazları, sıcak su paketleri, sıcak banyo ve kimyasal ısı paketleri.",
+      "Isıtılmış nemlendirilmiş oksijen 42–46°C ve ısıtılmış IV sıvılar 40–42°C; bilinç değişikliği olan orta ve ciddi hipotermide düşünülmelidir.",
       "Hava yolunun kar/buzla kaplı olması",
       "35 dk'dan fazla çığ altında kalma",
       "Ortam güvenliğinin sağlanamaması veya kardiyak kompresyona izin vermeyecek şekilde tüm vücudun donması"
@@ -1503,7 +1506,8 @@ const CASES = [
       }
     ],
     "algorithmNotices": [
-      "Hipotermiye bağlı kardiyak arrestte, ilk defibrilasyon girişiminin başarısız olması durumunda, vücut sıcaklığı 30°C'ye ulaşıncaya kadar defibrilasyon ertelenmelidir."
+      "Hipotermiye bağlı kardiyak arrestte, ilk defibrilasyon girişiminin başarısız olması durumunda, vücut sıcaklığı 30°C'ye ulaşıncaya kadar defibrilasyon ertelenmelidir.",
+      "SKKM/ÇM ile görüşerek ECMO merkezine yönlendirmeyi düşün."
     ],
     "algorithmBranches": [
       {
@@ -1538,10 +1542,7 @@ const CASES = [
                 "practitionerAuthority": "ATT_AABT"
               }
             ],
-            "transition": "ARREST YÖNETİMİ ALGORİTMASINA GİT",
-            "notices": [
-              "SKKM/ÇM ile görüşerek ECMO merkezine yönlendirmeyi düşün."
-            ]
+            "transition": "ARREST YÖNETİMİ ALGORİTMASINA GİT"
           },
           {
             "label": "Hayır",
@@ -2711,7 +2712,7 @@ const CASES = [
       "documentTitle": "Hastane Öncesi Acil Tıbbi Yardım ve Bakım Akış Şemaları",
       "effectiveDate": "2026-08-25",
       "officialPageDate": "2026-09-11",
-      "reviewedAt": "2026-09-23",
+      "reviewedAt": "2026-09-24",
       "officialPageUrl": "https://acilafet.saglik.gov.tr/TR-119840/hastane-oncesi-acil-tibbi-yardim-ve-bakim-akis-semalari.html",
       "officialPdfUrl": "https://dosyamerkez.saglik.gov.tr/Eklenti/55773/0/ek-2-hastane-oncesi-acil-tibbi-yardim-ve-bakim-akis-semalaripdf.pdf",
       "section": "adult",
@@ -2939,7 +2940,7 @@ const CASES = [
       "documentTitle": "Hastane Öncesi Acil Tıbbi Yardım ve Bakım Akış Şemaları",
       "effectiveDate": "2026-08-25",
       "officialPageDate": "2026-09-11",
-      "reviewedAt": "2026-09-23",
+      "reviewedAt": "2026-09-24",
       "officialPageUrl": "https://acilafet.saglik.gov.tr/TR-119840/hastane-oncesi-acil-tibbi-yardim-ve-bakim-akis-semalari.html",
       "officialPdfUrl": "https://dosyamerkez.saglik.gov.tr/Eklenti/55773/0/ek-2-hastane-oncesi-acil-tibbi-yardim-ve-bakim-akis-semalaripdf.pdf",
       "section": "adult",
@@ -4524,7 +4525,8 @@ const CASES = [
       "<strong>Yeniden triyaj:</strong> Zaman ve olanak olduğunda tekrarla; gerekirse daha ciddi triyaj kodu verilebilir."
     ],
     "warningFindings": [
-      "Triyaj sırasında tedavi/KPR yapmak — resmî anahtar noktada yapılmaması belirtilir",
+      "Triyaj kartında yaralıların nakil öncelik sırasını belirlemek amacıyla sadece renk kodu işaretlenir; triyaj sırasında tedavi/KPR yapılmaz.",
+      "İdeal olarak triyajı tek sağlık personeli yapar; geniş alanlarda veya yaralı sayısının çok olduğu durumlarda birden fazla sağlık personeli alanı paylaşarak triyaj yapabilir.",
       "Bir hasta için triyajın 1 dakikayı aşması",
       "Zaman ve olanak olduğunda triyaj tekrarlanmalıdır; yeniden triyajda yaralıya daha ciddi triyaj kodu verilebilir.",
       "Hayat kurtarıcı kanama kontrolü ihtiyacında çevredeki uygun kişilerden destek alınmaması"
