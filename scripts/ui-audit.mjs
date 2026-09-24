@@ -73,6 +73,12 @@ assert(data.includes('kurşun giriş yeri kesilmemeli')&&data.includes('kıyafet
 assert(data.includes('Alerjen madde uzaklaştırılmalıdır')&&data.includes("%30'dan fazla düşme"),'Y-22 anafilaksi Anahtar Nokta/tanı ölçütü eksik');
 assert(data.includes('soğuk ya da ılık su sıkıp havalandırma')&&data.includes('Koltuk altı ve kasık bölgelerine'),'Y-23 pasif eksternal soğutma yöntemleri eksik');
 assert(data.includes('PVC, naylon')&&data.includes('toksik ve irritan gaz'),'Y-33 yangın dumanı toksik/irritan gaz uyarısı eksik');
+assert(data.includes('NIMV başarısızlığı')&&data.includes('inatçı kusma/aspirasyon riski'),'Y-04 KOAH ventilasyon Anahtar Noktaları eksik');
+assert(data.includes('solunum sayısı ≥30/dk')&&data.includes('SpO₂ <%90')&&data.includes('Etiyolojide anafilaksiyi göz önünde bulundur'),'Y-05 Astım ağır atak/Anahtar Nokta ayrıntıları eksik');
+assert(data.includes('ventriküler duraklama >3 sn')&&data.includes('YARIM-YARIM-YARIM')&&data.includes('4 mcg/mL'),'Y-07 Bradikardi risk/pratik infüzyon Anahtar Noktaları eksik');
+assert(data.includes('ambulans kabinini soğut')&&data.includes('Termal yanığı musluk suyu ile yıka ve kurula'),'Y-23/Y-28 ısı-soğutma/yanık müdahale Anahtar Noktaları eksik');
+assert(data.includes('(4 × yanmış VYA% × kg) / 16')&&data.includes('"page": "48–49 / 51"'),'Y-29 elektrik yanığı ortak Yanık Anahtar Nokta/formül kaynak izi eksik');
+assert(data.includes('sil → süpür → fırçala → yıka → kurula')&&data.includes('"page": "48 / 52"'),'Y-30 kimyasal yanık ortak Yanık Anahtar Nokta/kaynak izi eksik');
 assert(!data.includes('"code": "Ek-2 • Travma"'),'Eski travma kaynak kodu kaldı');
 assert(!app.includes('--soft:${c.soft}')&&app.includes('--case-soft:${c.soft}')&&css.includes('var(--case-soft,var(--soft))'),'Case-local --soft tema çakışması düzeltilmemiş');
 assert(app.includes("c.severityView?.title")&&app.includes("c.severity.mild.label")&&app.includes("c.severity.moderate.label")&&app.includes("c.severity.severe.label"),'Severity UI vaka verisine bağlı değil');
