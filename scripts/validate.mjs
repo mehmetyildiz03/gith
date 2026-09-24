@@ -551,6 +551,7 @@ if(ccbCase?.code!=='SB-ASH-Y-34'||ccbCase?.page!=='58'||ccbCase?.source?.page!==
 const calcium=medByName(ccbCase,'Kalsiyum glukonat');
 if(calcium?.authority!=='SKKM'||calcium?.dose!=='3 ampul (30 mL)'||!(calcium?.routes||[]).includes('IV')||!String(calcium?.note||'').includes('100 mL %0,9 NaCl')||!String(calcium?.note||'').includes('10 dakikada'))err('Y-34 kalsiyum glukonat doz/yol/yetki sabiti bozuldu');
 for(const term of ['SKB >90 mmHg','Bradikardi','Diyabetik Aciller'])if(!JSON.stringify(ccbCase).includes(term))err(`Y-34 karar öğesi eksik: ${term}`);
+for(const term of ['Atropin 1 mg IV','3–5 dk','maksimum 3 mg','Eksternal pacemaker'])if(!JSON.stringify(ccbCase).includes(term))err(`Y-34 Anahtar Nokta eksik: ${term}`);
 
 const cholinergicCase=(CASES||[]).find(c=>c.id==='cholinergic-poisoning');
 if(cholinergicCase?.code!=='SB-ASH-Y-35'||cholinergicCase?.page!=='60'||cholinergicCase?.source?.page!=='59–60')err('Kolinerjik Y-35 kaynak izi bozuldu');
@@ -558,6 +559,7 @@ const cholAtropine=medByName(cholinergicCase,'Atropin');
 if(cholAtropine?.authority!=='DIRECT'||cholAtropine?.dose!=='1–2 mg IV / 2–5 mg IM'||!String(cholAtropine?.repeat||'').includes('5 dk'))err('Y-35 atropin doz/yetki/tekrar sabiti bozuldu');
 if(!JSON.stringify(cholinergicCase).includes('SLUDGE-BBB'))err('Y-35 SLUDGE-BBB klinik uyarısı eksik');
 if(!JSON.stringify(cholinergicCase).includes('ilk 30 dk')||!JSON.stringify(cholinergicCase).includes('acil serviste uygulanmalıdır'))err('Y-35 gastrik lavaj ilk 30 dk / acil servis Anahtar Noktası eksik');
+if(!JSON.stringify(cholinergicCase).includes('ambulans kabinine alınmadan önce')||!JSON.stringify(cholinergicCase).includes('ıslak bezle silinmelidir'))err('Y-35 ambulans kabini öncesi dekontaminasyon Anahtar Noktası eksik');
 
 const opioidCase=(CASES||[]).find(c=>c.id==='opioid-poisoning');
 if(opioidCase?.code!=='SB-ASH-Y-36'||opioidCase?.page!=='62'||opioidCase?.source?.page!=='61–62')err('Opioid Y-36 kaynak izi bozuldu');
