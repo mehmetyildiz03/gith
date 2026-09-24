@@ -250,10 +250,12 @@ if(!JSON.stringify(burnCase?.quick||[]).includes('(2 × VYA% × kg) / 16 mL/saat
 if(medByName(burnCase,'Fentanil')?.dose!=='1 mcg/kg'||medByName(burnCase,'Fentanil')?.authority!=='SKKM')err('Yanık fentanil doz/yetki sabiti bozuldu');
 if(medByName(burnCase,'Ringer Laktat')?.authority!=='DIRECT'||medByName(burnCase,'Ringer Laktat')?.practitionerAuthority!=='AABT'||!String(medByName(burnCase,'Ringer Laktat')?.repeat||'').includes('(2 × VYA% × kg) / 16 mL/saat'))err('Yanık Ringer Laktat doğrudan/AABT/formül kartı eksik');
 for(const term of ['cilde yapışmış giysiyi ayırmaya çalışma','≥30 kg ve yanık alanı ≥%15','<30 kg ve yanık alanı ≥%10','%10–30','0,5–1 mL/saat','kısmi kalınlık >%25 VYA','tam kalınlık >%10 VYA','el-yüz-ayak-perine','sirküler ekstremite'])if(!JSON.stringify(burnCase).includes(term))err(`Y-28 Termal Yanık Anahtar Nokta eksik: ${term}`);
+if(!JSON.stringify(burnCase).includes('Termal yanığı musluk suyu ile yıka ve kurula'))err('Y-28 termal yanık yıka/kurula Anahtar Noktası eksik');
 
 const hyperthermiaCase=(CASES||[]).find(c=>c.id==='hyperthermia');
 if(hyperthermiaCase?.source?.reviewedAt!=='2026-09-24')err('Y-23 son kaynak gözden geçirme tarihi güncel değil');
 for(const term of ['Hastanın üzerini çıkar','soğuk ya da ılık su sıkıp havalandırma','Koltuk altı ve kasık bölgelerine','aşırı soğutma ile hipotermi'])if(!JSON.stringify(hyperthermiaCase).includes(term))err(`Y-23 pasif eksternal soğutma Anahtar Noktası eksik: ${term}`);
+if(!JSON.stringify(hyperthermiaCase).includes('hastayı serin ortama al')||!JSON.stringify(hyperthermiaCase).includes('ambulans kabinini soğut'))err('Y-23 ana algoritma serin ortam/kıyafet/ambulans kabini soğutma basamağı eksik');
 if(medByName(hyperthermiaCase,'%0,9 NaCl — ısı stresi')?.dose!=='1000–2000 mL bolus'||medByName(hyperthermiaCase,'%0,9 NaCl — ısı çarpması')?.dose!=='1000 mL bolus')err('Y-23 ısı stresi / ısı çarpması NaCl doz ayrımı bozuk');
 
 const hypovolemicFlowCase=(CASES||[]).find(c=>c.id==='hypovolemic-shock');
@@ -535,12 +537,14 @@ if(!String(hypothermicArrestCase?.quick?.[5]||'').includes('KPR endikasyonu olma
 for(const term of ['Uzun resüsitasyon süreleri önerilir','sert fiziksel hareketlerden kaçın','ölüm belirtisi değildir','Vücut ısısını takip et','Aktif dış ısıtma teknikleri','42–46°C','40–42°C'])if(!JSON.stringify(hypothermicArrestCase).includes(term))err(`Y-25 Anahtar Nokta eksik: ${term}`);
 
 const electricalBurnCase=(CASES||[]).find(c=>c.id==='electrical-burn');
-if(electricalBurnCase?.code!=='SB-ASH-Y-29'||electricalBurnCase?.page!=='51'||electricalBurnCase?.source?.page!=='51'||(electricalBurnCase?.meds||[]).length!==1)err('Elektrik Yanıkları Y-29 kaynak/ilaç yapısı bozuldu');
+if(electricalBurnCase?.code!=='SB-ASH-Y-29'||electricalBurnCase?.page!=='51'||electricalBurnCase?.source?.page!=='48–49 / 51'||(electricalBurnCase?.meds||[]).length!==1)err('Elektrik Yanıkları Y-29 kaynak/ilaç yapısı bozuldu');
 for(const term of ['10 metre','Ringer Laktat','Spinal immobilizasyon','Termal Yanık'])if(!JSON.stringify(electricalBurnCase).includes(term))err(`Y-29 Elektrik Yanıkları öğesi eksik: ${term}`);
+if(!JSON.stringify(electricalBurnCase).includes('(4 × yanmış VYA% × kg) / 16'))err('Y-29 elektrik yanığı ortak Yanık Anahtar Nokta sıvı formülü eksik');
 
 const chemicalBurnCase=(CASES||[]).find(c=>c.id==='chemical-burn');
-if(chemicalBurnCase?.code!=='SB-ASH-Y-30'||chemicalBurnCase?.page!=='52'||chemicalBurnCase?.source?.page!=='52'||(chemicalBurnCase?.meds||[]).length)err('Kimyasal Yanıklar Y-30 kaynak/ilaç yapısı bozuldu');
+if(chemicalBurnCase?.code!=='SB-ASH-Y-30'||chemicalBurnCase?.page!=='52'||chemicalBurnCase?.source?.page!=='48 / 52'||(chemicalBurnCase?.meds||[]).length)err('Kimyasal Yanıklar Y-30 kaynak/ilaç yapısı bozuldu');
 for(const term of ['KBRN','%0,9 NaCl','20 dk','Termal Yanık'])if(!JSON.stringify(chemicalBurnCase).includes(term))err(`Y-30 Kimyasal Yanık öğesi eksik: ${term}`);
+for(const term of ['sil → süpür → fırçala → yıka → kurula','sıvı kimyasal yanıkta yıka → sil → kurula'])if(!JSON.stringify(chemicalBurnCase).includes(term))err(`Y-30 ortak Yanık Anahtar Nokta dekontaminasyon ayrımı eksik: ${term}`);
 
 const poisoningGeneralCase=(CASES||[]).find(c=>c.id==='poisoning-general');
 if(poisoningGeneralCase?.code!=='SB-ASH-Y-31'||poisoningGeneralCase?.page!=='54'||poisoningGeneralCase?.source?.page!=='53–54'||(poisoningGeneralCase?.meds||[]).length)err('Zehirlenmelere Genel Yaklaşım Y-31 kaynak/ilaç yapısı bozuldu');
