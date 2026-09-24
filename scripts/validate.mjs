@@ -71,8 +71,8 @@ if(!APP_META?.routes?.includes('SC')||APP_META?.routeLabels?.SC!=='Subkutan (SC)
 if(APP_META?.authority?.DIRECT?.symbol!=='✓'||APP_META?.authority?.DIRECT?.visualLabel!=='SKKM/ÇM onayı gerektirmez')err('DIRECT yeşil/doğrudan sembol metası eksik');
 if(APP_META?.authority?.SKKM?.symbol!=='◆'||APP_META?.authority?.SKKM?.visualLabel!=='SKKM/ÇM onayı gerekli')err('SKKM sarı/onay sembol metası eksik');
 if(APP_META?.authority?.ALGORITHM?.symbol!=='•'||APP_META?.authority?.ALGORITHM?.visualLabel!=='Kaynakta SKKM/ÇM yetkisi belirtilmemiş')err('ALGORITHM kaynakta belirtilmeyen yetki metası eksik');
-if(APP_META?.contentVersion!=='EK2-2026.08.25-runtime-y17-y18-y25-y38-fidelity-2-2026.09.24')err('contentVersion V0.39 kaynak geometrisi/regresyon sürümüyle eşleşmiyor');
-if(APP_META?.productVersion!=='0.39')err('productVersion V0.39 olmalı');
+if(APP_META?.contentVersion!=='EK2-2026.08.25-y40-head-trauma-structured-1-2026.09.24')err('contentVersion V0.40 Y-40 yapılandırılmış akış sürümüyle eşleşmiyor');
+if(APP_META?.productVersion!=='0.40')err('productVersion V0.40 olmalı');
 if(APP_META?.practitionerAuthority?.ATT_AABT?.officialLabel!=='Acil Tıp Teknisyeni / Teknikeri'||APP_META?.practitionerAuthority?.AABT?.officialLabel!=='Acil Tıp Teknikeri'||APP_META?.practitionerAuthority?.UNVERIFIED?.symbol!=='□')err('ATT/AABT uygulayıcı yetki metası eksik veya bozuk');
 for(const code of ['SB-ASH-Y-04','SB-ASH-Y-05','SB-ASH-Y-06','SB-ASH-Y-07','SB-ASH-Y-08','SB-ASH-Y-09','SB-ASH-Y-10','SB-ASH-Y-11','SB-ASH-Y-12','SB-ASH-Y-13','SB-ASH-Y-14','SB-ASH-Y-15','SB-ASH-Y-17','SB-ASH-Y-19','SB-ASH-Y-21','SB-ASH-Y-22','SB-ASH-Y-23','SB-ASH-Y-24','SB-ASH-Y-28','SB-ASH-Y-29','SB-ASH-Y-34','SB-ASH-Y-35','SB-ASH-Y-36','SB-ASH-Y-37','SB-ASH-Y-39','SB-ASH-Y-40'])if(!APP_META?.practitionerAudit?.verifiedMedicationCases?.includes(code))err(`Uygulayıcı yetki görsel audit izi eksik: ${code}`);
 if(APP_META?.practitionerAudit?.adultMedicationCardsComplete!==true)err('Yetişkin ilaç kartları uygulayıcı audit tamamlama işareti eksik');
@@ -251,12 +251,23 @@ if(!JSON.stringify(crushCase).includes('Ringer Laktat')||!JSON.stringify(crushCa
 if(medByName(crushCase,'Kalsiyum glukonat %10')?.authority!=='SKKM'||medByName(crushCase,'Kalsiyum glukonat %10')?.dose!=='10–30 mL')err('Crush kalsiyum glukonat SKKM/doz bilgisi bozuk');
 
 const headTraumaCase=(CASES||[]).find(c=>c.id==='head-trauma');
-if(!headTraumaCase||headTraumaCase.code!=='SB-ASH-Y-40'||headTraumaCase.page!=='71'||headTraumaCase.source?.page!=='70–71')err('Kafa Travmalı Hastaya Yaklaşım Y-40 kaynak izi bozuk');
-for(const required of ['GKS ≤8','%94–98','10/dk','SKB >100 mmHg','30–45°'])if(!JSON.stringify(headTraumaCase).includes(required))err(`Y-40 kritik içerik eksik: ${required}`);
+if(!headTraumaCase||headTraumaCase.code!=='SB-ASH-Y-40'||headTraumaCase.page!=='71'||headTraumaCase.source?.page!=='70–71'||headTraumaCase.source?.reviewedAt!=='2026-09-24')err('Kafa Travmalı Hastaya Yaklaşım Y-40 kaynak izi bozuk');
+for(const required of ['GKS ≤8','%94–98','10/dk','20/dk','25/dk','SKB >100 mmHg','30–45°','Cushing Triadı','GKS\'nin 2 puan','Hemipleji','Anizokori'])if(!JSON.stringify(headTraumaCase).includes(required))err(`Y-40 kritik içerik eksik: ${required}`);
+if(headTraumaCase?.decisionIntegrated!==true||headTraumaCase?.algorithmBranchLayout!=='split'||(headTraumaCase?.algorithmSteps||[]).length!==4||(headTraumaCase?.algorithmBranches||[]).length!==2)err('Y-40 ortak akış / glukoz split dalları eksik');
+for(const [i,step] of (headTraumaCase?.algorithmSteps||[]).entries())if(step.approvalAuthority!=='DIRECT'||step.practitionerAuthority!=='ATT_AABT')err(`Y-40 ortak turkuaz basamak ATT/AABT + DIRECT olmalı: ${i}`);
+const y40AbnormalGlucose=(headTraumaCase?.algorithmBranches||[]).find(b=>b.label==='KŞ <60 mg/dL veya >300 mg/dL');
+const y40NormalGlucose=(headTraumaCase?.algorithmBranches||[]).find(b=>b.label==='60 mg/dL < KŞ <300 mg/dL');
+const y40Seizure=(y40NormalGlucose?.branches||[]).find(b=>b.label==='Nöbet varsa');
+const y40Icp=(y40NormalGlucose?.branches||[]).find(b=>b.label==='KİBAS varsa');
+if(y40AbnormalGlucose?.transition!=='DİYABETİK ACİLLER ALGORİTMASINA GİT')err('Y-40 anormal glukoz mavi Diyabetik Aciller geçişi eksik');
+if((y40NormalGlucose?.steps||[]).length!==1||y40NormalGlucose.steps[0].approvalAuthority!=='DIRECT'||y40NormalGlucose.steps[0].practitionerAuthority!=='AABT'||!String(y40NormalGlucose.steps[0].html||'').includes('SKB <strong>>100 mmHg</strong>'))err('Y-40 60–300 mg/dL turuncu IV sıvı/SKB basamağı bozuk');
+if(y40Seizure?.transition!=='NÖBET / KONVÜLZİYON ALGORİTMASINA GİT')err('Y-40 nöbet mavi algoritma geçişi eksik');
+if((y40Icp?.notices||[]).length!==1||!y40Icp.notices[0].includes('30–45°')||!y40Icp.notices[0].includes('Şok bulguları yoksa'))err('Y-40 KİBAS 30–45° gri Anahtar Nokta eksik');
 const headFluid=medByName(headTraumaCase,'IV sıvı tedavisi');
 const headMidazolam=medByName(headTraumaCase,'Midazolam — ajite hasta (Anahtar Noktalar)');
 if(headFluid?.authority!=='DIRECT'||headFluid?.practitionerAuthority!=='AABT'||JSON.stringify(headFluid?.routes)!==JSON.stringify(['IV'])||!String(headFluid?.dose||'').includes('SKB >100 mmHg'))err('Y-40 IV sıvı tedavisi turuncu/DIRECT/SKB hedefi eksik');
 if(headMidazolam?.dose!=='1–2,5 mg'||JSON.stringify(headMidazolam?.routes)!==JSON.stringify(['IV'])||!String(headMidazolam?.repeat||'').includes('3–5 dk')||headMidazolam?.authority!=='ALGORITHM'||headMidazolam?.practitionerAuthority!=='UNVERIFIED'||headMidazolam?.sourceAuthorityStatus!=='KEYPOINT_NO_SYMBOL')err('Y-40 Anahtar Noktalar midazolam kaynak/yetki-belirsizliği bilgisi bozuk');
+if(!APP_META?.actionAudit?.verifiedCases?.includes('SB-ASH-Y-40')||!APP_META?.actionAudit?.verifiedBranchCases?.includes('SB-ASH-Y-40'))err('Y-40 actionAudit kapsamına eklenmemiş');
 
 const startCase=(CASES||[]).find(c=>c.id==='start-triage');
 if(!startCase||startCase.code!=='SB-ASH-Y-41'||startCase.page!=='73'||startCase.source?.page!=='72–73'||startCase.source?.reviewedAt!=='2026-09-24')err('Start Triyaj Y-41 kaynak izi bozuk');
@@ -574,7 +585,7 @@ for(const [i,c] of (CASES||[]).entries()){
         if(branch?.triageCode!==undefined&&!validTriageTerminal)err(`${bt}: geçersiz triageCode (${branch?.triageCode})`);
         if(branch?.transition!==undefined&&typeof branch.transition!=='string')err(`${bt}: transition metin olmalı`);
         if(branch?.notices!==undefined&&(!Array.isArray(branch.notices)||branch.notices.some(n=>typeof n!=='string'||!n.trim())))err(`${bt}: notices geçerli metin listesi olmalı`);
-        if(!(branch?.steps?.length||branch?.branches?.length||validTriageTerminal||branch?.transition))err(`${bt}: steps, branches, transition veya geçerli terminal triageCode içermeli`);
+        if(!(branch?.steps?.length||branch?.branches?.length||validTriageTerminal||branch?.transition||branch?.notices?.length))err(`${bt}: steps, branches, transition, notices veya geçerli terminal triageCode içermeli`);
       }
     };
     validateBranches(c.algorithmBranches,`${at} algorithmBranches`);
