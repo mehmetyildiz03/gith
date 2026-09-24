@@ -247,7 +247,7 @@ const burnCase=(CASES||[]).find(c=>c.id==='burn');
 if(!JSON.stringify(burnCase?.quick||[]).includes('(2 × VYA% × kg) / 16 mL/saat'))err('Yanık Parkland/Ringer Laktat 2026 formülü eksik');
 if(medByName(burnCase,'Fentanil')?.dose!=='1 mcg/kg'||medByName(burnCase,'Fentanil')?.authority!=='SKKM')err('Yanık fentanil doz/yetki sabiti bozuldu');
 if(medByName(burnCase,'Ringer Laktat')?.authority!=='DIRECT'||medByName(burnCase,'Ringer Laktat')?.practitionerAuthority!=='AABT'||!String(medByName(burnCase,'Ringer Laktat')?.repeat||'').includes('(2 × VYA% × kg) / 16 mL/saat'))err('Yanık Ringer Laktat doğrudan/AABT/formül kartı eksik');
-for(const term of ['cilde yapışmış giysiyi ayırmaya çalışma','≥30 kg ve yanık alanı ≥%15','<30 kg ve yanık alanı ≥%10','kısmi kalınlık >%25 VYA','tam kalınlık >%10 VYA','el-yüz-ayak-perine','sirküler ekstremite'])if(!JSON.stringify(burnCase).includes(term))err(`Y-28 Termal Yanık Anahtar Nokta eksik: ${term}`);
+for(const term of ['cilde yapışmış giysiyi ayırmaya çalışma','≥30 kg ve yanık alanı ≥%15','<30 kg ve yanık alanı ≥%10','%10–30','0,5–1 mL/saat','kısmi kalınlık >%25 VYA','tam kalınlık >%10 VYA','el-yüz-ayak-perine','sirküler ekstremite'])if(!JSON.stringify(burnCase).includes(term))err(`Y-28 Termal Yanık Anahtar Nokta eksik: ${term}`);
 
 const hyperthermiaCase=(CASES||[]).find(c=>c.id==='hyperthermia');
 if(medByName(hyperthermiaCase,'%0,9 NaCl — ısı stresi')?.dose!=='1000–2000 mL bolus'||medByName(hyperthermiaCase,'%0,9 NaCl — ısı çarpması')?.dose!=='1000 mL bolus')err('Y-23 ısı stresi / ısı çarpması NaCl doz ayrımı bozuk');
