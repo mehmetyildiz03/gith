@@ -445,7 +445,7 @@ if(!String(y14Shock?.note||'').includes('SKB genellikle <90 mmHg')||!JSON.string
 
 const diabeticCase=(CASES||[]).find(c=>c.id==='hypoglycemia');
 if(diabeticCase?.source?.reviewedAt!=='2026-09-24')err('Y-17 son kaynak gözden geçirme tarihi güncel değil');
-if(diabeticCase?.code!=='SB-ASH-Y-17'||diabeticCase?.page!=='31'||diabeticCase?.source?.page!=='31'||diabeticCase?.source?.reviewedAt!=='2026-09-23')err('Y-17 kaynak izi bozuldu');
+if(diabeticCase?.code!=='SB-ASH-Y-17'||diabeticCase?.page!=='31'||diabeticCase?.source?.page!=='31'||diabeticCase?.source?.reviewedAt!=='2026-09-24')err('Y-17 kaynak izi bozuldu');
 if(diabeticCase?.decisionIntegrated!==true||diabeticCase?.algorithmBranchLayout!=='split'||(diabeticCase?.algorithmSteps||[]).length!==2||(diabeticCase?.algorithmBranches||[]).length!==2)err('Y-17 ortak başlangıç / hipoglisemi-hiperglisemi dallı yapısı eksik');
 for(const s of (diabeticCase?.algorithmSteps||[]))if(s.approvalAuthority!=='DIRECT'||s.practitionerAuthority!=='ATT_AABT')err('Y-17 ortak başlangıç basamakları turkuaz ATT/AABT + DIRECT olmalı');
 const y17Hypo=(diabeticCase?.algorithmBranches||[]).find(b=>String(b.label).startsWith('Hipoglisemi'));
