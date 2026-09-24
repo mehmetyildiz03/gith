@@ -2,7 +2,17 @@
 
 Mobil-first, offline çekirdekli, vaka bazlı hastane öncesi acil sağlık eğitim ve hızlı hatırlatma uygulaması.
 
-## V0.42 mimarisi
+## V0.43 mimarisi
+
+- **Baştan sona yetişkin audit'i:** Y-01/Y-02 temel protokoller + 37 yetişkin vaka, ilaç/sıvı kartları, ATT/AABT kutu rengi, SKKM/ÇM telefon simgesi, Anahtar Noktalar ve algoritma geçişleri 25.08.2026 Ek-2'ye karşı yeniden tarandı.
+- **Y-26 kapsam düzeltmesi:** Eski “Arı Sokması” kartı resmî **Isırma ve Sokmalar (SB-ASH-Y-26)** kapsamına döndürüldü. Kara ve deniz canlıları ayrı dallar; deniz canlılarında %0,9 NaCl/steril su 100–250 mL irrigasyon + en az 20 dk tolere edilebilir sıcak su; ortak yıkama-sabitleme, 5 dk ödem takibi ve vital/zehirlenme/alergi izlemi görünür.
+- **Y-26 ilaç sınırı:** Y-22 Anafilaksi ilaçları Y-26'nın kendi ilaçları gibi gösterilmez; Y-26'nın ilaç kartı yoktur. Alerjik reaksiyon/anafilaksi varsa yalnız mavi “İlgili algoritmaya git” geçişi kullanılır. Arı iğnesi, yılan/akrep turnike yasağı-kompresyon bandı, kene çıkarma ve PPE Anahtar Noktaları eklendi.
+- **Güvenlik/Anahtar Nokta tamamlama:** Y-03 kısmi tıkanıklıkta sırta vurma uyarısı; Y-06 nitrat kontrendikasyonları/PDE5 ve fentanil yavaş bolus; Y-24 42–46°C O₂ ve 40–42°C IV sıvı; Y-27 spinal stabilizasyon ve ıslak giysi/kurulama; Y-28 yapışmış giysi, sıvı başlama eşikleri ve yanık merkezi kriterleri eklendi.
+- **Toksikoloji/Crush tamamlama:** Y-35 oral alımda ilk 30 dk gastrik lavajın acil serviste yapılması; Y-36 spontan solunum veya ajitasyonda IV naloksonu durdurma; Y-39 6 saat idrar takibi, idrar çıkışına göre ileri sıvı Anahtar Noktaları, doz türetilmeden hiperkalemi tedavi seçenekleri ve yürüyebilmenin crush'ı dışlamaması eklendi.
+- **Y-41 START:** “Triyaja uygulayıcıya en yakın hastadan başlanır” Anahtar Noktası eklendi; mevcut renk ağacı ve yeniden triyaj kuralları korunur.
+- **Audit metası:** Clinical/authority/integrity/practitioner/medication/adultCoverage denetim tarihleri 24.09.2026'ya taşındı; kaynakta sayısal değer bulunmayan alanlar uyarı olarak bırakılır, sayı türetilmez.
+
+### V0.42 önceki durum
 
 - **Geniş yapılandırılmış akış audit'i:** Y-14, Y-17, Y-18, Y-19, Y-25, Y-38, Y-40 ve Y-41 resmî 25.08.2026 Ek-2 sayfalarıyla yeniden karşılaştırıldı; Y-14/Y-17 kaynak gözden geçirme tarihi 24.09.2026 olarak yenilendi.
 - **Y-25 ECMO semantiği:** “SKKM/ÇM ile görüşerek ECMO merkezine yönlendirmeyi düşün” kaynaktaki bağlantısız gri uyarı niteliğine döndürüldü; yalnız KPR “Evet” koluna bağlıymış gibi gösterilmez.
