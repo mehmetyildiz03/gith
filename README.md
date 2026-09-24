@@ -2,7 +2,17 @@
 
 Mobil-first, offline çekirdekli, vaka bazlı hastane öncesi acil sağlık eğitim ve hızlı hatırlatma uygulaması.
 
-## V0.38 mimarisi
+## V0.39 mimarisi
+
+- **Y-17/Y-18/Y-38 ortak geçiş modeli:** Resmî mavi “... ALGORİTMASINA GİT” kutuları artık `followUp.transition` ile ortak biçimde modellenir. Gri koşul/uyarı ile turkuaz eylem aynı mavi kutuya dönüştürülmez.
+- **Y-18 gri KB uyarısı:** “Tansiyon değerleri normalin üstünde olsa da tansiyonu düşürme” ayrı `followUp.notice` olarak gösterilir.
+- **Y-38 pelvis kolu:** “Pelvis travması ya da şüphesi varsa pelvisi sabitle” turkuaz eylem olarak kalır; yalnız sonraki Hipovolemik Şok bağlantısı mavi geçiştir.
+- **Y-38 metin düzeltmesi:** Resmî s.67'deki ifade “Tüm giysileri çıkararak vücut kontrolünü tamamla”; yanlış “yararak” kullanımı temizlendi.
+- **Y-25 Anahtar Noktalar:** Uzun resüsitasyon süreleri önerisi, ıslak giysi/termal örtü/sıcak ortam ve sert fiziksel hareketten kaçınma; ciddi hipotermide ölçülemeyen KB, ağrılı uyarana yanıtsızlık ve pupil refleksi kaybının tek başına ölüm belirtisi olmadığı eklendi.
+- **Y-41 yeniden triyaj:** Zaman ve olanak olduğunda triyajın tekrarlanması ve daha ciddi triyaj kodu verilebilmesi açık hale getirildi.
+- **Regresyon:** Follow-up renderer smoke testi artık hem mavi `transition` hem gri `notice` yollarını gerçek fonksiyon çağrısıyla doğrular.
+
+### V0.38 önceki durum
 
 - **Renderer runtime düzeltmesi:** `algorithmBranchLayout === "split"` yolundaki `const` yeniden-atama hatası kaldırıldı. Layout seçimi yan etkisiz `algorithmBranchLayoutClass()` ile yapılır; Y-17 split görünümü çalışma zamanında hata üretmez.
 - **Gerçek runtime smoke:** Mevcut UI audit artık `app-core.js` içindeki gerçek renderer fonksiyonlarını çalıştırarak default/profiles/split, terminal triyaj, mavi geçiş, gri önkoşul ve gri uyarı yollarını doğrular.
@@ -16,7 +26,7 @@ Mobil-first, offline çekirdekli, vaka bazlı hastane öncesi acil sağlık eği
 - **V0.37 Y-38 Travmalı Hastada Acil Olgu Yönetimi:** Resmî s.67 akışı, mobilde tekrar üretmeden okunabilen lineer X-ABCDE omurgasına taşındı. Düzeltici “Hayır” çıkışları ilgili basamağın hemen altında gösterilir; kaynakta olmayan paralel dallar üretilmedi.
 - **X / kanama:** Olay yeri güvenliği ve travma mekanizmasından sonra dışa doğru hayatı tehdit eden kanamada doğrudan bası korunur.
 - **A/B:** Servikal-spinal immobilizasyon, güvensiz hava yolunda açma–orofaringeal airway–aspirasyon–ileri hava yolu; stabil olmayan solunumda ventilasyon desteği, tansiyon pnömotoraksta iğne dekompresyonu, açık pnömotoraks kapatma ve hemotoraksta solunum/dolaşım desteği görünür.
-- **C/D/E ve geçişler:** Nabız yok → Arrest Yönetimi; dolaşım stabil değil → pelvis travması/şüphesinde sabitleme + Hipovolemik Şok; bilinç normal değil → Kafa Travmalı Hastaya Yaklaşım. Sonrasında giysileri yararak tam vücut kontrolü, hipotermiden koruma ve nakil sırasında ikincil değerlendirme/immobilizasyon sürdürme korunur.
+- **C/D/E ve geçişler:** Nabız yok → Arrest Yönetimi; dolaşım stabil değil → pelvis travması/şüphesinde sabitleme + Hipovolemik Şok; bilinç normal değil → Kafa Travmalı Hastaya Yaklaşım. Sonrasında giysileri çıkararak tam vücut kontrolü, hipotermiden koruma ve nakil sırasında ikincil değerlendirme/immobilizasyon sürdürme korunur.
 - **Yetki sadakati:** Y-38 eylem kutuları resmî sayfada turkuaz ve telefon simgesizdir; yapılandırılmış dokuz basamak `ATT_AABT + DIRECT` olarak kilitlendi. Mavi “ilgili algoritmaya git” kutuları ayrı klinik geçiştir, SKKM onayı olarak yorumlanmadı.
 - **Adli kanıt uyarısı:** Resmî gri uyarıdaki kanıt olabilecek materyallerin/giysilerin korunması Acil Uyarı Bulguları içinde görünür tutuldu.
 
