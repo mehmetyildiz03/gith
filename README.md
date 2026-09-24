@@ -11,6 +11,8 @@ Mobil-first, offline çekirdekli, vaka bazlı hastane öncesi acil sağlık eği
 - **Y-23 Hipertermi:** Pasif eksternal soğutma yöntemi açıklaştırıldı: üzerini çıkarma, soğuk/ılık su + havalandırma ile buharlaştırma, koltuk altı/kasığa ıslak bez veya spanç ve <39°C hedefi; aşırı soğutmadan kaçınma.
 - **Y-33 Karbonmonoksit:** Yangın dumanında PVC, naylon ve diğer sentetik materyaller nedeniyle CO dışında toksik/irritan gazların bulunabileceği resmî uyarı eklendi.
 - **Regresyon sertleştirmesi:** Y-38'in yanlış “çıkararak” metnine dönmesi artık hata; Y-22/Y-23/Y-33 yeni Anahtar Noktaları da validator/UI audit ile kilitlenir.
+- **Solunum/kardiyak eksiklerinin tamamlanması:** Y-04 invaziv/NIMV endikasyonları; Y-05 ağır atak ölçütleri ve anafilaksi uyarısı; Y-07 hipotansiyon/nabız <40, asistoli riski ve resmî dopamin-adrenalin pratik infüzyon hazırlama bilgileri eklendi.
+- **Yanık/ısı ortak Anahtar Noktaları:** Y-23 serin ortam-kıyafet-ambulans kabini soğutma; Y-28 termal yanığı musluk suyu ile yıka/kurula; Y-29 elektrik yanığı 4×VYA başlangıç sıvı formülü; Y-30 toz/sıvı kimyasal dekontaminasyon sıraları ve kaynak sayfa izleri eklendi.
 
 ### V0.43 önceki durum
 
