@@ -1018,7 +1018,7 @@ const CASES = [
       "<strong>Asetilsalisilik asit 160–325 mg çiğnet.</strong> Hipotansiyon/bradikardi yoksa SKKM/ÇM ile isosorbid dinitrat 5 mg SL; ağrı sürerse 3–5 dk arayla toplam 3 doza kadar.",
       "<strong>Nitrat güvenliği:</strong> hipotansiyon, sağ ventrikül MI, bradikardi veya sildenafil/vardenafil/tadalafil kullanımı varsa izosorbid dinitrat verme.",
       "<strong>Fentanil:</strong> diğer girişimlere rağmen tolere edilemeyen şiddetli ağrıda SKKM/ÇM ile 1 mcg/kg IV yavaş bolus; bulantı ve solunum depresyonu açısından izle.",
-      "<strong>STEMI:</strong> ilk tıbbi temastan itibaren primer perkütan girişimin 120 dk içinde yapılabilirliğini reperfüzyon/nakil planında dikkate al."
+      "<strong>ST elevasyonlu MI:</strong> kapı-balon (<strong>120 dk içinde perkütan girişim</strong>) ve kapı-iğne (fibrinolitik uygulama) sürelerini nakil ve uygun merkez seçiminde gözet."
     ],
     "warningFindings": [
       "ST elevasyonlu MI bulguları",
@@ -3479,7 +3479,7 @@ const CASES = [
       "Yanık alanını değerlendirmek için uygun yüzdelik yöntem kullan; yanık yüzeyini steril örtüyle koru.",
       "<strong>Ringer Laktat başla.</strong> Şok yoksa 1 saatten kısa nakilde 500 mL Ringer Laktat; daha uzun nakilde Parkland yaklaşımı <strong>(2 × VYA% × kg) / 16 mL/saat</strong>. Ağrı için fentanil 1 mcg/kg IV yavaş/IM, SKKM/ÇM ile.",
       "Giysi ve takıları çıkar; <strong>cilde yapışmış giysiyi ayırmaya çalışma.</strong> Yanık yüzeyini uygun yanık örtüsü/steril örtü ile koru.",
-      "Hastane öncesi sıvı tedavisini; ağırlığı <strong>≥30 kg ve yanık alanı ≥%15</strong> veya ağırlığı <strong><30 kg ve yanık alanı ≥%10</strong> ise değerlendir. Uzun nakilde vital bulgular, monitörizasyon ve idrar çıkışını takip et.",
+      "Hastane öncesi sıvı tedavisini; ağırlığı <strong>≥30 kg ve yanık alanı ≥%15</strong> veya ağırlığı <strong><30 kg ve yanık alanı ≥%10</strong> ise değerlendir. İdrar çıkışına göre sıvı hızını saatlik <strong>%10–30</strong> artır veya azalt. Uzun nakilde vital bulgular, monitörizasyon ve idrar çıkışını takip et; resmî Anahtar Nokta tablosunda idrar çıkışı <strong>0,5–1 mL/saat</strong> olarak yazılıdır.",
       "<strong>Yanık merkezi/ünitesi:</strong> yaş 10–50'de kısmi kalınlık >%25 VYA; <10 veya >50 yaşta >%20 VYA; tam kalınlık >%10 VYA; el-yüz-ayak-perine, büyük eklem, sirküler ekstremite, inhalasyon, elektrik/kimyasal yanık, eşlik eden kırık/majör travma veya yüksek riskli hastada SKKM/ÇM ile uygun merkeze nakli değerlendir."
     ],
     "warningFindings": [
