@@ -59,7 +59,7 @@ const roscEctopy=(roscCase?.algorithmBranches||[]).find(b=>String(b.label).start
 if(roscHypo?.steps?.[0]?.approvalAuthority!=='DIRECT'||roscHypo?.steps?.[0]?.practitionerAuthority!=='ATT_AABT')err('Y-12 hipotansiyon neden araştırma basamağı turkuaz/DIRECT olmalı');
 if(roscHypo?.steps?.[1]?.approvalAuthority!=='SKKM'||roscHypo?.steps?.[1]?.practitionerAuthority!=='AABT'||!String(roscHypo?.steps?.[1]?.html||'').includes('adrenalin 2–10 mcg/dk')||!String(roscHypo?.steps?.[1]?.html||'').includes('dopamin 5–20 mcg/kg/dk'))err('Y-12 hipotansiyon ilaç basamağı SKKM + AABT ve doğru dozlarda olmalı');
 if(roscEctopy?.steps?.[0]?.approvalAuthority!=='SKKM'||roscEctopy?.steps?.[0]?.practitionerAuthority!=='AABT'||!String(roscEctopy?.steps?.[0]?.html||'').includes('lidokain 1–1,5 mg/kg')||!String(roscEctopy?.steps?.[0]?.html||'').includes('amiodaron 150 mg'))err('Y-12 ventriküler ektopi ilaç basamağı SKKM + AABT olmalı');
-const roscNacl=medByName(roscCase,'%0,9 NaCl');
+const roscNacl=(roscCase?.meds||[]).find(m=>m.name==='%0,9 NaCl');
 if(JSON.stringify(roscNacl?.routes)!==JSON.stringify(['OTHER']))err('Y-12 %0,9 NaCl uygulama yolu kaynakta ayrıca belirtilmediği için türetilmemeli');
 for(const label of ['Bradiaritmi','Hipo / Hiperglisemi','Taşiaritmi','Nöbet']){const b=(roscCase?.algorithmBranches||[]).find(x=>x.label===label);if(!b||b.steps?.[0]?.approvalAuthority!=='DIRECT'||b.steps?.[0]?.practitionerAuthority!=='ATT_AABT')err(`Y-12 yönlendirme kolu bozuk: ${label}`);}
 if((roscCase?.algorithmBranches||[]).some(b=>b.label==='Arrest tekrarı'))err('Y-12 arrest tekrarı bağımsız üst dal olmamalı');
