@@ -1,7 +1,7 @@
 const APP_META = {
   "schemaVersion": 5,
-  "contentVersion": "EK2-2026.08.25-source-fidelity-recheck-2-2026.09.24",
-  "productVersion": "0.44",
+  "contentVersion": "EK2-2026.08.25-final-full-source-audit-2026.09.24",
+  "productVersion": "0.45",
   "populations": [
     {
       "id": "adult",
