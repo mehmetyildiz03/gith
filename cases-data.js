@@ -1,7 +1,7 @@
 const APP_META = {
   "schemaVersion": 5,
-  "contentVersion": "EK2-2026.08.25-full-adult-audit-fix-1-2026.09.24",
-  "productVersion": "0.43",
+  "contentVersion": "EK2-2026.08.25-source-fidelity-recheck-2-2026.09.24",
+  "productVersion": "0.44",
   "populations": [
     {
       "id": "adult",
@@ -694,12 +694,16 @@ const CASES = [
       "<strong>Hava yolu açıklığını sağla; SpO₂ %94–98 hedefli O₂.</strong> Damar yolu aç, anjiyoödemde erken ileri hava yolu hazırlığı yap; SpO₂, EKG ve KB izle.",
       "<strong>Hipoperfüzyon sürüyorsa</strong> adrenalin 0,3–0,5 mg IM'yi 5 dk içinde tekrarla + %0,9 NaCl 500 mL bolus.",
       "<strong>Düzelme olmazsa SKKM/ÇM:</strong> adrenalin 1 mcg/dk IV infüzyonu yavaş uygula; ardından %0,9 NaCl 500 mL bolus.",
-      "<strong>SKKM/ÇM ileri basamak:</strong> difenhidramin 25–50 mg veya feniramin 45,5 mg IV yavaş; bronkospazm için salbutamol 2,5–5 mg; profilaktik metilprednizolon 1–2 mg/kg IV (maks. 125 mg)."
+      "<strong>SKKM/ÇM ileri basamak:</strong> difenhidramin 25–50 mg veya feniramin 45,5 mg IV yavaş; bronkospazm için salbutamol 2,5–5 mg; profilaktik metilprednizolon 1–2 mg/kg IV (maks. 125 mg).",
+      "<strong>Anahtar Nokta:</strong> Alerjen madde uzaklaştırılmalıdır. Bilinen alerjenle temas sonrası hipotansiyon veya sistolik kan basıncında %30'dan fazla düşme de anafilaksi tanı ölçütlerinden biridir."
     ],
     "warningFindings": [
       "Anjiyoödem, stridor, hırıltılı solunum",
       "Takipne, wheezing, siyanoz, SpO₂ < %90, konfüzyon",
-      "Soluk cilt, hipotansiyon, koma"
+      "Soluk cilt, hipotansiyon, koma",
+      "Deri/mukoza tutulumu ile birlikte solunum bulgusu veya azalmış kan basıncı/dolaşım bozukluğu",
+      "Muhtemel alerjen temasından kısa süre sonra deri/mukoza, solunum, dolaşım veya gastrointestinal bulgulardan en az ikisinin görülmesi",
+      "Bilinen alerjenle temas sonrası hipotansiyon veya sistolik kan basıncında %30'dan fazla düşme"
     ],
     "meds": [
       {
@@ -1608,7 +1612,9 @@ const CASES = [
       "<strong>Isı krampları:</strong> dinlenme + oral sıvı replasmanı.",
       "<strong>Isı stresi:</strong> damar yolu, ortam ısısını düşür, %0,9 NaCl 1000–2000 ml bolus başla.",
       "<strong>Isı çarpması:</strong> >40°C vücut ısısı + bilinç bulanıklığı; vital/kan şekeri, damar yolu, monitörizasyon.",
-      "<strong>%0,9 NaCl 1000 ml bolus</strong> ve vücut ısısını <39°C olacak şekilde pasif eksternal soğutma."
+      "<strong>%0,9 NaCl 1000 ml bolus</strong> ve vücut ısısını <39°C olacak şekilde pasif eksternal soğutma.",
+      "<strong>Pasif eksternal soğutma:</strong> Hastanın üzerini çıkar; vücuda soğuk ya da ılık su sıkıp havalandırma ile buharlaşmayı sağla. Koltuk altı ve kasık bölgelerine ıslak bez veya spanç koy.",
+      "<strong>Soğutma hedefi:</strong> vücut ısısını <39°C'ye indir; aşırı soğutma ile hipotermi oluşturmaktan kaçın."
     ],
     "warningFindings": [
       "Vücut ısısı >40°C",
@@ -1660,7 +1666,7 @@ const CASES = [
       "documentTitle": "Hastane Öncesi Acil Tıbbi Yardım ve Bakım Akış Şemaları",
       "effectiveDate": "2026-08-25",
       "officialPageDate": "2026-09-11",
-      "reviewedAt": "2026-09-23",
+      "reviewedAt": "2026-09-24",
       "officialPageUrl": "https://acilafet.saglik.gov.tr/TR-119840/hastane-oncesi-acil-tibbi-yardim-ve-bakim-akis-semalari.html",
       "officialPdfUrl": "https://dosyamerkez.saglik.gov.tr/Eklenti/55773/0/ek-2-hastane-oncesi-acil-tibbi-yardim-ve-bakim-akis-semalaripdf.pdf",
       "section": "adult",
@@ -3779,6 +3785,7 @@ const CASES = [
     ],
     "warningFindings": [
       "Kapalı alan yangını / yoğun duman maruziyeti",
+      "Yangın dumanı; özellikle PVC, naylon ve diğer sentetik materyallerin yanması sonucu karbonmonoksitin yanı sıra çok sayıda toksik ve irritan gaz içerebilir.",
       "PBV veya ileri hava yolu gereksinimi",
       "Nöbet",
       "Vital bulgularda klinik kötüleşme"
@@ -3794,7 +3801,7 @@ const CASES = [
       "documentTitle": "Hastane Öncesi Acil Tıbbi Yardım ve Bakım Akış Şemaları",
       "effectiveDate": "2026-08-25",
       "officialPageDate": "2026-09-11",
-      "reviewedAt": "2026-09-22",
+      "reviewedAt": "2026-09-24",
       "officialPageUrl": "https://acilafet.saglik.gov.tr/TR-119840/hastane-oncesi-acil-tibbi-yardim-ve-bakim-akis-semalari.html",
       "officialPdfUrl": "https://dosyamerkez.saglik.gov.tr/Eklenti/55773/0/ek-2-hastane-oncesi-acil-tibbi-yardim-ve-bakim-akis-semalaripdf.pdf",
       "section": "adult",
@@ -4157,7 +4164,7 @@ const CASES = [
       "<strong>X:</strong> Dışa doğru hayatı tehdit eden kanama varsa doğrudan bası uygula.",
       "<strong>A/B:</strong> Servikal-spinal immobilizasyonu sağla; hava yolu güvenli değilse aç/aspire et, gerekirse ileri hava yolu düşün. Solunum stabil değilse ventilasyonu destekle ve yaşamı tehdit eden toraks sorunlarını tedavi et.",
       "<strong>C:</strong> Nabız yoksa Arrest Yönetimi'ne geç. Dolaşım stabil değilse pelvis travması/şüphesinde pelvisi sabitle ve Hipovolemik Şok algoritmasına geç.",
-      "<strong>D/E:</strong> Bilinç normal değilse Kafa Travmalı Hastaya Yaklaşım algoritmasına geç; tüm giysileri çıkararak vücut kontrolünü tamamla ve hipotermiden koru.",
+      "<strong>D/E:</strong> Bilinç normal değilse Kafa Travmalı Hastaya Yaklaşım algoritmasına geç; tüm giysileri yararak vücut kontrolünü tamamla ve hipotermiden koru.",
       "<strong>Nakil:</strong> İkincil değerlendirmeyi nakil sırasında tamamla, immobilizasyonu sürdür ve naklet."
     ],
     "warningFindings": [
@@ -4165,7 +4172,8 @@ const CASES = [
       "Önemli dış kanama ya da şüphelenilen iç kanama / anormal nörolojik durum: GKS <13; geçirilen ya da geçirilmiş nöbet; duyusal ya da motor defisit.",
       "Penetran yaralanmanın kafa, boyun, gövdede veya diz ve dirsek proksimalinde olması; parmaklar hariç distale doğru oluşan ekstremite amputasyonları.",
       "Herhangi bir travma ile birlikte: yandaş hastalık öyküsü (KAH, KOAH, kanama bozuklukları), 55 yaş üstü, yanık, hipotermi veya gebelik.",
-      "Kanıt olabilecek materyallerin (giysilerin) korunması gerekir."
+      "Kanıt olabilecek materyallerin (giysilerin) korunması gerekir.",
+      "Ateşli silah yaralanmasında hastanın kıyafetleri kesilirken kurşun giriş yeri kesilmemeli; kıyafetler tamamen çıkarıldıktan sonra muhafaza edilerek bilgi verilmelidir."
     ],
     "meds": [],
     "decision": {
@@ -4232,7 +4240,7 @@ const CASES = [
         }
       },
       {
-        "html": "<strong>Tüm giysileri çıkararak vücut kontrolünü tamamla; hipotermiden koru.</strong>",
+        "html": "<strong>Tüm giysileri yararak vücut kontrolünü tamamla; hipotermiden koru.</strong>",
         "approvalAuthority": "DIRECT",
         "practitionerAuthority": "ATT_AABT"
       },
