@@ -885,9 +885,11 @@ const CASES = [
       "<strong>Hafif-orta:</strong> salbutamol 4–8 puf inhaler veya 2,5–5 mg nebül. <strong>Ağır:</strong> salbutamol 2,5–5 mg + ipratropium bromür 500 mcg nebül. 20 dk sonra düzelme yoksa SKKM/ÇM basamağına geç."
     ],
     "warningFindings": [
-      "Cümle kuramama, ortopne",
-      "Solunum sayısı >30/dk veya belirgin yardımcı kas kullanımı",
-      "Bilinç bulanıklığı ve sessiz toraks (ölümcül atak)"
+      "Ağır atak: cümle kuramaz, kelimelerle konuşur; yatamaz, ortopne vardır.",
+      "Ağır atak: solunum sayısı ≥30/dk, yardımcı solunum kasları devrede.",
+      "Ağır atak: SpO₂ <%90, kalp hızı >120 atım/dk, bilinç huzursuz/ajite.",
+      "Bilinç bulanıklığı ve sessiz toraks birlikteyse ölümcül atak.",
+      "Etiyolojide anafilaksiyi göz önünde bulundur."
     ],
     "meds": [
       {
@@ -970,7 +972,7 @@ const CASES = [
       "documentTitle": "Hastane Öncesi Acil Tıbbi Yardım ve Bakım Akış Şemaları",
       "effectiveDate": "2026-08-25",
       "officialPageDate": "2026-09-11",
-      "reviewedAt": "2026-09-23",
+      "reviewedAt": "2026-09-24",
       "officialPageUrl": "https://acilafet.saglik.gov.tr/TR-119840/hastane-oncesi-acil-tibbi-yardim-ve-bakim-akis-semalari.html",
       "officialPdfUrl": "https://dosyamerkez.saglik.gov.tr/Eklenti/55773/0/ek-2-hastane-oncesi-acil-tibbi-yardim-ve-bakim-akis-semalaripdf.pdf",
       "section": "adult",
@@ -1246,7 +1248,9 @@ const CASES = [
       "O₂ desteğine rağmen hipokseminin düzelmemesi",
       "Aksesuar solunum kası kullanımı / solunum kas yorgunluğu",
       "Bilinç değişikliği",
-      "Hemodinamik instabilite veya ventriküler/supraventriküler aritmi"
+      "Hemodinamik instabilite veya ventriküler/supraventriküler aritmi",
+      "NIMV'yi tolere edememe veya NIMV başarısızlığı; sedasyonla kontrol edilemeyen ajitasyon; inatçı kusma/aspirasyon riski invaziv mekanik ventilasyon açısından uyarıcıdır.",
+      "NIMV açısından: aksesuar solunum kası kullanımı, paradoksal karın hareketi/interkostal çekilme, klinik şiddetli dispne veya oksijene rağmen devam eden hipoksi"
     ],
     "meds": [
       {
@@ -1309,7 +1313,7 @@ const CASES = [
       "documentTitle": "Hastane Öncesi Acil Tıbbi Yardım ve Bakım Akış Şemaları",
       "effectiveDate": "2026-08-25",
       "officialPageDate": "2026-09-11",
-      "reviewedAt": "2026-09-22",
+      "reviewedAt": "2026-09-24",
       "officialPageUrl": "https://acilafet.saglik.gov.tr/TR-119840/hastane-oncesi-acil-tibbi-yardim-ve-bakim-akis-semalari.html",
       "officialPdfUrl": "https://dosyamerkez.saglik.gov.tr/Eklenti/55773/0/ek-2-hastane-oncesi-acil-tibbi-yardim-ve-bakim-akis-semalaripdf.pdf",
       "section": "adult",
@@ -1696,7 +1700,7 @@ const CASES = [
       "documentTitle": "Hastane Öncesi Acil Tıbbi Yardım ve Bakım Akış Şemaları",
       "effectiveDate": "2026-08-25",
       "officialPageDate": "2026-09-11",
-      "reviewedAt": "2026-09-22",
+      "reviewedAt": "2026-09-24",
       "officialPageUrl": "https://acilafet.saglik.gov.tr/TR-119840/hastane-oncesi-acil-tibbi-yardim-ve-bakim-akis-semalari.html",
       "officialPdfUrl": "https://dosyamerkez.saglik.gov.tr/Eklenti/55773/0/ek-2-hastane-oncesi-acil-tibbi-yardim-ve-bakim-akis-semalaripdf.pdf",
       "section": "adult",
@@ -1719,10 +1723,8 @@ const CASES = [
       "Atropine yanıtsızlıkta veya yüksek dereceli AV blokta <strong>SKKM/ÇM ile</strong> transkütan pacing; dopamin 5–20 mcg/kg/dk veya adrenalin 2–10 mcg/dk."
     ],
     "warningFindings": [
-      "Senkop veya akut bilinç değişikliği",
-      "Miyokard iskemisi / devam eden göğüs ağrısı",
-      "Şok bulguları veya akut kalp yetmezliği",
-      "Mobitz II / tam AV blok ve ciddi bradikardi"
+      "Stabil değil: senkop/ani bilinç değişikliği, iskemik göğüs ağrısı, şok bulguları, akut kalp yetmezliği, hipotansiyon veya nabız <40 atım/dk.",
+      "Asistoli riski: yakın asistoli öyküsü, Mobitz Tip 2 AV blok, tam AV blok veya ventriküler duraklama >3 sn."
     ],
     "meds": [
       {
@@ -1746,7 +1748,7 @@ const CASES = [
         "authority": "SKKM",
         "repeat": "Titrasyon",
         "maxDose": "",
-        "note": "Atropine yanıtsız semptomatik bradikardide; resmî şemada SKKM/ÇM telefon simgeli ileri basamak.",
+        "note": "Atropine yanıtsız semptomatik bradikardide; resmî şemada SKKM/ÇM telefon simgeli ileri basamak. Anahtar Nokta pratik hesabı: 500 mL %0,9 NaCl içine 100 mg dopamin; dakikada hastanın kilosunun yarısı kadar damla gönderildiğinde 5 mcg/kg/dk infüzyon başlangıcı ('YARIM-YARIM-YARIM').",
         "practitionerAuthority": "AABT"
       },
       {
@@ -1758,7 +1760,7 @@ const CASES = [
         "authority": "SKKM",
         "repeat": "Titrasyon",
         "maxDose": "",
-        "note": "Atropine yanıtsız semptomatik bradikardide; resmî şemada SKKM/ÇM telefon simgeli ileri basamak.",
+        "note": "Atropine yanıtsız semptomatik bradikardide; resmî şemada SKKM/ÇM telefon simgeli ileri basamak. Anahtar Nokta pratik hazırlama: 250 mL izotonik/dekstroz içine 1 mg/1 mL adrenalin = 4 mcg/mL; 500 mL içine = 2 mcg/mL; 1000 mL içine = 1 mcg/mL.",
         "practitionerAuthority": "AABT"
       }
     ],
