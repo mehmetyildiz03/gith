@@ -30,8 +30,8 @@ assert(css.includes("/* V0.6.1 dark surface hardening */"),'Koyu mod yüzey hard
 assert(css.includes(":root[data-theme='dark'] .quick-step")&&css.includes("background:var(--detail-panel-deep)!important"),'Koyu mod algoritma adımı explicit yüzeyi eksik');
 assert(css.includes(":root[data-theme='dark'] .red-flag")&&css.includes("background:#2b202a!important"),'Koyu mod kırmızı bayrak yüzeyi eksik');
 assert(css.includes(":root[data-theme='dark'] .branch.yes")&&css.includes(":root[data-theme='dark'] .branch.no"),'Koyu mod karar kutuları explicit değil');
-assert(html.includes('styles.css?v=0.44')&&html.includes('app-core.js?v=0.44')&&html.includes('cases-data.js?v=0.44'),'Kritik asset cache-bust sürümü eksik');
-assert(sw.includes("saha112-v044")&&sw.includes('NETWORK_FIRST_DESTINATIONS'),'Service worker kritik asset güncelleme stratejisi eksik');
+assert(html.includes('styles.css?v=0.45')&&html.includes('app-core.js?v=0.45')&&html.includes('cases-data.js?v=0.45'),'Kritik asset cache-bust sürümü eksik');
+assert(sw.includes("saha112-v045")&&sw.includes('NETWORK_FIRST_DESTINATIONS'),'Service worker kritik asset güncelleme stratejisi eksik');
 assert(!app.includes('Kırmızı bayrak'),'Eski kullanıcı terimi hâlâ UI içinde');
 assert(app.includes('Acil Uyarı Bulguları'),'Acil Uyarı Bulguları başlığı eksik');
 assert(app.includes('Önceliği, müdahaleyi veya nakil kararını değiştirebilecek bulgular.'),'Acil uyarı açıklaması eksik');
@@ -57,7 +57,7 @@ assert(data.includes('"reviewedAt": "2026-09-24"')&&data.includes('"Glikoz <60 m
 assert(data.includes('"transition": "DİYABETİK ACİLLER ALGORİTMASINA GİT"')&&data.includes('"notice": "Tansiyon değerleri normalin üstünde olsa da tansiyonu düşürme."'),'Y-18 mavi geçiş / gri KB uyarısı semantiği eksik');
 
 assert(data.includes('"title": "Nabızlı Taşikardi"'),'Nabızlı Taşikardi başlığı eksik');
-assert(data.includes('"contentVersion": "EK2-2026.08.25-source-fidelity-recheck-2-2026.09.24"'),'V0.44 sıkı kaynak sadakati yeniden kontrol sürümü eksik');
+assert(data.includes('"contentVersion": "EK2-2026.08.25-final-full-source-audit-2026.09.24"'),'V0.45 final tam kaynak audit sürümü eksik');
 assert(html.includes('id="authorityLegend"')&&!html.includes('<span class="authority direct">Doğrudan</span>'),'Yetki legendi dinamik veri kaynağına bağlı değil');
 assert(app.includes("authorityMarkup")&&app.includes("authority-symbol")&&app.includes("✓ Yeşil: SKKM/ÇM onayı yok")&&app.includes("◆ Sarı: SKKM/ÇM onayı"),'Yetki sembol/yazı eşlemesi eksik');
 assert(css.includes('.authority.direct{')&&css.includes('var(--greenSoft)')&&css.includes('.authority.skkm{')&&css.includes('var(--amberSoft)'),'Yeşil/sarı yetki renk semantiği eksik');
@@ -79,6 +79,14 @@ assert(data.includes('ventriküler duraklama >3 sn')&&data.includes('YARIM-YARIM
 assert(data.includes('ambulans kabinini soğut')&&data.includes('Termal yanığı musluk suyu ile yıka ve kurula'),'Y-23/Y-28 ısı-soğutma/yanık müdahale Anahtar Noktaları eksik');
 assert(data.includes('(4 × yanmış VYA% × kg) / 16')&&data.includes('"page": "48–49 / 51"'),'Y-29 elektrik yanığı ortak Yanık Anahtar Nokta/formül kaynak izi eksik');
 assert(data.includes('sil → süpür → fırçala → yıka → kurula')&&data.includes('"page": "48 / 52"'),'Y-30 kimyasal yanık ortak Yanık Anahtar Nokta/kaynak izi eksik');
+assert(data.includes('günlük yeterli doz aspirin kullanmış olsa bile')&&data.includes('SpO₂ >%90 ise rutin O₂ uygulamasından kaçın'),'Y-06 AKS ASA/O₂ Anahtar Noktaları eksik');
+assert(data.includes('5–6 cm')&&data.includes('100–120/dk')&&data.includes("10 sn'den fazla ara verme")&&data.includes('ileri hava yolundan önce 30:2')&&data.includes('10 solunum/dk')&&data.includes('kardiyak tamponad')&&data.includes('toksin/terapötik bozuklukları'),'Y-09/10/11 yüksek kaliteli KPR / geri döndürülebilir nedenler eksik');
+assert(data.includes('(SKB + 2 × DKB) / 3'),'Y-13 MAP formülü eksik');
+assert(data.includes('1. derece yanıklar Parkland hesabına dahil edilmez'),'Y-28 Parkland 1. derece yanık dışlama bilgisi eksik');
+assert(data.includes('MI, KKY, disritmi')&&data.includes('üremi, hepatik nedenler'),'Y-16 Bilinç Değişikliği neden tablosu eksik');
+assert(data.includes('nabız dolgunluğu ve hızı')&&data.includes('tekrarlayan ve kontrolsüz biçimde'),'Y-20 Vertigo Anahtar Noktaları eksik');
+assert(data.includes('kulak çınlaması')&&data.includes('tükürük salgısında artma veya azalma'),'Y-31 genel zehirlenme bulgu tablosu eksik');
+assert(data.includes('kırmızı-kuru cilt')&&data.includes('şok tedavisini geciktirme'),'Y-37 TCA Anahtar Noktaları eksik');
 assert(!data.includes('"code": "Ek-2 • Travma"'),'Eski travma kaynak kodu kaldı');
 assert(!app.includes('--soft:${c.soft}')&&app.includes('--case-soft:${c.soft}')&&css.includes('var(--case-soft,var(--soft))'),'Case-local --soft tema çakışması düzeltilmemiş');
 assert(app.includes("c.severityView?.title")&&app.includes("c.severity.mild.label")&&app.includes("c.severity.moderate.label")&&app.includes("c.severity.severe.label"),'Severity UI vaka verisine bağlı değil');
