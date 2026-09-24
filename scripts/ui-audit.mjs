@@ -30,8 +30,8 @@ assert(css.includes("/* V0.6.1 dark surface hardening */"),'Koyu mod yüzey hard
 assert(css.includes(":root[data-theme='dark'] .quick-step")&&css.includes("background:var(--detail-panel-deep)!important"),'Koyu mod algoritma adımı explicit yüzeyi eksik');
 assert(css.includes(":root[data-theme='dark'] .red-flag")&&css.includes("background:#2b202a!important"),'Koyu mod kırmızı bayrak yüzeyi eksik');
 assert(css.includes(":root[data-theme='dark'] .branch.yes")&&css.includes(":root[data-theme='dark'] .branch.no"),'Koyu mod karar kutuları explicit değil');
-assert(html.includes('styles.css?v=0.39')&&html.includes('app-core.js?v=0.39')&&html.includes('cases-data.js?v=0.39'),'Kritik asset cache-bust sürümü eksik');
-assert(sw.includes("saha112-v039")&&sw.includes('NETWORK_FIRST_DESTINATIONS'),'Service worker kritik asset güncelleme stratejisi eksik');
+assert(html.includes('styles.css?v=0.40')&&html.includes('app-core.js?v=0.40')&&html.includes('cases-data.js?v=0.40'),'Kritik asset cache-bust sürümü eksik');
+assert(sw.includes("saha112-v040")&&sw.includes('NETWORK_FIRST_DESTINATIONS'),'Service worker kritik asset güncelleme stratejisi eksik');
 assert(!app.includes('Kırmızı bayrak'),'Eski kullanıcı terimi hâlâ UI içinde');
 assert(app.includes('Acil Uyarı Bulguları'),'Acil Uyarı Bulguları başlığı eksik');
 assert(app.includes('Önceliği, müdahaleyi veya nakil kararını değiştirebilecek bulgular.'),'Acil uyarı açıklaması eksik');
@@ -57,7 +57,7 @@ assert(data.includes('"reviewedAt": "2026-09-24"')&&data.includes('"Glikoz <60 m
 assert(data.includes('"transition": "DİYABETİK ACİLLER ALGORİTMASINA GİT"')&&data.includes('"notice": "Tansiyon değerleri normalin üstünde olsa da tansiyonu düşürme."'),'Y-18 mavi geçiş / gri KB uyarısı semantiği eksik');
 
 assert(data.includes('"title": "Nabızlı Taşikardi"'),'Nabızlı Taşikardi başlığı eksik');
-assert(data.includes('"contentVersion": "EK2-2026.08.25-runtime-y17-y18-y25-y38-fidelity-2-2026.09.24"'),'V0.39 kaynak geometrisi/regresyon sürümü eksik');
+assert(data.includes('"contentVersion": "EK2-2026.08.25-y40-head-trauma-structured-1-2026.09.24"'),'V0.40 Y-40 yapılandırılmış akış sürümü eksik');
 assert(html.includes('id="authorityLegend"')&&!html.includes('<span class="authority direct">Doğrudan</span>'),'Yetki legendi dinamik veri kaynağına bağlı değil');
 assert(app.includes("authorityMarkup")&&app.includes("authority-symbol")&&app.includes("✓ Yeşil: SKKM/ÇM onayı yok")&&app.includes("◆ Sarı: SKKM/ÇM onayı"),'Yetki sembol/yazı eşlemesi eksik');
 assert(css.includes('.authority.direct{')&&css.includes('var(--greenSoft)')&&css.includes('.authority.skkm{')&&css.includes('var(--amberSoft)'),'Yeşil/sarı yetki renk semantiği eksik');
@@ -123,7 +123,7 @@ assert(css.includes('/* V0.31 source geometry + scanability polish */')&&css.inc
 assert(data.includes('"id": "acute-heart-failure-cardiogenic-shock"')&&data.includes('"algorithmBranchLayout": "profiles"')&&data.includes('"label": "Normotansif dekompanse kalp yetmezliği"')&&data.includes('"label": "Hipertansif kalp yetmezliği"')&&data.includes('"label": "Kardiyojenik şok"'),'Y-14 üç profil yapılandırılmış akışı eksik');
 assert(app.includes("c.algorithmBranchLayout==='profiles'?' profiles'"),'Y-14 profil yerleşimi render katmanı eksik');
 assert(css.includes('/* V0.32 Y14 profile layout */')&&css.includes('.algorithm-branches.profiles')&&css.includes('grid-template-columns:repeat(3,minmax(0,1fr))'),'Y-14 profil masaüstü/tek kolon responsive stili eksik');
-assert((data.match(/"decisionIntegrated": true/g)||[]).length>=11,'Y-38 dahil entegre karar işaretleri eksik');
+assert((data.match(/"decisionIntegrated": true/g)||[]).length>=12,'Y-38 dahil entegre karar işaretleri eksik');
 assert(css.includes('.detail-jumps::after')&&css.includes('content:"›"'),'Mobil jump şeridinde devam göstergesi eksik');
 assert(css.includes('/* V0.21 branched algorithm flow */')&&css.includes('.algorithm-branches{')&&css.includes('.algo-branch-children{'),'Dallı algoritma mobil/masaüstü stilleri eksik');
 assert(css.includes('/* V0.23 branch layout hardening */')&&css.includes('.algo-depth-0>.algo-branch-children{grid-template-columns:repeat(2,minmax(0,1fr))}')&&!css.includes('.algorithm-branches{grid-template-columns:repeat(2,minmax(0,1fr))}'),'İç içe branch kolon sertleştirmesi eksik veya eski bozuk üst-seviye iki kolon kuralı kaldı');
@@ -144,6 +144,7 @@ for(const title of ['Ajite Hastaya Yaklaşım','Vertigo','Alerjik Reaksiyon','Hi
 assert(data.includes('"precondition": "Vücut ısısı <35°C ve bilinç kapalı ise"')&&data.includes('"transition": "HİPOTERMİ ALGORİTMASINA GİT"')&&data.includes('"transition": "ARREST YÖNETİMİ ALGORİTMASINA GİT"')&&data.includes("vücut sıcaklığı 30°C'ye ulaşıncaya kadar defibrilasyon ertelenmelidir")&&data.includes('SKKM/ÇM ile görüşerek ECMO merkezine yönlendirmeyi düşün'),'Y-25 koşul/geçiş/gri uyarı kaynak geometrisi eksik');
 for(const title of ['Crush Sendromu','Kafa Travmalı Hastaya Yaklaşım','Start Triyaj'])assert(data.includes(`"title": "${title}"`),`Beşinci yetişkin paketinde eksik vaka: ${title}`);
 for(const code of ['SB-ASH-Y-39','SB-ASH-Y-40','SB-ASH-Y-41'])assert(data.includes(`"code": "${code}"`),`Beşinci yetişkin paketinde eksik kod: ${code}`);
+assert(data.includes('"id": "head-trauma"')&&data.includes('"algorithmBranchLayout": "split"')&&data.includes('"label": "KŞ <60 mg/dL veya >300 mg/dL"')&&data.includes('"transition": "DİYABETİK ACİLLER ALGORİTMASINA GİT"')&&data.includes('"label": "60 mg/dL < KŞ <300 mg/dL"')&&data.includes('"transition": "NÖBET / KONVÜLZİYON ALGORİTMASINA GİT"')&&data.includes('"label": "KİBAS varsa"')&&data.includes('30–45° yukarıda olacak şekilde sevk edilmelidir'),'Y-40 yapılandırılmış glukoz/nöbet/KİBAS akışı eksik');
 assert(data.includes('"label": "Yürüyenler — YEŞİL KOD"')&&data.includes('"triageCode": "black"')&&data.includes('"triageCode": "yellow"')&&data.includes('"label": "Komutlara uymuyorsa — KIRMIZI KOD"'),'Y-41 START yapılandırılmış karar ağacı eksik');
 assert(data.includes('daha ciddi triyaj kodu verilebilir'),'Y-41 yeniden triyaj Anahtar Noktası eksik');
 assert(app.includes("['green','yellow','red','black'].includes(branch.triageCode)")&&css.includes('/* V0.35 START triage outcome semantics */')&&css.includes('.algo-branch.triage-green')&&css.includes('.algo-branch.triage-black'),'Y-41 START triyaj sonuç görsel semantiği eksik');
