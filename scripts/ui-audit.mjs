@@ -30,8 +30,8 @@ assert(css.includes("/* V0.6.1 dark surface hardening */"),'Koyu mod yüzey hard
 assert(css.includes(":root[data-theme='dark'] .quick-step")&&css.includes("background:var(--detail-panel-deep)!important"),'Koyu mod algoritma adımı explicit yüzeyi eksik');
 assert(css.includes(":root[data-theme='dark'] .red-flag")&&css.includes("background:#2b202a!important"),'Koyu mod kırmızı bayrak yüzeyi eksik');
 assert(css.includes(":root[data-theme='dark'] .branch.yes")&&css.includes(":root[data-theme='dark'] .branch.no"),'Koyu mod karar kutuları explicit değil');
-assert(html.includes('styles.css?v=0.41')&&html.includes('app-core.js?v=0.41')&&html.includes('cases-data.js?v=0.41'),'Kritik asset cache-bust sürümü eksik');
-assert(sw.includes("saha112-v041")&&sw.includes('NETWORK_FIRST_DESTINATIONS'),'Service worker kritik asset güncelleme stratejisi eksik');
+assert(html.includes('styles.css?v=0.42')&&html.includes('app-core.js?v=0.42')&&html.includes('cases-data.js?v=0.42'),'Kritik asset cache-bust sürümü eksik');
+assert(sw.includes("saha112-v042")&&sw.includes('NETWORK_FIRST_DESTINATIONS'),'Service worker kritik asset güncelleme stratejisi eksik');
 assert(!app.includes('Kırmızı bayrak'),'Eski kullanıcı terimi hâlâ UI içinde');
 assert(app.includes('Acil Uyarı Bulguları'),'Acil Uyarı Bulguları başlığı eksik');
 assert(app.includes('Önceliği, müdahaleyi veya nakil kararını değiştirebilecek bulgular.'),'Acil uyarı açıklaması eksik');
@@ -57,7 +57,7 @@ assert(data.includes('"reviewedAt": "2026-09-24"')&&data.includes('"Glikoz <60 m
 assert(data.includes('"transition": "DİYABETİK ACİLLER ALGORİTMASINA GİT"')&&data.includes('"notice": "Tansiyon değerleri normalin üstünde olsa da tansiyonu düşürme."'),'Y-18 mavi geçiş / gri KB uyarısı semantiği eksik');
 
 assert(data.includes('"title": "Nabızlı Taşikardi"'),'Nabızlı Taşikardi başlığı eksik');
-assert(data.includes('"contentVersion": "EK2-2026.08.25-y19-seizure-structured-1-2026.09.24"'),'V0.41 Y-19 yapılandırılmış akış sürümü eksik');
+assert(data.includes('"contentVersion": "EK2-2026.08.25-structured-flow-audit-fix-1-2026.09.24"'),'V0.42 yapılandırılmış akış audit-düzeltme sürümü eksik');
 assert(html.includes('id="authorityLegend"')&&!html.includes('<span class="authority direct">Doğrudan</span>'),'Yetki legendi dinamik veri kaynağına bağlı değil');
 assert(app.includes("authorityMarkup")&&app.includes("authority-symbol")&&app.includes("✓ Yeşil: SKKM/ÇM onayı yok")&&app.includes("◆ Sarı: SKKM/ÇM onayı"),'Yetki sembol/yazı eşlemesi eksik');
 assert(css.includes('.authority.direct{')&&css.includes('var(--greenSoft)')&&css.includes('.authority.skkm{')&&css.includes('var(--amberSoft)'),'Yeşil/sarı yetki renk semantiği eksik');
@@ -143,12 +143,13 @@ assert(data.includes('"title": "Nöbet / Konvülziyon"'),'Nöbet / Konvülziyon 
 assert(data.includes('"id": "seizure"')&&data.includes('"algorithmBranchLayout": "split"')&&data.includes('"label": "Nöbet sonlandı"')&&data.includes('"label": "Nöbet devam ediyor"')&&data.includes('"label": "İlk benzodiazepin sonrası nöbet devam ediyor"')&&data.includes('"transition": "DİYABETİK ACİLLER ALGORİTMASINA GİT"')&&data.includes('Fenitoin 20 mg/kg')&&data.includes('25 mg/kg/dk')&&data.includes('Valproik asit 40 mg/kg')&&data.includes('Levetirasetam 60 mg/kg')&&data.includes('"label": "Evet — nöbet devam ediyor"')&&data.includes('İleri hava yolu uygulaması için hazırlan.'),'Y-19 yapılandırılmış nöbet/ilaç/postiktal akışı eksik');
 assert(data.includes('Hastayı engellemeye çalışma; yaralanmayı önlemek için hastanın başının altına yastık, katlanmış battaniye vb. yerleştir.'),'Y-19 yaralanmayı önleme gri uyarısı eksik');
 for(const title of ['Ajite Hastaya Yaklaşım','Vertigo','Alerjik Reaksiyon','Hipotermide Arrest Yönetimi'])assert(data.includes(`"title": "${title}"`),`İkinci yetişkin paketinde eksik vaka: ${title}`);
-assert(data.includes('"precondition": "Vücut ısısı <35°C ve bilinç kapalı ise"')&&data.includes('"transition": "HİPOTERMİ ALGORİTMASINA GİT"')&&data.includes('"transition": "ARREST YÖNETİMİ ALGORİTMASINA GİT"')&&data.includes("vücut sıcaklığı 30°C'ye ulaşıncaya kadar defibrilasyon ertelenmelidir")&&data.includes('SKKM/ÇM ile görüşerek ECMO merkezine yönlendirmeyi düşün'),'Y-25 koşul/geçiş/gri uyarı kaynak geometrisi eksik');
+assert(data.includes('"precondition": "Vücut ısısı <35°C ve bilinç kapalı ise"')&&data.includes('"transition": "HİPOTERMİ ALGORİTMASINA GİT"')&&data.includes('"transition": "ARREST YÖNETİMİ ALGORİTMASINA GİT"')&&data.includes("vücut sıcaklığı 30°C'ye ulaşıncaya kadar defibrilasyon ertelenmelidir")&&data.includes('SKKM/ÇM ile görüşerek ECMO merkezine yönlendirmeyi düşün')&&data.includes('Aktif dış ısıtma teknikleri')&&data.includes('42–46°C')&&data.includes('40–42°C'),'Y-25 koşul/geçiş/gri uyarı/ısıtma Anahtar Noktaları eksik');
 for(const title of ['Crush Sendromu','Kafa Travmalı Hastaya Yaklaşım','Start Triyaj'])assert(data.includes(`"title": "${title}"`),`Beşinci yetişkin paketinde eksik vaka: ${title}`);
 for(const code of ['SB-ASH-Y-39','SB-ASH-Y-40','SB-ASH-Y-41'])assert(data.includes(`"code": "${code}"`),`Beşinci yetişkin paketinde eksik kod: ${code}`);
 assert(data.includes('"id": "head-trauma"')&&data.includes('"algorithmBranchLayout": "split"')&&data.includes('"label": "KŞ <60 mg/dL veya >300 mg/dL"')&&data.includes('"transition": "DİYABETİK ACİLLER ALGORİTMASINA GİT"')&&data.includes('"label": "60 mg/dL < KŞ <300 mg/dL"')&&data.includes('"transition": "NÖBET / KONVÜLZİYON ALGORİTMASINA GİT"')&&data.includes('"label": "KİBAS varsa"')&&data.includes('30–45° yukarıda olacak şekilde sevk edilmelidir'),'Y-40 yapılandırılmış glukoz/nöbet/KİBAS akışı eksik');
 assert(data.includes('"label": "Yürüyenler — YEŞİL KOD"')&&data.includes('"triageCode": "black"')&&data.includes('"triageCode": "yellow"')&&data.includes('"label": "Komutlara uymuyorsa — KIRMIZI KOD"'),'Y-41 START yapılandırılmış karar ağacı eksik');
 assert(data.includes('daha ciddi triyaj kodu verilebilir'),'Y-41 yeniden triyaj Anahtar Noktası eksik');
+assert(data.includes('sadece renk kodu işaretlenir')&&data.includes('triyaj sırasında tedavi/KPR yapılmaz')&&data.includes('tek sağlık personeli')&&data.includes('birden fazla sağlık personeli'),'Y-41 triyaj uygulama Anahtar Noktaları eksik');
 assert(app.includes("['green','yellow','red','black'].includes(branch.triageCode)")&&css.includes('/* V0.35 START triage outcome semantics */')&&css.includes('.algo-branch.triage-green')&&css.includes('.algo-branch.triage-black'),'Y-41 START triyaj sonuç görsel semantiği eksik');
 assert(!app.includes("'severity','Şiddet'")&&app.includes("'severity','Klinik ayrım'"),'Arı sokması hızlı geçiş etiketi Klinik ayrım olmalı');
 assert(css.includes('/* V0.8.1 touch target hardening */'),'Dokunma hedefi hardening bloğu eksik');
@@ -177,8 +178,9 @@ try{
     const terminal=api.renderAlgorithmBranches({algorithmBranches:[{label:'Yeşil',triageCode:'green'},{label:'Geçiş',transition:'ALGORİTMAYA GİT'}]});
     assert(terminal.includes('triage-green')&&terminal.includes('algo-transition'),'Runtime smoke: terminal triage/transition render başarısız');
     assert(api.renderActionStep({precondition:'Koşul',html:'Eylem',approvalAuthority:'DIRECT',practitionerAuthority:'ATT_AABT'}).includes('algo-precondition'),'Runtime smoke: precondition render başarısız');
-    const transitionStep=api.renderActionStep({html:'Eylem',approvalAuthority:'DIRECT',practitionerAuthority:'ATT_AABT',followUp:{label:'Hayır',transition:'ALGORİTMAYA GİT'}});
+    const transitionStep=api.renderActionStep({html:'Eylem',approvalAuthority:'DIRECT',practitionerAuthority:'AABT',followUp:{label:'Hayır',transition:'ALGORİTMAYA GİT'}});
     assert(transitionStep.includes('algo-step-followup')&&transitionStep.includes('algo-transition')&&transitionStep.includes('ALGORİTMAYA GİT'),'Runtime smoke: followUp transition render başarısız');
+    assert(transitionStep.indexOf('action-step-badges')>=0&&transitionStep.indexOf('action-step-badges')<transitionStep.indexOf('algo-step-followup'),'Runtime smoke: AABT/SKKM rozeti followUp koşul/geçişinin altına taşmış');
     const noticeStep=api.renderActionStep({html:'Eylem',approvalAuthority:'DIRECT',practitionerAuthority:'ATT_AABT',followUp:{label:'Uyarı',notice:'Gri uyarı'}});
     assert(noticeStep.includes('algo-notice')&&noticeStep.includes('Gri uyarı'),'Runtime smoke: followUp notice render başarısız');
     assert(api.renderAlgorithmNotices({algorithmNotices:['Uyarı']}).includes('algo-notice'),'Runtime smoke: gri uyarı render başarısız');
