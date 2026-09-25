@@ -1,7 +1,7 @@
 const APP_META = {
   "schemaVersion": 5,
   "contentVersion": "EK2-2026.08.25-early-adult-fidelity-reaudit-2026.09.25",
-  "productVersion": "0.53",
+  "productVersion": "0.54",
   "populations": [
     {
       "id": "adult",
