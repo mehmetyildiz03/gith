@@ -1,7 +1,7 @@
 const APP_META = {
   "schemaVersion": 5,
-  "contentVersion": "EK2-2026.08.25-keypoint-completeness-reaudit-2026.09.25",
-  "productVersion": "0.49",
+  "contentVersion": "EK2-2026.08.25-full-keypoint-table-audit-2026.09.25",
+  "productVersion": "0.50",
   "populations": [
     {
       "id": "adult",
@@ -1643,8 +1643,8 @@ const CASES = [
       {
         "title": "Pasif Eksternal Soğutma Yöntemleri",
         "items": [
-          ["Evoperasyon", "Hastanın üzerini çıkar; vücuduna soğuk ya da ılık su sık ve havalandırma ile buharlaşmayı sağla."],
-          ["İmmersiyon", "Koltuk altı ve kasık bölgelerine ıslak bez ya da spanç koy."],
+          ["Evoperasyon", "Hastanın üzerini çıkar; vücuduna soğuk ya da ılık su uygula ve havalandırma ile buharlaşmayı sağla."],
+          ["İmmersiyon", "Koltuk altı ve kasık bölgelerine ıslak bez ya da spanç yerleştir."],
           ["Hedef", "Vücut ısısını <39°C'ye indir; aşırı soğutarak hipotermi oluşturmaktan kaçın."]
         ]
       }
@@ -2683,7 +2683,7 @@ const CASES = [
       {
         "title": "Klinik Profiller",
         "items": [
-          ["ADKY", "Yeni başlangıçlı veya kronik kalp yetmezliğinin akut alevlenmesi; hipertansiyon ve kardiyojenik şok görülmez. Hafif-orta pulmoner konjesyon; ilerleyici nefes darlığı, periferal ve abdominal konjesyon, juguler venöz dolgunluk ve hepatojuguler reflü görülebilir."],
+          ["ADKY", "Yeni başlangıçlı kalp yetmezliği ya da kronik kalp yetmezliğinin akut alevlenmesi; hipertansiyon ve kardiyojenik şok görülmez. Hafif-orta pulmoner konjesyon görülür; tüm acil hastaların %50–70’ini oluşturur. İlerleyici nefes darlığı, periferal/abdominal konjesyon, juguler venöz dolgunluk ve hepatojuguler reflü görülebilir."],
           ["HKY", "Sistolik kan basıncı >140 mmHg (genellikle >180 mmHg); sol ventrikül fonksiyonu genellikle korunmuştur. Semptomlar 48 saatte gelişir; hava açlığı, anksiyete, öksürük, yatamama ve SpO₂ <90 görülebilir."],
           ["KŞ", "Doku perfüzyonu bozulmuştur. Sistolik kan basıncı genellikle <90 mmHg; istirahatte takipne, taşikardi, venöz doluşta uzama, soğuk ve siyanotik ekstremiteler görülebilir."]
         ]
@@ -3917,6 +3917,14 @@ const CASES = [
           ["6", "Bulantı-kusma"],
           ["7", "Konuşma bozukluğu (geveleyerek konuşma)"]
         ]
+      },
+      {
+        "title": "Tedavi İlkeleri / Antidot",
+        "items": [
+          ["Tedavi", "Genel zehirlenme yaklaşımına ek olarak hipotansiyonda IV sıvı replasmanı uygulanabilir; semptomatik bradikardi tedavi edilmelidir."],
+          ["Atropin", "Semptomatik bradikardide 1 mg IV; 3–5 dk arayla maksimum 3 mg. Eksternal pacemaker uygulanabilir."],
+          ["Kalsiyum", "Kalsiyum kanal blokerine bağlı olduğu doğrulanmışsa kalsiyum glukonat tedavisi uygulanır; ayrıntılı doz ve hazırlama ilaç kartında gösterilir."]
+        ]
       }
     ],
     "meds": [
@@ -4017,6 +4025,13 @@ const CASES = [
           ["Dekon", "Dekontaminasyon ve cilt emilimini önle. Hasta ambulans kabinine alınmadan önce kıyafetlerini çıkar; hastayı yıka veya ıslak bezle sil."],
           ["Gastrik", "Ağızdan alımlarda gastrik lavaj ilk 30 dakika içinde etkili olabilir; acil servislerde uygulanmalıdır."]
         ]
+      },
+      {
+        "title": "Tedavi İlkeleri / Antidot",
+        "items": [
+          ["Tedavi", "Kişisel güvenlik ve dekontaminasyona ek hava yolu yönetimi ve oksijenizasyon önemlidir; oral alımda ilk 30 dk gastrik lavaj acil serviste uygulanabilir."],
+          ["Atropin", "1–2 mg IV; IV yol açılamazsa açılana kadar 2–5 mg IM. Trakeobronşiyal sekresyonlar azalıncaya kadar 5 dk'da bir tekrarlanır; maksimum doz belirtilmemiştir."]
+        ]
       }
     ],
     "meds": [
@@ -4099,6 +4114,13 @@ const CASES = [
           ["Metabolik", "Hipoglisemi, terleme ve hipotermi."],
           ["GİS", "Bulantı, kusma, barsak seslerinde azalma ve ileus."],
           ["Organ", "Karaciğer yetmezliği ve akut böbrek yetmezliği görülebilir."]
+        ]
+      },
+      {
+        "title": "Tedavi İlkeleri / Antidot",
+        "items": [
+          ["Tedavi", "Solunum depresyonunda ileri hava yolu yönetimi uygulanır; hipoglisemi veya hipovolemi varsa ilgili akış şemasına göre tedavi edilir."],
+          ["Nalokson", "SKKM/ÇM onayıyla opioid bağımlısı olmayanda 0,4–2 mg IV/IM/IO/SC; ardından yanıta göre 0,1–0,4 mg. Apne/siyanozda 2 mg IV; maksimum 10 mg. Solunum çabası döner veya ajitasyon gelişirse IV nalokson sonlandırılır."]
         ]
       }
     ],
