@@ -2,7 +2,20 @@
 
 Mobil-first, offline çekirdekli, vaka bazlı hastane öncesi acil sağlık eğitim ve hızlı hatırlatma uygulaması.
 
-## V0.55 erişilebilirlik ve odak sürekliliği audit
+## V0.56 telefon Chrome / PWA / tablet yerleşim audit
+
+- **Telefon Chrome ve PWA geri davranışı:** Kaynak bottom-sheet artık history state kullanır; Android sistem Geri hareketi uygulamadan çıkmadan önce sheet'i kapatır.
+- **Mobil arama:** Her karakter girişinde yeniden `scrollIntoView` çalışması kaldırıldı; sonuç alanına yalnız arama başlarken kaydırılır, böylece mobil klavye açıkken ekran zıplamaz.
+- **Dar telefon üst alanı:** ≤620 px'te üst bar sıkılaştırıldı; açıklama metni gizlenir, arama alanı kompaktlaşır. ≤430 px'te hasta grubu etiketi/sayacı dikey yerleşir.
+- **Telefon status/utility düzeni:** Ek-2 + sürüm şeridi mobilde tam satır alır; çevrimiçi ve görünüm durumları sonraki satırda daha öngörülebilir yerleşir.
+- **Kaynak görünümü:** ≤430 px'te kaynak metadata ve dış bağlantılar tek kolona düşer; ≤390 px'te sticky kaynak şeridi tek satır/ellipsis ile detay başlığını gereksiz büyütmez.
+- **Tablet portre:** 700–819 px aralığında Öncelikli kartlar dört dar kolon yerine üç kolona düşer.
+- **Touch polish:** hover yükselme efekti yalnız gerçek hover/fine-pointer cihazlarda çalışır; coarse pointer cihazlarda masaüstü arama kısayol işareti gizlenir.
+- **Klinik veri:** Yetişkin içerik değiştirilmedi; V0.52 klinik `contentVersion` korunur.
+- **Regresyon:** UI audit yeni telefon/tablet/PWA kurallarını ve source-sheet history davranışını zorunlu kılar.
+
+### V0.55 önceki durum
+
 
 - **Arama erişilebilirliği:** ana arama alanına programatik `aria-label` eklendi; dekoratif arama glifi ekran okuyucudan gizlendi.
 - **Hasta grubu semantiği:** Yetişkin / Çocuk / Doğum & Yenidoğan seçicisi eksik WAI-ARIA `tablist` modeli yerine gerçek davranışına uygun düğme grubu + `aria-pressed` semantiğine taşındı.
