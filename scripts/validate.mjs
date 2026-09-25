@@ -183,7 +183,7 @@ if((asthmaCase?.meds||[]).some(m=>String(m.name).toLocaleLowerCase('tr-TR').incl
 
 const acsCase=(CASES||[]).find(c=>c.id==='acs'), nitrate=medByName(acsCase,'İzosorbid dinitrat');
 if(!String(nitrate?.repeat||'').includes('3–5 dk')||!String(nitrate?.maxDose||'').includes('3 doz'))err('AKS nitrat tekrar/maksimum doz bilgisi eksik');
-for(const term of ['sağ ventrikül MI','sildenafil/vardenafil/tadalafil','IV yavaş bolus','bulantı-kusma ve solunum depresyonu riski nedeniyle yavaş bolus uygula','120 dk'])if(!JSON.stringify(acsCase).includes(term))err(`Y-06 AKS Anahtar Nokta eksik: ${term}`);
+for(const term of ['sağ ventrikül MI','sildenafil/vardenafil/tadalafil','1 mcg/kg IV','bulantı-kusma ve solunum depresyonu riski nedeniyle yavaş bolus uygula','120 dk'])if(!JSON.stringify(acsCase).includes(term))err(`Y-06 AKS Anahtar Nokta eksik: ${term}`);
 for(const term of ['SpO₂ >%90 ise rutin O₂ uygulamasından kaçın','solunum sıkıntısı veya ritim bozukluğunda','günlük yeterli doz aspirin kullanmış olsa bile','yükleme dozu verilmesi önerilir'])if(!JSON.stringify(acsCase).includes(term))err(`Y-06 AKS O2/ASA Anahtar Noktası eksik: ${term}`);
 
 const tachyCase=(CASES||[]).find(c=>c.id==='tachycardia');
@@ -667,7 +667,8 @@ for(const [i,c] of (CASES||[]).entries()){
   if(!Array.isArray(c.criticalActions)||c.criticalActions.length<2||c.criticalActions.length>5)err(`${at}: criticalActions 2-5 madde olmalı`);
   if(!Array.isArray(c.quick)||c.quick.length<2)err(`${at}: quick eksik`);
   if(c.algorithmSteps!==undefined){
-    const minAlgorithmSteps=Array.isArray(c.algorithmBranches)&&c.algorithmBranches.length?1:2;
+    const branchOnly=c.decisionIntegrated===true&&Array.isArray(c.algorithmBranches)&&c.algorithmBranches.length>0&&Array.isArray(c.algorithmSteps)&&c.algorithmSteps.length===0;
+    const minAlgorithmSteps=branchOnly?0:(Array.isArray(c.algorithmBranches)&&c.algorithmBranches.length?1:2);
     if(!Array.isArray(c.algorithmSteps)||c.algorithmSteps.length<minAlgorithmSteps)err(`${at}: algorithmSteps en az ${minAlgorithmSteps} adım olmalı`);
     for(const [si,step] of (c.algorithmSteps||[]).entries()){
       const st=`${at} algorithmSteps[${si}]`;
