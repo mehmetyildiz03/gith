@@ -415,7 +415,7 @@ for(const required of ['travma mekanizmasını','hayatı tehdit eden kanama','Se
 if(!String(traumaCase?.algorithmSteps?.[2]?.followUp?.html||'').includes('Orofaringeal')||!String(traumaCase?.algorithmSteps?.[2]?.followUp?.html||'').includes('aspire et'))err('Y-38 hava yolu düzeltici yan geçişi eksik');
 if(!String(traumaCase?.algorithmSteps?.[3]?.followUp?.html||'').includes('Tansiyon pnömotoraks')||!String(traumaCase?.algorithmSteps?.[3]?.followUp?.html||'').includes('Hemotoraks'))err('Y-38 solunum düzeltici yan geçişi eksik');
 if(!JSON.stringify(traumaCase?.warningFindings||[]).includes('Kanıt olabilecek materyallerin'))err('Y-38 kanıt/giysi koruma uyarısı eksik');
-if(!JSON.stringify(traumaCase).includes('kurşun giriş yeri kesilmemeli')||!JSON.stringify(traumaCase).includes('kıyafetler tamamen çıkarılmışsa muhafaza'))err('Y-38 adli vaka giysi/kurşun giriş yeri Anahtar Noktası eksik');
+if(!JSON.stringify(traumaCase).includes('kurşun giriş yeri kesilmemeli')||!JSON.stringify(traumaCase).includes('kıyafetler tamamen çıkartılmışsa muhafaza'))err('Y-38 adli vaka giysi/kurşun giriş yeri Anahtar Noktası eksik');
 const y38Refs=traumaCase?.referenceGroups||[];
 if(y38Refs.length!==4)err('Y-38 resmî GKS/adli referans grupları eksik');
 for(const term of ['Verilen uyarıyı lokalize ediyor','normal fleksör yanıt','anormal fleksör yanıt','ekstansör yanıt','Oryante','Konfüze','anlamsız seslerle','Spontan göz açık','Sesli uyaranla gözünü açıyor','Basınçlı uyaranla gözünü açıyor','Etkileyen diğer faktörler nedeniyle değerlendirilemiyor'])if(!JSON.stringify(y38Refs).includes(term))err(`Y-38 Yetişkin GKS tablosu öğesi eksik: ${term}`);
@@ -600,7 +600,7 @@ if(cholAtropine?.authority!=='DIRECT'||cholAtropine?.dose!=='1–2 mg IV / 2–5
 if(!JSON.stringify(cholinergicCase).includes('SLUDGE-BBB'))err('Y-35 SLUDGE-BBB klinik uyarısı eksik');
 if(!JSON.stringify(cholinergicCase).includes('ilk 30 dk')||!JSON.stringify(cholinergicCase).includes('acil serviste uygulanmalıdır'))err('Y-35 gastrik lavaj ilk 30 dk / acil servis Anahtar Noktası eksik');
 if(!JSON.stringify(cholinergicCase).includes('ambulans kabinine alınmadan önce')||!JSON.stringify(cholinergicCase).includes('ıslak bezle silinmelidir'))err('Y-35 ambulans kabini öncesi dekontaminasyon Anahtar Noktası eksik');
-if(!JSON.stringify(cholinergicCase).includes('IV yol açılana kadar 2–5 mg IM'))err('Y-35 atropin IM köprü ifadesi resmî Anahtar Noktaya uymuyor');
+if(!JSON.stringify(cholinergicCase).includes('IV yol açılamazsa açılana kadar 2–5 mg IM'))err('Y-35 atropin IM köprü ifadesi resmî Anahtar Noktaya uymuyor');
 
 const opioidCase=(CASES||[]).find(c=>c.id==='opioid-poisoning');
 if(opioidCase?.code!=='SB-ASH-Y-36'||opioidCase?.page!=='62'||opioidCase?.source?.page!=='61–62')err('Opioid Y-36 kaynak izi bozuldu');
