@@ -1643,9 +1643,9 @@ const CASES = [
       {
         "title": "Pasif Eksternal Soğutma Yöntemleri",
         "items": [
-          ["Evoperasyon", "Hastanın üzerini çıkar; vücuduna soğuk ya da ılık su uygula ve havalandırma ile buharlaşmayı sağla."],
-          ["İmmersiyon", "Koltuk altı ve kasık bölgelerine ıslak bez ya da spanç yerleştir."],
-          ["Hedef", "Vücut ısısını <39°C'ye indir; aşırı soğutarak hipotermi oluşturmaktan kaçın."]
+          ["Evoperasyon", "Hastanın üzeri çıkartılır. Vücuduna soğuk ya da ılık su sıkılır ve havalandırma açılarak buharlaşması sağlanır."],
+          ["İmmersiyon", "Hastanın koltuk altı ve kasık bölgelerine ıslak bez ya da spanç konulur."],
+          ["Hedef", "Soğutmada hedef vücut ısısı <39°C’yi sağlamaktır. Aşırı soğutma yapılarak hipotermiye neden olmaktan kaçınılmalıdır."]
         ]
       }
     ],
