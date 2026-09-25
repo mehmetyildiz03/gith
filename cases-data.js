@@ -4088,6 +4088,20 @@ const CASES = [
       "Hipotansiyon",
       "Hipoglisemi"
     ],
+    "referenceGroups": [
+      {
+        "title": "Opioid Analjezikler — Belirtiler ve Klinik Bulgular",
+        "items": [
+          ["Nöro", "Bilinç değişikliği, kişilik değişiklikleri, konvülziyon ve koma."],
+          ["Solunum", "Solunum depresyonu, akciğer ödemi ve bronkospazm."],
+          ["Göz", "Pinpoint pupiller."],
+          ["Dolaşım", "Hipotansiyon, ritim bozukluğu ve bradikardi."],
+          ["Metabolik", "Hipoglisemi, terleme ve hipotermi."],
+          ["GİS", "Bulantı, kusma, barsak seslerinde azalma ve ileus."],
+          ["Organ", "Karaciğer yetmezliği ve akut böbrek yetmezliği görülebilir."]
+        ]
+      }
+    ],
     "meds": [
       {
         "name": "Nalokson",
