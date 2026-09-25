@@ -1631,6 +1631,24 @@ const CASES = [
       "Kollaps / şok",
       "Nefes darlığı"
     ],
+    "referenceGroups": [
+      {
+        "title": "Hipertermi — Klinik Bulgular",
+        "items": [
+          ["Isı Krampları", "Kas seyirmeleri; alt ekstremiteler ve abdomende ağrılı spazmlar; bulantı, kusma, güçsüzlük ve aşırı terleme."],
+          ["Isı Yorgunluğu", "Solukluk; yoğun terleme; ortostatik hipotansiyon; baş ağrısı; güçsüzlük, bitkinlik ve susuzluk."],
+          ["Isı Çarpması", "Bilinç durumunda değişiklik; beden ısısında artış; minimal ya da çok az terleme; kollaps, şok, nefes darlığı, bulantı ve kusma."]
+        ]
+      },
+      {
+        "title": "Pasif Eksternal Soğutma Yöntemleri",
+        "items": [
+          ["Evoperasyon", "Hastanın üzerini çıkar; vücuduna soğuk ya da ılık su sık ve havalandırma ile buharlaşmayı sağla."],
+          ["İmmersiyon", "Koltuk altı ve kasık bölgelerine ıslak bez ya da spanç koy."],
+          ["Hedef", "Vücut ısısını <39°C'ye indir; aşırı soğutarak hipotermi oluşturmaktan kaçın."]
+        ]
+      }
+    ],
     "meds": [
       {
         "name": "%0,9 NaCl — ısı stresi",
