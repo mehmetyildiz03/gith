@@ -53,7 +53,7 @@ assert(app.includes('PDF sayfa')&&app.includes('PDF s.'),'PDF sayfa etiketi aç�
 assert(html.includes('updateBanner')&&app.includes('controllerchange')&&app.includes("reload-app"),'Pasif PWA güncelleme bildirimi eksik');
 assert(app.includes('sourceFocusable')&&app.includes("e.key==='Tab'")&&css.includes('html.dialog-open'),'Kaynak dialog focus trap/scroll kilidi eksik');
 assert(data.includes('"title": "İnme / SVO"'),'İnme / SVO başlığı korunmamış');
-assert(data.includes('"reviewedAt": "2026-09-24"')&&data.includes('"Glikoz <60 mg/dl ve/veya hipoglisemi bulguları varsa"')&&data.includes('"Kan basıncı takibi"')&&data.includes('4,5 saat içinde trombolitik')&&data.includes('6 saat içinde endovasküler girişim'),'Y-18 yapılandırılmış inme akışı eksik');
+assert(data.includes('"reviewedAt": "2026-09-25"')&&data.includes('"Glikoz <60 mg/dl ve/veya hipoglisemi bulguları varsa"')&&data.includes('"Kan basıncı takibi"')&&data.includes('4,5 saat içinde trombolitik')&&data.includes('6 saat içinde endovasküler girişim'),'Y-18 yapılandırılmış inme akışı eksik');
 assert(data.includes('"transition": "DİYABETİK ACİLLER ALGORİTMASINA GİT"')&&data.includes('"notice": "Tansiyon değerleri normalin üstünde olsa da tansiyonu düşürme."'),'Y-18 mavi geçiş / gri KB uyarısı semantiği eksik');
 
 assert(data.includes('"title": "Nabızlı Taşikardi"'),'Nabızlı Taşikardi başlığı eksik');
@@ -75,7 +75,7 @@ assert(data.includes('"title": "Termal Yanık"')&&data.includes('"title": "Travm
 assert(data.includes('"code": "SB-ASH-Y-38"')&&data.includes('"page": "67"'),'Travma Y-38/s.67 kaynak düzeltmesi eksik');
 assert(data.includes('"subtitle": "X-ABCDE • kanama • hızlı nakil"')&&data.includes('"Hayır — hava yolu açık/güvenilir değilse"')&&data.includes('"Hayır — solunum stabil değilse"')&&data.includes('"transition": "ARREST YÖNETİMİ ALGORİTMASINA GİT"')&&data.includes('"transition": "HİPOVOLEMİK ŞOK ALGORİTMASINA GİT"')&&data.includes('"transition": "KAFA TRAVMALI HASTAYA YAKLAŞIM ALGORİTMASINA GİT"')&&data.includes('Tüm giysileri yararak vücut kontrolünü tamamla; hipotermiden koru.'),'Y-38 yapılandırılmış X-ABCDE saha akışı eksik');
 assert(data.includes("oksijen desteği ile düzelmeyen, SpO₂'nin %94 altında kalması")&&data.includes('55 yaş üstü, yanık, hipotermi veya gebelik')&&(data.match(/"transition":/g)||[]).length>=6&&!data.includes('Tüm giysileri çıkararak')&&data.includes('Tüm giysileri yararak'),'Y-38 kritik travma tablosu / mavi geçiş / giysi ifadesi eksik');
-assert(data.includes('kurşun giriş yeri kesilmemeli')&&data.includes('kıyafetler tamamen çıkarıldıktan sonra muhafaza'),'Y-38 adli vaka giysi/kurşun giriş yeri Anahtar Noktası eksik');
+assert(data.includes('kurşun giriş yeri kesilmemeli')&&data.includes('kıyafetler tamamen çıkartılmışsa muhafaza'),'Y-38 adli vaka giysi/kurşun giriş yeri Anahtar Noktası eksik');
 assert(data.includes('Alerjen madde uzaklaştırılmalıdır')&&data.includes("%30'dan fazla düşme"),'Y-22 anafilaksi Anahtar Nokta/tanı ölçütü eksik');
 assert(data.includes('soğuk ya da ılık su sıkıp havalandırma')&&data.includes('Koltuk altı ve kasık bölgelerine'),'Y-23 pasif eksternal soğutma yöntemleri eksik');
 assert(data.includes('PVC, naylon')&&data.includes('toksik ve irritan gaz'),'Y-33 yangın dumanı toksik/irritan gaz uyarısı eksik');
