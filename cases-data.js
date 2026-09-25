@@ -2647,6 +2647,30 @@ const CASES = [
       "Göğüs ağrısı veya yeni iskemi/aritmi",
       "Belirgin juguler venöz dolgunluk, periferik ödem ve ağır dispne"
     ],
+    "referenceGroups": [
+      {
+        "title": "Kalp Yetmezliği Bulguları",
+        "items": [
+          ["1", "Kalp yetmezliği öyküsü"],
+          ["2", "Nefes darlığı ve ortopne"],
+          ["3", "Pembe köpüklü balgam"],
+          ["4", "Periferal ödem"],
+          ["5", "Şok bulguları, soğuk terleme ve hipotansiyon"],
+          ["6", "Efor kapasitesinin azalması"],
+          ["7", "Göğüs ağrısı"],
+          ["8", "Oturur vaziyette juguler venöz dolgunluk"],
+          ["9", "Bilateral ince raller"]
+        ]
+      },
+      {
+        "title": "Klinik Profiller",
+        "items": [
+          ["ADKY", "Yeni başlangıçlı veya kronik kalp yetmezliğinin akut alevlenmesi; hipertansiyon ve kardiyojenik şok görülmez. Hafif-orta pulmoner konjesyon; ilerleyici nefes darlığı, periferal ve abdominal konjesyon, juguler venöz dolgunluk ve hepatojuguler reflü görülebilir."],
+          ["HKY", "Sistolik kan basıncı >140 mmHg (genellikle >180 mmHg); sol ventrikül fonksiyonu genellikle korunmuştur. Semptomlar 48 saatte gelişir; hava açlığı, anksiyete, öksürük, yatamama ve SpO₂ <90 görülebilir."],
+          ["KŞ", "Doku perfüzyonu bozulmuştur. Sistolik kan basıncı genellikle <90 mmHg; istirahatte takipne, taşikardi, venöz doluşta uzama, soğuk ve siyanotik ekstremiteler görülebilir."]
+        ]
+      }
+    ],
     "meds": [
       {
         "name": "Furosemid",
