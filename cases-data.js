@@ -1,7 +1,7 @@
 const APP_META = {
   "schemaVersion": 5,
-  "contentVersion": "EK2-2026.08.25-full-integrity-reaudit-2026.09.25",
-  "productVersion": "0.47",
+  "contentVersion": "EK2-2026.08.25-wide-safety-reaudit-2026.09.25",
+  "productVersion": "0.48",
   "populations": [
     {
       "id": "adult",
@@ -3926,11 +3926,12 @@ const CASES = [
     "clinicalStatus": "reviewed",
     "summary": "Kişisel korunmayı ve dekontaminasyonu öncele; Zehirlenmelere Genel Yaklaşım algoritmasını uygula, SpO₂ >%94 hedefle ve ciddi kolinerjik bulgularda atropini sekresyonlar azalıncaya kadar tekrarla.",
     "criticalActions": [
-      "Müdahaleden önce kişisel koruyucu ekipmanı kullan; dekontaminasyon yap ve cilt emilimini önle.",
+      "Müdahaleden önce kişisel koruyucu ekipmanı tam ve eksiksiz kullan; sekresyonlarla temas etme; dekontaminasyon yap ve cilt emilimini önle.",
       "Zehirlenmelere Genel Yaklaşım algoritmasını uygula; SpO₂ >%94 olacak şekilde O₂ ver, gerekirse PBV uygula.",
       "Ciddi kolinerjik bulguları değerlendir ve atropin basamağını geciktirme."
     ],
     "quick": [
+      "<strong>Kişisel güvenlik:</strong> Kişisel koruyucu ekipmanı tam ve eksiksiz kullan; sekresyonlarla temas etme.",
       "<strong>Ciddi bulgular (SLUDGE-BBB):</strong> salivasyon, lakrimasyon, ürinasyon, defekasyon, GİS krampları, emezis, bradikardi, bronkore ve bronkospazm.",
       "<strong>Atropin:</strong> 1–2 mg IV; IV yol açılamazsa açılana kadar 2–5 mg IM uygulanabilir.",
       "Trakeobronşiyal sekresyonlar azalıncaya kadar <strong>5 dk'da bir tekrarla</strong>.",
@@ -3942,7 +3943,7 @@ const CASES = [
       "Yoğun sekresyon / bronkore ve bronkospazm",
       "Bradikardi",
       "Bilinç değişikliği, ajitasyon veya koma",
-      "Devam eden kontaminasyon / ikincil maruziyet riski"
+      "Sekresyonlarla temas / devam eden kontaminasyon / ikincil maruziyet riski"
     ],
     "meds": [
       {
