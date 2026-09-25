@@ -1,7 +1,7 @@
 const APP_META = {
   "schemaVersion": 5,
-  "contentVersion": "EK2-2026.08.25-wide-safety-reaudit-2026.09.25",
-  "productVersion": "0.48",
+  "contentVersion": "EK2-2026.08.25-keypoint-completeness-reaudit-2026.09.25",
+  "productVersion": "0.49",
   "populations": [
     {
       "id": "adult",
