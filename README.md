@@ -2,7 +2,17 @@
 
 Mobil-first, offline çekirdekli, vaka bazlı hastane öncesi acil sağlık eğitim ve hızlı hatırlatma uygulaması.
 
-## V0.51 yetişkin kaynak bütünlüğü yeniden audit
+## V0.52 erken yetişkin kaynak/yetki yeniden audit
+
+- **Y-03 Hava Yolu Tıkanıklıkları:** resmî kısmi/tam tıkanma dalları yapılandırıldı; arrest geçişleri ve kısmi tıkanmada sırta vurma uyarısı kaynak geometrisine göre ayrıldı.
+- **Y-03 iğne krikotirotomi:** tam tıkanmada ileri hava yolu uygulamaları başarısızsa uygulanacak eylem artık düz metin değil; resmî turuncu + telefon simgesine göre **AABT + SKKM/ÇM** yetkisiyle görünür.
+- **Y-06 AKS:** fentanil Anahtar Noktası kaynak ifadesine yaklaştırıldı; bulantı-kusma ve solunum depresyonu riski nedeniyle yavaş bolus uygulanması açıkça gösterilir.
+- **Renderer:** yalnız dallardan oluşan yapılandırılmış algoritmalarda boş `algorithmSteps` dizisi hızlı özetle otomatik doldurulmaz; böylece Y-03 akışı tekrarlanmaz.
+- **Regresyon:** validator ve UI audit Y-03 krikotirotomi koşulu/yetkisini ve Y-06 fentanil uyarısını kilitler.
+- **PWA:** içerik, asset query'leri ve service-worker cache birlikte V0.52'ye yükseltildi.
+
+### V0.51 önceki durum
+
 
 - **Bağımsız resmî PDF görsel turu:** yetişkin Y-01–Y-41 bölümünde akış, kutu rengi/telefon simgesi, Anahtar Nokta tabloları ve birleşik kartlar tekrar karşılaştırıldı.
 - **Y-14:** hipertansif kalp yetmezliği profilinde kaynakta bulunan “hasta yatamaz, oturur pozisyonda durur” ayrıntısı geri eklendi.
