@@ -6,7 +6,7 @@ const state={
   population:localStorage.getItem(STORAGE.population)||'adult',
   category:'Tümü',query:'',view:'home',nav:'home',current:null,
   favorites:new Set(safeJSON(STORAGE.favorites,[])),recent:safeJSON(STORAGE.recent,[]),
-  returnScrollY:0,returnNav:'home',protocolHistory:[]
+  returnScrollY:0,returnNav:'home',returnFocus:null,protocolHistory:[]
 };
 const $=s=>document.querySelector(s);
 const $$=s=>[...document.querySelectorAll(s)];
@@ -101,7 +101,7 @@ function renderPopulations(){
     const n=populationCount(p.id);
     const available=n>0;
     const active=available&&state.population===p.id;
-    return `<button type="button" role="tab" aria-selected="${active}" aria-disabled="${!available}" ${available?'':'disabled'} class="population-tab ${active?'active':''} ${available?'':'pending'}" data-population="${p.id}"><span>${esc(p.label)}</span><small>${available?n:'Yakında'}</small></button>`;
+    return `<button type="button" aria-pressed="${active}" aria-disabled="${!available}" ${available?'':'disabled'} class="population-tab ${active?'active':''} ${available?'':'pending'}" data-population="${p.id}"><span>${esc(p.label)}</span><small>${available?n:'Yakında'}</small></button>`;
   }).join('');
 }
 function renderFilters(){const cats=categories();if(!cats.includes(state.category))state.category='Tümü';el.filters.innerHTML=cats.map(c=>`<button type="button" aria-pressed="${state.category===c}" class="filter-chip ${state.category===c?'active':''}" data-filter="${esc(c)}">${esc(c)}</button>`).join('')}
@@ -117,7 +117,7 @@ function renderProtocols(){
   const q=state.query.trim().toLocaleLowerCase('tr-TR');
   const list=PROTOCOLS.filter(p=>p.population===state.population&&p.clinicalStatus==='reviewed'&&(!q||protocolSearchText(p).includes(q))).sort((a,b)=>(a.order||99)-(b.order||99));
   el.protocolSection.classList.toggle('hidden',list.length===0||state.view==='favorites');
-  el.protocols.innerHTML=list.map(p=>`<button type="button" class="protocol-card" style="${caseStyle(p)}" data-protocol-open="${p.id}"><div class="protocol-card-icon">${esc(p.order||p.icon)}</div><div class="protocol-card-copy"><span>${p.order?`${p.order}. adım • `:''}${esc(p.code)}</span><strong>${esc(p.title)}</strong><p>${esc(p.subtitle)}</p></div><span class="chev">›</span></button>`).join('');
+  el.protocols.innerHTML=list.map(p=>`<button type="button" class="protocol-card" style="${caseStyle(p)}" data-protocol-open="${p.id}"><div class="protocol-card-icon" aria-hidden="true">${esc(p.order||p.icon)}</div><div class="protocol-card-copy"><span>${p.order?`${p.order}. adım • `:''}${esc(p.code)}</span><strong>${esc(p.title)}</strong><p>${esc(p.subtitle)}</p></div><span class="chev" aria-hidden="true">›</span></button>`).join('');
 }
 function protocolContactBadge(){return '<span class="protocol-contact-badge" aria-label="SKKM/ÇM ile iletişim">☎ SKKM/ÇM</span>'}
 function protocolBranchLink(label,id){
@@ -138,7 +138,7 @@ function renderProtocolFlow(p){
     if(item.type==='transition'){
       const attrs=item.targetProtocolId?`data-protocol-open="${esc(item.targetProtocolId)}"`:item.targetAction?`data-protocol-action="${esc(item.targetAction)}"`:'';
       const tag=attrs?'button':'div';
-      return `<${tag}${attrs?' type="button"':''} class="protocol-transition ${attrs?'interactive':''}" ${attrs}><span>→</span><div><strong>${esc(item.html)}</strong><small>${esc(item.targetCode||item.buttonLabel||'')}</small></div>${attrs?'<span class="protocol-transition-chev">›</span>':''}</${tag}>`;
+      return `<${tag}${attrs?' type="button"':''} class="protocol-transition ${attrs?'interactive':''}" ${attrs}><span aria-hidden="true">→</span><div><strong>${esc(item.html)}</strong><small>${esc(item.targetCode||item.buttonLabel||'')}</small></div>${attrs?'<span class="protocol-transition-chev" aria-hidden="true">›</span>':''}</${tag}>`;
     }
     return '';
   }).join('');
@@ -154,7 +154,7 @@ function pushDetailHistory(type,id){
 function openProtocol(id,{history='root',browserHistory=true}={}){
   if(typeof PROTOCOLS==='undefined')return;
   const p=PROTOCOLS.find(x=>x.id===id&&x.population===state.population);if(!p)return;
-  if(history==='root'){state.protocolHistory=[];state.returnScrollY=scrollY;state.returnNav=state.nav;if(browserHistory)pushDetailHistory('protocol',id)}
+  if(history==='root'){state.protocolHistory=[];state.returnScrollY=scrollY;state.returnNav=state.nav;if(browserHistory){state.returnFocus={type:'protocol',id};pushDetailHistory('protocol',id)}}
   else if(history==='push'&&state.current?.startsWith('protocol:'))state.protocolHistory.push(state.current.slice('protocol:'.length));
   state.current=`protocol:${id}`;
   const jumps=[];if(p.keyPoints?.length)jumps.push(['protocol-keypoints','Hatırlatma','']);jumps.push(['protocol-flow','Akış','critical'],['source','Kaynak','']);
@@ -165,7 +165,7 @@ function openProtocol(id,{history='root',browserHistory=true}={}){
     <section class="detail-section emphasis" id="protocol-flow"><div class="detail-heading"><span class="tiny-icon">⌖</span><div><h3>Uygulama akışı</h3><p>Resmî ${esc(p.code)} sırası korunmuştur.</p></div></div><div class="protocol-flow">${renderProtocolFlow(p)}</div></section>
     ${renderSource(p)}
   </div>`;
-  el.main.classList.add('hidden');el.detail.classList.remove('hidden');el.shell.classList.add('detail-open');scrollTo(0,0);
+  el.main.classList.add('hidden');el.detail.classList.remove('hidden');el.shell.classList.add('detail-open');scrollTo(0,0);requestAnimationFrame(()=>el.detail.querySelector('.back-btn')?.focus({preventScroll:true}));
 }
 function backFromDetail(){
   if(state.current?.startsWith('protocol:')&&state.protocolHistory.length){
@@ -184,12 +184,12 @@ function renderCases(){
   const base=casesForPopulation();const list=visibleCases();el.filterTitle.textContent=state.view==='favorites'?'Favoriler':'Vaka kütüphanesi';el.count.textContent=state.view==='favorites'?`${list.length} favori`:`${list.length} vaka`;
   if(!base.length){el.list.innerHTML=emptyLibrary();return}
   if(!list.length){el.list.innerHTML=`<div class="empty-state"><div class="empty-icon">${state.view==='favorites'?'☆':'⌕'}</div><h3>${state.view==='favorites'?'Favori vaka yok':'Sonuç bulunamadı'}</h3><p>${state.view==='favorites'?'Vaka ekranındaki yıldız ile hızlı erişime ekleyebilirsin.':'Arama veya kategori filtresini değiştir.'}</p></div>`;return}
-  el.list.innerHTML=list.map(c=>`<button type="button" class="case-row ${c.uiPriority==='critical'?'priority-critical':''}" style="${caseStyle(c)}" data-open="${c.id}"><span class="case-accent"></span><div class="case-icon">${c.icon}</div><div class="row-copy"><div class="row-title"><h4>${esc(c.title)}</h4>${c.uiPriority==='critical'?'<span class="priority-badge">ÖNCELİKLİ</span>':''}</div><p>${esc(c.subtitle)}</p><div class="row-meta"><span class="tag">${esc(c.category)}</span><span class="source-code">${esc(c.code)}</span></div></div><span class="chev">›</span></button>`).join('');
+  el.list.innerHTML=list.map(c=>`<button type="button" class="case-row ${c.uiPriority==='critical'?'priority-critical':''}" style="${caseStyle(c)}" data-open="${c.id}"><span class="case-accent" aria-hidden="true"></span><div class="case-icon" aria-hidden="true">${esc(c.icon)}</div><div class="row-copy"><div class="row-title"><h4>${esc(c.title)}</h4>${c.uiPriority==='critical'?'<span class="priority-badge">ÖNCELİKLİ</span>':''}</div><p>${esc(c.subtitle)}</p><div class="row-meta"><span class="tag">${esc(c.category)}</span><span class="source-code">${esc(c.code)}</span></div></div><span class="chev" aria-hidden="true">›</span></button>`).join('');
 }
 function renderFeatured(){
   const f=casesForPopulation().filter(c=>c.uiFeatured).sort((a,b)=>priorityRank(a)-priorityRank(b)).slice(0,4);
   el.featuredSection.classList.toggle('hidden',f.length===0||state.view==='favorites');
-  el.featured.innerHTML=f.map((c,i)=>`<button type="button" class="featured-card ${c.uiPriority==='critical'?'critical':''} ${i===0?'primary':''}" style="${caseStyle(c)}" data-open="${c.id}"><div class="featured-top"><div class="case-icon">${c.icon}</div>${c.uiPriority==='critical'?'<span class="featured-priority">ÖNCELİKLİ</span>':''}</div><span class="featured-kicker">${esc(c.category)}</span><h4>${esc(c.title)}</h4><p>${esc(c.subtitle)}</p><span class="code">${esc(c.code)}</span></button>`).join('');
+  el.featured.innerHTML=f.map((c,i)=>`<button type="button" class="featured-card ${c.uiPriority==='critical'?'critical':''} ${i===0?'primary':''}" style="${caseStyle(c)}" data-open="${c.id}"><div class="featured-top"><div class="case-icon" aria-hidden="true">${esc(c.icon)}</div>${c.uiPriority==='critical'?'<span class="featured-priority">ÖNCELİKLİ</span>':''}</div><span class="featured-kicker">${esc(c.category)}</span><h4>${esc(c.title)}</h4><p>${esc(c.subtitle)}</p><span class="code">${esc(c.code)}</span></button>`).join('');
 }
 function addRecent(id){state.recent=[id,...state.recent.filter(x=>x!==id)].slice(0,6);localStorage.setItem(STORAGE.recent,JSON.stringify(state.recent))}
 function renderShortcuts(){
@@ -197,7 +197,7 @@ function renderShortcuts(){
   [...state.favorites].filter(id=>allowed.has(id)).slice(-3).reverse().forEach(id=>{const c=CASES.find(x=>x.id===id);if(c)items.push({c,kind:'FAVORİ'})});
   state.recent.filter(id=>allowed.has(id)&&!state.favorites.has(id)).slice(0,3).forEach(id=>{const c=CASES.find(x=>x.id===id);if(c)items.push({c,kind:'SON BAKILAN'})});
   el.shortcutSection.classList.toggle('hidden',items.length===0||state.view==='favorites');el.clearRecents.classList.toggle('hidden',state.recent.length===0);
-  el.shortcuts.innerHTML=items.map(({c,kind})=>`<button type="button" class="shortcut-card" style="${caseStyle(c)}" data-open="${c.id}"><span class="shortcut-kind">${kind}</span><div class="case-icon">${c.icon}</div><div class="shortcut-copy"><strong>${esc(c.title)}</strong><span>${esc(c.category)} • ${esc(c.code)}</span></div></button>`).join('');
+  el.shortcuts.innerHTML=items.map(({c,kind})=>`<button type="button" class="shortcut-card" style="${caseStyle(c)}" data-open="${c.id}"><span class="shortcut-kind">${kind}</span><div class="case-icon" aria-hidden="true">${esc(c.icon)}</div><div class="shortcut-copy"><strong>${esc(c.title)}</strong><span>${esc(c.category)} • ${esc(c.code)}</span></div></button>`).join('');
 }
 function renderAll(){ensurePopulationAvailable();renderAppMeta();renderPopulations();renderFilters();renderStats();renderProtocols();renderFeatured();renderShortcuts();renderCases()}
 
@@ -261,6 +261,7 @@ function renderReferenceGroups(c){
 function renderSource(c){const s=c.source;const codes=s.algorithmCodes?.length?s.algorithmCodes.join(' + '):'Sayfa referansı';return `<section class="detail-section source-section subdued-section" id="source"><div class="detail-heading"><span class="tiny-icon">§</span><div><h3>Kaynak izi</h3><p>Bu kartın hangi resmî sürüme dayandığını gösterir.</p></div></div><div class="source-grid"><div><span>Belge</span><strong>${esc(s.documentId)}</strong></div><div><span>Kod</span><strong>${esc(codes)}</strong></div><div><span>PDF sayfa</span><strong>${esc(s.page)}</strong></div><div><span>İnceleme</span><strong>${esc(s.reviewedAt)}</strong></div></div><div class="source-actions"><a href="${esc(s.officialPageUrl)}" target="_blank" rel="noopener">Resmî sayfa ↗</a><a href="${esc(s.officialPdfUrl)}" target="_blank" rel="noopener">Ek‑2 PDF ↗</a></div><p class="source-disclaimer">Çevrimdışıyken vaka içeriği kullanılabilir; resmî dış bağlantılar internet gerektirebilir. Resmî belge her zaman son referanstır. Ek‑2, akış şemalarının bağlayıcı ve kesin talimat niteliğinde olmadığını; somut olayda mesleki bilgi, deneyim, klinik değerlendirme ve yürürlükteki mevzuatın gözetilmesi gerektiğini belirtir.</p></section>`}
 function openCase(id,{browserHistory=true}={}){
   const c=CASES.find(x=>x.id===id&&x.population===state.population);if(!c)return;
+  if(browserHistory)state.returnFocus={type:'case',id};
   if(browserHistory)pushDetailHistory('case',id);
   state.current=id;state.returnScrollY=scrollY;state.returnNav=state.nav;addRecent(id);renderShortcuts();const fav=state.favorites.has(id);
   const jumps=[['critical-actions','İlk adımlar','critical'],['algorithm','Algoritma',''],...(c.severity?[['severity','Klinik ayrım','']]:[]),['red-flags','Acil uyarılar','critical'],...(c.referenceGroups?.length?[['reference-points','Anahtar','']]:[]),...(c.meds?.length?[['medications','İlaçlar','']]:[]),...(!c.decisionIntegrated?[['decision','Karar','']]:[]),['source','Kaynak','']];
@@ -274,11 +275,13 @@ function openCase(id,{browserHistory=true}={}){
     <div class="detail-columns ${c.decisionIntegrated?'single':''}"><section class="detail-section critical-section" id="red-flags"><div class="detail-heading"><span class="tiny-icon danger">!</span><div><h3>Acil Uyarı Bulguları</h3><p>Önceliği, müdahaleyi veya nakil kararını değiştirebilecek bulgular.</p></div></div><div class="red-flag-list">${c.warningFindings.map(r=>`<div class="red-flag">${esc(r)}</div>`).join('')}</div></section>${!c.decisionIntegrated?`<section class="detail-section decision-section" id="decision"><div class="detail-heading"><span class="tiny-icon">◇</span><div><h3>Karar noktası</h3><p>Şemadaki ana dallanma.</p></div></div><div class="decision-box"><strong>${esc(c.decision.q)}</strong><div class="decision-branches"><div class="branch yes"><b>EVET</b><span>${esc(c.decision.yes)}</span></div><div class="branch no"><b>HAYIR</b><span>${esc(c.decision.no)}</span></div></div></div></section>`:''}</div>
     ${renderReferenceGroups(c)}${renderMeds(c)}${renderSource(c)}
   </div>`;
-  el.main.classList.add('hidden');el.detail.classList.remove('hidden');el.shell.classList.add('detail-open');scrollTo(0,0);
+  el.main.classList.add('hidden');el.detail.classList.remove('hidden');el.shell.classList.add('detail-open');scrollTo(0,0);requestAnimationFrame(()=>el.detail.querySelector('.back-btn')?.focus({preventScroll:true}));
 }
 function closeCase({skipHistory=false}={}){
   const shouldPop=!skipHistory&&Boolean(window.history.state?.saha112Detail);
-  state.current=null;state.protocolHistory=[];el.detail.classList.add('hidden');el.main.classList.remove('hidden');el.shell.classList.remove('detail-open');renderAll();setNav(state.returnNav||'home');requestAnimationFrame(()=>scrollTo(0,state.returnScrollY||0));
+  const returnFocus=state.returnFocus;
+  state.current=null;state.protocolHistory=[];el.detail.classList.add('hidden');el.main.classList.remove('hidden');el.shell.classList.remove('detail-open');renderAll();setNav(state.returnNav||'home');
+  requestAnimationFrame(()=>{scrollTo(0,state.returnScrollY||0);if(returnFocus){const selector=returnFocus.type==='protocol'?('[data-protocol-open="'+returnFocus.id+'"]'):('[data-open="'+returnFocus.id+'"]');document.querySelector(selector)?.focus({preventScroll:true})}});
   if(shouldPop)window.history.back();
 }
 function setNav(name){state.nav=name;$$('.nav-item').forEach(b=>{const active=b.dataset.nav===name;b.classList.toggle('active',active);if(active)b.setAttribute('aria-current','page');else b.removeAttribute('aria-current')})}
@@ -288,7 +291,7 @@ function showFavorites(){state.view='favorites';state.category='Tümü';state.qu
 function selectPopulation(id){
   if(!APP_META.populations.some(p=>p.id===id)||populationCount(id)===0)return;
   state.population=id;state.category='Tümü';state.query='';state.view='home';el.search.value='';
-  localStorage.setItem(STORAGE.population,id);renderAll();scrollTo(0,0);
+  localStorage.setItem(STORAGE.population,id);renderAll();scrollTo(0,0);requestAnimationFrame(()=>[...el.populations.querySelectorAll('[data-population]')].find(b=>b.dataset.population===id)?.focus({preventScroll:true}));
 }
 
 applyTheme();applyDensity();updateNetwork();renderAll();
@@ -324,7 +327,7 @@ document.addEventListener('click',e=>{
   const protocolAction=e.target.closest('[data-protocol-action]')?.dataset.protocolAction;if(protocolAction==='cases'){showCaseLibraryFromProtocol();return}
   const open=e.target.closest('[data-open]');if(open){openCase(open.dataset.open);return}
   const pop=e.target.closest('[data-population]');if(pop){selectPopulation(pop.dataset.population);return}
-  const filter=e.target.closest('[data-filter]');if(filter){state.category=filter.dataset.filter;renderFilters();renderCases();return}
+  const filter=e.target.closest('[data-filter]');if(filter){state.category=filter.dataset.filter;renderFilters();renderCases();requestAnimationFrame(()=>[...el.filters.querySelectorAll('[data-filter]')].find(b=>b.dataset.filter===state.category)?.focus({preventScroll:true}));return}
   const jump=e.target.closest('[data-jump]');if(jump){const target=document.getElementById(jump.dataset.jump);if(target){const headerH=el.detail.querySelector('.detail-top')?.getBoundingClientRect().height||0;const top=Math.max(0,target.getBoundingClientRect().top+scrollY-headerH-8);scrollTo({top,behavior:'smooth'})}return}
   const level=e.target.closest('[data-level]');if(level&&state.current){$$('.severity-tab').forEach(b=>{const active=b===level;b.classList.toggle('active',active);b.setAttribute('aria-selected',String(active));b.tabIndex=active?0:-1});const c=CASES.find(x=>x.id===state.current);$('#severityCard').outerHTML=renderSeverity(c,level.dataset.level);return}
   const action=e.target.closest('[data-action]')?.dataset.action;
