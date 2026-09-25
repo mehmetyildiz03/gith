@@ -73,8 +73,8 @@ if(!APP_META?.routes?.includes('SC')||APP_META?.routeLabels?.SC!=='Subkutan (SC)
 if(APP_META?.authority?.DIRECT?.symbol!=='✓'||APP_META?.authority?.DIRECT?.visualLabel!=='SKKM/ÇM onayı gerektirmez')err('DIRECT yeşil/doğrudan sembol metası eksik');
 if(APP_META?.authority?.SKKM?.symbol!=='◆'||APP_META?.authority?.SKKM?.visualLabel!=='SKKM/ÇM onayı gerekli')err('SKKM sarı/onay sembol metası eksik');
 if(APP_META?.authority?.ALGORITHM?.symbol!=='•'||APP_META?.authority?.ALGORITHM?.visualLabel!=='Kaynakta SKKM/ÇM yetkisi belirtilmemiş')err('ALGORITHM kaynakta belirtilmeyen yetki metası eksik');
-if(APP_META?.contentVersion!=='EK2-2026.08.25-keypoint-completeness-reaudit-2026.09.25')err('contentVersion V0.49 Anahtar Nokta tamlık yeniden audit sürümüyle eşleşmiyor');
-if(APP_META?.productVersion!=='0.49')err('productVersion V0.49 olmalı');
+if(APP_META?.contentVersion!=='EK2-2026.08.25-full-keypoint-table-audit-2026.09.25')err('contentVersion V0.50 tam Anahtar Nokta tablo audit sürümüyle eşleşmiyor');
+if(APP_META?.productVersion!=='0.50')err('productVersion V0.50 olmalı');
 if(APP_META?.practitionerAuthority?.ATT_AABT?.officialLabel!=='Acil Tıp Teknisyeni / Teknikeri'||APP_META?.practitionerAuthority?.AABT?.officialLabel!=='Acil Tıp Teknikeri'||APP_META?.practitionerAuthority?.UNVERIFIED?.symbol!=='□')err('ATT/AABT uygulayıcı yetki metası eksik veya bozuk');
 for(const code of ['SB-ASH-Y-04','SB-ASH-Y-05','SB-ASH-Y-06','SB-ASH-Y-07','SB-ASH-Y-08','SB-ASH-Y-09','SB-ASH-Y-10','SB-ASH-Y-11','SB-ASH-Y-12','SB-ASH-Y-13','SB-ASH-Y-14','SB-ASH-Y-15','SB-ASH-Y-17','SB-ASH-Y-19','SB-ASH-Y-21','SB-ASH-Y-22','SB-ASH-Y-23','SB-ASH-Y-24','SB-ASH-Y-28','SB-ASH-Y-29','SB-ASH-Y-34','SB-ASH-Y-35','SB-ASH-Y-36','SB-ASH-Y-37','SB-ASH-Y-39','SB-ASH-Y-40'])if(!APP_META?.practitionerAudit?.verifiedMedicationCases?.includes(code))err(`Uygulayıcı yetki görsel audit izi eksik: ${code}`);
 if(APP_META?.practitionerAudit?.adultMedicationCardsComplete!==true)err('Yetişkin ilaç kartları uygulayıcı audit tamamlama işareti eksik');
@@ -487,7 +487,7 @@ if(medByName(heartFailureCase,'Furosemid')?.dose!=='20–40 mg'||medByName(heart
 if(heartFailureCase?.decisionIntegrated!==true||heartFailureCase?.algorithmBranchLayout!=='profiles'||(heartFailureCase?.algorithmSteps||[]).length!==3||(heartFailureCase?.algorithmBranches||[]).length!==3)err('Y-14 ortak 3 başlangıç adımı / 3 hemodinamik profil / entegre karar yapısı eksik');
 const y14Refs=heartFailureCase?.referenceGroups||[];
 if(y14Refs.length!==2)err('Y-14 resmî Anahtar Nokta tablo grupları eksik');
-for(const term of ['Kalp yetmezliği öyküsü','Efor kapasitesinin azalması','hepatojuguler reflü','>140 mmHg','>180 mmHg','48 saatte','venöz doluşta uzama','soğuk ve siyanotik ekstremiteler'])if(!JSON.stringify(y14Refs).includes(term))err(`Y-14 resmî Anahtar Nokta içeriği eksik: ${term}`);
+for(const term of ['Kalp yetmezliği öyküsü','Efor kapasitesinin azalması','hepatojuguler reflü','tüm acil hastaların %50–70’ini oluşturur','>140 mmHg','>180 mmHg','48 saatte','venöz doluşta uzama','soğuk ve siyanotik ekstremiteler'])if(!JSON.stringify(y14Refs).includes(term))err(`Y-14 resmî Anahtar Nokta içeriği eksik: ${term}`);
 for(const s of (heartFailureCase?.algorithmSteps||[]))if(s.approvalAuthority!=='DIRECT'||s.practitionerAuthority!=='ATT_AABT')err('Y-14 ortak başlangıç basamakları turkuaz ATT/AABT + DIRECT olmalı');
 const y14Norm=(heartFailureCase?.algorithmBranches||[]).find(b=>b.label==='Normotansif dekompanse kalp yetmezliği');
 const y14Hyper=(heartFailureCase?.algorithmBranches||[]).find(b=>b.label==='Hipertansif kalp yetmezliği');
@@ -601,8 +601,8 @@ if(calcium?.authority!=='SKKM'||calcium?.dose!=='3 ampul (30 mL)'||!(calcium?.ro
 for(const term of ['SKB >90 mmHg','Bradikardi','Diyabetik Aciller'])if(!JSON.stringify(ccbCase).includes(term))err(`Y-34 karar öğesi eksik: ${term}`);
 for(const term of ['Atropin 1 mg IV','3–5 dk','maksimum 3 mg','Eksternal pacemaker'])if(!JSON.stringify(ccbCase).includes(term))err(`Y-34 Anahtar Nokta eksik: ${term}`);
 const y34Refs=ccbCase?.referenceGroups||[];
-if(y34Refs.length!==1)err('Y-34 resmî belirti/bulgu tablosu eksik');
-for(const term of ['Baş dönmesi ve bilinç kaybı','Bronkospazm','Solunum depresyonu','Bradikardi ve hipotansiyon','Hipoglisemi','Bulantı-kusma','Konuşma bozukluğu (geveleyerek konuşma)'])if(!JSON.stringify(y34Refs).includes(term))err(`Y-34 resmî belirti/bulgu içeriği eksik: ${term}`);
+if(y34Refs.length!==2)err('Y-34 resmî Anahtar Nokta tablo grupları eksik');
+for(const term of ['Baş dönmesi ve bilinç kaybı','Bronkospazm','Solunum depresyonu','Bradikardi ve hipotansiyon','Hipoglisemi','Bulantı-kusma','Konuşma bozukluğu (geveleyerek konuşma)','hipotansiyonda IV sıvı replasmanı','1 mg IV','3–5 dk','maksimum 3 mg','Eksternal pacemaker','Kalsiyum kanal blokerine bağlı olduğu doğrulanmışsa'])if(!JSON.stringify(y34Refs).includes(term))err(`Y-34 resmî Anahtar Nokta içeriği eksik: ${term}`);
 
 const cholinergicCase=(CASES||[]).find(c=>c.id==='cholinergic-poisoning');
 if(cholinergicCase?.code!=='SB-ASH-Y-35'||cholinergicCase?.page!=='60'||cholinergicCase?.source?.page!=='59–60')err('Kolinerjik Y-35 kaynak izi bozuldu');
@@ -614,8 +614,8 @@ if(!JSON.stringify(cholinergicCase).includes('ambulans kabinine alınmadan önce
 if(!JSON.stringify(cholinergicCase).includes('IV yol açılamazsa açılana kadar 2–5 mg IM'))err('Y-35 atropin IM köprü ifadesi resmî Anahtar Noktaya uymuyor');
 for(const term of ['kişisel koruyucu ekipmanı tam ve eksiksiz kullan','sekresyonlarla temas etme'])if(!JSON.stringify(cholinergicCase).toLocaleLowerCase('tr-TR').includes(term.toLocaleLowerCase('tr-TR')))err(`Y-35 kişisel güvenlik Anahtar Noktası eksik: ${term}`);
 const y35Refs=cholinergicCase?.referenceGroups||[];
-if(y35Refs.length!==2)err('Y-35 resmî Anahtar Nokta tablo grupları eksik');
-for(const term of ['miyozis','dışkılamada artış','solunum felci','Bradikardi veya taşikardi','hipertansiyon','Kişisel koruyucu ekipmanı tam ve eksiksiz kullan','sekresyonlarla temas etme','ilk 30 dakika'])if(!JSON.stringify(y35Refs).toLocaleLowerCase('tr-TR').includes(term.toLocaleLowerCase('tr-TR')))err(`Y-35 resmî Anahtar Nokta içeriği eksik: ${term}`);
+if(y35Refs.length!==3)err('Y-35 resmî Anahtar Nokta tablo grupları eksik');
+for(const term of ['miyozis','dışkılamada artış','solunum felci','Bradikardi veya taşikardi','hipertansiyon','Kişisel koruyucu ekipmanı tam ve eksiksiz kullan','sekresyonlarla temas etme','ilk 30 dakika','hava yolu yönetimi ve oksijenizasyon','1–2 mg IV','2–5 mg IM','5 dk','maksimum doz belirtilmemiştir'])if(!JSON.stringify(y35Refs).toLocaleLowerCase('tr-TR').includes(term.toLocaleLowerCase('tr-TR')))err(`Y-35 resmî Anahtar Nokta içeriği eksik: ${term}`);
 
 const opioidCase=(CASES||[]).find(c=>c.id==='opioid-poisoning');
 if(opioidCase?.code!=='SB-ASH-Y-36'||opioidCase?.page!=='62'||opioidCase?.source?.page!=='61–62')err('Opioid Y-36 kaynak izi bozuldu');
@@ -625,8 +625,8 @@ if(naloxone?.authority!=='SKKM'||naloxone?.dose!=='0,4–2 mg'||naloxone?.maxDos
 for(const term of ['2 mg IV','0,1–0,4 mg','Diyabetik Aciller'])if(!JSON.stringify(opioidCase).includes(term))err(`Y-36 öğesi eksik: ${term}`);
 for(const term of ['spontan solunum eforu geri dönerse','ajitasyon gelişirse','IV nalokson uygulamasını durdur'])if(!JSON.stringify(opioidCase).includes(term))err(`Y-36 nalokson kesme koşulu eksik: ${term}`);
 const y36Refs=opioidCase?.referenceGroups||[];
-if(y36Refs.length!==1)err('Y-36 resmî belirti/bulgu tablosu eksik');
-for(const term of ['kişilik değişiklikleri','akciğer ödemi','bronkospazm','ritim bozukluğu','barsak seslerinde azalma','ileus','Karaciğer yetmezliği','akut böbrek yetmezliği'])if(!JSON.stringify(y36Refs).toLocaleLowerCase('tr-TR').includes(term.toLocaleLowerCase('tr-TR')))err(`Y-36 resmî belirti/bulgu içeriği eksik: ${term}`);
+if(y36Refs.length!==2)err('Y-36 resmî Anahtar Nokta tablo grupları eksik');
+for(const term of ['kişilik değişiklikleri','akciğer ödemi','bronkospazm','ritim bozukluğu','barsak seslerinde azalma','ileus','Karaciğer yetmezliği','akut böbrek yetmezliği','solunum depresyonunda ileri hava yolu','hipoglisemi veya hipovolemi','opioid bağımlısı olmayanda 0,4–2 mg','0,1–0,4 mg','Apne/siyanozda 2 mg IV','maksimum 10 mg','ajitasyon gelişirse IV nalokson sonlandırılır'])if(!JSON.stringify(y36Refs).toLocaleLowerCase('tr-TR').includes(term.toLocaleLowerCase('tr-TR')))err(`Y-36 resmî Anahtar Nokta içeriği eksik: ${term}`);
 
 const tcaCase=(CASES||[]).find(c=>c.id==='tca-poisoning');
 if(tcaCase?.code!=='SB-ASH-Y-37'||tcaCase?.page!=='64'||tcaCase?.source?.page!=='63–64')err('TCA Y-37 kaynak izi bozuldu');
