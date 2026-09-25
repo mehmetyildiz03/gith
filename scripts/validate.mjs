@@ -73,16 +73,16 @@ if(!APP_META?.routes?.includes('SC')||APP_META?.routeLabels?.SC!=='Subkutan (SC)
 if(APP_META?.authority?.DIRECT?.symbol!=='✓'||APP_META?.authority?.DIRECT?.visualLabel!=='SKKM/ÇM onayı gerektirmez')err('DIRECT yeşil/doğrudan sembol metası eksik');
 if(APP_META?.authority?.SKKM?.symbol!=='◆'||APP_META?.authority?.SKKM?.visualLabel!=='SKKM/ÇM onayı gerekli')err('SKKM sarı/onay sembol metası eksik');
 if(APP_META?.authority?.ALGORITHM?.symbol!=='•'||APP_META?.authority?.ALGORITHM?.visualLabel!=='Kaynakta SKKM/ÇM yetkisi belirtilmemiş')err('ALGORITHM kaynakta belirtilmeyen yetki metası eksik');
-if(APP_META?.contentVersion!=='EK2-2026.08.25-adult-source-integrity-reaudit-2026.09.25')err('contentVersion V0.51 yetişkin kaynak bütünlüğü yeniden audit sürümüyle eşleşmiyor');
-if(APP_META?.productVersion!=='0.51')err('productVersion V0.51 olmalı');
+if(APP_META?.contentVersion!=='EK2-2026.08.25-early-adult-fidelity-reaudit-2026.09.25')err('contentVersion V0.52 erken yetişkin kaynak/yetki yeniden audit sürümüyle eşleşmiyor');
+if(APP_META?.productVersion!=='0.52')err('productVersion V0.52 olmalı');
 if(APP_META?.practitionerAuthority?.ATT_AABT?.officialLabel!=='Acil Tıp Teknisyeni / Teknikeri'||APP_META?.practitionerAuthority?.AABT?.officialLabel!=='Acil Tıp Teknikeri'||APP_META?.practitionerAuthority?.UNVERIFIED?.symbol!=='□')err('ATT/AABT uygulayıcı yetki metası eksik veya bozuk');
 for(const code of ['SB-ASH-Y-04','SB-ASH-Y-05','SB-ASH-Y-06','SB-ASH-Y-07','SB-ASH-Y-08','SB-ASH-Y-09','SB-ASH-Y-10','SB-ASH-Y-11','SB-ASH-Y-12','SB-ASH-Y-13','SB-ASH-Y-14','SB-ASH-Y-15','SB-ASH-Y-17','SB-ASH-Y-19','SB-ASH-Y-21','SB-ASH-Y-22','SB-ASH-Y-23','SB-ASH-Y-24','SB-ASH-Y-28','SB-ASH-Y-29','SB-ASH-Y-34','SB-ASH-Y-35','SB-ASH-Y-36','SB-ASH-Y-37','SB-ASH-Y-39','SB-ASH-Y-40'])if(!APP_META?.practitionerAudit?.verifiedMedicationCases?.includes(code))err(`Uygulayıcı yetki görsel audit izi eksik: ${code}`);
 if(APP_META?.practitionerAudit?.adultMedicationCardsComplete!==true)err('Yetişkin ilaç kartları uygulayıcı audit tamamlama işareti eksik');
 if(APP_META?.clinicalAudit?.scope?.includes('21 yetişkin')||APP_META?.integrityAudit?.scope?.includes('21 yetişkin'))err('Audit metadata hâlâ eski 21 yetişkin kapsamını gösteriyor');
 for(const [name,audit] of [['clinicalAudit',APP_META?.clinicalAudit],['authorityAudit',APP_META?.authorityAudit],['integrityAudit',APP_META?.integrityAudit],['practitionerAudit',APP_META?.practitionerAudit]])if(audit?.reviewedAt!=='2026-09-25')err(`${name} reviewedAt 2026-09-25 olmalı`);
 if(APP_META?.adultCoverage?.verifiedCaseCards!==37||APP_META?.adultCoverage?.reviewedAt!=='2026-09-25')err('37 yetişkin kapsam metası güncel değil');
-for(const code of ['SB-ASH-Y-04','SB-ASH-Y-05','SB-ASH-Y-06','SB-ASH-Y-07','SB-ASH-Y-08','SB-ASH-Y-09','SB-ASH-Y-10','SB-ASH-Y-11','SB-ASH-Y-12','SB-ASH-Y-13','SB-ASH-Y-14','SB-ASH-Y-17','SB-ASH-Y-18','SB-ASH-Y-22'])if(!APP_META?.actionAudit?.verifiedCases?.includes(code))err(`Adım bazlı eylem yetki audit izi eksik: ${code}`);
-for(const code of ['SB-ASH-Y-08','SB-ASH-Y-09','SB-ASH-Y-10','SB-ASH-Y-11','SB-ASH-Y-12','SB-ASH-Y-13','SB-ASH-Y-14','SB-ASH-Y-17','SB-ASH-Y-22'])if(!APP_META?.actionAudit?.verifiedBranchCases?.includes(code))err(`Dallı algoritma audit izi eksik: ${code}`);
+for(const code of ['SB-ASH-Y-03','SB-ASH-Y-04','SB-ASH-Y-05','SB-ASH-Y-06','SB-ASH-Y-07','SB-ASH-Y-08','SB-ASH-Y-09','SB-ASH-Y-10','SB-ASH-Y-11','SB-ASH-Y-12','SB-ASH-Y-13','SB-ASH-Y-14','SB-ASH-Y-17','SB-ASH-Y-18','SB-ASH-Y-22'])if(!APP_META?.actionAudit?.verifiedCases?.includes(code))err(`Adım bazlı eylem yetki audit izi eksik: ${code}`);
+for(const code of ['SB-ASH-Y-03','SB-ASH-Y-08','SB-ASH-Y-09','SB-ASH-Y-10','SB-ASH-Y-11','SB-ASH-Y-12','SB-ASH-Y-13','SB-ASH-Y-14','SB-ASH-Y-17','SB-ASH-Y-22'])if(!APP_META?.actionAudit?.verifiedBranchCases?.includes(code))err(`Dallı algoritma audit izi eksik: ${code}`);
 if(APP_META?.actionAudit?.reviewedAt!=='2026-09-25')err('Adım bazlı eylem yetki audit tarihi 2026-09-25 olmalı');
 if(APP_META?.medicationContentAudit?.status!=='complete'||APP_META?.medicationContentAudit?.reviewedAt!=='2026-09-25')err('Yetişkin ilaç içerik audit metası eksik');
 for(const code of ['SB-ASH-Y-05','SB-ASH-Y-09','SB-ASH-Y-10','SB-ASH-Y-11','SB-ASH-Y-12','SB-ASH-Y-13','SB-ASH-Y-14','SB-ASH-Y-21','SB-ASH-Y-22','SB-ASH-Y-23','SB-ASH-Y-29','SB-ASH-Y-35','SB-ASH-Y-40'])if(!APP_META?.medicationContentAudit?.correctedCases?.includes(code))err(`İlaç içerik audit düzeltme izi eksik: ${code}`);
@@ -183,7 +183,7 @@ if((asthmaCase?.meds||[]).some(m=>String(m.name).toLocaleLowerCase('tr-TR').incl
 
 const acsCase=(CASES||[]).find(c=>c.id==='acs'), nitrate=medByName(acsCase,'İzosorbid dinitrat');
 if(!String(nitrate?.repeat||'').includes('3–5 dk')||!String(nitrate?.maxDose||'').includes('3 doz'))err('AKS nitrat tekrar/maksimum doz bilgisi eksik');
-for(const term of ['sağ ventrikül MI','sildenafil/vardenafil/tadalafil','IV yavaş bolus','bulantı ve solunum depresyonu','120 dk'])if(!JSON.stringify(acsCase).includes(term))err(`Y-06 AKS Anahtar Nokta eksik: ${term}`);
+for(const term of ['sağ ventrikül MI','sildenafil/vardenafil/tadalafil','IV yavaş bolus','bulantı-kusma ve solunum depresyonu riski nedeniyle yavaş bolus uygula','120 dk'])if(!JSON.stringify(acsCase).includes(term))err(`Y-06 AKS Anahtar Nokta eksik: ${term}`);
 for(const term of ['SpO₂ >%90 ise rutin O₂ uygulamasından kaçın','solunum sıkıntısı veya ritim bozukluğunda','günlük yeterli doz aspirin kullanmış olsa bile','yükleme dozu verilmesi önerilir'])if(!JSON.stringify(acsCase).includes(term))err(`Y-06 AKS O2/ASA Anahtar Noktası eksik: ${term}`);
 
 const tachyCase=(CASES||[]).find(c=>c.id==='tachycardia');
@@ -399,6 +399,15 @@ if(!JSON.stringify(seizureCase).includes('5 dk sonra'))err('Nöbet 5 dk benzodia
 const airwayCase=(CASES||[]).find(c=>c.id==='airway');
 if(airwayCase?.title!=='Hava Yolu Tıkanıklıkları'||airwayCase?.page!=='8')err('Hava Yolu Tıkanıklıkları resmî başlık/sayfa bozuldu');
 if(!JSON.stringify(airwayCase).includes('Kısmi hava yolu tıkanıklığında sırta vurma'))err('Y-03 kısmi tıkanıklıkta sırta vurma/tam tıkanma uyarısı eksik');
+if(airwayCase?.decisionIntegrated!==true||!Array.isArray(airwayCase?.algorithmSteps)||airwayCase.algorithmSteps.length!==0||(airwayCase?.algorithmBranches||[]).length!==2)err('Y-03 yapılandırılmış bilinç/tıkanma dalları eksik');
+if(!APP_META?.actionAudit?.verifiedCases?.includes('SB-ASH-Y-03')||!APP_META?.actionAudit?.verifiedBranchCases?.includes('SB-ASH-Y-03'))err('Y-03 actionAudit kapsamına eklenmemiş');
+const y03Text=JSON.stringify(airwayCase);
+for(const term of ['Öksürmesini teşvik et, takip et','5 kez sırta vur, 5 kez karına bası uygula','Kısmi tıkanıklıkta sırta vurmak tam tıkanıklığa neden olabilir','ARREST YÖNETİMİ ALGORİTMASINA GİT'])if(!y03Text.includes(term))err(`Y-03 yapılandırılmış akış öğesi eksik: ${term}`);
+const y03CricSteps=[];
+const collectY03=(branches)=>{for(const b of branches||[]){for(const st of b.steps||[])if(String(st.html||'').includes('İğne ile krikotirotomi yap'))y03CricSteps.push(st);collectY03(b.branches);}};
+collectY03(airwayCase?.algorithmBranches);
+if(y03CricSteps.length!==2)err('Y-03 iki tam tıkanma yolunda krikotirotomi koşulu görünür olmalı');
+for(const st of y03CricSteps)if(st.approvalAuthority!=='SKKM'||st.practitionerAuthority!=='AABT'||!String(st.precondition||'').includes('ileri hava yolu uygulamaları başarısızsa'))err('Y-03 iğne krikotirotomi SKKM + AABT ve kaynak koşuluyla kilitlenmeli');
 if(asthmaCase?.title==='Astım Atağı')err('Astım resmî başlığı eski kaldı');
 for(const term of ['solunum sayısı ≥30/dk','SpO₂ <%90','kalp hızı >120 atım/dk','huzursuz/ajite','Etiyolojide anafilaksiyi'])if(!JSON.stringify(asthmaCase).includes(term))err(`Y-05 Astım ağır/ölümcül atak Anahtar Noktası eksik: ${term}`);
 if(bradyCase?.title!=='Bradikardi'||bradyCase?.page!=='16')err('Bradikardi resmî başlık/sayfa bozuldu');
