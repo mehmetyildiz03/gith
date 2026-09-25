@@ -1618,8 +1618,8 @@ const CASES = [
     "uiFeatured": false,
     "summary": "Isı krampları, ısı stresi ve ısı çarpmasını klinik şiddete göre ayır; ısı çarpmasında hızlı soğutma ve sıvı desteği.",
     "quick": [
-      "<strong>Isı krampları:</strong> dinlenme + oral sıvı replasmanı.",
-      "<strong>Isı stresi:</strong> damar yolu, ortam ısısını düşür, %0,9 NaCl 1000–2000 ml bolus başla.",
+      "<strong>Isı krampları:</strong> kas krampları, normal ya da hafif artmış vücut ısısı ve terleme → dinlenme + oral sıvı replasmanı.",
+      "<strong>Isı stresi:</strong> ısı kramplarına ek olarak normal ya da artmış vücut ısısı (<40°C), bulantı, kusma, baş ağrısı, halsizlik ve ortostatik hipotansiyon → damar yolu aç, ortam ısısını düşür, %0,9 NaCl 1000–2000 ml bolus başla.",
       "<strong>Isı çarpması:</strong> >40°C vücut ısısı + bilinç bulanıklığı; vital/kan şekeri, damar yolu, monitörizasyon.",
       "<strong>%0,9 NaCl 1000 ml bolus</strong> ve vücut ısısını <39°C olacak şekilde pasif eksternal soğutma.",
       "<strong>Pasif eksternal soğutma:</strong> Hastanın üzerini çıkar; vücuda soğuk ya da ılık su sıkıp havalandırma ile buharlaşmayı sağla. Koltuk altı ve kasık bölgelerine ıslak bez veya spanç koy.",
