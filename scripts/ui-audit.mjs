@@ -31,8 +31,8 @@ assert(css.includes("/* V0.6.1 dark surface hardening */"),'Koyu mod yüzey hard
 assert(css.includes(":root[data-theme='dark'] .quick-step")&&css.includes("background:var(--detail-panel-deep)!important"),'Koyu mod algoritma adımı explicit yüzeyi eksik');
 assert(css.includes(":root[data-theme='dark'] .red-flag")&&css.includes("background:#2b202a!important"),'Koyu mod kırmızı bayrak yüzeyi eksik');
 assert(css.includes(":root[data-theme='dark'] .branch.yes")&&css.includes(":root[data-theme='dark'] .branch.no"),'Koyu mod karar kutuları explicit değil');
-assert(html.includes('styles.css?v=0.55')&&html.includes('app-core.js?v=0.55')&&html.includes('cases-data.js?v=0.55'),'Kritik asset cache-bust sürümü eksik');
-assert(sw.includes("saha112-v055")&&sw.includes('NETWORK_FIRST_DESTINATIONS'),'Service worker kritik asset güncelleme stratejisi eksik');
+assert(html.includes('styles.css?v=0.56')&&html.includes('app-core.js?v=0.56')&&html.includes('cases-data.js?v=0.56'),'Kritik asset cache-bust sürümü eksik');
+assert(sw.includes("saha112-v056")&&sw.includes('NETWORK_FIRST_DESTINATIONS'),'Service worker kritik asset güncelleme stratejisi eksik');
 assert(!app.includes('Kırmızı bayrak'),'Eski kullanıcı terimi hâlâ UI içinde');
 assert(app.includes('Acil Uyarı Bulguları'),'Acil Uyarı Bulguları başlığı eksik');
 assert(app.includes('Önceliği, müdahaleyi veya nakil kararını değiştirebilecek bulgular.'),'Acil uyarı açıklaması eksik');
@@ -217,6 +217,15 @@ assert(css.includes('min-height:100dvh')&&css.includes('max-height:88dvh')&&css.
 assert(app.includes("aria-current','page'")&&app.includes("b.removeAttribute('aria-current')"),'Alt menü aktif öğesinde aria-current semantiği eksik');
 assert(app.includes('role="tabpanel"')&&app.includes('aria-labelledby="severity-tab-${level}"')&&app.includes('aria-controls="severityCard"'),'Klinik ayrım tab/tabpanel ARIA bağlantısı eksik');
 assert(app.includes("['ArrowLeft','ArrowRight','Home','End'].includes(e.key)")&&app.includes('b.tabIndex=active?0:-1'),'Klinik ayrım sekmelerinde klavye/roving tabindex desteği eksik');
+assert(app.includes('saha112Sheet:true')&&app.includes('closeSourceSheet({fromHistory:true})')&&app.includes("history.state?.saha112Sheet"),'Android/PWA sistem geri hareketi kaynak sheetini önce kapatmıyor');
+assert(app.includes('const wasSearching=Boolean(state.query)')&&app.includes('state.query&&!wasSearching'),'Mobil arama her tuş vuruşunda tekrar scrollIntoView çalıştırıyor');
+assert(css.includes('/* V0.56 phone Chrome + installed PWA + tablet layout hardening */'),'V0.56 telefon/tablet responsive hardening bloğu eksik');
+assert(css.includes('@media(hover:hover) and (pointer:fine)')&&!css.includes('.case-row:hover,.featured-card:hover,.shortcut-card:hover{transform:translateY(-1px)}\n'),'Touch cihazlarda hover yükselme efekti doğrudan uygulanmamalı');
+assert(css.includes('@media(pointer:coarse)')&&css.includes('.search-wrap kbd{display:none}'),'Coarse pointer cihazlarda masaüstü arama kısayol işareti gizlenmiyor');
+assert(css.includes('.protocol-strip{flex:1 0 100%}'),'Telefon utility satırında protokol/sürüm şeridi sabit tam satıra alınmamış');
+assert(css.includes('.population-tab{flex-direction:column')&&css.includes('.source-grid,.source-actions{grid-template-columns:1fr}'),'Dar telefonda hasta grubu veya kaynak grid responsive yerleşimi eksik');
+assert(css.includes('.source-ribbon span:last-child{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}'),'Dar telefonda sticky kaynak şeridi gereksiz çok satıra büyüyebilir');
+assert(css.includes('@media(min-width:700px) and (max-width:819px)')&&css.includes('.featured-grid{grid-template-columns:repeat(3,minmax(0,1fr))}'),'Tablet portrede öncelikli kartlar 4 dar kolona zorlanıyor');
 
 
 try{
