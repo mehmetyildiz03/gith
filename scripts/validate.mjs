@@ -264,6 +264,7 @@ const hyperthermiaCase=(CASES||[]).find(c=>c.id==='hyperthermia');
 if(hyperthermiaCase?.source?.reviewedAt!=='2026-09-25')err('Y-23 son kaynak gözden geçirme tarihi güncel değil');
 for(const term of ['Hastanın üzerini çıkar','soğuk ya da ılık su sıkıp havalandırma','Koltuk altı ve kasık bölgelerine','aşırı soğutma ile hipotermi'])if(!JSON.stringify(hyperthermiaCase).includes(term))err(`Y-23 pasif eksternal soğutma Anahtar Noktası eksik: ${term}`);
 if(!JSON.stringify(hyperthermiaCase).includes('hastayı serin ortama al')||!JSON.stringify(hyperthermiaCase).includes('ambulans kabinini soğut'))err('Y-23 ana algoritma serin ortam/kıyafet/ambulans kabini soğutma basamağı eksik');
+for(const term of ['kas krampları, normal ya da hafif artmış vücut ısısı ve terleme','normal ya da artmış vücut ısısı (<40°C)','bulantı, kusma, baş ağrısı, halsizlik ve ortostatik hipotansiyon'])if(!JSON.stringify(hyperthermiaCase).includes(term))err(`Y-23 tedavi kolunu belirleyen klinik kriter eksik: ${term}`);
 if(medByName(hyperthermiaCase,'%0,9 NaCl — ısı stresi')?.dose!=='1000–2000 mL bolus'||medByName(hyperthermiaCase,'%0,9 NaCl — ısı çarpması')?.dose!=='1000 mL bolus')err('Y-23 ısı stresi / ısı çarpması NaCl doz ayrımı bozuk');
 for(const name of ['%0,9 NaCl — ısı stresi','%0,9 NaCl — ısı çarpması'])if(JSON.stringify(medByName(hyperthermiaCase,name)?.routes)!==JSON.stringify(['OTHER']))err(`Y-23 ${name} uygulama yolu kaynakta ayrıca belirtilmediği için türetilmemeli`);
 
