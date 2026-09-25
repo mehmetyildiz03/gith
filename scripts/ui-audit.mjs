@@ -66,7 +66,9 @@ assert((data.match(/"authority": "ALGORITHM"/g)||[]).length===1&&data.includes('
 assert(data.includes('"referenceGroups": [')&&data.includes('Verilen uyarıyı lokalize ediyor')&&data.includes('ASOS’a adli vaka')&&data.includes('ip düğüm bölgesinden değil'),'Y-38 GKS/adli resmî referans grupları eksik');
 assert(app.includes('function renderReferenceGroups(c)')&&app.includes('Resmî Anahtar Noktalar')&&app.includes("reference-points','Anahtar"),'Vaka resmî Anahtar Noktalar renderer/jump eksik');
 assert(css.includes('.case-reference-grid .protocol-keypoint-card:last-child{grid-column:1/-1}'),'Y-38 uzun adli referans kartı geniş yerleşimi eksik');
-assert(data.includes('IV yol açılana kadar 2–5 mg IM')&&data.includes('5 küçük kare >100 ms QRS')&&data.includes('8 küçük kare >160 ms QRS'),'Y-35/Y-37 kaynak-sadakati tamamlaması eksik');
+assert(data.includes('IV yol açılamazsa açılana kadar 2–5 mg IM')&&data.includes('5 küçük kare >100 ms QRS')&&data.includes('8 küçük kare >160 ms QRS'),'Y-35/Y-37 kaynak-sadakati tamamlaması eksik');
+assert(app.includes('bağlayıcı ve kesin talimat niteliğinde olmadığını')&&app.includes('mesleki bilgi, deneyim, klinik değerlendirme')&&app.includes('yürürlükteki mevzuat'),'Ek-2 resmî kapsam/klinik değerlendirme açıklaması detay ekranında eksik');
+assert(html.includes('Ek‑2 akış şemaları bağlayıcı ve kesin talimat niteliğinde değildir'),'Ana güvenlik notunda resmî Ek-2 kapsam uyarısı eksik');
 assert(data.includes('"title": "Nöbet / Konvülziyon"'),'Nöbet resmî başlığı eksik');
 assert(data.includes('"title": "Hava Yolu Tıkanıklıkları"')&&data.includes('"title": "Astım"')&&data.includes('"title": "Bradikardi"'),'Resmî mevcut vaka başlıklarından biri eski');
 assert(data.includes('"title": "Termal Yanık"')&&data.includes('"title": "Travmalı Hastada Acil Olgu Yönetimi"'),'Yanık/travma resmî başlıkları eksik');
