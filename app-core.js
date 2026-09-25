@@ -121,7 +121,7 @@ function renderProtocols(){
 }
 function protocolContactBadge(){return '<span class="protocol-contact-badge" aria-label="SKKM/ÇM ile iletişim">☎ SKKM/ÇM</span>'}
 function protocolBranchLink(label,id){
-  return id?`<button type="button" class="protocol-branch-link" data-protocol-open="${esc(id)}">${esc(label||'Protokolü aç')} <span>›</span></button>`:'';
+  return id?`<button type="button" class="protocol-branch-link" data-protocol-open="${esc(id)}">${esc(label||'Protokolü aç')} <span aria-hidden="true">›</span></button>`:'';
 }
 function renderProtocolFlow(p){
   let n=0;
