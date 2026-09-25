@@ -2,7 +2,17 @@
 
 Mobil-first, offline çekirdekli, vaka bazlı hastane öncesi acil sağlık eğitim ve hızlı hatırlatma uygulaması.
 
-## V0.53 ürün kullanılabilirliği ve PWA audit
+## V0.54 erişilebilirlik ve mobil viewport hardening
+
+- **44 px dokunma standardı tamamlandı:** kaynak sheet dış bağlantıları ve uygulama güncelleme banner butonu da en az 44 CSS px dokunma yüksekliğine taşındı.
+- **Dinamik mobil viewport:** ana kabuk ve detay görünümü `dvh` fallback'i kullanır; kaynak bottom-sheet `88dvh` ve overscroll containment ile mobil tarayıcı çubuğu değişimlerinde daha kararlı davranır.
+- **Alt menü semantiği:** aktif ana navigasyon öğesi artık `aria-current="page"` ile ekran okuyucuya da bildirilir.
+- **Klinik ayrım sekmeleri:** tab/tabpanel ilişkisi, roving `tabindex` ve Sol/Sağ/Home/End klavye gezinmesi eklendi.
+- **Klinik veri:** yetişkin içerik değiştirilmedi; V0.52 klinik `contentVersion` korunur.
+- **Regresyon:** UI audit bu erişilebilirlik, dokunma hedefi ve viewport kurallarını zorunlu kılar.
+
+### V0.53 önceki durum
+
 
 - **Geri/ileri davranışı:** vaka ve temel protokol detayları browser/PWA history ile bütünleşir; Android sistem geri hareketi ya da tarayıcı geri tuşu detaydan ana listeye döner. İleri hareketi ilgili detay ekranını yeniden açabilir.
 - **Tablet/landscape:** manifestteki `portrait-primary` kilidi kaldırıldı; PWA yönü `any` olarak ayarlandı.
