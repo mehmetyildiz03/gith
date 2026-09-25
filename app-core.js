@@ -299,6 +299,7 @@ matchMedia('(prefers-color-scheme: dark)').addEventListener?.('change',()=>{if(!
 addEventListener('online',updateNetwork);addEventListener('offline',updateNetwork);
 addEventListener('popstate',e=>{
   if(!el.source.classList.contains('hidden')){closeSourceSheet({fromHistory:true});return}
+  if(e.state?.saha112Sheet){openSourceSheet();return}
   const route=e.state?.saha112Detail;
   if(route?.type==='case'){openCase(route.id,{browserHistory:false});return}
   if(route?.type==='protocol'){openProtocol(route.id,{history:'root',browserHistory:false});return}
