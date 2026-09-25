@@ -30,8 +30,8 @@ assert(css.includes("/* V0.6.1 dark surface hardening */"),'Koyu mod yüzey hard
 assert(css.includes(":root[data-theme='dark'] .quick-step")&&css.includes("background:var(--detail-panel-deep)!important"),'Koyu mod algoritma adımı explicit yüzeyi eksik');
 assert(css.includes(":root[data-theme='dark'] .red-flag")&&css.includes("background:#2b202a!important"),'Koyu mod kırmızı bayrak yüzeyi eksik');
 assert(css.includes(":root[data-theme='dark'] .branch.yes")&&css.includes(":root[data-theme='dark'] .branch.no"),'Koyu mod karar kutuları explicit değil');
-assert(html.includes('styles.css?v=0.47')&&html.includes('app-core.js?v=0.47')&&html.includes('cases-data.js?v=0.47'),'Kritik asset cache-bust sürümü eksik');
-assert(sw.includes("saha112-v047")&&sw.includes('NETWORK_FIRST_DESTINATIONS'),'Service worker kritik asset güncelleme stratejisi eksik');
+assert(html.includes('styles.css?v=0.48')&&html.includes('app-core.js?v=0.48')&&html.includes('cases-data.js?v=0.48'),'Kritik asset cache-bust sürümü eksik');
+assert(sw.includes("saha112-v048")&&sw.includes('NETWORK_FIRST_DESTINATIONS'),'Service worker kritik asset güncelleme stratejisi eksik');
 assert(!app.includes('Kırmızı bayrak'),'Eski kullanıcı terimi hâlâ UI içinde');
 assert(app.includes('Acil Uyarı Bulguları'),'Acil Uyarı Bulguları başlığı eksik');
 assert(app.includes('Önceliği, müdahaleyi veya nakil kararını değiştirebilecek bulgular.'),'Acil uyarı açıklaması eksik');
@@ -57,7 +57,7 @@ assert(data.includes('"reviewedAt": "2026-09-25"')&&data.includes('"Glikoz <60 m
 assert(data.includes('"transition": "DİYABETİK ACİLLER ALGORİTMASINA GİT"')&&data.includes('"notice": "Tansiyon değerleri normalin üstünde olsa da tansiyonu düşürme."'),'Y-18 mavi geçiş / gri KB uyarısı semantiği eksik');
 
 assert(data.includes('"title": "Nabızlı Taşikardi"'),'Nabızlı Taşikardi başlığı eksik');
-assert(data.includes('"contentVersion": "EK2-2026.08.25-full-integrity-reaudit-2026.09.25"'),'V0.47 tam bütünlük yeniden audit sürümü eksik');
+assert(data.includes('"contentVersion": "EK2-2026.08.25-wide-safety-reaudit-2026.09.25"'),'V0.48 geniş güvenlik yeniden audit sürümü eksik');
 assert(html.includes('id="authorityLegend"')&&!html.includes('<span class="authority direct">Doğrudan</span>'),'Yetki legendi dinamik veri kaynağına bağlı değil');
 assert(app.includes("authorityMarkup")&&app.includes("authority-symbol")&&app.includes("✓ Yeşil: SKKM/ÇM onayı yok")&&app.includes("◆ Sarı: SKKM/ÇM onayı"),'Yetki sembol/yazı eşlemesi eksik');
 assert(css.includes('.authority.direct{')&&css.includes('var(--greenSoft)')&&css.includes('.authority.skkm{')&&css.includes('var(--amberSoft)'),'Yeşil/sarı yetki renk semantiği eksik');
@@ -67,6 +67,8 @@ assert(data.includes('"referenceGroups": [')&&data.includes('Verilen uyarıyı l
 assert(app.includes('function renderReferenceGroups(c)')&&app.includes('Resmî Anahtar Noktalar')&&app.includes("reference-points','Anahtar"),'Vaka resmî Anahtar Noktalar renderer/jump eksik');
 assert(css.includes('.case-reference-grid .protocol-keypoint-card:last-child{grid-column:1/-1}'),'Y-38 uzun adli referans kartı geniş yerleşimi eksik');
 assert(data.includes('IV yol açılamazsa açılana kadar 2–5 mg IM')&&data.includes('5 küçük kare >100 ms QRS')&&data.includes('8 küçük kare >160 ms QRS'),'Y-35/Y-37 kaynak-sadakati tamamlaması eksik');
+assert(data.includes('kişisel koruyucu ekipmanı tam ve eksiksiz kullan; sekresyonlarla temas etme')&&data.includes('Sekresyonlarla temas / devam eden kontaminasyon / ikincil maruziyet riski'),'Y-35 kişisel güvenlik Anahtar Noktası görünür değil');
+assert(data.includes('kas krampları, normal ya da hafif artmış vücut ısısı ve terleme')&&data.includes('normal ya da artmış vücut ısısı (<40°C)')&&data.includes('ortostatik hipotansiyon → damar yolu aç'),'Y-23 tedavi kolu klinik ayrım kriterleri görünür değil');
 assert(app.includes('bağlayıcı ve kesin talimat niteliğinde olmadığını')&&app.includes('mesleki bilgi, deneyim, klinik değerlendirme')&&app.includes('yürürlükteki mevzuat'),'Ek-2 resmî kapsam/klinik değerlendirme açıklaması detay ekranında eksik');
 assert(html.includes('Ek‑2 akış şemaları bağlayıcı ve kesin talimat niteliğinde değildir'),'Ana güvenlik notunda resmî Ek-2 kapsam uyarısı eksik');
 assert(data.includes('"title": "Nöbet / Konvülziyon"'),'Nöbet resmî başlığı eksik');
