@@ -145,7 +145,7 @@ function renderProtocolFlow(p){
 }
 function renderProtocolKeyPoints(p){
   if(!p.keyPoints?.length)return '';
-  return `<section class="detail-section protocol-keypoints-section" id="protocol-keypoints"><div class="detail-heading"><span class="tiny-icon">◎</span><div><h3>Hızlı hatırlatma</h3><p>İlk değerlendirmede gözden kaçmaması gereken çerçeve.</p></div></div><div class="protocol-keypoint-grid">${p.keyPoints.map(group=>`<article class="protocol-keypoint-card"><h4>${esc(group.title)}</h4><div class="protocol-keypoint-list">${(group.items||[]).map(([key,label])=>`<div class="protocol-keypoint-row"><b>${esc(key)}</b><span>${esc(label)}</span></div>`).join('')}</div></article>`).join('')}</div></section>`;
+  return `<section class="detail-section protocol-keypoints-section" id="protocol-keypoints"><div class="detail-heading"><span class="tiny-icon">◎</span><div><h3>Hızlı hatırlatma</h3><p>İlk değerlendirmede gözden kaçmaması gereken çerçeve.</p></div></div><div class="protocol-keypoint-grid">${p.keyPoints.map(group=>`<article class="protocol-keypoint-card"><h4>${esc(group.title)}</h4><div class="protocol-keypoint-list">${(group.items||[]).map(([key,label])=>`<div class="protocol-keypoint-row${String(key).length>4?' long-key':''}"><b>${esc(key)}</b><span>${esc(label)}</span></div>`).join('')}</div></article>`).join('')}</div></section>`;
 }
 function openProtocol(id,{history='root'}={}){
   if(typeof PROTOCOLS==='undefined')return;
