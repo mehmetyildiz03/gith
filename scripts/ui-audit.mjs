@@ -31,8 +31,8 @@ assert(css.includes("/* V0.6.1 dark surface hardening */"),'Koyu mod yüzey hard
 assert(css.includes(":root[data-theme='dark'] .quick-step")&&css.includes("background:var(--detail-panel-deep)!important"),'Koyu mod algoritma adımı explicit yüzeyi eksik');
 assert(css.includes(":root[data-theme='dark'] .red-flag")&&css.includes("background:#2b202a!important"),'Koyu mod kırmızı bayrak yüzeyi eksik');
 assert(css.includes(":root[data-theme='dark'] .branch.yes")&&css.includes(":root[data-theme='dark'] .branch.no"),'Koyu mod karar kutuları explicit değil');
-assert(html.includes('styles.css?v=0.53')&&html.includes('app-core.js?v=0.53')&&html.includes('cases-data.js?v=0.53'),'Kritik asset cache-bust sürümü eksik');
-assert(sw.includes("saha112-v053")&&sw.includes('NETWORK_FIRST_DESTINATIONS'),'Service worker kritik asset güncelleme stratejisi eksik');
+assert(html.includes('styles.css?v=0.54')&&html.includes('app-core.js?v=0.54')&&html.includes('cases-data.js?v=0.54'),'Kritik asset cache-bust sürümü eksik');
+assert(sw.includes("saha112-v054")&&sw.includes('NETWORK_FIRST_DESTINATIONS'),'Service worker kritik asset güncelleme stratejisi eksik');
 assert(!app.includes('Kırmızı bayrak'),'Eski kullanıcı terimi hâlâ UI içinde');
 assert(app.includes('Acil Uyarı Bulguları'),'Acil Uyarı Bulguları başlığı eksik');
 assert(app.includes('Önceliği, müdahaleyi veya nakil kararını değiştirebilecek bulgular.'),'Acil uyarı açıklaması eksik');
@@ -202,10 +202,16 @@ assert(!app.includes("'severity','Şiddet'")&&app.includes("'severity','Klinik a
 assert(data.includes('"id": "bee"')&&data.includes('"title": "Isırma ve Sokmalar"')&&data.includes('"code": "SB-ASH-Y-26"')&&data.includes('"page": "45"')&&data.includes('"label": "Kara canlıları"')&&data.includes('"label": "Deniz canlıları"')&&data.includes('100–250 mL')&&data.includes('en az 20 dk')&&data.includes('Turnike uygulama')&&data.includes('Ezmeden ve parçalamadan çıkar'),'Y-26 Isırma ve Sokmalar resmî kapsamı eksik');
 assert(!data.includes('"code": "SB-ASH-Y-26 + SB-ASH-Y-22"')&&!data.includes('"title": "Arı Sokması"'),'Eski daraltılmış Y-26 Arı Sokması/Y-22 birleşimi kaldı');
 assert(css.includes('/* V0.8.1 touch target hardening */'),'Dokunma hedefi hardening bloğu eksik');
-for(const selector of ['.icon-btn,','.search-wrap input{','.filter-chip{','.text-btn{','.jump-chip{','.severity-tab{','.source-actions a{']){
+for(const selector of ['.icon-btn,','.search-wrap input{','.filter-chip{','.text-btn{','.jump-chip{','.severity-tab{','.source-actions a{','.source-link{','.update-banner button{']){
   assert(css.includes(selector),`Dokunma hedefi kuralı eksik: ${selector}`);
 }
 assert(css.includes('min-height:44px'),'44px minimum dokunma hedefi kuralı eksik');
+assert(css.includes('.source-link{display:flex;align-items:center;justify-content:space-between;min-height:44px'),'Kaynak sheet linkleri 44px dokunma yüksekliğini garanti etmiyor');
+assert(css.includes('.update-banner button{flex:0 0 auto;min-height:44px'),'Güncelleme banner butonu 44px dokunma yüksekliğini garanti etmiyor');
+assert(css.includes('min-height:100dvh')&&css.includes('max-height:88dvh')&&css.includes('overscroll-behavior:contain'),'Mobil dinamik viewport/bottom-sheet hardening eksik');
+assert(app.includes("aria-current','page'")&&app.includes("b.removeAttribute('aria-current')"),'Alt menü aktif öğesinde aria-current semantiği eksik');
+assert(app.includes('role="tabpanel"')&&app.includes('aria-labelledby="severity-tab-${level}"')&&app.includes('aria-controls="severityCard"'),'Klinik ayrım tab/tabpanel ARIA bağlantısı eksik');
+assert(app.includes("['ArrowLeft','ArrowRight','Home','End'].includes(e.key)")&&app.includes('b.tabIndex=active?0:-1'),'Klinik ayrım sekmelerinde klavye/roving tabindex desteği eksik');
 
 
 try{
