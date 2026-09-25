@@ -5,6 +5,7 @@ const html=fs.readFileSync('index.html','utf8');
 const sw=fs.readFileSync('sw.js','utf8');
 const app=fs.readFileSync('app-core.js','utf8');
 const data=fs.readFileSync('cases-data.js','utf8');
+const manifest=fs.readFileSync('manifest.webmanifest','utf8');
 const errors=[];
 const assert=(ok,msg)=>{if(!ok)errors.push(msg)};
 
@@ -30,8 +31,8 @@ assert(css.includes("/* V0.6.1 dark surface hardening */"),'Koyu mod yüzey hard
 assert(css.includes(":root[data-theme='dark'] .quick-step")&&css.includes("background:var(--detail-panel-deep)!important"),'Koyu mod algoritma adımı explicit yüzeyi eksik');
 assert(css.includes(":root[data-theme='dark'] .red-flag")&&css.includes("background:#2b202a!important"),'Koyu mod kırmızı bayrak yüzeyi eksik');
 assert(css.includes(":root[data-theme='dark'] .branch.yes")&&css.includes(":root[data-theme='dark'] .branch.no"),'Koyu mod karar kutuları explicit değil');
-assert(html.includes('styles.css?v=0.52')&&html.includes('app-core.js?v=0.52')&&html.includes('cases-data.js?v=0.52'),'Kritik asset cache-bust sürümü eksik');
-assert(sw.includes("saha112-v052")&&sw.includes('NETWORK_FIRST_DESTINATIONS'),'Service worker kritik asset güncelleme stratejisi eksik');
+assert(html.includes('styles.css?v=0.53')&&html.includes('app-core.js?v=0.53')&&html.includes('cases-data.js?v=0.53'),'Kritik asset cache-bust sürümü eksik');
+assert(sw.includes("saha112-v053")&&sw.includes('NETWORK_FIRST_DESTINATIONS'),'Service worker kritik asset güncelleme stratejisi eksik');
 assert(!app.includes('Kırmızı bayrak'),'Eski kullanıcı terimi hâlâ UI içinde');
 assert(app.includes('Acil Uyarı Bulguları'),'Acil Uyarı Bulguları başlığı eksik');
 assert(app.includes('Önceliği, müdahaleyi veya nakil kararını değiştirebilecek bulgular.'),'Acil uyarı açıklaması eksik');
@@ -52,12 +53,16 @@ assert(html.includes('sourceReviewMeta')&&app.includes('latestReviewDate'),'Dina
 assert(app.includes('PDF sayfa')&&app.includes('PDF s.'),'PDF sayfa etiketi açık değil');
 assert(html.includes('updateBanner')&&app.includes('controllerchange')&&app.includes("reload-app"),'Pasif PWA güncelleme bildirimi eksik');
 assert(app.includes('sourceFocusable')&&app.includes("e.key==='Tab'")&&css.includes('html.dialog-open'),'Kaynak dialog focus trap/scroll kilidi eksik');
+assert(app.includes('function pushDetailHistory(type,id)')&&app.includes("addEventListener('popstate'")&&app.includes("saha112Detail"),'Detay ekranı tarayıcı/PWA geri-ileri geçmişiyle bütünleşmiyor');
+assert(manifest.includes('"orientation": "any"'),'PWA portrait-primary ile kilitlenmiş; tablet/landscape kullanımı açık olmalı');
+assert(css.includes('font-size:9.5px;font-weight:900}.authority.direct')&&css.includes('.practitioner,.authority{font-size:9px'),'Yetki rozetleri saha okunabilirliği için yeterince büyük değil');
+assert(css.includes('.protocol-contact-badge')&&css.includes('font-size:9.5px;font-weight:900;white-space:nowrap'),'SKKM/ÇM iletişim rozeti okunabilirlik boyutu eksik');
 assert(data.includes('"title": "İnme / SVO"'),'İnme / SVO başlığı korunmamış');
 assert(data.includes('"reviewedAt": "2026-09-25"')&&data.includes('"Glikoz <60 mg/dl ve/veya hipoglisemi bulguları varsa"')&&data.includes('"Kan basıncı takibi"')&&data.includes('4,5 saat içinde trombolitik')&&data.includes('6 saat içinde endovasküler girişim'),'Y-18 yapılandırılmış inme akışı eksik');
 assert(data.includes('"transition": "DİYABETİK ACİLLER ALGORİTMASINA GİT"')&&data.includes('"notice": "Tansiyon değerleri normalin üstünde olsa da tansiyonu düşürme."'),'Y-18 mavi geçiş / gri KB uyarısı semantiği eksik');
 
 assert(data.includes('"title": "Nabızlı Taşikardi"'),'Nabızlı Taşikardi başlığı eksik');
-assert(data.includes('"contentVersion": "EK2-2026.08.25-early-adult-fidelity-reaudit-2026.09.25"'),'V0.52 erken yetişkin kaynak/yetki yeniden audit sürümü eksik');
+assert(data.includes('"contentVersion": "EK2-2026.08.25-early-adult-fidelity-reaudit-2026.09.25"'),'Yetişkin kaynak/yetki audit sürümü eksik');
 assert(html.includes('id="authorityLegend"')&&!html.includes('<span class="authority direct">Doğrudan</span>'),'Yetki legendi dinamik veri kaynağına bağlı değil');
 assert(app.includes("authorityMarkup")&&app.includes("authority-symbol")&&app.includes("✓ Yeşil: SKKM/ÇM onayı yok")&&app.includes("◆ Sarı: SKKM/ÇM onayı"),'Yetki sembol/yazı eşlemesi eksik');
 assert(css.includes('.authority.direct{')&&css.includes('var(--greenSoft)')&&css.includes('.authority.skkm{')&&css.includes('var(--amberSoft)'),'Yeşil/sarı yetki renk semantiği eksik');
@@ -141,6 +146,7 @@ assert(data.includes('adrenalin infüzyonu sonrası 500 mL bolus basamağı tekr
 assert(data.includes('"actionAudit": {')&&data.includes('"algorithmSteps": [')&&data.includes('"verifiedCases": ['),'Adım bazlı uygulayıcı yetki pilot verisi eksik');
 for(const phrase of ['Ölümcül astım atağı','Asetilsalisilik asit 160–325 mg','yakın vital takibi'])assert(data.includes(phrase),`Lineer eylem yetki genişlemesi eksik: ${phrase}`);
 assert(app.includes('function renderAlgorithmSteps(c)')&&app.includes('function renderActionStep')&&app.includes('action-step-badges'),'Yapılandırılmış algoritma adımı render katmanı eksik');
+assert(css.includes('-webkit-line-clamp:2')&&css.includes('.priority-badge{flex:0 0 auto;margin-top:1px}'),'Mobil vaka listesinde uzun başlıklar iki satıra kadar görünür değil');
 assert(app.includes('Array.isArray(c.algorithmSteps)?c.algorithmSteps:'),'Branch-only yapılandırılmış algoritma boş step dizisini hızlı özetle doldurmamalı');
 assert(data.includes('"id": "rosc"')&&data.includes('"label": "Hipotansiyon — SKB <90 mmHg"')&&data.includes('"label": "Ventriküler ektopi / sürekli olmayan VT"'),'Y-12 ROSC yapılandırılmış komplikasyon kolları eksik');
 assert(data.includes('"id": "hypovolemic-shock"')&&data.includes('"label": "Hemorajik şok"')&&data.includes('"label": "Non-hemorajik şok"'),'Y-13 hemorajik/non-hemorajik yapılandırılmış dallar eksik');
