@@ -2,7 +2,16 @@
 
 Mobil-first, offline çekirdekli, vaka bazlı hastane öncesi acil sağlık eğitim ve hızlı hatırlatma uygulaması.
 
-## V0.47 tam bütünlük yeniden audit
+## V0.48 geniş güvenlik yeniden audit
+
+- **Bağımsız geniş kaynak turu:** Yetişkin Y-01–Y-41; ilaç/doz/yol/tekrar, ATT/AABT kutu rengi, SKKM/ÇM telefon simgesi, kritik karar eşikleri, Anahtar Noktalar ve saha güvenliği yeniden sorgulandı.
+- **Y-35 Kolinerjik:** Resmî Anahtar Noktadaki kişisel koruyucu ekipmanın tam/eksiksiz kullanılması ve sekresyonlarla temas edilmemesi saha özetinde görünür hale getirildi.
+- **Y-23 Hipertermi:** Isı krampları ve ısı stresi tedavi kollarını belirleyen klinik kriterler ilk bakış özetine geri eklendi; böylece yalnız tedavi değil, doğru kola nasıl girileceği de görünür.
+- **Regresyon koruması:** Y-29 elektrik güvenliği, Y-35 mesleki maruziyet güvenliği ve Y-23 dal kriterleri validator/UI audit ile kilitlendi.
+- **PWA:** İçerik, kritik asset query'leri, UI audit ve service-worker cache birlikte V0.48'e yükseltildi.
+
+### V0.47 önceki durum
+
 
 - **2 temel protokol + 37 yetişkin vaka yeniden kontrol edildi:** kaynak tarihleri 25.09.2026 tam yeniden audit turuna taşındı; SB-ASH-Y-01–Y-41 kapsamı, kaynak sayfaları, ilaç/doz/yol/tekrar, yetki semantiği, algoritma geçişleri ve kritik Anahtar Noktalar tekrar çaprazlandı.
 - **Y-38 kaynak tamamlama:** Resmî s.66 Yetişkin Glasgow Koma Skoru (motor/sözel/göz) ve “Adli Vakalara Yaklaşırken” tablosunun eksik saha kuralları ayrı **Resmî Anahtar Noktalar** bölümünde görünür hale getirildi.
