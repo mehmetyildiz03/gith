@@ -2,7 +2,19 @@
 
 Mobil-first, offline çekirdekli, vaka bazlı hastane öncesi acil sağlık eğitim ve hızlı hatırlatma uygulaması.
 
-## V0.54 erişilebilirlik ve mobil viewport hardening
+## V0.55 erişilebilirlik ve odak sürekliliği audit
+
+- **Arama erişilebilirliği:** ana arama alanına programatik `aria-label` eklendi; dekoratif arama glifi ekran okuyucudan gizlendi.
+- **Hasta grubu semantiği:** Yetişkin / Çocuk / Doğum & Yenidoğan seçicisi eksik WAI-ARIA `tablist` modeli yerine gerçek davranışına uygun düğme grubu + `aria-pressed` semantiğine taşındı.
+- **Detay odak yönetimi:** vaka veya temel protokol açıldığında klavye odağı görünür Geri düğmesine taşınır; detaydan çıkıldığında kullanıcıyı açtığı vaka/protokol kontrolüne geri döndürür.
+- **Rerender odağı:** hasta grubu ve kategori filtreleri DOM yeniden oluşturulduğunda klavye odağını kaybetmez.
+- **Dekoratif glifler:** vaka ikonları, chevron/oklar ve alt navigasyon SVG'leri ekran okuyucudan gizlenir; erişilebilir ad yalnız gerçek kontrol metninden gelir.
+- **Klinik veri değişmedi:** yetişkin `contentVersion` V0.52 kaynak/yetki audit setinde kalır.
+- **Regresyon:** UI audit arama etiketi, hasta grubu semantiği, detay odak dönüşü ve dekoratif ikon kurallarını zorunlu kılar.
+
+### V0.54 önceki durum
+
+
 
 - **44 px dokunma standardı tamamlandı:** kaynak sheet dış bağlantıları ve uygulama güncelleme banner butonu da en az 44 CSS px dokunma yüksekliğine taşındı.
 - **Dinamik mobil viewport:** ana kabuk ve detay görünümü `dvh` fallback'i kullanır; kaynak bottom-sheet `88dvh` ve overscroll containment ile mobil tarayıcı çubuğu değişimlerinde daha kararlı davranır.
