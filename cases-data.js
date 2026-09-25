@@ -3932,7 +3932,7 @@ const CASES = [
     ],
     "quick": [
       "<strong>Ciddi bulgular (SLUDGE-BBB):</strong> salivasyon, lakrimasyon, ürinasyon, defekasyon, GİS krampları, emezis, bradikardi, bronkore ve bronkospazm.",
-      "<strong>Atropin:</strong> 1–2 mg IV; IV yol açılana kadar 2–5 mg IM uygulanabilir.",
+      "<strong>Atropin:</strong> 1–2 mg IV; IV yol açılamazsa açılana kadar 2–5 mg IM uygulanabilir.",
       "Trakeobronşiyal sekresyonlar azalıncaya kadar <strong>5 dk'da bir tekrarla</strong>.",
       "Kolinerjik etkili ajanlar arasında sinir gazları ve tarım ilaçları bulunur.",
       "Oral alımda ilk 30 dk içinde gastrik lavaj etkili olabilir; <strong>resmî Anahtar Noktaya göre acil serviste uygulanmalıdır.</strong>",
@@ -3955,7 +3955,7 @@ const CASES = [
         "authority": "DIRECT",
         "repeat": "Trakeobronşiyal sekresyonlar azalıncaya kadar 5 dk'da bir",
         "maxDose": "",
-        "note": "Resmî Y-35 algoritmasında SKKM/ÇM telefon simgesi yoktur. Anahtar Nokta: atropin 1–2 mg IV; IV yol açılana kadar 2–5 mg IM uygulanabilir; trakeobronşiyal sekresyonlar azalıncaya kadar 5 dk'da bir tekrarlanır. Maksimum doz belirtilmemiştir.",
+        "note": "Resmî Y-35 algoritmasında SKKM/ÇM telefon simgesi yoktur. Anahtar Nokta: atropin 1–2 mg IV; IV yol açılamazsa açılana kadar 2–5 mg IM uygulanabilir; trakeobronşiyal sekresyonlar azalıncaya kadar 5 dk'da bir tekrarlanır. Maksimum doz belirtilmemiştir.",
         "practitionerAuthority": "AABT"
       }
     ],
@@ -4193,7 +4193,7 @@ const CASES = [
       "Penetran yaralanmanın kafa, boyun, gövdede veya diz ve dirsek proksimalinde olması; parmaklar hariç distale doğru oluşan ekstremite amputasyonları.",
       "Herhangi bir travma ile birlikte: yandaş hastalık öyküsü (KAH, KOAH, kanama bozuklukları), 55 yaş üstü, yanık, hipotermi veya gebelik.",
       "Kanıt olabilecek materyallerin (giysilerin) korunması gerekir.",
-      "Ateşli silah yaralanmasında hastanın kıyafetleri kesilirken kurşun giriş yeri kesilmemeli; kıyafetler tamamen çıkarıldıktan sonra muhafaza edilerek bilgi verilmelidir."
+      "Ateşli silah yaralanmasında hastanın kıyafetleri kesilirken kurşun giriş yeri kesilmemeli; kıyafetler tamamen çıkartılmışsa muhafaza edilerek bilgi verilmelidir."
     ],
     "meds": [],
     "referenceGroups": [
@@ -4242,7 +4242,7 @@ const CASES = [
           ["7", "Kolluk kuvvetleri ile birlikte çalışılmalıdır."],
           ["8", "Hasta kayıt defteri ve tablet üzerinden ASOS’a adli vaka girilmelidir."],
           ["9", "Hastane kayıt girişlerinde adli vaka olarak açılacağı bildirilmelidir."],
-          ["10", "Ateşli silah yaralanmasında hastanın kıyafetleri kesilirken kurşun giriş yeri kesilmemelidir; kıyafetler tamamen çıkarılmışsa muhafaza edilerek bilgi verilmelidir."],
+          ["10", "Ateşli silah yaralanmasında hastanın kıyafetleri kesilirken kurşun giriş yeri kesilmemelidir; kıyafetler tamamen çıkartılmışsa muhafaza edilerek bilgi verilmelidir."],
           ["11", "Ası vakalarında müdahale edilecekse ip düğüm bölgesinden değil, düğüme uzak bir yerden kesilmelidir."]
         ]
       }
