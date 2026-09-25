@@ -2,7 +2,18 @@
 
 Mobil-first, offline çekirdekli, vaka bazlı hastane öncesi acil sağlık eğitim ve hızlı hatırlatma uygulaması.
 
-## V0.49 Anahtar Nokta tamlık yeniden audit
+## V0.50 tam Anahtar Nokta tablo audit
+
+- **Kaynak tablo bütünlüğü:** Y-14 Anahtar Noktasındaki akut dekompanse kalp yetmezliği profilinde eksik kalan %50–70 ifadesi geri eklendi.
+- **Y-34:** Belirti/bulgulara ek resmî Tedavi İlkeleri ve Antidot/İlaç Bilgileri görünür hale getirildi.
+- **Y-35:** Kişisel güvenlik/dekontaminasyona ek hava yolu-oksijenizasyon ve atropin Anahtar Nokta satırı tamamlandı.
+- **Y-36:** Opioid belirtilerine ek ileri hava yolu/hipoglisemi-hipovolemi tedavi ilkeleri ve nalokson Anahtar Nokta satırı tamamlandı.
+- **Y-23:** Soğutma yöntemlerinin kaynak terminolojisi korunarak okunabilir ifade netleştirildi.
+- **Regresyon:** Validator ve UI audit yeni tamlık maddelerini zorunlu kılar.
+- **PWA:** İçerik, asset query'leri ve service-worker cache birlikte V0.50'ye yükseltildi.
+
+### V0.49 önceki durum
+
 
 - **Resmî Anahtar Nokta kapsamı tamamlandı:** Y-14, Y-23, Y-34, Y-35 ve Y-36 için Ek-2'deki klinik bulgu/profil tabloları ayrı **Resmî Anahtar Noktalar** bölümüne eklendi; ana saha algoritması kısa tutuldu.
 - **Y-14:** Kalp yetmezliği bulguları ile akut dekompanse, hipertansif ve kardiyojenik şok profillerinin resmî ayrıntıları görünür.
