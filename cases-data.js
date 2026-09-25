@@ -3905,6 +3905,20 @@ const CASES = [
       "Hipotansiyon",
       "Bronkospazm veya hipoglisemi"
     ],
+    "referenceGroups": [
+      {
+        "title": "Beta Bloker / Kalsiyum Kanal Blokeri — Belirtiler ve Klinik Bulgular",
+        "items": [
+          ["1", "Baş dönmesi ve bilinç kaybı"],
+          ["2", "Bronkospazm; özellikle astım ve kronik bronşiti bulunan hastalarda"],
+          ["3", "Solunum depresyonu"],
+          ["4", "Bradikardi ve hipotansiyon"],
+          ["5", "Hipoglisemi"],
+          ["6", "Bulantı-kusma"],
+          ["7", "Konuşma bozukluğu (geveleyerek konuşma)"]
+        ]
+      }
+    ],
     "meds": [
       {
         "name": "%0,9 NaCl / Ringer Laktat",
