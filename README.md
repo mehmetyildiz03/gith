@@ -2,7 +2,17 @@
 
 Mobil-first, offline çekirdekli, vaka bazlı hastane öncesi acil sağlık eğitim ve hızlı hatırlatma uygulaması.
 
-## V0.52 erken yetişkin kaynak/yetki yeniden audit
+## V0.53 ürün kullanılabilirliği ve PWA audit
+
+- **Geri/ileri davranışı:** vaka ve temel protokol detayları browser/PWA history ile bütünleşir; Android sistem geri hareketi ya da tarayıcı geri tuşu detaydan ana listeye döner. İleri hareketi ilgili detay ekranını yeniden açabilir.
+- **Tablet/landscape:** manifestteki `portrait-primary` kilidi kaldırıldı; PWA yönü `any` olarak ayarlandı.
+- **Mobil uzun başlıklar:** vaka listesinde uzun başlıklar tek satır ellipsis yerine iki satıra kadar okunabilir; öncelik rozeti sabit kalır.
+- **Yetki okunabilirliği:** SKKM/ÇM, DIRECT ve “Yalnız AABT” rozetleri ile protokol iletişim rozeti saha kullanımında daha okunur boyuta çıkarıldı.
+- **Klinik veri:** yetişkin kaynak içeriği değiştirilmedi; V0.52 klinik contentVersion korunur.
+- **Regresyon:** UI audit, history entegrasyonu, landscape desteği, başlık clamp'i ve yetki rozeti boyutlarını zorunlu kılar.
+
+### V0.52 önceki durum
+
 
 - **Y-03 Hava Yolu Tıkanıklıkları:** resmî kısmi/tam tıkanma dalları yapılandırıldı; arrest geçişleri ve kısmi tıkanmada sırta vurma uyarısı kaynak geometrisine göre ayrıldı.
 - **Y-03 iğne krikotirotomi:** tam tıkanmada ileri hava yolu uygulamaları başarısızsa uygulanacak eylem artık düz metin değil; resmî turuncu + telefon simgesine göre **AABT + SKKM/ÇM** yetkisiyle görünür.
