@@ -2,7 +2,18 @@
 
 Mobil-first, offline çekirdekli, vaka bazlı hastane öncesi acil sağlık eğitim ve hızlı hatırlatma uygulaması.
 
-## V0.48 geniş güvenlik yeniden audit
+## V0.49 Anahtar Nokta tamlık yeniden audit
+
+- **Resmî Anahtar Nokta kapsamı tamamlandı:** Y-14, Y-23, Y-34, Y-35 ve Y-36 için Ek-2'deki klinik bulgu/profil tabloları ayrı **Resmî Anahtar Noktalar** bölümüne eklendi; ana saha algoritması kısa tutuldu.
+- **Y-14:** Kalp yetmezliği bulguları ile akut dekompanse, hipertansif ve kardiyojenik şok profillerinin resmî ayrıntıları görünür.
+- **Y-23:** Isı Krampları, Isı Yorgunluğu, Isı Çarpması ve pasif eksternal soğutma yöntemleri tablo halinde görünür.
+- **Y-34 / Y-35 / Y-36:** Beta bloker-kalsiyum kanal blokeri, organofosfat ve opioid belirti/bulgu tablolarındaki eksik resmî öğeler tamamlandı.
+- **UI:** Uzun kaynak etiketleri için ayrı okunabilir satır düzeni; tek referans kartı ve Y-38 uzun adli kartı için tam genişlik yerleşimi.
+- **Regresyon koruması:** Validator ve UI audit yeni referans tablolarını ve yapı bütünlüğünü kilitler.
+- **PWA:** İçerik, asset query'leri, UI audit ve service-worker cache birlikte V0.49'a yükseltildi.
+
+### V0.48 önceki durum
+
 
 - **Bağımsız geniş kaynak turu:** Yetişkin Y-01–Y-41; ilaç/doz/yol/tekrar, ATT/AABT kutu rengi, SKKM/ÇM telefon simgesi, kritik karar eşikleri, Anahtar Noktalar ve saha güvenliği yeniden sorgulandı.
 - **Y-35 Kolinerjik:** Resmî Anahtar Noktadaki kişisel koruyucu ekipmanın tam/eksiksiz kullanılması ve sekresyonlarla temas edilmemesi saha özetinde görünür hale getirildi.
