@@ -4321,6 +4321,7 @@ const CASES = [
       },
       {
         "title": "Adli Vakalara Yaklaşırken",
+        "wide": true,
         "items": [
           ["1", "Kişisel koruyucu ekipman mutlaka giyilmelidir."],
           ["2", "Olay yerine giriş ve çıkışlar emniyet ekipleri tarafından oluşturulan güvenli yoldan olmalıdır."],
