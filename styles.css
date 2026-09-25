@@ -519,6 +519,8 @@ html.dialog-open,html.dialog-open body{overflow:hidden}
 .protocol-keypoint-list{display:grid;gap:6px}
 .protocol-keypoint-row{display:grid;grid-template-columns:28px minmax(0,1fr);gap:8px;align-items:start}
 .protocol-keypoint-row b{width:28px;height:28px;border-radius:9px;background:color-mix(in srgb,var(--accent) 12%,var(--solid));color:var(--accent);display:grid;place-items:center;font-size:11px}
+.case-reference-grid .protocol-keypoint-row.long-key{grid-template-columns:minmax(92px,130px) minmax(0,1fr)}
+.case-reference-grid .protocol-keypoint-row.long-key b{width:auto;height:auto;min-height:28px;padding:5px 7px;text-align:center;line-height:1.25}
 .protocol-keypoint-row span{padding-top:4px;font-size:10.5px;line-height:1.4;color:var(--ink2)}
 .protocol-branch-link{width:100%;min-height:34px;margin-top:8px;border:1px solid color-mix(in srgb,var(--accent) 24%,var(--line));border-radius:9px;background:color-mix(in srgb,var(--accent) 6%,var(--soft));color:var(--accent);display:flex;align-items:center;justify-content:space-between;gap:8px;padding:6px 8px;font-size:9.5px;font-weight:850;text-align:left}
 .protocol-transition{width:100%;border:0;text-align:left}
