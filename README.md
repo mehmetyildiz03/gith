@@ -2,7 +2,18 @@
 
 Mobil-first, offline çekirdekli, vaka bazlı hastane öncesi acil sağlık eğitim ve hızlı hatırlatma uygulaması.
 
-## V0.50 tam Anahtar Nokta tablo audit
+## V0.51 yetişkin kaynak bütünlüğü yeniden audit
+
+- **Bağımsız resmî PDF görsel turu:** yetişkin Y-01–Y-41 bölümünde akış, kutu rengi/telefon simgesi, Anahtar Nokta tabloları ve birleşik kartlar tekrar karşılaştırıldı.
+- **Y-14:** hipertansif kalp yetmezliği profilinde kaynakta bulunan “hasta yatamaz, oturur pozisyonda durur” ayrıntısı geri eklendi.
+- **Y-22:** Anafilaksi Tanı Kriterleri; cilt/mukoza örnekleri, dolaşım bulguları, iki sistem kriteri ve bilinen alerjen sonrası %30’dan fazla SKB düşüşüyle ayrı resmî referans kartına tamamlandı.
+- **Y-23:** Evoperasyon/İmmersiyon ve soğutma hedefi referans metni resmî Anahtar Nokta tablosuna daha yakın ifadeyle kilitlendi.
+- **Y-28:** yetişkinde Dokuzlar Kuralı, çocukta Lund-Browder ve avuç içi-parmaklarla yaklaşık %1 pratik VYA hesabı görünür hale getirildi.
+- **Regresyon:** validator/UI audit bu yeni kaynak tamlığı maddelerini zorunlu kılar.
+- **PWA:** içerik, asset query'leri ve service-worker cache birlikte V0.51'e yükseltildi.
+
+### V0.50 önceki durum
+
 
 - **Kaynak tablo bütünlüğü:** Y-14 Anahtar Noktasındaki akut dekompanse kalp yetmezliği profilinde eksik kalan %50–70 ifadesi geri eklendi.
 - **Y-34:** Belirti/bulgulara ek resmî Tedavi İlkeleri ve Antidot/İlaç Bilgileri görünür hale getirildi.
