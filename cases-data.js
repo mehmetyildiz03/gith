@@ -1,7 +1,7 @@
 const APP_META = {
   "schemaVersion": 5,
-  "contentVersion": "EK2-2026.08.25-full-keypoint-table-audit-2026.09.25",
-  "productVersion": "0.50",
+  "contentVersion": "EK2-2026.08.25-adult-source-integrity-reaudit-2026.09.25",
+  "productVersion": "0.51",
   "populations": [
     {
       "id": "adult",
@@ -2684,7 +2684,7 @@ const CASES = [
         "title": "Klinik Profiller",
         "items": [
           ["ADKY", "Yeni başlangıçlı kalp yetmezliği ya da kronik kalp yetmezliğinin akut alevlenmesi; hipertansiyon ve kardiyojenik şok görülmez. Hafif-orta pulmoner konjesyon görülür; tüm acil hastaların %50–70’ini oluşturur. İlerleyici nefes darlığı, periferal/abdominal konjesyon, juguler venöz dolgunluk ve hepatojuguler reflü görülebilir."],
-          ["HKY", "Sistolik kan basıncı >140 mmHg (genellikle >180 mmHg); sol ventrikül fonksiyonu genellikle korunmuştur. Semptomlar 48 saatte gelişir; hava açlığı, anksiyete, öksürük, yatamama ve SpO₂ <90 görülebilir."],
+          ["HKY", "Sistolik kan basıncı >140 mmHg (genellikle >180 mmHg); sol ventrikül fonksiyonu genellikle korunmuştur. Semptomlar 48 saatte gelişir; hava açlığı, anksiyete, öksürük; hasta yatamaz, oturur pozisyonda durur ve SpO₂ <90 görülebilir."],
           ["KŞ", "Doku perfüzyonu bozulmuştur. Sistolik kan basıncı genellikle <90 mmHg; istirahatte takipne, taşikardi, venöz doluşta uzama, soğuk ve siyanotik ekstremiteler görülebilir."]
         ]
       }
@@ -3536,7 +3536,7 @@ const CASES = [
     "quick": [
       "Yanma sürecini durdur; acil olgu yönetimini uygula. <strong>Termal yanığı musluk suyu ile yıka ve kurula.</strong>",
       "İnhalasyon yanığı/hava yolu ödemi riski varsa oksijenizasyon ve ventilasyonu destekle, erken ileri hava yolunu düşün.",
-      "Yanık alanını değerlendirmek için uygun yüzdelik yöntem kullan; yanık yüzeyini steril örtüyle koru.",
+      "<strong>Yanık alanı hesabı:</strong> erişkinde Dokuzlar Kuralı genel fikir verir; çocukta daha hassas Lund-Browder şeması tercih edilir. Pratik hesapta hastanın parmakları bitişik avuç içi toplam VYA’nın yaklaşık %1’i kabul edilir. Yanık yüzeyini steril örtüyle koru.",
       "<strong>Ringer Laktat başla.</strong> Şok yoksa 1 saatten kısa nakilde 500 mL Ringer Laktat; daha uzun nakilde Parkland yaklaşımı <strong>(2 × VYA% × kg) / 16 mL/saat</strong>. <strong>1. derece yanıklar Parkland hesabına dahil edilmez.</strong> Ağrı için fentanil 1 mcg/kg IV yavaş/IM, SKKM/ÇM ile.",
       "Giysi ve takıları çıkar; <strong>cilde yapışmış giysiyi ayırmaya çalışma.</strong> Yanık yüzeyini uygun yanık örtüsü/steril örtü ile koru.",
       "Hastane öncesi sıvı tedavisini; ağırlığı <strong>≥30 kg ve yanık alanı ≥%15</strong> veya ağırlığı <strong><30 kg ve yanık alanı ≥%10</strong> ise değerlendir. İdrar çıkışına göre sıvı hızını saatlik <strong>%10–30</strong> artır veya azalt. Uzun nakilde vital bulgular, monitörizasyon ve idrar çıkışını takip et; resmî Anahtar Nokta tablosunda idrar çıkışı <strong>0,5–1 mL/saat</strong> olarak yazılıdır.",
@@ -3548,6 +3548,16 @@ const CASES = [
       "Geniş yüzey alanlı / derin yanık",
       "Şok bulguları",
       "Sirküler ekstremite/gövde yanığı"
+    ],
+    "referenceGroups": [
+      {
+        "title": "Yanık Alanı Hesaplama",
+        "items": [
+          ["Erişkin", "Dokuzlar Kuralı genel bir fikir verebilir."],
+          ["Çocuk", "Daha hassas diyagramların kullanılması uygundur; kaynak Lund-Browder şemasını örnekler."],
+          ["Pratik", "Hastanın parmakları bitişik avuç içi toplam vücut yüzey alanının yaklaşık %1’i kabul edilebilir."]
+        ]
+      }
     ],
     "meds": [
       {
