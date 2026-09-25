@@ -147,10 +147,14 @@ function renderProtocolKeyPoints(p){
   if(!p.keyPoints?.length)return '';
   return `<section class="detail-section protocol-keypoints-section" id="protocol-keypoints"><div class="detail-heading"><span class="tiny-icon">◎</span><div><h3>Hızlı hatırlatma</h3><p>İlk değerlendirmede gözden kaçmaması gereken çerçeve.</p></div></div><div class="protocol-keypoint-grid">${p.keyPoints.map(group=>`<article class="protocol-keypoint-card"><h4>${esc(group.title)}</h4><div class="protocol-keypoint-list">${(group.items||[]).map(([key,label])=>`<div class="protocol-keypoint-row${String(key).length>4?' long-key':''}"><b>${esc(key)}</b><span>${esc(label)}</span></div>`).join('')}</div></article>`).join('')}</div></section>`;
 }
-function openProtocol(id,{history='root'}={}){
+function pushDetailHistory(type,id){
+  if(window.history.state?.saha112Detail)return;
+  window.history.pushState({...window.history.state,saha112Detail:{type,id}},'');
+}
+function openProtocol(id,{history='root',browserHistory=true}={}){
   if(typeof PROTOCOLS==='undefined')return;
   const p=PROTOCOLS.find(x=>x.id===id&&x.population===state.population);if(!p)return;
-  if(history==='root'){state.protocolHistory=[];state.returnScrollY=scrollY;state.returnNav=state.nav}
+  if(history==='root'){state.protocolHistory=[];state.returnScrollY=scrollY;state.returnNav=state.nav;if(browserHistory)pushDetailHistory('protocol',id)}
   else if(history==='push'&&state.current?.startsWith('protocol:'))state.protocolHistory.push(state.current.slice('protocol:'.length));
   state.current=`protocol:${id}`;
   const jumps=[];if(p.keyPoints?.length)jumps.push(['protocol-keypoints','Hatırlatma','']);jumps.push(['protocol-flow','Akış','critical'],['source','Kaynak','']);
@@ -170,9 +174,11 @@ function backFromDetail(){
   closeCase();
 }
 function showCaseLibraryFromProtocol(){
+  const shouldPop=Boolean(window.history.state?.saha112Detail);
   state.current=null;state.protocolHistory=[];state.view='home';state.category='Tümü';state.query='';el.search.value='';
   el.detail.classList.add('hidden');el.main.classList.remove('hidden');el.shell.classList.remove('detail-open');setNav('cases');renderAll();
   requestAnimationFrame(()=>el.filterTitle.scrollIntoView({behavior:'smooth',block:'start'}));
+  if(shouldPop)window.history.back();
 }
 function renderCases(){
   const base=casesForPopulation();const list=visibleCases();el.filterTitle.textContent=state.view==='favorites'?'Favoriler':'Vaka kütüphanesi';el.count.textContent=state.view==='favorites'?`${list.length} favori`:`${list.length} vaka`;
@@ -253,8 +259,10 @@ function renderReferenceGroups(c){
   return `<section class="detail-section subdued-section" id="reference-points"><div class="detail-heading"><span class="tiny-icon">◎</span><div><h3>Resmî Anahtar Noktalar</h3><p>Ek‑2’deki tablo ve saha prosedürü bilgileri; ana algoritmadan ayrı gösterilir.</p></div></div><div class="protocol-keypoint-grid case-reference-grid">${c.referenceGroups.map(group=>`<article class="protocol-keypoint-card${group.wide?' wide':''}"><h4>${esc(group.title)}</h4><div class="protocol-keypoint-list">${(group.items||[]).map(([key,label])=>`<div class="protocol-keypoint-row"><b>${esc(key)}</b><span>${esc(label)}</span></div>`).join('')}</div></article>`).join('')}</div></section>`;
 }
 function renderSource(c){const s=c.source;const codes=s.algorithmCodes?.length?s.algorithmCodes.join(' + '):'Sayfa referansı';return `<section class="detail-section source-section subdued-section" id="source"><div class="detail-heading"><span class="tiny-icon">§</span><div><h3>Kaynak izi</h3><p>Bu kartın hangi resmî sürüme dayandığını gösterir.</p></div></div><div class="source-grid"><div><span>Belge</span><strong>${esc(s.documentId)}</strong></div><div><span>Kod</span><strong>${esc(codes)}</strong></div><div><span>PDF sayfa</span><strong>${esc(s.page)}</strong></div><div><span>İnceleme</span><strong>${esc(s.reviewedAt)}</strong></div></div><div class="source-actions"><a href="${esc(s.officialPageUrl)}" target="_blank" rel="noopener">Resmî sayfa ↗</a><a href="${esc(s.officialPdfUrl)}" target="_blank" rel="noopener">Ek‑2 PDF ↗</a></div><p class="source-disclaimer">Çevrimdışıyken vaka içeriği kullanılabilir; resmî dış bağlantılar internet gerektirebilir. Resmî belge her zaman son referanstır. Ek‑2, akış şemalarının bağlayıcı ve kesin talimat niteliğinde olmadığını; somut olayda mesleki bilgi, deneyim, klinik değerlendirme ve yürürlükteki mevzuatın gözetilmesi gerektiğini belirtir.</p></section>`}
-function openCase(id){
-  const c=CASES.find(x=>x.id===id&&x.population===state.population);if(!c)return;state.current=id;state.returnScrollY=scrollY;state.returnNav=state.nav;addRecent(id);renderShortcuts();const fav=state.favorites.has(id);
+function openCase(id,{browserHistory=true}={}){
+  const c=CASES.find(x=>x.id===id&&x.population===state.population);if(!c)return;
+  if(browserHistory)pushDetailHistory('case',id);
+  state.current=id;state.returnScrollY=scrollY;state.returnNav=state.nav;addRecent(id);renderShortcuts();const fav=state.favorites.has(id);
   const jumps=[['critical-actions','İlk adımlar','critical'],['algorithm','Algoritma',''],...(c.severity?[['severity','Klinik ayrım','']]:[]),['red-flags','Acil uyarılar','critical'],...(c.referenceGroups?.length?[['reference-points','Anahtar','']]:[]),...(c.meds?.length?[['medications','İlaçlar','']]:[]),...(!c.decisionIntegrated?[['decision','Karar','']]:[]),['source','Kaynak','']];
   el.detail.innerHTML=`<header class="detail-top"><div class="detail-bar"><button type="button" class="back-btn" data-action="back" aria-label="Geri">‹</button><div class="detail-title"><div class="kicker">${esc(popMeta(c.population).label.toUpperCase())} • ${esc(c.category.toUpperCase())}</div><h2>${esc(c.title)}</h2></div><button type="button" class="fav-btn ${fav?'active':''}" data-action="favorite" aria-label="${fav?'Favorilerden çıkar':'Favorilere ekle'}" aria-pressed="${fav}">${fav?'★':'☆'}</button></div><div class="source-ribbon"><span>§</span><span>${esc(c.code)} • PDF s.${esc(c.page)} • gözden geçirme ${formatDateTR(c.source.reviewedAt)}</span></div><div class="detail-jumps">${jumps.map(j=>`<button type="button" class="jump-chip ${j[2]}" data-jump="${j[0]}">${j[1]}</button>`).join('')}</div></header>
   <div class="field-banner"><strong>⚡ Hızlı Saha</strong><span>İlk Kritik Adımlar, acil uyarılar, karar ve dozlar önde; açıklayıcı bölümler geri planda.</span></div>
@@ -268,7 +276,11 @@ function openCase(id){
   </div>`;
   el.main.classList.add('hidden');el.detail.classList.remove('hidden');el.shell.classList.add('detail-open');scrollTo(0,0);
 }
-function closeCase(){state.current=null;state.protocolHistory=[];el.detail.classList.add('hidden');el.main.classList.remove('hidden');el.shell.classList.remove('detail-open');renderAll();setNav(state.returnNav||'home');requestAnimationFrame(()=>scrollTo(0,state.returnScrollY||0))}
+function closeCase({skipHistory=false}={}){
+  const shouldPop=!skipHistory&&Boolean(window.history.state?.saha112Detail);
+  state.current=null;state.protocolHistory=[];el.detail.classList.add('hidden');el.main.classList.remove('hidden');el.shell.classList.remove('detail-open');renderAll();setNav(state.returnNav||'home');requestAnimationFrame(()=>scrollTo(0,state.returnScrollY||0));
+  if(shouldPop)window.history.back();
+}
 function setNav(name){state.nav=name;$$('.nav-item').forEach(b=>b.classList.toggle('active',b.dataset.nav===name))}
 function showHome(top=true){state.view='home';state.current=null;el.detail.classList.add('hidden');el.main.classList.remove('hidden');el.shell.classList.remove('detail-open');setNav('home');renderAll();if(top)scrollTo(0,0)}
 function showCases(){state.view='home';setNav('cases');renderAll();requestAnimationFrame(()=>el.filterTitle.scrollIntoView({behavior:'smooth',block:'start'}))}
@@ -282,6 +294,12 @@ function selectPopulation(id){
 applyTheme();applyDensity();updateNetwork();renderAll();
 matchMedia('(prefers-color-scheme: dark)').addEventListener?.('change',()=>{if(!localStorage.getItem(STORAGE.theme))applyTheme()});
 addEventListener('online',updateNetwork);addEventListener('offline',updateNetwork);
+addEventListener('popstate',e=>{
+  const route=e.state?.saha112Detail;
+  if(route?.type==='case'){openCase(route.id,{browserHistory:false});return}
+  if(route?.type==='protocol'){openProtocol(route.id,{history:'root',browserHistory:false});return}
+  if(state.current)closeCase({skipHistory:true});
+});
 
 const sourceBtn=$('#sourceBtn');
 let sourceReturnFocus=null;
