@@ -33,21 +33,21 @@
             <svg class="theme-icon theme-icon-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 15.4A8.6 8.6 0 1 1 8.6 4a7 7 0 1 0 11.4 11.4Z"/></svg>
           </button>
           <button id="sourceBtn" class="icon-btn" type="button" aria-label="Kaynaklar" title="Kaynaklar" aria-haspopup="dialog" aria-expanded="false" aria-controls="sourceSheet">
-            <svg viewBox="0 0 24 24"><path d="M5 4h11a3 3 0 0 1 3 3v13H8a3 3 0 0 1-3-3V4Zm3 13h9V7a1 1 0 0 0-1-1H7v9.2A3 3 0 0 1 8 15h9v2H8a1 1 0 1 0 0 2h9"/></svg>
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 4h11a3 3 0 0 1 3 3v13H8a3 3 0 0 1-3-3V4Zm3 13h9V7a1 1 0 0 0-1-1H7v9.2A3 3 0 0 1 8 15h9v2H8a1 1 0 1 0 0 2h9"/></svg>
           </button>
         </div>
       </div>
 
       <div class="search-wrap">
         <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m21 21-4.4-4.4m2.4-5.1a7.5 7.5 0 1 1-15 0 7.5 7.5 0 0 1 15 0Z"/></svg>
-        <input id="searchInput" type="search" placeholder="Vaka, protokol, bulgu, ilaç veya doz ara…" autocomplete="off" />
-        <kbd>⌕</kbd>
+        <input id="searchInput" type="search" aria-label="Vaka, protokol, bulgu, ilaç veya doz ara" placeholder="Vaka, protokol, bulgu, ilaç veya doz ara…" autocomplete="off" />
+        <kbd aria-hidden="true">⌕</kbd>
       </div>
 
     </header>
 
     <div class="context-panel">
-      <div id="populationTabs" class="population-tabs" role="tablist" aria-label="Hasta grubu"></div>
+      <div id="populationTabs" class="population-tabs" role="group" aria-label="Hasta grubu seçimi"></div>
       <div class="utility-row">
         <div class="protocol-strip"><span class="status-dot"></span><span><strong>25.08.2026</strong> Ek‑2</span><span class="protocol-chip" id="productVersionChip">V0.54</span></div>
         <div id="networkStatus" class="status-pill" data-state="online"><span class="network-dot"></span><span>Çevrimiçi</span></div>
@@ -108,9 +108,9 @@
     <main id="detailView" class="detail-view hidden" aria-live="polite"></main>
 
     <nav class="bottom-nav" aria-label="Alt menü">
-      <button class="nav-item active" type="button" data-nav="home"><svg viewBox="0 0 24 24"><path d="m3 11 9-8 9 8v9a1 1 0 0 1-1 1h-5v-7H9v7H4a1 1 0 0 1-1-1v-9Z"/></svg><span>Ana sayfa</span></button>
-      <button class="nav-item" type="button" data-nav="cases"><svg viewBox="0 0 24 24"><path d="M6 3h12v18H6zM9 7h6M9 11h6M9 15h4"/></svg><span>Vakalar</span></button>
-      <button class="nav-item" type="button" data-nav="favorites"><svg viewBox="0 0 24 24"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10Z"/></svg><span>Favoriler</span></button>
+      <button class="nav-item active" type="button" data-nav="home"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m3 11 9-8 9 8v9a1 1 0 0 1-1 1h-5v-7H9v7H4a1 1 0 0 1-1-1v-9Z"/></svg><span>Ana sayfa</span></button>
+      <button class="nav-item" type="button" data-nav="cases"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3h12v18H6zM9 7h6M9 11h6M9 15h4"/></svg><span>Vakalar</span></button>
+      <button class="nav-item" type="button" data-nav="favorites"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10Z"/></svg><span>Favoriler</span></button>
     </nav>
   </div>
 
