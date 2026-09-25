@@ -217,7 +217,7 @@ assert(css.includes('min-height:100dvh')&&css.includes('max-height:88dvh')&&css.
 assert(app.includes("aria-current','page'")&&app.includes("b.removeAttribute('aria-current')"),'Alt menü aktif öğesinde aria-current semantiği eksik');
 assert(app.includes('role="tabpanel"')&&app.includes('aria-labelledby="severity-tab-${level}"')&&app.includes('aria-controls="severityCard"'),'Klinik ayrım tab/tabpanel ARIA bağlantısı eksik');
 assert(app.includes("['ArrowLeft','ArrowRight','Home','End'].includes(e.key)")&&app.includes('b.tabIndex=active?0:-1'),'Klinik ayrım sekmelerinde klavye/roving tabindex desteği eksik');
-assert(app.includes('saha112Sheet:true')&&app.includes('closeSourceSheet({fromHistory:true})')&&app.includes("history.state?.saha112Sheet"),'Android/PWA sistem geri hareketi kaynak sheetini önce kapatmıyor');
+assert(app.includes('saha112Sheet:true')&&app.includes('closeSourceSheet({fromHistory:true})')&&app.includes("history.state?.saha112Sheet")&&app.includes("e.state?.saha112Sheet"),'Android/PWA kaynak sheet history geri/ileri davranışı tutarlı değil');
 assert(app.includes('const wasSearching=Boolean(state.query)')&&app.includes('state.query&&!wasSearching'),'Mobil arama her tuş vuruşunda tekrar scrollIntoView çalıştırıyor');
 assert(css.includes('/* V0.56 phone Chrome + installed PWA + tablet layout hardening */'),'V0.56 telefon/tablet responsive hardening bloğu eksik');
 assert(css.includes('@media(hover:hover) and (pointer:fine)')&&!css.includes('.case-row:hover,.featured-card:hover,.shortcut-card:hover{transform:translateY(-1px)}\n'),'Touch cihazlarda hover yükselme efekti doğrudan uygulanmamalı');
