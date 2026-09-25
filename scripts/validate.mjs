@@ -73,8 +73,8 @@ if(!APP_META?.routes?.includes('SC')||APP_META?.routeLabels?.SC!=='Subkutan (SC)
 if(APP_META?.authority?.DIRECT?.symbol!=='✓'||APP_META?.authority?.DIRECT?.visualLabel!=='SKKM/ÇM onayı gerektirmez')err('DIRECT yeşil/doğrudan sembol metası eksik');
 if(APP_META?.authority?.SKKM?.symbol!=='◆'||APP_META?.authority?.SKKM?.visualLabel!=='SKKM/ÇM onayı gerekli')err('SKKM sarı/onay sembol metası eksik');
 if(APP_META?.authority?.ALGORITHM?.symbol!=='•'||APP_META?.authority?.ALGORITHM?.visualLabel!=='Kaynakta SKKM/ÇM yetkisi belirtilmemiş')err('ALGORITHM kaynakta belirtilmeyen yetki metası eksik');
-if(APP_META?.contentVersion!=='EK2-2026.08.25-full-integrity-reaudit-2026.09.25')err('contentVersion V0.47 tam bütünlük yeniden audit sürümüyle eşleşmiyor');
-if(APP_META?.productVersion!=='0.47')err('productVersion V0.47 olmalı');
+if(APP_META?.contentVersion!=='EK2-2026.08.25-wide-safety-reaudit-2026.09.25')err('contentVersion V0.48 geniş güvenlik yeniden audit sürümüyle eşleşmiyor');
+if(APP_META?.productVersion!=='0.48')err('productVersion V0.48 olmalı');
 if(APP_META?.practitionerAuthority?.ATT_AABT?.officialLabel!=='Acil Tıp Teknisyeni / Teknikeri'||APP_META?.practitionerAuthority?.AABT?.officialLabel!=='Acil Tıp Teknikeri'||APP_META?.practitionerAuthority?.UNVERIFIED?.symbol!=='□')err('ATT/AABT uygulayıcı yetki metası eksik veya bozuk');
 for(const code of ['SB-ASH-Y-04','SB-ASH-Y-05','SB-ASH-Y-06','SB-ASH-Y-07','SB-ASH-Y-08','SB-ASH-Y-09','SB-ASH-Y-10','SB-ASH-Y-11','SB-ASH-Y-12','SB-ASH-Y-13','SB-ASH-Y-14','SB-ASH-Y-15','SB-ASH-Y-17','SB-ASH-Y-19','SB-ASH-Y-21','SB-ASH-Y-22','SB-ASH-Y-23','SB-ASH-Y-24','SB-ASH-Y-28','SB-ASH-Y-29','SB-ASH-Y-34','SB-ASH-Y-35','SB-ASH-Y-36','SB-ASH-Y-37','SB-ASH-Y-39','SB-ASH-Y-40'])if(!APP_META?.practitionerAudit?.verifiedMedicationCases?.includes(code))err(`Uygulayıcı yetki görsel audit izi eksik: ${code}`);
 if(APP_META?.practitionerAudit?.adultMedicationCardsComplete!==true)err('Yetişkin ilaç kartları uygulayıcı audit tamamlama işareti eksik');
@@ -559,6 +559,7 @@ for(const term of ['Uzun resüsitasyon süreleri önerilir','sert fiziksel harek
 const electricalBurnCase=(CASES||[]).find(c=>c.id==='electrical-burn');
 if(electricalBurnCase?.code!=='SB-ASH-Y-29'||electricalBurnCase?.page!=='51'||electricalBurnCase?.source?.page!=='48–49 / 51'||(electricalBurnCase?.meds||[]).length!==1)err('Elektrik Yanıkları Y-29 kaynak/ilaç yapısı bozuldu');
 for(const term of ['10 metre','Ringer Laktat','Spinal immobilizasyon','Termal Yanık'])if(!JSON.stringify(electricalBurnCase).includes(term))err(`Y-29 Elektrik Yanıkları öğesi eksik: ${term}`);
+for(const term of ['elektrik kaynağından ayrıldığından','güç kaynağının kesildiğinden'])if(!JSON.stringify(electricalBurnCase).includes(term))err(`Y-29 elektrik güvenliği kritik öğesi eksik: ${term}`);
 if(!JSON.stringify(electricalBurnCase).includes('(4 × yanmış VYA% × kg) / 16'))err('Y-29 elektrik yanığı ortak Yanık Anahtar Nokta sıvı formülü eksik');
 
 const chemicalBurnCase=(CASES||[]).find(c=>c.id==='chemical-burn');
@@ -601,6 +602,7 @@ if(!JSON.stringify(cholinergicCase).includes('SLUDGE-BBB'))err('Y-35 SLUDGE-BBB 
 if(!JSON.stringify(cholinergicCase).includes('ilk 30 dk')||!JSON.stringify(cholinergicCase).includes('acil serviste uygulanmalıdır'))err('Y-35 gastrik lavaj ilk 30 dk / acil servis Anahtar Noktası eksik');
 if(!JSON.stringify(cholinergicCase).includes('ambulans kabinine alınmadan önce')||!JSON.stringify(cholinergicCase).includes('ıslak bezle silinmelidir'))err('Y-35 ambulans kabini öncesi dekontaminasyon Anahtar Noktası eksik');
 if(!JSON.stringify(cholinergicCase).includes('IV yol açılamazsa açılana kadar 2–5 mg IM'))err('Y-35 atropin IM köprü ifadesi resmî Anahtar Noktaya uymuyor');
+for(const term of ['kişisel koruyucu ekipmanı tam ve eksiksiz kullan','sekresyonlarla temas etme'])if(!JSON.stringify(cholinergicCase).toLocaleLowerCase('tr-TR').includes(term.toLocaleLowerCase('tr-TR')))err(`Y-35 kişisel güvenlik Anahtar Noktası eksik: ${term}`);
 
 const opioidCase=(CASES||[]).find(c=>c.id==='opioid-poisoning');
 if(opioidCase?.code!=='SB-ASH-Y-36'||opioidCase?.page!=='62'||opioidCase?.source?.page!=='61–62')err('Opioid Y-36 kaynak izi bozuldu');
