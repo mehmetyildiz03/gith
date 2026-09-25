@@ -30,8 +30,8 @@ assert(css.includes("/* V0.6.1 dark surface hardening */"),'Koyu mod yüzey hard
 assert(css.includes(":root[data-theme='dark'] .quick-step")&&css.includes("background:var(--detail-panel-deep)!important"),'Koyu mod algoritma adımı explicit yüzeyi eksik');
 assert(css.includes(":root[data-theme='dark'] .red-flag")&&css.includes("background:#2b202a!important"),'Koyu mod kırmızı bayrak yüzeyi eksik');
 assert(css.includes(":root[data-theme='dark'] .branch.yes")&&css.includes(":root[data-theme='dark'] .branch.no"),'Koyu mod karar kutuları explicit değil');
-assert(html.includes('styles.css?v=0.50')&&html.includes('app-core.js?v=0.50')&&html.includes('cases-data.js?v=0.50'),'Kritik asset cache-bust sürümü eksik');
-assert(sw.includes("saha112-v050")&&sw.includes('NETWORK_FIRST_DESTINATIONS'),'Service worker kritik asset güncelleme stratejisi eksik');
+assert(html.includes('styles.css?v=0.51')&&html.includes('app-core.js?v=0.51')&&html.includes('cases-data.js?v=0.51'),'Kritik asset cache-bust sürümü eksik');
+assert(sw.includes("saha112-v051")&&sw.includes('NETWORK_FIRST_DESTINATIONS'),'Service worker kritik asset güncelleme stratejisi eksik');
 assert(!app.includes('Kırmızı bayrak'),'Eski kullanıcı terimi hâlâ UI içinde');
 assert(app.includes('Acil Uyarı Bulguları'),'Acil Uyarı Bulguları başlığı eksik');
 assert(app.includes('Önceliği, müdahaleyi veya nakil kararını değiştirebilecek bulgular.'),'Acil uyarı açıklaması eksik');
@@ -57,7 +57,7 @@ assert(data.includes('"reviewedAt": "2026-09-25"')&&data.includes('"Glikoz <60 m
 assert(data.includes('"transition": "DİYABETİK ACİLLER ALGORİTMASINA GİT"')&&data.includes('"notice": "Tansiyon değerleri normalin üstünde olsa da tansiyonu düşürme."'),'Y-18 mavi geçiş / gri KB uyarısı semantiği eksik');
 
 assert(data.includes('"title": "Nabızlı Taşikardi"'),'Nabızlı Taşikardi başlığı eksik');
-assert(data.includes('"contentVersion": "EK2-2026.08.25-full-keypoint-table-audit-2026.09.25"'),'V0.50 tam Anahtar Nokta tablo audit sürümü eksik');
+assert(data.includes('"contentVersion": "EK2-2026.08.25-adult-source-integrity-reaudit-2026.09.25"'),'V0.51 yetişkin kaynak bütünlüğü yeniden audit sürümü eksik');
 assert(html.includes('id="authorityLegend"')&&!html.includes('<span class="authority direct">Doğrudan</span>'),'Yetki legendi dinamik veri kaynağına bağlı değil');
 assert(app.includes("authorityMarkup")&&app.includes("authority-symbol")&&app.includes("✓ Yeşil: SKKM/ÇM onayı yok")&&app.includes("◆ Sarı: SKKM/ÇM onayı"),'Yetki sembol/yazı eşlemesi eksik');
 assert(css.includes('.authority.direct{')&&css.includes('var(--greenSoft)')&&css.includes('.authority.skkm{')&&css.includes('var(--amberSoft)'),'Yeşil/sarı yetki renk semantiği eksik');
@@ -69,8 +69,8 @@ assert(css.includes('.case-reference-grid .protocol-keypoint-card:only-child,.ca
 assert(data.includes('IV yol açılamazsa açılana kadar 2–5 mg IM')&&data.includes('5 küçük kare >100 ms QRS')&&data.includes('8 küçük kare >160 ms QRS'),'Y-35/Y-37 kaynak-sadakati tamamlaması eksik');
 assert(data.includes('kişisel koruyucu ekipmanı tam ve eksiksiz kullan; sekresyonlarla temas etme')&&data.includes('Sekresyonlarla temas / devam eden kontaminasyon / ikincil maruziyet riski'),'Y-35 kişisel güvenlik Anahtar Noktası görünür değil');
 assert(data.includes('kas krampları, normal ya da hafif artmış vücut ısısı ve terleme')&&data.includes('normal ya da artmış vücut ısısı (<40°C)')&&data.includes('ortostatik hipotansiyon → damar yolu aç'),'Y-23 tedavi kolu klinik ayrım kriterleri görünür değil');
-assert(data.includes('"title": "Kalp Yetmezliği Bulguları"')&&data.includes('hepatojuguler reflü')&&data.includes('tüm acil hastaların %50–70’ini oluşturur')&&data.includes('venöz doluşta uzama'),'Y-14 resmî Kalp Yetmezliği Anahtar Nokta tablosu eksik');
-assert(data.includes('"title": "Hipertermi — Klinik Bulgular"')&&data.includes('Isı Yorgunluğu')&&data.includes('minimal ya da çok az terleme')&&data.includes('Evoperasyon')&&data.includes('İmmersiyon'),'Y-23 resmî Hipertermi Anahtar Nokta tablosu eksik');
+assert(data.includes('"title": "Kalp Yetmezliği Bulguları"')&&data.includes('hepatojuguler reflü')&&data.includes('tüm acil hastaların %50–70’ini oluşturur')&&data.includes('hasta yatamaz, oturur pozisyonda durur')&&data.includes('venöz doluşta uzama'),'Y-14 resmî Kalp Yetmezliği Anahtar Nokta tablosu eksik');
+assert(data.includes('"title": "Hipertermi — Klinik Bulgular"')&&data.includes('Isı Yorgunluğu')&&data.includes('minimal ya da çok az terleme')&&data.includes('Evoperasyon')&&data.includes('Vücuduna soğuk ya da ılık su sıkılır ve havalandırma açılarak buharlaşması sağlanır')&&data.includes('İmmersiyon')&&data.includes('ıslak bez ya da spanç konulur'),'Y-23 resmî Hipertermi Anahtar Nokta tablosu eksik');
 assert(data.includes('Beta Bloker / Kalsiyum Kanal Blokeri — Belirtiler ve Klinik Bulgular')&&data.includes('Konuşma bozukluğu (geveleyerek konuşma)')&&data.includes('hipotansiyonda IV sıvı replasmanı')&&data.includes('Kalsiyum kanal blokerine bağlı olduğu doğrulanmışsa'),'Y-34 resmî Anahtar Nokta tablosu eksik');
 assert(data.includes('Organofosfatlar — Belirtiler ve Klinik Bulgular')&&data.includes('solunum felci')&&data.includes('Bradikardi veya taşikardi ve hipertansiyon')&&data.includes('hava yolu yönetimi ve oksijenizasyon önemlidir')&&data.includes('maksimum doz belirtilmemiştir'),'Y-35 resmî Anahtar Nokta tablosu eksik');
 assert(data.includes('Opioid Analjezikler — Belirtiler ve Klinik Bulgular')&&data.includes('barsak seslerinde azalma ve ileus')&&data.includes('Karaciğer yetmezliği ve akut böbrek yetmezliği')&&data.includes('Solunum depresyonunda ileri hava yolu yönetimi')&&data.includes('opioid bağımlısı olmayanda 0,4–2 mg'),'Y-36 resmî Anahtar Nokta tablosu eksik');
@@ -85,6 +85,7 @@ assert(data.includes('"subtitle": "X-ABCDE • kanama • hızlı nakil"')&&data
 assert(data.includes("oksijen desteği ile düzelmeyen, SpO₂'nin %94 altında kalması")&&data.includes('55 yaş üstü, yanık, hipotermi veya gebelik')&&(data.match(/"transition":/g)||[]).length>=6&&!data.includes('Tüm giysileri çıkararak')&&data.includes('Tüm giysileri yararak'),'Y-38 kritik travma tablosu / mavi geçiş / giysi ifadesi eksik');
 assert(data.includes('kurşun giriş yeri kesilmemeli')&&data.includes('kıyafetler tamamen çıkartılmışsa muhafaza'),'Y-38 adli vaka giysi/kurşun giriş yeri Anahtar Noktası eksik');
 assert(data.includes('Alerjen madde uzaklaştırılmalıdır')&&data.includes("%30'dan fazla düşme"),'Y-22 anafilaksi Anahtar Nokta/tanı ölçütü eksik');
+assert(data.includes('"title": "Anafilaksi Tanı Kriterleri"')&&data.includes('yaygın ürtiker')&&data.includes('şiş dudaklar, dil veya uvula')&&data.includes('hipotoni, senkop veya inkontinans')&&data.includes('%30’dan fazla düşme'),'Y-22 resmî Anafilaksi Tanı Kriterleri eksik');
 assert(data.includes('soğuk ya da ılık su sıkıp havalandırma')&&data.includes('Koltuk altı ve kasık bölgelerine'),'Y-23 pasif eksternal soğutma yöntemleri eksik');
 assert(data.includes('PVC, naylon')&&data.includes('toksik ve irritan gaz'),'Y-33 yangın dumanı toksik/irritan gaz uyarısı eksik');
 assert(data.includes('NIMV başarısızlığı')&&data.includes('inatçı kusma/aspirasyon riski'),'Y-04 KOAH ventilasyon Anahtar Noktaları eksik');
@@ -97,6 +98,7 @@ assert(data.includes('günlük yeterli doz aspirin kullanmış olsa bile')&&data
 assert(data.includes('5–6 cm')&&data.includes('100–120/dk')&&data.includes("10 sn'den fazla ara verme")&&data.includes('ileri hava yolundan önce 30:2')&&data.includes('10 solunum/dk')&&data.includes('kardiyak tamponad')&&data.includes('toksin/terapötik bozuklukları'),'Y-09/10/11 yüksek kaliteli KPR / geri döndürülebilir nedenler eksik');
 assert(data.includes('(SKB + 2 × DKB) / 3'),'Y-13 MAP formülü eksik');
 assert(data.includes('1. derece yanıklar Parkland hesabına dahil edilmez'),'Y-28 Parkland 1. derece yanık dışlama bilgisi eksik');
+assert(data.includes('"title": "Yanık Alanı Hesaplama"')&&data.includes('Dokuzlar Kuralı')&&data.includes('Lund-Browder')&&data.includes('parmakları bitişik avuç içi')&&data.includes('yaklaşık %1’i'),'Y-28 yanık alanı hesaplama Anahtar Noktaları eksik');
 assert(data.includes('MI, KKY, disritmi')&&data.includes('üremi, hepatik nedenler'),'Y-16 Bilinç Değişikliği neden tablosu eksik');
 assert(data.includes('nabız dolgunluğu ve hızı')&&data.includes('tekrarlayan ve kontrolsüz biçimde'),'Y-20 Vertigo Anahtar Noktaları eksik');
 assert(data.includes('kulak çınlaması')&&data.includes('tükürük salgısında artma veya azalma'),'Y-31 genel zehirlenme bulgu tablosu eksik');
