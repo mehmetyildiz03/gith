@@ -2,7 +2,16 @@
 
 Mobil-first, offline çekirdekli, vaka bazlı hastane öncesi acil sağlık eğitim ve hızlı hatırlatma uygulaması.
 
-## V0.45 mimarisi
+## V0.46 kaynak-sadakati düzeltmesi
+
+- **Uygulama yolu çıkarımı kaldırıldı:** Y-13 hemorajik/non-hemorajik kristalloid, Y-14 kardiyojenik şok %0,9 NaCl, Y-22 anafilaksi %0,9 NaCl ve Y-23 ısı stresi/ısı çarpması %0,9 NaCl kutularında resmî şema uygulama yolunu ayrıca yazmadığı için önceki `IV` çıkarımı kaldırıldı; kartlar `OTHER / Şemaya göre` olarak tutulur.
+- **Y-24 ayrımı bilinçli korundu:** Hipotermi Anahtar Noktası ısıtılmış IV sıvıları 40–42°C olarak açıkça tanımladığı için ılık %0,9 NaCl kartındaki IV yol bilgisi kaynak desteğiyle korunur.
+- **Birebir kaynak ifadesi:** Y-14 ve Y-40 algoritmalarındaki alışılmadık resmî `SpO₂ >%94–98` yazımı yorumlanıp düzeltilmeden korunur.
+- **Regresyon koruması:** Validator bu altı kaynakta-belirtilmeyen sıvı yolu çıkarımını, Y-24 IV kaynak desteğini ve Y-14/Y-40 resmî SpO₂ ifadesini kilitler.
+- **PWA sürümü:** İçerik, HTML asset query'leri, UI audit ve service-worker cache birlikte V0.46'ya yükseltilir.
+
+### V0.45 önceki durum
+
 
 - **Final tam kaynak audit'i:** 2 temel protokol ve 37 yetişkin vakanın tamamı 24.09.2026'da güncel 25.08.2026 Ek-2 sayfa görüntülerine karşı yeniden kontrol edildi; tüm vaka `reviewedAt` değerleri artık 24.09.2026 ve CI bunu zorunlu tutar.
 - **Y-06 AKS:** SpO₂ >%90'da rutin O₂'den kaçınma, solunum sıkıntısı/ritim bozukluğunda O₂ kullanımı ve günlük yeterli aspirin alınmış olsa bile yükleme dozu önerisi tamamlandı.
