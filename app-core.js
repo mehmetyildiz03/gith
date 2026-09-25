@@ -219,7 +219,7 @@ function renderActionStep(step,{branch=false}={}){
   return `<div class="${cls}">${precondition}<div class="${copyClass}">${step.html}</div>${badges?`<div class="action-step-badges">${badges}</div>`:''}${followUp}</div>`;
 }
 function renderAlgorithmSteps(c){
-  const steps=c.algorithmSteps?.length?c.algorithmSteps:(c.quick||[]).map(html=>({html}));
+  const steps=Array.isArray(c.algorithmSteps)?c.algorithmSteps:(c.quick||[]).map(html=>({html}));
   return steps.map(step=>renderActionStep(step)).join('');
 }
 function renderAlgorithmNotices(c){
