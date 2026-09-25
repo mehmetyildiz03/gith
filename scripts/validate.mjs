@@ -73,8 +73,8 @@ if(!APP_META?.routes?.includes('SC')||APP_META?.routeLabels?.SC!=='Subkutan (SC)
 if(APP_META?.authority?.DIRECT?.symbol!=='✓'||APP_META?.authority?.DIRECT?.visualLabel!=='SKKM/ÇM onayı gerektirmez')err('DIRECT yeşil/doğrudan sembol metası eksik');
 if(APP_META?.authority?.SKKM?.symbol!=='◆'||APP_META?.authority?.SKKM?.visualLabel!=='SKKM/ÇM onayı gerekli')err('SKKM sarı/onay sembol metası eksik');
 if(APP_META?.authority?.ALGORITHM?.symbol!=='•'||APP_META?.authority?.ALGORITHM?.visualLabel!=='Kaynakta SKKM/ÇM yetkisi belirtilmemiş')err('ALGORITHM kaynakta belirtilmeyen yetki metası eksik');
-if(APP_META?.contentVersion!=='EK2-2026.08.25-full-keypoint-table-audit-2026.09.25')err('contentVersion V0.50 tam Anahtar Nokta tablo audit sürümüyle eşleşmiyor');
-if(APP_META?.productVersion!=='0.50')err('productVersion V0.50 olmalı');
+if(APP_META?.contentVersion!=='EK2-2026.08.25-adult-source-integrity-reaudit-2026.09.25')err('contentVersion V0.51 yetişkin kaynak bütünlüğü yeniden audit sürümüyle eşleşmiyor');
+if(APP_META?.productVersion!=='0.51')err('productVersion V0.51 olmalı');
 if(APP_META?.practitionerAuthority?.ATT_AABT?.officialLabel!=='Acil Tıp Teknisyeni / Teknikeri'||APP_META?.practitionerAuthority?.AABT?.officialLabel!=='Acil Tıp Teknikeri'||APP_META?.practitionerAuthority?.UNVERIFIED?.symbol!=='□')err('ATT/AABT uygulayıcı yetki metası eksik veya bozuk');
 for(const code of ['SB-ASH-Y-04','SB-ASH-Y-05','SB-ASH-Y-06','SB-ASH-Y-07','SB-ASH-Y-08','SB-ASH-Y-09','SB-ASH-Y-10','SB-ASH-Y-11','SB-ASH-Y-12','SB-ASH-Y-13','SB-ASH-Y-14','SB-ASH-Y-15','SB-ASH-Y-17','SB-ASH-Y-19','SB-ASH-Y-21','SB-ASH-Y-22','SB-ASH-Y-23','SB-ASH-Y-24','SB-ASH-Y-28','SB-ASH-Y-29','SB-ASH-Y-34','SB-ASH-Y-35','SB-ASH-Y-36','SB-ASH-Y-37','SB-ASH-Y-39','SB-ASH-Y-40'])if(!APP_META?.practitionerAudit?.verifiedMedicationCases?.includes(code))err(`Uygulayıcı yetki görsel audit izi eksik: ${code}`);
 if(APP_META?.practitionerAudit?.adultMedicationCardsComplete!==true)err('Yetişkin ilaç kartları uygulayıcı audit tamamlama işareti eksik');
@@ -149,6 +149,9 @@ if(!APP_META?.actionAudit?.verifiedCases?.includes('SB-ASH-Y-26')||!APP_META?.ac
 const anaphylaxisCase=(CASES||[]).find(c=>c.id==='anaphylaxis');
 if(anaphylaxisCase?.source?.reviewedAt!=='2026-09-25')err('Y-22 son kaynak gözden geçirme tarihi güncel değil');
 for(const term of ['Alerjen madde uzaklaştırılmalıdır','%30\'dan fazla düşme','Deri/mukoza tutulumu','gastrointestinal bulgulardan en az ikisinin'])if(!JSON.stringify(anaphylaxisCase).includes(term))err(`Y-22 Anahtar Nokta/tanı ölçütü eksik: ${term}`);
+const y22Refs=anaphylaxisCase?.referenceGroups||[];
+if(y22Refs.length!==1)err('Y-22 resmî Anafilaksi Tanı Kriterleri referans grubu eksik');
+for(const term of ['yaygın ürtiker','kaşıntı','kızarıklık','şiş dudaklar, dil veya uvula','iki veya daha fazlasının görülmesi','%30’dan fazla düşme','hipotoni, senkop veya inkontinans','Alerjen madde uzaklaştırılmalıdır'])if(!JSON.stringify(y22Refs).includes(term))err(`Y-22 resmî Anafilaksi Tanı Kriteri eksik: ${term}`);
 if(JSON.stringify(medByName(anaphylaxisCase,'Salbutamol')?.routes)!==JSON.stringify(['OTHER']))err('Anafilaksi salbutamol yolu resmî Y-22 kutusunda belirtilmediğinden OTHER/Şemaya göre olmalı');
 if(medByName(anaphylaxisCase,'Adrenalin')?.authority!=='DIRECT'||!String(medByName(anaphylaxisCase,'Adrenalin')?.repeat||'').includes('5 dk'))err('Anafilaksi adrenalin doğrudan/5 dk tekrar bilgisi eksik');
 const anaNaCl=medByName(anaphylaxisCase,'%0,9 NaCl');
@@ -259,6 +262,9 @@ if(medByName(burnCase,'Ringer Laktat')?.authority!=='DIRECT'||medByName(burnCase
 for(const term of ['cilde yapışmış giysiyi ayırmaya çalışma','≥30 kg ve yanık alanı ≥%15','<30 kg ve yanık alanı ≥%10','%10–30','0,5–1 mL/saat','kısmi kalınlık >%25 VYA','tam kalınlık >%10 VYA','el-yüz-ayak-perine','sirküler ekstremite'])if(!JSON.stringify(burnCase).includes(term))err(`Y-28 Termal Yanık Anahtar Nokta eksik: ${term}`);
 if(!JSON.stringify(burnCase).includes('Termal yanığı musluk suyu ile yıka ve kurula'))err('Y-28 termal yanık yıka/kurula Anahtar Noktası eksik');
 if(!JSON.stringify(burnCase).includes('1. derece yanıklar Parkland hesabına dahil edilmez'))err('Y-28 Parkland hesabında 1. derece yanıkların dışlanması eksik');
+const y28Refs=burnCase?.referenceGroups||[];
+if(y28Refs.length!==1)err('Y-28 yanık alanı hesaplama referans grubu eksik');
+for(const term of ['Dokuzlar Kuralı','Lund-Browder','parmakları bitişik avuç içi','yaklaşık %1’i'])if(!JSON.stringify(y28Refs).includes(term))err(`Y-28 yanık alanı hesaplama Anahtar Noktası eksik: ${term}`);
 
 const hyperthermiaCase=(CASES||[]).find(c=>c.id==='hyperthermia');
 if(hyperthermiaCase?.source?.reviewedAt!=='2026-09-25')err('Y-23 son kaynak gözden geçirme tarihi güncel değil');
@@ -267,7 +273,7 @@ if(!JSON.stringify(hyperthermiaCase).includes('hastayı serin ortama al')||!JSON
 for(const term of ['kas krampları, normal ya da hafif artmış vücut ısısı ve terleme','normal ya da artmış vücut ısısı (<40°C)','bulantı, kusma, baş ağrısı, halsizlik ve ortostatik hipotansiyon'])if(!JSON.stringify(hyperthermiaCase).includes(term))err(`Y-23 tedavi kolunu belirleyen klinik kriter eksik: ${term}`);
 const y23Refs=hyperthermiaCase?.referenceGroups||[];
 if(y23Refs.length!==2)err('Y-23 resmî Anahtar Nokta tablo grupları eksik');
-for(const term of ['Isı Krampları','Kas seyirmeleri','abdomende ağrılı spazmlar','Isı Yorgunluğu','Solukluk','susuzluk','Isı Çarpması','minimal ya da çok az terleme','Evoperasyon','İmmersiyon','Vücut ısısını <39°C'])if(!JSON.stringify(y23Refs).includes(term))err(`Y-23 resmî Anahtar Nokta içeriği eksik: ${term}`);
+for(const term of ['Isı Krampları','Kas seyirmeleri','abdomende ağrılı spazmlar','Isı Yorgunluğu','Solukluk','susuzluk','Isı Çarpması','minimal ya da çok az terleme','Evoperasyon','Vücuduna soğuk ya da ılık su sıkılır ve havalandırma açılarak buharlaşması sağlanır','İmmersiyon','ıslak bez ya da spanç konulur','Soğutmada hedef vücut ısısı <39°C’yi sağlamaktır'])if(!JSON.stringify(y23Refs).includes(term))err(`Y-23 resmî Anahtar Nokta içeriği eksik: ${term}`);
 if(medByName(hyperthermiaCase,'%0,9 NaCl — ısı stresi')?.dose!=='1000–2000 mL bolus'||medByName(hyperthermiaCase,'%0,9 NaCl — ısı çarpması')?.dose!=='1000 mL bolus')err('Y-23 ısı stresi / ısı çarpması NaCl doz ayrımı bozuk');
 for(const name of ['%0,9 NaCl — ısı stresi','%0,9 NaCl — ısı çarpması'])if(JSON.stringify(medByName(hyperthermiaCase,name)?.routes)!==JSON.stringify(['OTHER']))err(`Y-23 ${name} uygulama yolu kaynakta ayrıca belirtilmediği için türetilmemeli`);
 
@@ -487,7 +493,7 @@ if(medByName(heartFailureCase,'Furosemid')?.dose!=='20–40 mg'||medByName(heart
 if(heartFailureCase?.decisionIntegrated!==true||heartFailureCase?.algorithmBranchLayout!=='profiles'||(heartFailureCase?.algorithmSteps||[]).length!==3||(heartFailureCase?.algorithmBranches||[]).length!==3)err('Y-14 ortak 3 başlangıç adımı / 3 hemodinamik profil / entegre karar yapısı eksik');
 const y14Refs=heartFailureCase?.referenceGroups||[];
 if(y14Refs.length!==2)err('Y-14 resmî Anahtar Nokta tablo grupları eksik');
-for(const term of ['Kalp yetmezliği öyküsü','Efor kapasitesinin azalması','hepatojuguler reflü','tüm acil hastaların %50–70’ini oluşturur','>140 mmHg','>180 mmHg','48 saatte','venöz doluşta uzama','soğuk ve siyanotik ekstremiteler'])if(!JSON.stringify(y14Refs).includes(term))err(`Y-14 resmî Anahtar Nokta içeriği eksik: ${term}`);
+for(const term of ['Kalp yetmezliği öyküsü','Efor kapasitesinin azalması','hepatojuguler reflü','tüm acil hastaların %50–70’ini oluşturur','>140 mmHg','>180 mmHg','48 saatte','hasta yatamaz, oturur pozisyonda durur','venöz doluşta uzama','soğuk ve siyanotik ekstremiteler'])if(!JSON.stringify(y14Refs).includes(term))err(`Y-14 resmî Anahtar Nokta içeriği eksik: ${term}`);
 for(const s of (heartFailureCase?.algorithmSteps||[]))if(s.approvalAuthority!=='DIRECT'||s.practitionerAuthority!=='ATT_AABT')err('Y-14 ortak başlangıç basamakları turkuaz ATT/AABT + DIRECT olmalı');
 const y14Norm=(heartFailureCase?.algorithmBranches||[]).find(b=>b.label==='Normotansif dekompanse kalp yetmezliği');
 const y14Hyper=(heartFailureCase?.algorithmBranches||[]).find(b=>b.label==='Hipertansif kalp yetmezliği');
