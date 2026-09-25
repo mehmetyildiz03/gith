@@ -1,7 +1,7 @@
 const APP_META = {
   "schemaVersion": 5,
-  "contentVersion": "EK2-2026.08.25-adult-source-integrity-reaudit-2026.09.25",
-  "productVersion": "0.51",
+  "contentVersion": "EK2-2026.08.25-early-adult-fidelity-reaudit-2026.09.25",
+  "productVersion": "0.52",
   "populations": [
     {
       "id": "adult",
@@ -204,6 +204,7 @@ const APP_META = {
     "source": "25.08.2026 tarihli Ek-2 resmî PDF",
     "method": "Resmî turkuaz/turuncu kutular ve SKKM/ÇM telefon simgesi adım bazında ayrı alanlarda görsel olarak doğrulandı",
     "verifiedCases": [
+      "SB-ASH-Y-03",
       "SB-ASH-Y-04",
       "SB-ASH-Y-05",
       "SB-ASH-Y-06",
@@ -226,6 +227,7 @@ const APP_META = {
       "SB-ASH-Y-41"
     ],
     "verifiedBranchCases": [
+      "SB-ASH-Y-03",
       "SB-ASH-Y-08",
       "SB-ASH-Y-09",
       "SB-ASH-Y-10",
@@ -1040,7 +1042,7 @@ const CASES = [
       "<strong>Oksijen:</strong> SpO₂ < %90 ise O₂ ver. SpO₂ >%90 ise rutin O₂ uygulamasından kaçın; solunum sıkıntısı veya ritim bozukluğunda uygulanabilir.",
       "<strong>Asetilsalisilik asit 160–325 mg çiğnet.</strong> Hipotansiyon/bradikardi yoksa SKKM/ÇM ile isosorbid dinitrat 5 mg SL; ağrı sürerse 3–5 dk arayla toplam 3 doza kadar.",
       "<strong>Nitrat güvenliği:</strong> hipotansiyon, sağ ventrikül MI, bradikardi veya sildenafil/vardenafil/tadalafil kullanımı varsa izosorbid dinitrat verme.",
-      "<strong>Fentanil:</strong> diğer girişimlere rağmen tolere edilemeyen şiddetli ağrıda SKKM/ÇM ile 1 mcg/kg IV yavaş bolus; bulantı ve solunum depresyonu açısından izle.",
+      "<strong>Fentanil:</strong> diğer girişimlere rağmen tolere edilemeyen şiddetli ağrıda SKKM/ÇM ile 1 mcg/kg IV; bulantı-kusma ve solunum depresyonu riski nedeniyle yavaş bolus uygula.",
       "<strong>ST elevasyonlu MI:</strong> kapı-balon (<strong>120 dk içinde perkütan girişim</strong>) ve kapı-iğne (fibrinolitik uygulama) sürelerini nakil ve uygun merkez seçiminde gözet."
     ],
     "warningFindings": [
@@ -1083,7 +1085,7 @@ const CASES = [
         "authority": "SKKM",
         "repeat": "",
         "maxDose": "",
-        "note": "Göğüs ağrısı devam ediyor ve hasta tarafından tolere edilemiyorsa.",
+        "note": "Göğüs ağrısı devam ediyor ve hasta tarafından tolere edilemiyorsa. Bulantı-kusma ve solunum depresyonu riski nedeniyle yavaş bolus uygula.",
         "practitionerAuthority": "AABT"
       }
     ],
@@ -1155,6 +1157,79 @@ const CASES = [
       "<strong>Ses çıkarıyor/öksürüyor mu?</strong> Evetse kısmi tıkanma: öksürmeyi teşvik et, takip et.",
       "<strong>Tam tıkanma:</strong> 5 kez sırta vur + 5 kez karına bası; cisim çıkana kadar devam et.",
       "<strong>Bilinç kaybı gelişirse arrest yönetimine geç.</strong> İleri hava yolu başarısızsa resmî şemada SKKM/ÇM ile iğne krikotirotomi basamağı bulunur."
+    ],
+    "decisionIntegrated": true,
+    "algorithmBranchLayout": "split",
+    "algorithmSteps": [],
+    "algorithmBranches": [
+      {
+        "label": "Hayır — bilinç açık değil",
+        "transition": "ARREST YÖNETİMİ ALGORİTMASINA GİT"
+      },
+      {
+        "label": "Evet — bilinç açık",
+        "branches": [
+          {
+            "label": "Hasta ses çıkarıyor / öksürüyor / inliyor — Kısmi tıkanma",
+            "steps": [
+              {
+                "html": "<strong>Öksürmesini teşvik et, takip et.</strong>",
+                "approvalAuthority": "DIRECT",
+                "practitionerAuthority": "ATT_AABT"
+              }
+            ],
+            "notices": [
+              "Kısmi tıkanıklıkta sırta vurmak tam tıkanıklığa neden olabilir!"
+            ],
+            "branches": [
+              {
+                "label": "Tam tıkanmaya dönüşürse",
+                "steps": [
+                  {
+                    "html": "<strong>5 kez sırta vur, 5 kez karına bası uygula.</strong> Cisim çıkana kadar devam et.",
+                    "approvalAuthority": "DIRECT",
+                    "practitionerAuthority": "ATT_AABT"
+                  },
+                  {
+                    "precondition": "Tam tıkanmada ileri hava yolu uygulamaları başarısızsa",
+                    "html": "<strong>İğne ile krikotirotomi yap.</strong>",
+                    "approvalAuthority": "SKKM",
+                    "practitionerAuthority": "AABT"
+                  }
+                ],
+                "branches": [
+                  {
+                    "label": "Bilinç kaybı gelişirse",
+                    "transition": "ARREST YÖNETİMİ ALGORİTMASINA GİT"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "label": "Hasta ses çıkaramıyor / etkili öksürük yok — Tam tıkanma",
+            "steps": [
+              {
+                "html": "<strong>5 kez sırta vur, 5 kez karına bası uygula.</strong> Cisim çıkana kadar devam et.",
+                "approvalAuthority": "DIRECT",
+                "practitionerAuthority": "ATT_AABT"
+              },
+              {
+                "precondition": "Tam tıkanmada ileri hava yolu uygulamaları başarısızsa",
+                "html": "<strong>İğne ile krikotirotomi yap.</strong>",
+                "approvalAuthority": "SKKM",
+                "practitionerAuthority": "AABT"
+              }
+            ],
+            "branches": [
+              {
+                "label": "Bilinç kaybı gelişirse",
+                "transition": "ARREST YÖNETİMİ ALGORİTMASINA GİT"
+              }
+            ]
+          }
+        ]
+      }
     ],
     "warningFindings": [
       "Ses çıkaramama / konuşamama",
