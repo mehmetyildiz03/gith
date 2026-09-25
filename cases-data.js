@@ -710,6 +710,18 @@ const CASES = [
       "Muhtemel alerjen temasından kısa süre sonra deri/mukoza, solunum, dolaşım veya gastrointestinal bulgulardan en az ikisinin görülmesi",
       "Bilinen alerjenle temas sonrası hipotansiyon veya sistolik kan basıncında %30'dan fazla düşme"
     ],
+    "referenceGroups": [
+      {
+        "title": "Anafilaksi Tanı Kriterleri",
+        "items": [
+          ["1", "Ani başlangıçlı cilt/mukoza tutulumu (yaygın ürtiker, kaşıntı, kızarıklık, şiş dudaklar, dil veya uvula) ile birlikte solunum bulgularından veya azalmış kan basıncı/dolaşım bozukluğu bulgularından en az biri."],
+          ["2", "Toksik madde/maruziyet veya muhtemel bir alerjenle temastan kısa süre sonra deri-mukoza, solunum, dolaşım ve gastrointestinal bulgu gruplarından iki veya daha fazlasının görülmesi."],
+          ["3", "Hasta için alerjen olduğu bilinen maddeyle temas sonrasında hipotansiyon veya sistolik kan basıncında %30’dan fazla düşme."],
+          ["Dolaşım", "Azalmış kan basıncı/dolaşım bozukluğu ile ilişkili bulgular arasında hipotoni, senkop veya inkontinans yer alabilir."],
+          ["Not", "Alerjen madde uzaklaştırılmalıdır."]
+        ]
+      }
+    ],
     "meds": [
       {
         "name": "Adrenalin",
