@@ -4001,6 +4001,24 @@ const CASES = [
       "Bilinç değişikliği, ajitasyon veya koma",
       "Sekresyonlarla temas / devam eden kontaminasyon / ikincil maruziyet riski"
     ],
+    "referenceGroups": [
+      {
+        "title": "Organofosfatlar — Belirtiler ve Klinik Bulgular",
+        "items": [
+          ["1", "İshal; ter, tükürük, gözyaşı salgılarında ve idrarda artış; miyozis; dışkılamada artış; şiddetli karın ağrısı; kusma veya kusma eğilimi ve solunum sıkıntısı."],
+          ["2", "SSS baskılanmasına bağlı ajitasyondan komaya kadar ilerleyen bilinç değişiklikleri ve solunum felci görülebilir."],
+          ["3", "Bradikardi veya taşikardi ve hipertansiyon görülebilir."]
+        ]
+      },
+      {
+        "title": "Kişisel Güvenlik ve Dekontaminasyon",
+        "items": [
+          ["KKE", "Kişisel koruyucu ekipmanı tam ve eksiksiz kullan; sekresyonlarla temas etme."],
+          ["Dekon", "Dekontaminasyon ve cilt emilimini önle. Hasta ambulans kabinine alınmadan önce kıyafetlerini çıkar; hastayı yıka veya ıslak bezle sil."],
+          ["Gastrik", "Ağızdan alımlarda gastrik lavaj ilk 30 dakika içinde etkili olabilir; acil servislerde uygulanmalıdır."]
+        ]
+      }
+    ],
     "meds": [
       {
         "name": "Atropin",
