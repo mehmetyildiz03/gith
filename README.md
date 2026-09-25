@@ -2,7 +2,17 @@
 
 Mobil-first, offline çekirdekli, vaka bazlı hastane öncesi acil sağlık eğitim ve hızlı hatırlatma uygulaması.
 
-## V0.46 kaynak-sadakati düzeltmesi
+## V0.47 tam bütünlük yeniden audit
+
+- **2 temel protokol + 37 yetişkin vaka yeniden kontrol edildi:** kaynak tarihleri 25.09.2026 tam yeniden audit turuna taşındı; SB-ASH-Y-01–Y-41 kapsamı, kaynak sayfaları, ilaç/doz/yol/tekrar, yetki semantiği, algoritma geçişleri ve kritik Anahtar Noktalar tekrar çaprazlandı.
+- **Y-38 kaynak tamamlama:** Resmî s.66 Yetişkin Glasgow Koma Skoru (motor/sözel/göz) ve “Adli Vakalara Yaklaşırken” tablosunun eksik saha kuralları ayrı **Resmî Anahtar Noktalar** bölümünde görünür hale getirildi.
+- **Y-35 kaynak sadakati:** Atropin için resmî “IV yol açılana kadar 2–5 mg IM” ifadesi korunur.
+- **Y-37 kaynak sadakati:** QRS uyarıları resmî karşılıklarıyla “5 küçük kare >100 ms” ve “8 küçük kare >160 ms” olarak görünür.
+- **Regresyon koruması:** Validator/UI audit Y-38 GKS+adli tabloyu, Y-35/Y-37 ayrıntılarını ve tüm yetişkin kaynak audit tarihini kilitler.
+- **PWA:** İçerik, arayüz asset query'leri, UI audit ve service-worker cache V0.47 olarak birlikte döndürülür.
+
+### V0.46 önceki durum
+
 
 - **Uygulama yolu çıkarımı kaldırıldı:** Y-13 hemorajik/non-hemorajik kristalloid, Y-14 kardiyojenik şok %0,9 NaCl, Y-22 anafilaksi %0,9 NaCl ve Y-23 ısı stresi/ısı çarpması %0,9 NaCl kutularında resmî şema uygulama yolunu ayrıca yazmadığı için önceki `IV` çıkarımı kaldırıldı; kartlar `OTHER / Şemaya göre` olarak tutulur.
 - **Y-24 ayrımı bilinçli korundu:** Hipotermi Anahtar Noktası ısıtılmış IV sıvıları 40–42°C olarak açıkça tanımladığı için ılık %0,9 NaCl kartındaki IV yol bilgisi kaynak desteğiyle korunur.
