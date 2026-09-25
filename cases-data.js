@@ -1,7 +1,7 @@
 const APP_META = {
   "schemaVersion": 5,
-  "contentVersion": "EK2-2026.08.25-final-full-source-audit-2026.09.24",
-  "productVersion": "0.45",
+  "contentVersion": "EK2-2026.08.25-source-fidelity-route-audit-2026.09.25",
+  "productVersion": "0.46",
   "populations": [
     {
       "id": "adult",
@@ -244,7 +244,7 @@ const APP_META = {
     "pilot": true
   },
   "medicationContentAudit": {
-    "reviewedAt": "2026-09-24",
+    "reviewedAt": "2026-09-25",
     "source": "25.08.2026 tarihli Ek-2 resmî PDF",
     "scope": "Tüm yetişkin ilaç/sıvı kartları resmî algoritma ve anahtar nokta sayfalarına karşı yeniden kontrol edildi",
     "correctedCases": [
@@ -252,6 +252,10 @@ const APP_META = {
       "SB-ASH-Y-09",
       "SB-ASH-Y-10",
       "SB-ASH-Y-11",
+      "SB-ASH-Y-12",
+      "SB-ASH-Y-13",
+      "SB-ASH-Y-14",
+      "SB-ASH-Y-21",
       "SB-ASH-Y-22",
       "SB-ASH-Y-23",
       "SB-ASH-Y-29",
@@ -734,12 +738,12 @@ const CASES = [
         "name": "%0,9 NaCl",
         "dose": "500 ml bolus",
         "routes": [
-          "IV"
+          "OTHER"
         ],
         "authority": "DIRECT",
         "repeat": "Hipoperfüzyonda 500 mL; düzelme olmazsa adrenalin infüzyonu sonrası 500 mL bolus basamağı tekrar yer alır",
         "maxDose": "",
-        "note": "Resmî Y-22'de 500 mL bolus, devam eden hipoperfüzyonda tekrarlanan IM adrenalin ile birlikte ve düzelme olmazsa IV adrenalin infüzyonundan sonra yeniden yer alır.",
+        "note": "Resmî Y-22'de 500 mL bolus, devam eden hipoperfüzyonda tekrarlanan IM adrenalin ile birlikte ve düzelme olmazsa IV adrenalin infüzyonundan sonra yeniden yer alır. NaCl satırında uygulama yolu ayrıca belirtilmediğinden yol türetilmemiştir.",
         "practitionerAuthority": "AABT"
       },
       {
@@ -797,7 +801,7 @@ const CASES = [
       "documentTitle": "Hastane Öncesi Acil Tıbbi Yardım ve Bakım Akış Şemaları",
       "effectiveDate": "2026-08-25",
       "officialPageDate": "2026-09-11",
-      "reviewedAt": "2026-09-24",
+      "reviewedAt": "2026-09-25",
       "officialPageUrl": "https://acilafet.saglik.gov.tr/TR-119840/hastane-oncesi-acil-tibbi-yardim-ve-bakim-akis-semalari.html",
       "officialPdfUrl": "https://dosyamerkez.saglik.gov.tr/Eklenti/55773/0/ek-2-hastane-oncesi-acil-tibbi-yardim-ve-bakim-akis-semalaripdf.pdf",
       "section": "adult",
@@ -1381,7 +1385,7 @@ const CASES = [
         "authority": "DIRECT",
         "repeat": "",
         "maxDose": "",
-        "note": "Orta hipotermi basamağında resmî şemada yer alır.",
+        "note": "Orta hipotermi basamağında resmî şemada yer alır; Anahtar Nokta ayrıca ısıtılmış IV sıvıları 40–42°C olarak tanımladığı için IV yol bilgisi kaynakça desteklenir.",
         "practitionerAuthority": "AABT"
       }
     ],
@@ -1631,24 +1635,24 @@ const CASES = [
         "name": "%0,9 NaCl — ısı stresi",
         "dose": "1000–2000 mL bolus",
         "routes": [
-          "IV"
+          "OTHER"
         ],
         "authority": "DIRECT",
         "repeat": "",
         "maxDose": "",
-        "note": "Resmî Y-23 ısı stresi kolunda damar yolu açıldıktan ve ortam ısısı düşürüldükten sonra.",
+        "note": "Resmî Y-23 ısı stresi kolunda damar yolu açıldıktan ve ortam ısısı düşürüldükten sonra; sıvı kutusu uygulama yolunu ayrıca belirtmediğinden yol türetilmemiştir.",
         "practitionerAuthority": "AABT"
       },
       {
         "name": "%0,9 NaCl — ısı çarpması",
         "dose": "1000 mL bolus",
         "routes": [
-          "IV"
+          "OTHER"
         ],
         "authority": "DIRECT",
         "repeat": "",
         "maxDose": "",
-        "note": "Resmî Y-23 ısı çarpması kolunda; eş zamanlı soğutma ve seri yeniden değerlendirme ile.",
+        "note": "Resmî Y-23 ısı çarpması kolunda; eş zamanlı soğutma ve seri yeniden değerlendirme ile. Sıvı kutusu uygulama yolunu ayrıca belirtmediğinden yol türetilmemiştir.",
         "practitionerAuthority": "AABT"
       }
     ],
@@ -1670,7 +1674,7 @@ const CASES = [
       "documentTitle": "Hastane Öncesi Acil Tıbbi Yardım ve Bakım Akış Şemaları",
       "effectiveDate": "2026-08-25",
       "officialPageDate": "2026-09-11",
-      "reviewedAt": "2026-09-24",
+      "reviewedAt": "2026-09-25",
       "officialPageUrl": "https://acilafet.saglik.gov.tr/TR-119840/hastane-oncesi-acil-tibbi-yardim-ve-bakim-akis-semalari.html",
       "officialPdfUrl": "https://dosyamerkez.saglik.gov.tr/Eklenti/55773/0/ek-2-hastane-oncesi-acil-tibbi-yardim-ve-bakim-akis-semalaripdf.pdf",
       "section": "adult",
@@ -2494,24 +2498,24 @@ const CASES = [
         "name": "Kristalloid — hemorajik şok",
         "dose": "250–500 mL",
         "routes": [
-          "IV"
+          "OTHER"
         ],
         "authority": "DIRECT",
         "repeat": "Hızlı infüzyon; yanıta göre titre et",
         "maxDose": "1000 mL",
-        "note": "%0,9 NaCl veya Ringer Laktat; hedef SKB 80–90 mmHg.",
+        "note": "%0,9 NaCl veya Ringer Laktat; hedef SKB 80–90 mmHg. Resmî Y-13 sıvı kutusu uygulama yolunu ayrıca belirtmediğinden yol türetilmemiştir.",
         "practitionerAuthority": "AABT"
       },
       {
         "name": "Kristalloid — non-hemorajik şok",
         "dose": "500–1000 mL",
         "routes": [
-          "IV"
+          "OTHER"
         ],
         "authority": "DIRECT",
         "repeat": "5–10 dk bolus",
         "maxDose": "",
-        "note": "%0,9 NaCl veya Ringer Laktat; bolus sonrası volüm durumunu yeniden değerlendir.",
+        "note": "%0,9 NaCl veya Ringer Laktat; bolus sonrası volüm durumunu yeniden değerlendir. Resmî Y-13 sıvı kutusu uygulama yolunu ayrıca belirtmediğinden yol türetilmemiştir.",
         "practitionerAuthority": "AABT"
       },
       {
@@ -2549,7 +2553,7 @@ const CASES = [
       "documentTitle": "Hastane Öncesi Acil Tıbbi Yardım ve Bakım Akış Şemaları",
       "effectiveDate": "2026-08-25",
       "officialPageDate": "2026-09-11",
-      "reviewedAt": "2026-09-24",
+      "reviewedAt": "2026-09-25",
       "officialPageUrl": "https://acilafet.saglik.gov.tr/TR-119840/hastane-oncesi-acil-tibbi-yardim-ve-bakim-akis-semalari.html",
       "officialPdfUrl": "https://dosyamerkez.saglik.gov.tr/Eklenti/55773/0/ek-2-hastane-oncesi-acil-tibbi-yardim-ve-bakim-akis-semalaripdf.pdf",
       "section": "adult",
@@ -2626,7 +2630,7 @@ const CASES = [
     "clinicalStatus": "reviewed",
     "summary": "Oksijenasyon ve 12 derivasyon EKG sonrası hemodinamik profile göre normotansif dekompansasyon, hipertansif kalp yetmezliği veya kardiyojenik şok kolunda ilerle.",
     "criticalActions": [
-      "Acil olgu yönetimini uygula; SpO₂ %94–98 hedefli O₂ ver, gerekirse PBV ile destekle.",
+      "Acil olgu yönetimini uygula; resmî şemadaki ifadeyle SpO₂ >%94–98 olacak şekilde O₂ ver, gerekirse PBV ile destekle.",
       "Kardiyak monitörizasyon ve 12 derivasyon EKG yap; yeni iskemi ve aritmiyi ara.",
       "Hastayı normotansif dekompanse kalp yetmezliği, hipertansif kalp yetmezliği veya kardiyojenik şok profiline ayır."
     ],
@@ -2671,12 +2675,12 @@ const CASES = [
         "name": "%0,9 NaCl",
         "dose": "250 mL",
         "routes": [
-          "IV"
+          "OTHER"
         ],
         "authority": "SKKM",
         "repeat": "Hipotansiyon için",
         "maxDose": "",
-        "note": "Kardiyojenik şok kolunda 'verilebilir' şeklinde telefon simgeli basamak.",
+        "note": "Kardiyojenik şok kolunda 'verilebilir' şeklinde telefon simgeli basamak. Resmî Y-14 NaCl satırı uygulama yolunu ayrıca belirtmediğinden yol türetilmemiştir.",
         "practitionerAuthority": "AABT"
       },
       {
@@ -2702,7 +2706,7 @@ const CASES = [
       "documentTitle": "Hastane Öncesi Acil Tıbbi Yardım ve Bakım Akış Şemaları",
       "effectiveDate": "2026-08-25",
       "officialPageDate": "2026-09-11",
-      "reviewedAt": "2026-09-24",
+      "reviewedAt": "2026-09-25",
       "officialPageUrl": "https://acilafet.saglik.gov.tr/TR-119840/hastane-oncesi-acil-tibbi-yardim-ve-bakim-akis-semalari.html",
       "officialPdfUrl": "https://dosyamerkez.saglik.gov.tr/Eklenti/55773/0/ek-2-hastane-oncesi-acil-tibbi-yardim-ve-bakim-akis-semalaripdf.pdf",
       "section": "adult",
@@ -2721,7 +2725,7 @@ const CASES = [
         "practitionerAuthority": "ATT_AABT"
       },
       {
-        "html": "<strong>SpO₂ %94–98 olacak şekilde oksijen ver</strong>; gerekirse PBV ile destekle.",
+        "html": "<strong>SpO₂ >%94–98 olacak şekilde oksijen ver</strong>; gerekirse PBV ile destekle.",
         "approvalAuthority": "DIRECT",
         "practitionerAuthority": "ATT_AABT"
       },
@@ -4379,7 +4383,7 @@ const CASES = [
       "documentTitle": "Hastane Öncesi Acil Tıbbi Yardım ve Bakım Akış Şemaları",
       "effectiveDate": "2026-08-25",
       "officialPageDate": "2026-09-11",
-      "reviewedAt": "2026-09-24",
+      "reviewedAt": "2026-09-25",
       "officialPageUrl": "https://acilafet.saglik.gov.tr/TR-119840/hastane-oncesi-acil-tibbi-yardim-ve-bakim-akis-semalari.html",
       "officialPdfUrl": "https://dosyamerkez.saglik.gov.tr/Eklenti/55773/0/ek-2-hastane-oncesi-acil-tibbi-yardim-ve-bakim-akis-semalaripdf.pdf",
       "section": "adult",
@@ -4392,12 +4396,12 @@ const CASES = [
     "summary": "Kafa travmasında hava yolu ve oksijenasyonu güvenceye al; GKS, glukoz ve dolaşımı değerlendir, KİBAS/herniasyon bulgularını erken tanı.",
     "criticalActions": [
       "Acil olgu yönetimini uygula; GKS ≤8, solunum yetmezliği veya hava yolu tehlikesi varsa ileri hava yolu yönetimi uygula.",
-      "SpO₂ %94–98 olacak şekilde oksijenizasyon ve ventilasyonu sağla; yetişkinde ventilasyon sayısını 10/dk sürdür.",
+      "Resmî şemadaki ifadeyle SpO₂ >%94–98 olacak şekilde oksijenizasyon ve ventilasyonu sağla; yetişkinde ventilasyon sayısını 10/dk sürdür.",
       "Kan şekerini ölç; 60–300 mg/dL aralığında IV sıvı tedavisiyle SKB >100 mmHg hedefle; nöbet ve KİBAS bulgularını değerlendir."
     ],
     "quick": [
       "<strong>GKS ≤8</strong> ya da solunum yetmezliği veya hava yolu tehlikesi varsa ileri hava yolu yönetimi uygula.",
-      "<strong>SpO₂ %94–98</strong>; ventilasyon sayısı yetişkinlerde 10/dk, çocuklarda 20/dk, bebeklerde 25/dk.",
+      "<strong>SpO₂ >%94–98</strong>; ventilasyon sayısı yetişkinlerde 10/dk, çocuklarda 20/dk, bebeklerde 25/dk.",
       "Kan şekerini ölç. <strong>KŞ <60 mg/dL veya >300 mg/dL</strong> ise Diyabetik Aciller algoritmasına geç.",
       "<strong>60 mg/dL < KŞ <300 mg/dL:</strong> IV sıvı tedavisine başla; <strong>SKB >100 mmHg</strong> olacak şekilde sıvı tedavisini sürdür.",
       "Nöbet varsa Nöbet / Konvülziyon algoritmasına geç. KİBAS varsa ve şok bulguları yoksa sırt tahtasının baş kısmını gövdesiyle birlikte <strong>30–45°</strong> yukarıda olacak şekilde sevk et."
@@ -4455,7 +4459,7 @@ const CASES = [
         "practitionerAuthority": "ATT_AABT"
       },
       {
-        "html": "SpO₂ <strong>%94–98</strong> olacak şekilde oksijenizasyon ve ventilasyonu sağla. Ventilasyon sayısı: yetişkinlerde <strong>10/dk</strong>, çocuklarda <strong>20/dk</strong>, bebeklerde <strong>25/dk</strong>.",
+        "html": "SpO₂ <strong>>%94–98</strong> olacak şekilde oksijenizasyon ve ventilasyonu sağla. Ventilasyon sayısı: yetişkinlerde <strong>10/dk</strong>, çocuklarda <strong>20/dk</strong>, bebeklerde <strong>25/dk</strong>.",
         "approvalAuthority": "DIRECT",
         "practitionerAuthority": "ATT_AABT"
       },
