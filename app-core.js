@@ -298,6 +298,7 @@ applyTheme();applyDensity();updateNetwork();renderAll();
 matchMedia('(prefers-color-scheme: dark)').addEventListener?.('change',()=>{if(!localStorage.getItem(STORAGE.theme))applyTheme()});
 addEventListener('online',updateNetwork);addEventListener('offline',updateNetwork);
 addEventListener('popstate',e=>{
+  if(!el.source.classList.contains('hidden')){closeSourceSheet({fromHistory:true});return}
   const route=e.state?.saha112Detail;
   if(route?.type==='case'){openCase(route.id,{browserHistory:false});return}
   if(route?.type==='protocol'){openProtocol(route.id,{history:'root',browserHistory:false});return}
@@ -308,14 +309,17 @@ const sourceBtn=$('#sourceBtn');
 let sourceReturnFocus=null;
 function sourceFocusable(){return [...el.source.querySelectorAll('button:not([disabled]),a[href],input:not([disabled]),[tabindex]:not([tabindex="-1"])')].filter(node=>!node.hidden)}
 function openSourceSheet(){
+  if(!el.source.classList.contains('hidden'))return;
   sourceReturnFocus=document.activeElement;
+  if(!history.state?.saha112Sheet)history.pushState({...history.state,saha112Sheet:true},'');
   el.source.classList.remove('hidden');
   document.documentElement.classList.add('dialog-open');
   sourceBtn?.setAttribute('aria-expanded','true');
   requestAnimationFrame(()=>sourceFocusable()[0]?.focus());
 }
-function closeSourceSheet(){
+function closeSourceSheet({fromHistory=false}={}){
   if(el.source.classList.contains('hidden'))return;
+  if(!fromHistory&&history.state?.saha112Sheet){history.back();return}
   el.source.classList.add('hidden');
   document.documentElement.classList.remove('dialog-open');
   sourceBtn?.setAttribute('aria-expanded','false');
@@ -340,7 +344,7 @@ document.addEventListener('click',e=>{
   const nav=e.target.closest('[data-nav]')?.dataset.nav;if(nav==='home'){showHome();return}if(nav==='cases'){showCases();return}if(nav==='favorites'){showFavorites();return}
   if(e.target===el.source)closeSourceSheet();
 });
-el.search.addEventListener('input',e=>{state.query=e.target.value;renderProtocols();renderCases();if(state.query)requestAnimationFrame(()=>{const protocolMatch=!el.protocolSection?.classList.contains('hidden')&&el.protocols?.children.length;const target=protocolMatch?el.protocolSection:el.filterTitle;target?.scrollIntoView({behavior:'smooth',block:'start'})})});
+el.search.addEventListener('input',e=>{const wasSearching=Boolean(state.query);state.query=e.target.value;renderProtocols();renderCases();if(state.query&&!wasSearching)requestAnimationFrame(()=>{const protocolMatch=!el.protocolSection?.classList.contains('hidden')&&el.protocols?.children.length;const target=protocolMatch?el.protocolSection:el.filterTitle;target?.scrollIntoView({behavior:'smooth',block:'start'})})});
 sourceBtn?.addEventListener('click',openSourceSheet);
 el.themeToggle.addEventListener('click',toggleTheme);el.fieldToggle.addEventListener('click',toggleDensity);
 addEventListener('keydown',e=>{
