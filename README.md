@@ -2,6 +2,19 @@
 
 Mobil-first, offline çekirdekli, vaka bazlı hastane öncesi acil sağlık eğitim ve hızlı hatırlatma uygulaması.
 
+## V0.58 bağımsız kalite audit düzeltmeleri
+
+- **Resmî kaynak yeniden doğrulandı:** 25.08.2026 yürürlükteki Ek-2 görsel PDF üzerinden SKKM/ÇM işareti, Y-19 Nöbet/Konvülziyon, Y-23 Hipertermi ve Y-36 Opioid sayfaları tekrar kontrol edildi.
+- **Kaynak sadakati:** Y-19 fenitoin `20 mg/kg` ve kaynakta yazılı `en fazla 25 mg/kg/dk` ifadesi aynen korunur; Y-23 Anahtar Noktalardaki `Evoperasyon` yazımı sessizce düzeltilmez; Y-36 Anahtar Noktadaki `SKKM/ÇM onayı ile` ifadesi kaynakla birebirleştirildi.
+- **Yetki UI sadeleştirmesi:** İlaç kartlarında kaynakta ayrı işaret olmayan DIRECT basamaklara yeşil “Doğrudan” rozeti gösterilmez. SKKM/ÇM ve Yalnız AABT kısıtları görünür kalır.
+- **İlaç notları:** Rozette zaten görünen SKKM/ÇM tekrarları notlardan çıkarıldı; klinik koşul, doz hazırlama, kaynakta belirtilmeyen yol/hız ve benzeri yararlı bilgiler korundu.
+- **Arama:** Yapılandırılmış algoritması olan kartlarda görünmeyen legacy `quick[]`, entegre karar kullanan kartlarda görünmeyen eski `decision` metni artık arama sonucunu tetiklemez.
+- **Erişilebilirlik:** Klinik ayrım sekmelerinde Arrow/Home/End klavye navigasyonu düzeltildi; reduced-motion tercihinde JavaScript smooth-scroll kullanmaz.
+- **Mobil/PWA:** Detay ekranındaki güncelleme banner seçicisi düzeltildi; kaynak bağlantılarının dar ekran hizalaması gerçek flex düzenine geçirildi; güncelleme mesajındaki “açık vaka korunur” vaadi kaldırıldı.
+- **Anahtar Nokta tabloları:** Uzun sol sütun etiketleri vaka rendererında da `long-key` düzenine alınır.
+- **Açık tema kontrastı:** Küçük metin/rozetlerde kullanılan muted, mavi, cyan, yeşil, amber, kırmızı ve mor tonları normal metin için AA kontrastını sağlayacak şekilde koyulaştırıldı; audit artık açık temayı da ölçer.
+- **PWA:** Kritik asset query’leri `v=0.58`, service worker cache adı `saha112-v058` olarak birlikte güncellendi.
+
 ## V0.57 SKKM/ÇM terminoloji temizliği
 
 - **Kullanıcı dili:** Klinik kartlarda görünen “telefon simgesi / telefon simgeli / telefon simgesiz” geliştirici-audit ifadeleri kaldırıldı; kullanıcıya doğrudan SKKM/ÇM odaklı ifade gösterilir.

@@ -1,7 +1,7 @@
 const APP_META = {
   "schemaVersion": 5,
   "contentVersion": "EK2-2026.08.25-early-adult-fidelity-reaudit-2026.09.25",
-  "productVersion": "0.57",
+  "productVersion": "0.58",
   "populations": [
     {
       "id": "adult",
@@ -634,7 +634,7 @@ const CASES = [
         "authority": "DIRECT",
         "repeat": "Bolus",
         "maxDose": "",
-        "note": "Hayatı tehdit eden bulgu yok dalında, resmî şemada SKKM/ÇM işareti bulunmayan sıvı basamağı. Kaynak bu NaCl bolusu için uygulama yolunu ayrıca belirtmediğinden yol türetilmemiştir.",
+        "note": "Hayatı tehdit eden bulgu yok dalında. Kaynak bu NaCl bolusu için uygulama yolunu ayrıca belirtmediğinden yol türetilmemiştir.",
         "practitionerAuthority": "AABT"
       },
       {
@@ -646,7 +646,7 @@ const CASES = [
         "authority": "SKKM",
         "repeat": "",
         "maxDose": "",
-        "note": "Alternatif antihistaminikler: feniramin maleat 45,5 mg IV veya difenhidramin 25–50 mg IV yavaş puşe; SKKM/ÇM basamağı.",
+        "note": "Alternatif antihistaminikler: feniramin maleat 45,5 mg IV veya difenhidramin 25–50 mg IV yavaş puşe.",
         "practitionerAuthority": "AABT"
       },
       {
@@ -658,7 +658,7 @@ const CASES = [
         "authority": "SKKM",
         "repeat": "",
         "maxDose": "125 mg",
-        "note": "Resmî şemada profilaktik olarak ve SKKM/ÇM basamağı.",
+        "note": "Resmî şemada profilaktik olarak yer alır.",
         "practitionerAuthority": "AABT"
       }
     ],
@@ -921,7 +921,7 @@ const CASES = [
         "authority": "DIRECT",
         "repeat": "",
         "maxDose": "",
-        "note": "Hafif-orta atakta ilk bronkodilatör; ağır atakta nebül 2,5–5 mg. İlk basamakta SKKM/ÇM işareti yok.",
+        "note": "Hafif-orta atakta ilk bronkodilatör; ağır atakta nebül 2,5–5 mg.",
         "practitionerAuthority": "AABT"
       },
       {
@@ -933,7 +933,7 @@ const CASES = [
         "authority": "DIRECT",
         "repeat": "",
         "maxDose": "",
-        "note": "Ağır atakta ilk salbutamol nebülü ile birlikte; ilk basamakta SKKM/ÇM işareti yok.",
+        "note": "Ağır atakta ilk salbutamol nebülü ile birlikte.",
         "practitionerAuthority": "AABT"
       },
       {
@@ -957,7 +957,7 @@ const CASES = [
         "authority": "SKKM",
         "repeat": "",
         "maxDose": "",
-        "note": "20 dk sonra düzelme yoksa resmî şemadaki SKKM/ÇM basamağı.",
+        "note": "20 dk sonra düzelme yoksa uygulanır.",
         "practitionerAuthority": "AABT"
       },
       {
@@ -969,7 +969,7 @@ const CASES = [
         "authority": "SKKM",
         "repeat": "%0,9 NaCl içinde 20–30 dk",
         "maxDose": "",
-        "note": "Ölümcül astım atağında, ileri hava yolu hazırlığı ile birlikte SKKM/ÇM basamağı.",
+        "note": "Ölümcül astım atağında ileri hava yolu hazırlığı ile birlikte uygulanır.",
         "practitionerAuthority": "AABT"
       }
     ],
@@ -1356,7 +1356,7 @@ const CASES = [
         "practitionerAuthority": "AABT",
         "repeat": "",
         "maxDose": "",
-        "note": "İpratropium bromür 500 mcg nebül ile birlikte; ilk basamakta SKKM/ÇM işareti yok."
+        "note": "İpratropium bromür 500 mcg nebül ile birlikte."
       },
       {
         "name": "İpratropium bromür (ilk basamak)",
@@ -1368,7 +1368,7 @@ const CASES = [
         "practitionerAuthority": "AABT",
         "repeat": "",
         "maxDose": "",
-        "note": "İlk salbutamol uygulamasıyla birlikte; SKKM/ÇM işareti yok."
+        "note": "İlk salbutamol uygulamasıyla birlikte."
       },
       {
         "name": "Salbutamol + İpratropium (20 dk sonrası)",
@@ -1380,7 +1380,7 @@ const CASES = [
         "practitionerAuthority": "AABT",
         "repeat": "20 dk arayla",
         "maxDose": "en fazla 3 tekrar",
-        "note": "20 dk sonraki basamak SKKM/ÇM ile uygulanır."
+        "note": "20 dk sonraki tedavi basamağı."
       },
       {
         "name": "Metilprednizolon",
@@ -1392,7 +1392,7 @@ const CASES = [
         "practitionerAuthority": "AABT",
         "repeat": "",
         "maxDose": "",
-        "note": "20 dk sonrası SKKM/ÇM basamağı."
+        "note": "20 dk sonraki tedavi basamağı."
       }
     ],
     "decision": {
@@ -1858,7 +1858,7 @@ const CASES = [
         "authority": "SKKM",
         "repeat": "Titrasyon",
         "maxDose": "",
-        "note": "Atropine yanıtsız semptomatik bradikardide; resmî şemada SKKM/ÇM basamağı. Anahtar Nokta pratik hesabı: Dopamin ampul 200 mg; 500 mL %0,9 NaCl içine 100 mg dopamin; dakikada hastanın kilosunun yarısı kadar damla gönderildiğinde 5 mcg/kg/dk infüzyon başlangıcı ('YARIM-YARIM-YARIM').",
+        "note": "Atropine yanıtsız semptomatik bradikardide. Anahtar Nokta pratik hesabı: Dopamin ampul 200 mg; 500 mL %0,9 NaCl içine 100 mg dopamin; dakikada hastanın kilosunun yarısı kadar damla gönderildiğinde 5 mcg/kg/dk infüzyon başlangıcı ('YARIM-YARIM-YARIM').",
         "practitionerAuthority": "AABT"
       },
       {
@@ -1870,7 +1870,7 @@ const CASES = [
         "authority": "SKKM",
         "repeat": "Titrasyon",
         "maxDose": "",
-        "note": "Atropine yanıtsız semptomatik bradikardide; resmî şemada SKKM/ÇM basamağı. Anahtar Nokta pratik hazırlama: 250 mL izotonik/dekstroz içine 1 mg/1 mL adrenalin = 4 mcg/mL; 500 mL içine = 2 mcg/mL; 1000 mL içine = 1 mcg/mL.",
+        "note": "Atropine yanıtsız semptomatik bradikardide. Anahtar Nokta pratik hazırlama: 250 mL izotonik/dekstroz içine 1 mg/1 mL adrenalin = 4 mcg/mL; 500 mL içine = 2 mcg/mL; 1000 mL içine = 1 mcg/mL.",
         "practitionerAuthority": "AABT"
       }
     ],
@@ -2218,7 +2218,7 @@ const CASES = [
         "authority": "DIRECT",
         "repeat": "3–5 dk arayla",
         "maxDose": "",
-        "note": "Y-10 Asistoli/NEA: 1 mg IV/IO (1/10000), 3–5 dk arayla. SKKM/ÇM işareti bulunmuyor.",
+        "note": "Y-10 Asistoli/NEA: 1 mg IV/IO (1/10000), 3–5 dk arayla.",
         "practitionerAuthority": "AABT"
       },
       {
@@ -2423,7 +2423,7 @@ const CASES = [
         "authority": "SKKM",
         "repeat": "Hipotansiyon devam ediyorsa",
         "maxDose": "",
-        "note": "ROSC sonrası MAP <65 mmHg / devam eden hipotansiyonda, resmî şemadaki SKKM/ÇM basamağında. Kaynak %0,9 NaCl için uygulama yolunu ayrıca belirtmediğinden yol türetilmemiştir.",
+        "note": "ROSC sonrası MAP <65 mmHg / devam eden hipotansiyonda. Kaynak %0,9 NaCl için uygulama yolunu ayrıca belirtmediğinden yol türetilmemiştir.",
         "practitionerAuthority": "AABT"
       },
       {
@@ -2435,7 +2435,7 @@ const CASES = [
         "authority": "SKKM",
         "repeat": "Titrasyon",
         "maxDose": "",
-        "note": "ROSC sonrası devam eden hipotansiyonda infüzyon; SKKM/ÇM basamağı.",
+        "note": "ROSC sonrası devam eden hipotansiyonda infüzyon.",
         "practitionerAuthority": "AABT"
       },
       {
@@ -2447,7 +2447,7 @@ const CASES = [
         "authority": "SKKM",
         "repeat": "Titrasyon",
         "maxDose": "",
-        "note": "ROSC sonrası devam eden hipotansiyonda alternatif infüzyon; SKKM/ÇM basamağı.",
+        "note": "ROSC sonrası devam eden hipotansiyonda alternatif infüzyon.",
         "practitionerAuthority": "AABT"
       },
       {
@@ -2459,7 +2459,7 @@ const CASES = [
         "authority": "SKKM",
         "repeat": "10 dakikada",
         "maxDose": "",
-        "note": "Ventriküler ektopi/sürekli olmayan VT basamağında; %5 dekstroz ile 10 dk. SKKM/ÇM basamağı.",
+        "note": "Ventriküler ektopi/sürekli olmayan VT basamağında; %5 dekstroz ile 10 dk.",
         "practitionerAuthority": "AABT"
       },
       {
@@ -2471,7 +2471,7 @@ const CASES = [
         "authority": "SKKM",
         "repeat": "IV bolus",
         "maxDose": "",
-        "note": "Ventriküler ektopi/sürekli olmayan VT basamağında amiodarona alternatif; SKKM/ÇM basamağı.",
+        "note": "Ventriküler ektopi/sürekli olmayan VT basamağında amiodarona alternatif.",
         "practitionerAuthority": "AABT"
       }
     ],
@@ -2633,7 +2633,7 @@ const CASES = [
         "authority": "SKKM",
         "repeat": "Titrasyon",
         "maxDose": "",
-        "note": "MAP <65 mmHg ve hipovolemi devam ediyor, sıvıya yanıt alınamıyorsa SKKM/ÇM basamağı.",
+        "note": "MAP <65 mmHg ve hipovolemi devam ediyor, sıvıya yanıt alınamıyorsa uygulanır.",
         "practitionerAuthority": "AABT"
       },
       {
@@ -2645,7 +2645,7 @@ const CASES = [
         "authority": "SKKM",
         "repeat": "Titrasyon",
         "maxDose": "",
-        "note": "Adrenaline alternatif; MAP <65 mmHg ve devam eden hipovolemide SKKM/ÇM basamağı.",
+        "note": "Adrenaline alternatif; MAP <65 mmHg ve devam eden hipovolemide uygulanır.",
         "practitionerAuthority": "AABT"
       }
     ],
@@ -2786,7 +2786,7 @@ const CASES = [
         "authority": "SKKM",
         "repeat": "",
         "maxDose": "",
-        "note": "Normotansif dekompanse veya hipertansif kalp yetmezliği kolunda SKKM/ÇM basamağı.",
+        "note": "Normotansif dekompanse veya hipertansif kalp yetmezliği kolunda uygulanır.",
         "practitionerAuthority": "AABT"
       },
       {
@@ -2798,7 +2798,7 @@ const CASES = [
         "authority": "SKKM",
         "repeat": "",
         "maxDose": "maksimum 3 doz",
-        "note": "Hipertansif kalp yetmezliği kolunda SKKM/ÇM basamağı.",
+        "note": "Hipertansif kalp yetmezliği kolunda uygulanır.",
         "practitionerAuthority": "AABT"
       },
       {
@@ -2810,7 +2810,7 @@ const CASES = [
         "authority": "SKKM",
         "repeat": "Hipotansiyon için",
         "maxDose": "",
-        "note": "Kardiyojenik şok kolunda 'verilebilir' şeklinde SKKM/ÇM basamağı. Resmî Y-14 NaCl satırı uygulama yolunu ayrıca belirtmediğinden yol türetilmemiştir.",
+        "note": "Kardiyojenik şok kolunda 'verilebilir' şeklinde yer alır. Resmî Y-14 NaCl satırı uygulama yolunu ayrıca belirtmediğinden yol türetilmemiştir.",
         "practitionerAuthority": "AABT"
       },
       {
@@ -2822,7 +2822,7 @@ const CASES = [
         "authority": "SKKM",
         "repeat": "Titrasyon",
         "maxDose": "20 mcg/kg/dk",
-        "note": "Kardiyojenik şok kolunda SKKM/ÇM ile uygulanan IV infüzyon.",
+        "note": "Kardiyojenik şok kolunda IV infüzyon.",
         "practitionerAuthority": "AABT"
       }
     ],
@@ -2954,7 +2954,7 @@ const CASES = [
         "authority": "SKKM",
         "repeat": "Halen ajite ise sedasyon dozunu tekrar et",
         "maxDose": "",
-        "note": "İlaçla kısıtlama/sedasyon basamağı; resmî şemada SKKM/ÇM basamağı.",
+        "note": "İlaçla kısıtlama/sedasyon basamağı.",
         "practitionerAuthority": "AABT"
       },
       {
@@ -3101,7 +3101,7 @@ const CASES = [
         "authority": "DIRECT",
         "repeat": "Glukoz <60 mg/dL ise 5–10 dk arayla",
         "maxDose": "",
-        "note": "Bilinç kapalı hipoglisemi kolu; resmî turuncu kutuda SKKM/ÇM işareti olmadan yer alır.",
+        "note": "Bilinç kapalı hipoglisemi kolunda yer alır.",
         "practitionerAuthority": "AABT"
       },
       {
@@ -3363,7 +3363,7 @@ const CASES = [
         "authority": "SKKM",
         "repeat": "İkinci basamak sonrası 5 dk sonra nöbet sürerse 5 mg IV tekrar",
         "maxDose": "",
-        "note": "IV yavaş puşe; ilk ve 5 dk sonraki tekrar basamakları resmî şemada SKKM/ÇM basamağıdır.",
+        "note": "IV yavaş puşe; ilk ve 5 dk sonraki tekrar basamaklarında kullanılır.",
         "practitionerAuthority": "AABT"
       },
       {
@@ -3376,7 +3376,7 @@ const CASES = [
         "authority": "SKKM",
         "repeat": "İkinci basamak sonrası 5 dk sonra nöbet sürerse 5 mg IV / 10 mg IM tekrar",
         "maxDose": "",
-        "note": "İlk ve 5 dk sonraki tekrar basamakları resmî şemada SKKM/ÇM basamağıdır.",
+        "note": "İlk ve 5 dk sonraki tekrar basamaklarında kullanılır.",
         "practitionerAuthority": "AABT"
       },
       {
@@ -3388,7 +3388,7 @@ const CASES = [
         "authority": "SKKM",
         "repeat": "İkinci basamak",
         "maxDose": "",
-        "note": "20 mg/kg IV; resmî şemada infüzyon hızı en fazla 25 mg/kg/dk olarak yazılıdır. SKKM/ÇM basamağı.",
+        "note": "20 mg/kg IV; resmî şemada infüzyon hızı en fazla 25 mg/kg/dk olarak yazılıdır.",
         "practitionerAuthority": "AABT"
       },
       {
@@ -3400,7 +3400,7 @@ const CASES = [
         "authority": "SKKM",
         "repeat": "İkinci basamak",
         "maxDose": "",
-        "note": "40 mg/kg IV infüzyon; ikinci basamak ve SKKM/ÇM basamağı.",
+        "note": "40 mg/kg IV infüzyon; ikinci basamak.",
         "practitionerAuthority": "AABT"
       },
       {
@@ -3412,7 +3412,7 @@ const CASES = [
         "authority": "SKKM",
         "repeat": "İkinci basamak",
         "maxDose": "",
-        "note": "60 mg/kg IV infüzyon; ikinci basamak ve SKKM/ÇM basamağı.",
+        "note": "60 mg/kg IV infüzyon; ikinci basamak.",
         "practitionerAuthority": "AABT"
       }
     ],
@@ -3669,7 +3669,7 @@ const CASES = [
         "authority": "SKKM",
         "repeat": "Ağrıya/şemaya göre",
         "maxDose": "",
-        "note": "2026 Ek-2 yanık algoritmasında ağrı için 1 mcg/kg IV yavaş veya IM; SKKM/ÇM ile.",
+        "note": "2026 Ek-2 yanık algoritmasında ağrı için 1 mcg/kg IV yavaş veya IM.",
         "practitionerAuthority": "AABT"
       }
     ],
@@ -4034,7 +4034,7 @@ const CASES = [
         "authority": "DIRECT",
         "repeat": "SKB >90 mmHg hedefiyle",
         "maxDose": "",
-        "note": "Ciddi bulgu ve hipotansiyonda resmî Y-34'te SKKM/ÇM işareti bulunmayan hidrasyon basamağı; hacim/hız belirtilmemiştir.",
+        "note": "Ciddi bulgu ve hipotansiyonda hidrasyon basamağı; hacim/hız belirtilmemiştir.",
         "practitionerAuthority": "AABT"
       },
       {
@@ -4046,7 +4046,7 @@ const CASES = [
         "authority": "SKKM",
         "repeat": "",
         "maxDose": "",
-        "note": "Kalsiyum kanal blokeri zehirlenmesinden emin olunan ve hipotansiyonu eşlik eden hastada; 3 ampul (30 mL), 100 mL %0,9 NaCl içinde 10 dakikada IV. Resmî şemada SKKM/ÇM basamağı.",
+        "note": "Kalsiyum kanal blokeri zehirlenmesinden emin olunan ve hipotansiyonu eşlik eden hastada; 3 ampul (30 mL), 100 mL %0,9 NaCl içinde 10 dakikada IV.",
         "practitionerAuthority": "AABT"
       }
     ],
@@ -4142,7 +4142,7 @@ const CASES = [
         "authority": "DIRECT",
         "repeat": "Trakeobronşiyal sekresyonlar azalıncaya kadar 5 dk'da bir",
         "maxDose": "",
-        "note": "Resmî Y-35 algoritmasında SKKM/ÇM işareti yoktur. Anahtar Nokta: atropin 1–2 mg IV; IV yol açılamazsa açılana kadar 2–5 mg IM uygulanabilir; trakeobronşiyal sekresyonlar azalıncaya kadar 5 dk'da bir tekrarlanır. Maksimum doz belirtilmemiştir.",
+        "note": "Anahtar Nokta: atropin 1–2 mg IV; IV yol açılamazsa açılana kadar 2–5 mg IM uygulanabilir; trakeobronşiyal sekresyonlar azalıncaya kadar 5 dk'da bir tekrarlanır. Maksimum doz belirtilmemiştir.",
         "practitionerAuthority": "AABT"
       }
     ],
@@ -4217,7 +4217,7 @@ const CASES = [
         "title": "Tedavi İlkeleri / Antidot",
         "items": [
           ["Tedavi", "Solunum depresyonunda ileri hava yolu yönetimi uygulanır; hipoglisemi veya hipovolemi varsa ilgili akış şemasına göre tedavi edilir."],
-          ["Nalokson", "SKKM/ÇM onayıyla opioid bağımlısı olmayanda 0,4–2 mg IV/IM/IO/SC; ardından yanıta göre 0,1–0,4 mg. Apne/siyanozda 2 mg IV; maksimum 10 mg. Solunum çabası döner veya ajitasyon gelişirse IV nalokson sonlandırılır."]
+          ["Nalokson", "SKKM/ÇM onayı ile opioid bağımlısı olmayanda 0,4–2 mg IV/IM/IO/SC; ardından yanıta göre 0,1–0,4 mg. Apne/siyanozda 2 mg IV; maksimum 10 mg. Solunum çabası döner veya ajitasyon gelişirse IV nalokson sonlandırılır."]
         ]
       }
     ],
@@ -4234,7 +4234,7 @@ const CASES = [
         "authority": "SKKM",
         "repeat": "Düzelme olmazsa 2–3 dk; anahtar noktalarda yanıta göre 0,1–0,4 mg titrasyon",
         "maxDose": "10 mg",
-        "note": "Resmî Y-36 SKKM/ÇM basamağı. Anahtar noktada apne/siyanozda 2 mg IV; 0,4–2 mg başlangıç dozu opioid bağımlısı olmayan hasta için belirtilmiştir. Spontan solunum eforu geri dönerse veya ajitasyon gelişirse IV nalokson durdurulur.",
+        "note": "Anahtar noktada apne/siyanozda 2 mg IV; 0,4–2 mg başlangıç dozu opioid bağımlısı olmayan hasta için belirtilmiştir. Spontan solunum eforu geri dönerse veya ajitasyon gelişirse IV nalokson durdurulur.",
         "practitionerAuthority": "AABT"
       },
       {
@@ -4246,7 +4246,7 @@ const CASES = [
         "authority": "DIRECT",
         "repeat": "",
         "maxDose": "",
-        "note": "Hipotansiyon varlığında resmî Y-36'da SKKM/ÇM işareti bulunmayan %0,9 NaCl IV yükleme basamağı; hacim/hız belirtilmemiştir.",
+        "note": "Hipotansiyon varlığında %0,9 NaCl IV yükleme basamağı; hacim/hız belirtilmemiştir.",
         "practitionerAuthority": "AABT"
       }
     ],
@@ -4315,7 +4315,7 @@ const CASES = [
         "authority": "SKKM",
         "repeat": "3–5 dk'da bir",
         "maxDose": "",
-        "note": "QRS süresi >0,10 sn olduğunda IV puşe; resmî Y-37 algoritmasında SKKM/ÇM basamağı.",
+        "note": "QRS süresi >0,10 sn olduğunda IV puşe.",
         "practitionerAuthority": "AABT"
       },
       {
@@ -4327,7 +4327,7 @@ const CASES = [
         "authority": "DIRECT",
         "repeat": "",
         "maxDose": "",
-        "note": "Hipotansiyon varlığında resmî Y-37'de SKKM/ÇM işareti bulunmayan %0,9 NaCl yüklemesi; yol, hacim ve hız açık yazılmadığından türetilmemiştir.",
+        "note": "Hipotansiyon varlığında %0,9 NaCl yüklemesi; yol, hacim ve hız açık yazılmadığından türetilmemiştir.",
         "practitionerAuthority": "AABT"
       }
     ],
@@ -4591,7 +4591,7 @@ const CASES = [
         "authority": "DIRECT",
         "repeat": "Kurtarma >2 saat: 500 mL/saat veya daha az",
         "maxDose": "",
-        "note": "Resmî algoritmada SKKM/ÇM işareti bulunmayan ilk hidrasyon basamağı. Potasyum içeren sıvılar/Ringer Laktat kullanılmaz.",
+        "note": "Resmî algoritmadaki ilk hidrasyon basamağı. Potasyum içeren sıvılar/Ringer Laktat kullanılmaz.",
         "practitionerAuthority": "AABT"
       },
       {
@@ -4603,7 +4603,7 @@ const CASES = [
         "authority": "SKKM",
         "repeat": "",
         "maxDose": "",
-        "note": "Çeşitli faktörlere göre miktar değişebilir; resmî algoritmada SKKM/ÇM basamağı.",
+        "note": "Çeşitli faktörlere göre miktar değişebilir.",
         "practitionerAuthority": "AABT"
       },
       {
@@ -4615,7 +4615,7 @@ const CASES = [
         "authority": "SKKM",
         "repeat": "",
         "maxDose": "",
-        "note": "Hiperkalemi bulguları varsa 2–3 dk içinde; resmî algoritmada SKKM/ÇM basamağı.",
+        "note": "Hiperkalemi bulguları varsa 2–3 dk içinde uygulanır.",
         "practitionerAuthority": "AABT"
       }
     ],

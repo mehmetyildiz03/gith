@@ -27,6 +27,8 @@ const categories=()=>['Tümü',...new Set(casesForPopulation().map(c=>c.category
 const routeLabel=route=>APP_META.routeLabels?.[route]||route;
 const formatDateTR=iso=>{const m=String(iso||'').match(/^(\d{4})-(\d{2})-(\d{2})$/);return m?`${m[3]}.${m[2]}.${m[1]}`:String(iso||'—')};
 const latestReviewDate=()=>[...(CASES||[]),...(typeof PROTOCOLS!=='undefined'?PROTOCOLS:[])].filter(c=>c.clinicalStatus==='reviewed').map(c=>c.source?.reviewedAt).filter(Boolean).sort().at(-1)||'';
+const prefersReducedMotion=()=>matchMedia('(prefers-reduced-motion: reduce)').matches;
+const scrollBehavior=()=>prefersReducedMotion()?'auto':'smooth';
 function authorityClass(key){return key==='DIRECT'?'direct':key==='SKKM'?'skkm':'algorithm'}
 function authorityMarkup(key,{legend=false}={}){
   const a=APP_META.authority[key]||APP_META.authority.ALGORITHM;
@@ -46,9 +48,9 @@ function practitionerMarkup(key,{legend=false}={}){
 }
 function renderAuthorityLegend(){
   if(!el.authorityLegend)return;
-  const approval=['DIRECT','SKKM','ALGORITHM'].map(key=>authorityMarkup(key,{legend:true})).join('');
+  const approval=['SKKM','ALGORITHM'].map(key=>authorityMarkup(key,{legend:true})).join('');
   const aabt=practitionerMarkup('AABT',{legend:true});
-  el.authorityLegend.innerHTML=`<div class="authority-legend-group"><h4>SKKM/ÇM</h4>${approval}</div><div class="authority-legend-group"><h4>Uygulayıcı kısıtı</h4><p class="legend-note">Kartlarda yalnız resmî turuncu kutu doğrulanmışsa “Yalnız AABT” gösterilir. Turkuaz “Acil Tıp Teknisyeni / Teknikeri” basamaklarında ek rozet gösterilmez. Rozet olmaması, henüz audit edilmemiş bir basamakta ATT yetkisini tek başına doğrulamaz.</p>${aabt}</div>`;
+  el.authorityLegend.innerHTML=`<div class="authority-legend-group"><h4>SKKM/ÇM</h4><p class="legend-note">Sarı rozet yalnız Ek-2’de SKKM/ÇM işareti bulunan doğrulanmış basamaklarda gösterilir. İşaret bulunmayan basamaklara ek SKKM/ÇM rozeti eklenmez.</p>${approval}</div><div class="authority-legend-group"><h4>Uygulayıcı kısıtı</h4><p class="legend-note">Kartlarda yalnız resmî turuncu kutu doğrulanmışsa “Yalnız AABT” gösterilir. Turkuaz “Acil Tıp Teknisyeni / Teknikeri” basamaklarında ek rozet gösterilmez. Rozet olmaması, henüz audit edilmemiş bir basamakta ATT yetkisini tek başına doğrulamaz.</p>${aabt}</div>`;
 }
 function renderAppMeta(){const version=`V${APP_META.productVersion}`;if(el.productVersionChip)el.productVersionChip.textContent=version;if(el.sourceProductMeta)el.sourceProductMeta.textContent=`Uygulama: ${version}`;if(el.sourceReviewMeta)el.sourceReviewMeta.textContent=`Kaynak seti son gözden geçirme: ${formatDateTR(latestReviewDate())}`;renderAuthorityLegend()}
 
@@ -70,13 +72,15 @@ function algorithmBranchSearch(branches=[]){
 }
 function searchText(c){
   const sev=c.severity?Object.values(c.severity).flatMap(s=>[s.label,...s.bullets,s.action]):[];
-  const meds=(c.meds||[]).flatMap(m=>[m.name,m.dose,...(m.routes||[]).flatMap(r=>[r,routeLabel(r)]),m.repeat,m.maxDose,m.note,APP_META.authority[m.authority]?.label,APP_META.practitionerAuthority?.[m.practitionerAuthority||'UNVERIFIED']?.label,APP_META.practitionerAuthority?.[m.practitionerAuthority||'UNVERIFIED']?.officialLabel]);
+  const visibleQuick=c.algorithmSteps?.length?[]:(c.quick||[]);
+  const visibleDecision=c.decisionIntegrated?[]:[c.decision?.q,c.decision?.yes,c.decision?.no];
+  const meds=(c.meds||[]).flatMap(m=>[m.name,m.dose,...(m.routes||[]).flatMap(r=>[r,routeLabel(r)]),m.repeat,m.maxDose,m.note,m.authority==='DIRECT'?null:APP_META.authority[m.authority]?.label,APP_META.practitionerAuthority?.[m.practitionerAuthority||'UNVERIFIED']?.label,APP_META.practitionerAuthority?.[m.practitionerAuthority||'UNVERIFIED']?.officialLabel]);
   const algorithmSteps=(c.algorithmSteps||[]).flatMap(algorithmStepSearch);
   const algorithmBranches=algorithmBranchSearch(c.algorithmBranches||[]);
   const algorithmNotices=c.algorithmNotices||[];
   const algorithmAfter=(c.algorithmAfter||[]).flatMap(algorithmStepSearch);
   const referenceGroups=(c.referenceGroups||[]).flatMap(group=>[group.title,...(group.items||[]).flat()]);
-  return [c.title,c.subtitle,c.category,c.code,c.summary,...c.criticalActions,...c.quick,...algorithmSteps,...algorithmNotices,...algorithmBranches,...algorithmAfter,...c.warningFindings,...referenceGroups,c.decision?.q,c.decision?.yes,c.decision?.no,...sev,...meds].filter(Boolean).map(strip).join(' ').toLocaleLowerCase('tr-TR');
+  return [c.title,c.subtitle,c.category,c.code,c.summary,...c.criticalActions,...visibleQuick,...algorithmSteps,...algorithmNotices,...algorithmBranches,...algorithmAfter,...c.warningFindings,...referenceGroups,...visibleDecision,...sev,...meds].filter(Boolean).map(strip).join(' ').toLocaleLowerCase('tr-TR');
 }
 function priorityRank(c){return ({critical:0,high:1,standard:2}[c.uiPriority]??9)}
 function visibleCases(){
@@ -177,7 +181,7 @@ function showCaseLibraryFromProtocol(){
   const shouldPop=Boolean(window.history.state?.saha112Detail);
   state.current=null;state.protocolHistory=[];state.view='home';state.category='Tümü';state.query='';el.search.value='';
   el.detail.classList.add('hidden');el.main.classList.remove('hidden');el.shell.classList.remove('detail-open');setNav('cases');renderAll();
-  requestAnimationFrame(()=>el.filterTitle.scrollIntoView({behavior:'smooth',block:'start'}));
+  requestAnimationFrame(()=>el.filterTitle.scrollIntoView({behavior:scrollBehavior(),block:'start'}));
   if(shouldPop)window.history.back();
 }
 function renderCases(){
@@ -201,13 +205,18 @@ function renderShortcuts(){
 }
 function renderAll(){ensurePopulationAvailable();renderAppMeta();renderPopulations();renderFilters();renderStats();renderProtocols();renderFeatured();renderShortcuts();renderCases()}
 
-function authorityBadge(m){return authorityMarkup(m.authority)}
+function authorityBadge(m){return m.authority==='DIRECT'?'':authorityMarkup(m.authority)}
 function practitionerBadge(m){return practitionerMarkup(m.practitionerAuthority||'UNVERIFIED')}
 function renderMeds(c){
   if(!c.meds?.length)return '';
   const hasSourceUnspecified=c.meds.some(m=>m.authority==='ALGORITHM');
   const neutralKey=hasSourceUnspecified?'<span class="inline-authority-key neutral-key">• Gri: kaynakta yetki belirtilmemiş</span>':'';
-  return `<section class="detail-section meds-section" id="medications"><div class="detail-heading"><span class="tiny-icon">Rx</span><div><h3>İlaç / uygulama özeti</h3><p><span class="inline-authority-key direct-key">✓ Yeşil: ek SKKM/ÇM adımı yok</span> <span class="inline-authority-key skkm-key">◆ Sarı: SKKM/ÇM</span> ${neutralKey}</p></div></div><div class="med-list">${c.meds.map(m=>`<article class="med-card"><div class="med-main"><div><strong>${esc(m.name)}</strong><span class="dose">${esc(m.dose)}</span></div><div class="med-badges" aria-label="Yetki göstergeleri">${authorityBadge(m)}${practitionerBadge(m)}</div></div><div class="med-meta"><span>Yol: <b>${esc((m.routes||[]).map(routeLabel).join(' / '))}</b></span>${m.repeat?`<span>Tekrar: <b>${esc(m.repeat)}</b></span>`:''}${m.maxDose?`<span>Maks: <b>${esc(m.maxDose)}</b></span>`:''}</div><p>${esc(m.note)}</p></article>`).join('')}</div><div class="authority-warning">“Yalnız AABT” yalnız resmî turuncu kutu doğrulandığında gösterilir. Gri yetki rozeti, ilaç/doz resmî kaynakta yer aldığı halde ilgili bölümde SKKM/ÇM veya uygulayıcı yetki kodlaması bulunmadığını ve çıkarım yapılmadığını belirtir.</div></section>`;
+  const cards=c.meds.map(m=>{
+    const badges=[authorityBadge(m),practitionerBadge(m)].filter(Boolean).join('');
+    const note=m.note?`<p>${esc(m.note)}</p>`:'';
+    return `<article class="med-card"><div class="med-main"><div><strong>${esc(m.name)}</strong><span class="dose">${esc(m.dose)}</span></div>${badges?`<div class="med-badges" aria-label="Yetki göstergeleri">${badges}</div>`:''}</div><div class="med-meta"><span>Yol: <b>${esc((m.routes||[]).map(routeLabel).join(' / '))}</b></span>${m.repeat?`<span>Tekrar: <b>${esc(m.repeat)}</b></span>`:''}${m.maxDose?`<span>Maks: <b>${esc(m.maxDose)}</b></span>`:''}</div>${note}</article>`;
+  }).join('');
+  return `<section class="detail-section meds-section" id="medications"><div class="detail-heading"><span class="tiny-icon">Rx</span><div><h3>İlaç / uygulama özeti</h3><p><span class="inline-authority-key skkm-key">◆ Sarı: SKKM/ÇM</span> ${neutralKey}</p></div></div><div class="med-list">${cards}</div><div class="authority-warning">SKKM/ÇM rozeti yalnız resmî işaret doğrulandığında gösterilir. “Yalnız AABT” yalnız resmî turuncu kutu doğrulandığında gösterilir. Gri yetki rozeti, ilaç/doz resmî kaynakta yer aldığı halde ilgili bölümde SKKM/ÇM veya uygulayıcı yetki kodlaması bulunmadığını ve çıkarım yapılmadığını belirtir.</div></section>`;
 }
 function renderActionStep(step,{branch=false}={}){
   const approval=step.approvalAuthority==='SKKM'?authorityMarkup('SKKM'):'';
@@ -256,7 +265,7 @@ function renderAlgorithmAfter(c){
 function renderSeverity(c,level='mild'){if(!c.severity)return '';const s=c.severity[level];return `<div class="severity-card ${level}" id="severityCard" role="tabpanel" aria-labelledby="severity-tab-${level}" tabindex="0"><div class="severity-head"><span class="level-dot"></span><strong>${esc(s.label)}</strong></div><ul>${s.bullets.map(b=>`<li>${esc(b)}</li>`).join('')}</ul><div class="action-box"><b>Ne yap?</b><p>${esc(s.action)}</p></div></div>`}
 function renderReferenceGroups(c){
   if(!c.referenceGroups?.length)return '';
-  return `<section class="detail-section subdued-section" id="reference-points"><div class="detail-heading"><span class="tiny-icon">◎</span><div><h3>Resmî Anahtar Noktalar</h3><p>Ek‑2’deki tablo ve saha prosedürü bilgileri; ana algoritmadan ayrı gösterilir.</p></div></div><div class="protocol-keypoint-grid case-reference-grid">${c.referenceGroups.map(group=>`<article class="protocol-keypoint-card${group.wide?' wide':''}"><h4>${esc(group.title)}</h4><div class="protocol-keypoint-list">${(group.items||[]).map(([key,label])=>`<div class="protocol-keypoint-row"><b>${esc(key)}</b><span>${esc(label)}</span></div>`).join('')}</div></article>`).join('')}</div></section>`;
+  return `<section class="detail-section subdued-section" id="reference-points"><div class="detail-heading"><span class="tiny-icon">◎</span><div><h3>Resmî Anahtar Noktalar</h3><p>Ek‑2’deki tablo ve saha prosedürü bilgileri; ana algoritmadan ayrı gösterilir.</p></div></div><div class="protocol-keypoint-grid case-reference-grid">${c.referenceGroups.map(group=>`<article class="protocol-keypoint-card${group.wide?' wide':''}"><h4>${esc(group.title)}</h4><div class="protocol-keypoint-list">${(group.items||[]).map(([key,label])=>`<div class="protocol-keypoint-row${String(key).length>4?' long-key':''}"><b>${esc(key)}</b><span>${esc(label)}</span></div>`).join('')}</div></article>`).join('')}</div></section>`;
 }
 function renderSource(c){const s=c.source;const codes=s.algorithmCodes?.length?s.algorithmCodes.join(' + '):'Sayfa referansı';return `<section class="detail-section source-section subdued-section" id="source"><div class="detail-heading"><span class="tiny-icon">§</span><div><h3>Kaynak izi</h3><p>Bu kartın hangi resmî sürüme dayandığını gösterir.</p></div></div><div class="source-grid"><div><span>Belge</span><strong>${esc(s.documentId)}</strong></div><div><span>Kod</span><strong>${esc(codes)}</strong></div><div><span>PDF sayfa</span><strong>${esc(s.page)}</strong></div><div><span>İnceleme</span><strong>${esc(s.reviewedAt)}</strong></div></div><div class="source-actions"><a href="${esc(s.officialPageUrl)}" target="_blank" rel="noopener">Resmî sayfa ↗</a><a href="${esc(s.officialPdfUrl)}" target="_blank" rel="noopener">Ek‑2 PDF ↗</a></div><p class="source-disclaimer">Çevrimdışıyken vaka içeriği kullanılabilir; resmî dış bağlantılar internet gerektirebilir. Resmî belge her zaman son referanstır. Ek‑2, akış şemalarının bağlayıcı ve kesin talimat niteliğinde olmadığını; somut olayda mesleki bilgi, deneyim, klinik değerlendirme ve yürürlükteki mevzuatın gözetilmesi gerektiğini belirtir.</p></section>`}
 function openCase(id,{browserHistory=true}={}){
@@ -286,8 +295,8 @@ function closeCase({skipHistory=false}={}){
 }
 function setNav(name){state.nav=name;$$('.nav-item').forEach(b=>{const active=b.dataset.nav===name;b.classList.toggle('active',active);if(active)b.setAttribute('aria-current','page');else b.removeAttribute('aria-current')})}
 function showHome(top=true){state.view='home';state.current=null;el.detail.classList.add('hidden');el.main.classList.remove('hidden');el.shell.classList.remove('detail-open');setNav('home');renderAll();if(top)scrollTo(0,0)}
-function showCases(){state.view='home';setNav('cases');renderAll();requestAnimationFrame(()=>el.filterTitle.scrollIntoView({behavior:'smooth',block:'start'}))}
-function showFavorites(){state.view='favorites';state.category='Tümü';state.query='';el.search.value='';setNav('favorites');renderAll();requestAnimationFrame(()=>el.filterTitle.scrollIntoView({behavior:'smooth',block:'start'}))}
+function showCases(){state.view='home';setNav('cases');renderAll();requestAnimationFrame(()=>el.filterTitle.scrollIntoView({behavior:scrollBehavior(),block:'start'}))}
+function showFavorites(){state.view='favorites';state.category='Tümü';state.query='';el.search.value='';setNav('favorites');renderAll();requestAnimationFrame(()=>el.filterTitle.scrollIntoView({behavior:scrollBehavior(),block:'start'}))}
 function selectPopulation(id){
   if(!APP_META.populations.some(p=>p.id===id)||populationCount(id)===0)return;
   state.population=id;state.category='Tümü';state.query='';state.view='home';el.search.value='';
@@ -333,10 +342,10 @@ document.addEventListener('click',e=>{
   const open=e.target.closest('[data-open]');if(open){openCase(open.dataset.open);return}
   const pop=e.target.closest('[data-population]');if(pop){selectPopulation(pop.dataset.population);return}
   const filter=e.target.closest('[data-filter]');if(filter){state.category=filter.dataset.filter;renderFilters();renderCases();requestAnimationFrame(()=>[...el.filters.querySelectorAll('[data-filter]')].find(b=>b.dataset.filter===state.category)?.focus({preventScroll:true}));return}
-  const jump=e.target.closest('[data-jump]');if(jump){const target=document.getElementById(jump.dataset.jump);if(target){const headerH=el.detail.querySelector('.detail-top')?.getBoundingClientRect().height||0;const top=Math.max(0,target.getBoundingClientRect().top+scrollY-headerH-8);scrollTo({top,behavior:'smooth'})}return}
+  const jump=e.target.closest('[data-jump]');if(jump){const target=document.getElementById(jump.dataset.jump);if(target){const headerH=el.detail.querySelector('.detail-top')?.getBoundingClientRect().height||0;const top=Math.max(0,target.getBoundingClientRect().top+scrollY-headerH-8);scrollTo({top,behavior:scrollBehavior()})}return}
   const level=e.target.closest('[data-level]');if(level&&state.current){$$('.severity-tab').forEach(b=>{const active=b===level;b.classList.toggle('active',active);b.setAttribute('aria-selected',String(active));b.tabIndex=active?0:-1});const c=CASES.find(x=>x.id===state.current);$('#severityCard').outerHTML=renderSeverity(c,level.dataset.level);return}
   const action=e.target.closest('[data-action]')?.dataset.action;
-  if(action==='show-all'){el.filterTitle.scrollIntoView({behavior:'smooth'});return}
+  if(action==='show-all'){el.filterTitle.scrollIntoView({behavior:scrollBehavior()});return}
   if(action==='clear-recents'){state.recent=[];localStorage.removeItem(STORAGE.recent);renderShortcuts();return}
   if(action==='back'){backFromDetail();return}
   if(action==='favorite'&&state.current){const id=state.current;state.favorites.has(id)?state.favorites.delete(id):state.favorites.add(id);localStorage.setItem(STORAGE.favorites,JSON.stringify([...state.favorites]));const b=e.target.closest('[data-action="favorite"]');const active=state.favorites.has(id);b.classList.toggle('active',active);b.textContent=active?'★':'☆';b.setAttribute('aria-pressed',String(active));b.setAttribute('aria-label',active?'Favorilerden çıkar':'Favorilere ekle');return}
@@ -345,13 +354,13 @@ document.addEventListener('click',e=>{
   const nav=e.target.closest('[data-nav]')?.dataset.nav;if(nav==='home'){showHome();return}if(nav==='cases'){showCases();return}if(nav==='favorites'){showFavorites();return}
   if(e.target===el.source)closeSourceSheet();
 });
-el.search.addEventListener('input',e=>{const wasSearching=Boolean(state.query);state.query=e.target.value;renderProtocols();renderCases();if(state.query&&!wasSearching)requestAnimationFrame(()=>{const protocolMatch=!el.protocolSection?.classList.contains('hidden')&&el.protocols?.children.length;const target=protocolMatch?el.protocolSection:el.filterTitle;target?.scrollIntoView({behavior:'smooth',block:'start'})})});
+el.search.addEventListener('input',e=>{const wasSearching=Boolean(state.query);state.query=e.target.value;renderProtocols();renderCases();if(state.query&&!wasSearching)requestAnimationFrame(()=>{const protocolMatch=!el.protocolSection?.classList.contains('hidden')&&el.protocols?.children.length;const target=protocolMatch?el.protocolSection:el.filterTitle;target?.scrollIntoView({behavior:scrollBehavior(),block:'start'})})});
 sourceBtn?.addEventListener('click',openSourceSheet);
 el.themeToggle.addEventListener('click',toggleTheme);el.fieldToggle.addEventListener('click',toggleDensity);
 addEventListener('keydown',e=>{
   const severityTab=e.target.closest?.('.severity-tab');
   if(severityTab&&['ArrowLeft','ArrowRight','Home','End'].includes(e.key)){
-    const tabs=$('.severity-tab');if(tabs.length){e.preventDefault();const current=tabs.indexOf(severityTab);let next=current;if(e.key==='ArrowLeft')next=(current-1+tabs.length)%tabs.length;else if(e.key==='ArrowRight')next=(current+1)%tabs.length;else if(e.key==='Home')next=0;else if(e.key==='End')next=tabs.length-1;tabs[next]?.focus();tabs[next]?.click()}return;
+    const tabs=$$('.severity-tab');if(tabs.length){e.preventDefault();const current=tabs.indexOf(severityTab);let next=current;if(e.key==='ArrowLeft')next=(current-1+tabs.length)%tabs.length;else if(e.key==='ArrowRight')next=(current+1)%tabs.length;else if(e.key==='Home')next=0;else if(e.key==='End')next=tabs.length-1;tabs[next]?.focus();tabs[next]?.click()}return;
   }
   const sourceOpen=!el.source.classList.contains('hidden');
   if(sourceOpen&&e.key==='Tab'){

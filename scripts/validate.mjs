@@ -75,7 +75,7 @@ if(APP_META?.authority?.DIRECT?.symbol!=='✓'||APP_META?.authority?.DIRECT?.vis
 if(APP_META?.authority?.SKKM?.symbol!=='◆'||APP_META?.authority?.SKKM?.visualLabel!=='SKKM/ÇM')err('SKKM sarı/onay sembol metası eksik');
 if(APP_META?.authority?.ALGORITHM?.symbol!=='•'||APP_META?.authority?.ALGORITHM?.visualLabel!=='Kaynakta SKKM/ÇM kodlaması belirtilmemiş')err('ALGORITHM kaynakta belirtilmeyen yetki metası eksik');
 if(APP_META?.contentVersion!=='EK2-2026.08.25-early-adult-fidelity-reaudit-2026.09.25')err('contentVersion yetişkin kaynak/yetki audit sürümüyle eşleşmiyor');
-if(APP_META?.productVersion!=='0.57')err('productVersion V0.57 olmalı');
+if(APP_META?.productVersion!=='0.58')err('productVersion V0.58 olmalı');
 if(APP_META?.practitionerAuthority?.ATT_AABT?.officialLabel!=='Acil Tıp Teknisyeni / Teknikeri'||APP_META?.practitionerAuthority?.AABT?.officialLabel!=='Acil Tıp Teknikeri'||APP_META?.practitionerAuthority?.UNVERIFIED?.symbol!=='□')err('ATT/AABT uygulayıcı yetki metası eksik veya bozuk');
 for(const code of ['SB-ASH-Y-04','SB-ASH-Y-05','SB-ASH-Y-06','SB-ASH-Y-07','SB-ASH-Y-08','SB-ASH-Y-09','SB-ASH-Y-10','SB-ASH-Y-11','SB-ASH-Y-12','SB-ASH-Y-13','SB-ASH-Y-14','SB-ASH-Y-15','SB-ASH-Y-17','SB-ASH-Y-19','SB-ASH-Y-21','SB-ASH-Y-22','SB-ASH-Y-23','SB-ASH-Y-24','SB-ASH-Y-28','SB-ASH-Y-29','SB-ASH-Y-34','SB-ASH-Y-35','SB-ASH-Y-36','SB-ASH-Y-37','SB-ASH-Y-39','SB-ASH-Y-40'])if(!APP_META?.practitionerAudit?.verifiedMedicationCases?.includes(code))err(`Uygulayıcı yetki görsel audit izi eksik: ${code}`);
 if(APP_META?.practitionerAudit?.adultMedicationCardsComplete!==true)err('Yetişkin ilaç kartları uygulayıcı audit tamamlama işareti eksik');
@@ -275,6 +275,7 @@ for(const term of ['kas krampları, normal ya da hafif artmış vücut ısısı 
 const y23Refs=hyperthermiaCase?.referenceGroups||[];
 if(y23Refs.length!==2)err('Y-23 resmî Anahtar Nokta tablo grupları eksik');
 for(const term of ['Isı Krampları','Kas seyirmeleri','abdomende ağrılı spazmlar','Isı Yorgunluğu','Solukluk','susuzluk','Isı Çarpması','minimal ya da çok az terleme','Evoperasyon','Vücuduna soğuk ya da ılık su sıkılır ve havalandırma açılarak buharlaşması sağlanır','İmmersiyon','ıslak bez ya da spanç konulur','Soğutmada hedef vücut ısısı <39°C’yi sağlamaktır'])if(!JSON.stringify(y23Refs).includes(term))err(`Y-23 resmî Anahtar Nokta içeriği eksik: ${term}`);
+if(JSON.stringify(y23Refs).includes('Evaporasyon'))err('Y-23 resmî kaynakta “Evoperasyon” yazarken kullanıcı verisi sessizce düzeltilmemeli');
 if(medByName(hyperthermiaCase,'%0,9 NaCl — ısı stresi')?.dose!=='1000–2000 mL bolus'||medByName(hyperthermiaCase,'%0,9 NaCl — ısı çarpması')?.dose!=='1000 mL bolus')err('Y-23 ısı stresi / ısı çarpması NaCl doz ayrımı bozuk');
 for(const name of ['%0,9 NaCl — ısı stresi','%0,9 NaCl — ısı çarpması'])if(JSON.stringify(medByName(hyperthermiaCase,name)?.routes)!==JSON.stringify(['OTHER']))err(`Y-23 ${name} uygulama yolu kaynakta ayrıca belirtilmediği için türetilmemeli`);
 
@@ -643,6 +644,7 @@ for(const term of ['spontan solunum eforu geri dönerse','ajitasyon gelişirse',
 const y36Refs=opioidCase?.referenceGroups||[];
 if(y36Refs.length!==2)err('Y-36 resmî Anahtar Nokta tablo grupları eksik');
 for(const term of ['kişilik değişiklikleri','akciğer ödemi','bronkospazm','ritim bozukluğu','barsak seslerinde azalma','ileus','Karaciğer yetmezliği','akut böbrek yetmezliği','solunum depresyonunda ileri hava yolu','hipoglisemi veya hipovolemi','opioid bağımlısı olmayanda 0,4–2 mg','0,1–0,4 mg','Apne/siyanozda 2 mg IV','maksimum 10 mg','ajitasyon gelişirse IV nalokson sonlandırılır'])if(!JSON.stringify(y36Refs).toLocaleLowerCase('tr-TR').includes(term.toLocaleLowerCase('tr-TR')))err(`Y-36 resmî Anahtar Nokta içeriği eksik: ${term}`);
+if(!JSON.stringify(y36Refs).includes('SKKM/ÇM onayı ile opioid bağımlısı olmayanda'))err('Y-36 resmî Anahtar Nokta SKKM/ÇM onayı ifadesi kaynaktan sapmış');
 
 const tcaCase=(CASES||[]).find(c=>c.id==='tca-poisoning');
 if(tcaCase?.code!=='SB-ASH-Y-37'||tcaCase?.page!=='64'||tcaCase?.source?.page!=='63–64')err('TCA Y-37 kaynak izi bozuldu');
