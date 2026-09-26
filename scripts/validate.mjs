@@ -22,13 +22,14 @@ if(APP_META){
 }
 if(!Array.isArray(CASES)||!CASES.length)err('CASES boş veya dizi değil');
 if(!Array.isArray(PROTOCOLS)||PROTOCOLS.length!==2)err('PROTOCOLS tam olarak 2 doğrulanmış temel protokol içermeli');
+if(/telefon simge/i.test(JSON.stringify([...(CASES||[]),...(PROTOCOLS||[])])))err('Kullanıcıya görünen klinik metinde “telefon simgesi” geliştirici terminolojisi kalmamalı');
 const sceneProtocol=(PROTOCOLS||[]).find(p=>p.id==='scene-management');
 if(!sceneProtocol||sceneProtocol.title!=='Olay Yeri Yönetimi'||sceneProtocol.code!=='SB-ASH-Y-01'||sceneProtocol.page!=='5')err('Y-01 Olay Yeri Yönetimi temel protokolü eksik veya kaynak izi bozuk');
 if(sceneProtocol?.population!=='adult'||sceneProtocol?.clinicalStatus!=='reviewed'||sceneProtocol?.source?.reviewedAt!=='2026-09-25'||sceneProtocol?.source?.effectiveDate!=='2026-08-25')err('Y-01 protokol nüfus/inceleme/yürürlük metası bozuk');
 const sceneFlow=sceneProtocol?.flow||[];
 if(sceneFlow.length!==7)err('Y-01 olay yeri akışı 7 yapılandırılmış öğe içermeli');
 for(const phrase of ['SKKM/ÇM ile iletişime geç','Gerekli kişisel koruyucu malzemelerini kullan','Olay yeri güvenliği var mı?','Hasta/Yaralı güvenliği var mı?','olabilecek vaka sayısını','triyaj yap','İhtiyaç duyulan ekip ve ekipmanı iste','Acil Olgu Yönetimi algoritmasına geç'])if(!JSON.stringify(sceneProtocol).includes(phrase))err(`Y-01 resmî akış öğesi eksik: ${phrase}`);
-if(sceneFlow.filter(x=>x.skkmContact||x.noSkkmContact).length!==2)err('Y-01 resmî SKKM/ÇM telefon simgesi iki yerde yapılandırılmalı');
+if(sceneFlow.filter(x=>x.skkmContact||x.noSkkmContact).length!==2)err('Y-01 resmî SKKM/ÇM işareti iki yerde yapılandırılmalı');
 if(sceneFlow.some(x=>x.practitionerAuthority&&x.practitionerAuthority!=='ATT_AABT'))err('Y-01 uygulayıcı basamaklarında turuncu AABT kısıtı olmamalı');
 if(sceneFlow.at(-1)?.type!=='transition'||sceneFlow.at(-1)?.targetCode!=='SB-ASH-Y-02')err('Y-01 sonu Acil Olgu Yönetimi SB-ASH-Y-02 geçişi olmalı');
 if(sceneFlow.at(-1)?.targetProtocolId!=='emergency-case-management')err('Y-01 → Y-02 tek dokunuş protokol geçişi eksik');
@@ -38,7 +39,7 @@ if(emergencyProtocol?.population!=='adult'||emergencyProtocol?.clinicalStatus!==
 const emergencyFlow=emergencyProtocol?.flow||[];
 if(emergencyFlow.length!==8)err('Y-02 Acil Olgu Yönetimi akışı 8 yapılandırılmış öğe içermeli');
 for(const phrase of ['Olay yeri güvenli mi?','Gerekli tüm ekipmanları al','Ekip ve Malzeme Yerleşimi','Birincil Değerlendirme','XABCDE','İkincil Değerlendirme','Ön tanıyı belirle','Ön tanıya göre ilgili algoritmaya git','Yeniden değerlendir'])if(!JSON.stringify(emergencyProtocol).includes(phrase))err(`Y-02 resmî akış öğesi eksik: ${phrase}`);
-if(emergencyFlow.some(x=>x.skkmContact||x.noSkkmContact))err('Y-02 ana algoritmasında SKKM/ÇM telefon simgesi olmamalı');
+if(emergencyFlow.some(x=>x.skkmContact||x.noSkkmContact))err('Y-02 ana algoritmasında SKKM/ÇM işareti olmamalı');
 if(emergencyFlow.some(x=>x.practitionerAuthority&&x.practitionerAuthority!=='ATT_AABT'))err('Y-02 uygulayıcı basamaklarında turuncu AABT kısıtı olmamalı');
 if(emergencyFlow[0]?.yes!=='Gerekli ekipmanları alma basamağına geç.'||emergencyFlow[0]?.noTargetProtocolId!=='scene-management')err('Y-02 güvenlik kararı kısa yönlendirme / Y-01 geri dönüşü bozuk');
 if(!emergencyFlow.some(x=>x.type==='transition'&&x.targetAction==='cases'))err('Y-02 ön tanı sonrası vaka algoritmaları kısayolu eksik');
@@ -70,11 +71,11 @@ const ids=new Set();const allowedAuthority=new Set(['DIRECT','SKKM','ALGORITHM']
 if(APP_META?.routeLabels?.NEB!=='Nebülizasyon')err('NEB kullanıcı etiketi Nebülizasyon olmalı');
 if(!APP_META?.routes?.includes('INHALER')||APP_META?.routeLabels?.INHALER!=='İnhaler')err('INHALER/İnhaler yol tanımı eksik');
 if(!APP_META?.routes?.includes('SC')||APP_META?.routeLabels?.SC!=='Subkutan (SC)')err('SC/Subkutan yol tanımı eksik');
-if(APP_META?.authority?.DIRECT?.symbol!=='✓'||APP_META?.authority?.DIRECT?.visualLabel!=='SKKM/ÇM onayı gerektirmez')err('DIRECT yeşil/doğrudan sembol metası eksik');
-if(APP_META?.authority?.SKKM?.symbol!=='◆'||APP_META?.authority?.SKKM?.visualLabel!=='SKKM/ÇM onayı gerekli')err('SKKM sarı/onay sembol metası eksik');
-if(APP_META?.authority?.ALGORITHM?.symbol!=='•'||APP_META?.authority?.ALGORITHM?.visualLabel!=='Kaynakta SKKM/ÇM yetkisi belirtilmemiş')err('ALGORITHM kaynakta belirtilmeyen yetki metası eksik');
+if(APP_META?.authority?.DIRECT?.symbol!=='✓'||APP_META?.authority?.DIRECT?.visualLabel!=='Ek-2’de SKKM/ÇM işareti yok')err('DIRECT yeşil/doğrudan sembol metası eksik');
+if(APP_META?.authority?.SKKM?.symbol!=='◆'||APP_META?.authority?.SKKM?.visualLabel!=='SKKM/ÇM')err('SKKM sarı/onay sembol metası eksik');
+if(APP_META?.authority?.ALGORITHM?.symbol!=='•'||APP_META?.authority?.ALGORITHM?.visualLabel!=='Kaynakta SKKM/ÇM kodlaması belirtilmemiş')err('ALGORITHM kaynakta belirtilmeyen yetki metası eksik');
 if(APP_META?.contentVersion!=='EK2-2026.08.25-early-adult-fidelity-reaudit-2026.09.25')err('contentVersion yetişkin kaynak/yetki audit sürümüyle eşleşmiyor');
-if(APP_META?.productVersion!=='0.56')err('productVersion V0.56 olmalı');
+if(APP_META?.productVersion!=='0.57')err('productVersion V0.57 olmalı');
 if(APP_META?.practitionerAuthority?.ATT_AABT?.officialLabel!=='Acil Tıp Teknisyeni / Teknikeri'||APP_META?.practitionerAuthority?.AABT?.officialLabel!=='Acil Tıp Teknikeri'||APP_META?.practitionerAuthority?.UNVERIFIED?.symbol!=='□')err('ATT/AABT uygulayıcı yetki metası eksik veya bozuk');
 for(const code of ['SB-ASH-Y-04','SB-ASH-Y-05','SB-ASH-Y-06','SB-ASH-Y-07','SB-ASH-Y-08','SB-ASH-Y-09','SB-ASH-Y-10','SB-ASH-Y-11','SB-ASH-Y-12','SB-ASH-Y-13','SB-ASH-Y-14','SB-ASH-Y-15','SB-ASH-Y-17','SB-ASH-Y-19','SB-ASH-Y-21','SB-ASH-Y-22','SB-ASH-Y-23','SB-ASH-Y-24','SB-ASH-Y-28','SB-ASH-Y-29','SB-ASH-Y-34','SB-ASH-Y-35','SB-ASH-Y-36','SB-ASH-Y-37','SB-ASH-Y-39','SB-ASH-Y-40'])if(!APP_META?.practitionerAudit?.verifiedMedicationCases?.includes(code))err(`Uygulayıcı yetki görsel audit izi eksik: ${code}`);
 if(APP_META?.practitionerAudit?.adultMedicationCardsComplete!==true)err('Yetişkin ilaç kartları uygulayıcı audit tamamlama işareti eksik');
@@ -164,7 +165,7 @@ if(anaHypoperfusion?.steps?.[0]?.approvalAuthority!=='DIRECT'||anaHypoperfusion?
 const anaNoImprove=anaHypoperfusion?.branches?.[0];
 if(anaNoImprove?.label!=='Düzelme olmuyor'||anaNoImprove?.steps?.length!==4)err('Y-22 düzelmeme alt kolu eksik');
 if(anaNoImprove?.steps?.[0]?.approvalAuthority!=='SKKM'||anaNoImprove?.steps?.[0]?.practitionerAuthority!=='AABT'||!String(anaNoImprove?.steps?.[0]?.html||'').includes('1 mcg/dk'))err('Y-22 IV adrenalin infüzyonu SKKM + AABT olmalı');
-if(anaNoImprove?.steps?.[1]?.approvalAuthority!=='DIRECT'||anaNoImprove?.steps?.[1]?.practitionerAuthority!=='AABT'||!String(anaNoImprove?.steps?.[1]?.html||'').includes('500 mL'))err('Y-22 ikinci NaCl 500 mL telefon simgesiz AABT olmalı');
+if(anaNoImprove?.steps?.[1]?.approvalAuthority!=='DIRECT'||anaNoImprove?.steps?.[1]?.practitionerAuthority!=='AABT'||!String(anaNoImprove?.steps?.[1]?.html||'').includes('500 mL'))err('Y-22 ikinci NaCl 500 mL SKKM/ÇM işareti bulunmayan AABT olmalı');
 for(const idx of [2,3])if(anaNoImprove?.steps?.[idx]?.approvalAuthority!=='SKKM'||anaNoImprove?.steps?.[idx]?.practitionerAuthority!=='AABT')err(`Y-22 ileri ilaç basamağı SKKM + AABT olmalı: ${idx}`);
 
 
@@ -218,12 +219,12 @@ const narrowQrs=(tachyStable?.branches||[]).find(b=>b.label==='Dar QRS');
 if(!wideQrs||!narrowQrs)err('Y-08 stabil Geniş/Dar QRS dalları eksik');
 const narrowRegular=(narrowQrs?.branches||[]).find(b=>b.label==='Düzenli');
 const vagalStep=(narrowRegular?.steps||[]).find(s=>String(s.html).includes('Vagal manevra'));
-if(vagalStep?.approvalAuthority!=='DIRECT'||vagalStep?.practitionerAuthority!=='AABT')err('Y-08 vagal manevra turuncu fakat SKKM/ÇM telefon simgesiz olmalı');
+if(vagalStep?.approvalAuthority!=='DIRECT'||vagalStep?.practitionerAuthority!=='AABT')err('Y-08 vagal manevra turuncu fakat SKKM/ÇM işaretiz olmalı');
 const unstableCv=(tachyUnstable?.steps||[]).find(s=>String(s.html).includes('Senkronize kardiyoversiyon'));
-if(unstableCv?.approvalAuthority!=='DIRECT'||unstableCv?.practitionerAuthority!=='AABT')err('Y-08 ilk anstabil kardiyoversiyon turuncu fakat SKKM/ÇM telefon simgesiz olmalı');
+if(unstableCv?.approvalAuthority!=='DIRECT'||unstableCv?.practitionerAuthority!=='AABT')err('Y-08 ilk anstabil kardiyoversiyon turuncu fakat SKKM/ÇM işaretiz olmalı');
 const unstableSed=(tachyUnstable?.steps||[]).find(s=>String(s.html).includes('midazolam'));
 const unstableNoResponse=(tachyUnstable?.steps||[]).find(s=>String(s.html).includes('amiodaron 300 mg'));
-if(unstableSed?.approvalAuthority!=='SKKM'||unstableNoResponse?.approvalAuthority!=='SKKM')err('Y-08 sedasyon/yanıtsızlık basamakları SKKM/ÇM telefon simgeli olmalı');
+if(unstableSed?.approvalAuthority!=='SKKM'||unstableNoResponse?.approvalAuthority!=='SKKM')err('Y-08 sedasyon/yanıtsızlık basamakları SKKM/ÇM SKKM/ÇM işaretli olmalı');
 const wideRegular=(wideQrs?.branches||[]).find(b=>b.label==='Düzenli');
 const stableCv=(wideRegular?.steps||[]).find(s=>String(s.html).includes('kardiyoversiyon'));
 if(stableCv?.approvalAuthority!=='SKKM'||stableCv?.practitionerAuthority!=='AABT')err('Y-08 stabil geniş-düzenli yanıtsızlık kardiyoversiyonu turuncu/SKKM olmalı');
@@ -360,9 +361,9 @@ for(let n=2;n<=41;n++)if(!coveredAdultCodes.has(n))err(`Yetişkin resmî algorit
 if(coveredAdultCodes.has(1))warn('SB-ASH-Y-01 vaka kartına dönüştürülmüş; Olay Yeri Yönetimi temel protokol olarak ayrı ele alınmalı');
 
 const bradyCase=(CASES||[]).find(c=>c.id==='bradycardia');
-if(medByName(bradyCase,'Dopamin')?.authority!=='SKKM'||medByName(bradyCase,'Adrenalin')?.authority!=='SKKM')err('Bradikardi dopamin/adrenalin SKKM telefon simgesiyle eşleşmiyor');
+if(medByName(bradyCase,'Dopamin')?.authority!=='SKKM'||medByName(bradyCase,'Adrenalin')?.authority!=='SKKM')err('Bradikardi dopamin/adrenalin SKKM SKKM/ÇM işaretiyle eşleşmiyor');
 
-for(const name of ['Adrenalin — şoklanamaz ritim','Adrenalin — şoklanır ritim','Amiodaron','Lidokain'])if(medByName(arrestCase,name)?.authority!=='DIRECT')err(`Kardiyak Arrest ${name} telefon simgesiz/doğrudan olmalı`);
+for(const name of ['Adrenalin — şoklanamaz ritim','Adrenalin — şoklanır ritim','Amiodaron','Lidokain'])if(medByName(arrestCase,name)?.authority!=='DIRECT')err(`Kardiyak Arrest ${name} SKKM/ÇM işareti bulunmayan/doğrudan olmalı`);
 if(!String(medByName(arrestCase,'Lidokain')?.repeat||'').includes('0,5–0,75 mg/kg'))err('Arrest 5. şok sonrası lidokain tekrar dozu eksik');
 if((arrestCase?.algorithmSteps||[]).length!==1)err('Arrest ortak başlangıç algorithmSteps sayısı 1 olmalı');
 if(arrestCase?.decisionIntegrated!==true)err('Y-09/Y-10/Y-11 dallı akış varken yinelenen Karar kutusu gizlenmeli');
@@ -373,8 +374,8 @@ if(!arrestNoPulse||!arrestBreathing)err('Arrest Y-09 nabız var/nabız yok dalla
 const shockableBranch=(arrestNoPulse?.branches||[]).find(b=>String(b.label).includes('Şoklanır'));
 const nonShockBranch=(arrestNoPulse?.branches||[]).find(b=>String(b.label).includes('Şoklanamaz'));
 if(!shockableBranch||!nonShockBranch)err('Arrest şoklanır/şoklanamaz alt dalları eksik');
-for(const s of shockableBranch?.steps||[])if(s.approvalAuthority!=='DIRECT')err('Y-11 şoklanır ritimde telefon simgesiz basamak SKKM olarak işaretlenmiş');
-for(const s of nonShockBranch?.steps||[])if(s.approvalAuthority!=='DIRECT')err('Y-10 şoklanamaz ritimde telefon simgesiz basamak SKKM olarak işaretlenmiş');
+for(const s of shockableBranch?.steps||[])if(s.approvalAuthority!=='DIRECT')err('Y-11 şoklanır ritimde SKKM/ÇM işareti bulunmayan basamak SKKM olarak işaretlenmiş');
+for(const s of nonShockBranch?.steps||[])if(s.approvalAuthority!=='DIRECT')err('Y-10 şoklanamaz ritimde SKKM/ÇM işareti bulunmayan basamak SKKM olarak işaretlenmiş');
 const firstShock=(shockableBranch?.steps||[]).find(s=>String(s.html).includes('1. defibrilasyon'));
 const secondShock=(shockableBranch?.steps||[]).find(s=>String(s.html).includes('2. defibrilasyon'));
 if(!String(secondShock?.html||'').includes('Adrenalin 1 mg IV')||String(secondShock?.html||'').includes('IV/IO'))err('Y-11 2. şok sonrası adrenalin yolu IV olmalı, IV/IO genellenmemeli');
@@ -383,16 +384,16 @@ if(firstShock?.practitionerAuthority!=='AABT'||secondShock?.practitionerAuthorit
 if(!String(thirdShock?.html||'').includes('amiodaron 300 mg IV/IO')||!String(thirdShock?.html||'').includes('lidokain 1–1,5 mg/kg IV/IO'))err('Y-11 3. şok antiaritmik başlangıç dozu bozuk');
 if(thirdShock?.followUp?.label!=='Dirençli / tekrarlayan VF-nVT — 5. şok sonrası'||!String(thirdShock?.followUp?.html||'').includes('Amiodaron 150 mg IV/IO')||!String(thirdShock?.followUp?.html||'').includes('lidokain 0,5–0,75 mg/kg IV/IO'))err('Y-11 5. şok tekrar dozu aynı resmî ilaç kutusunun okunabilir devamı olarak korunmalı');
 const nonShockAdrenaline=(nonShockBranch?.steps||[]).find(s=>String(s.html).includes('Adrenalin 1 mg'));
-if(nonShockAdrenaline?.approvalAuthority!=='DIRECT'||nonShockAdrenaline?.practitionerAuthority!=='AABT')err('Y-10 adrenalin turuncu fakat SKKM/ÇM telefon simgesiz olmalı');
+if(nonShockAdrenaline?.approvalAuthority!=='DIRECT'||nonShockAdrenaline?.practitionerAuthority!=='AABT')err('Y-10 adrenalin turuncu fakat SKKM/ÇM işaretiz olmalı');
 const shockableAirway=(shockableBranch?.steps||[]).find(s=>String(s.html).includes('ileri hava yolu'));
 const nonShockAirway=(nonShockBranch?.steps||[]).find(s=>String(s.html).includes('ileri hava yolu'));
 if(shockableAirway?.practitionerAuthority!=='ATT_AABT'||nonShockAirway?.practitionerAuthority!=='ATT_AABT')err('Arrest ileri hava yolu turkuaz ATT/AABT olarak kalmalı');
 
-if(!['%0,9 NaCl','Adrenalin','Dopamin','Amiodaron','Lidokain'].every(name=>medByName(roscCase,name)?.authority==='SKKM'))err('ROSC telefon simgeli ilaçların tamamı SKKM olmalı');
+if(!['%0,9 NaCl','Adrenalin','Dopamin','Amiodaron','Lidokain'].every(name=>medByName(roscCase,name)?.authority==='SKKM'))err('ROSC SKKM/ÇM işaretli ilaçların tamamı SKKM olmalı');
 if(!JSON.stringify(roscCase).includes('2–10 mcg/dk')||!JSON.stringify(roscCase).includes('5–20 mcg/kg/dk'))err('ROSC hipotansiyon adrenalin/dopamin basamağı eksik');
 
 if(seizureCase?.title!=='Nöbet / Konvülziyon')err('SB-ASH-Y-19 resmî başlığı Nöbet / Konvülziyon olmalı');
-for(const name of ['Diazepam','Midazolam','Fenitoin','Valproik asit','Levetirasetam'])if(medByName(seizureCase,name)?.authority!=='SKKM')err(`Nöbet ${name} SKKM telefon simgesiyle eşleşmiyor`);
+for(const name of ['Diazepam','Midazolam','Fenitoin','Valproik asit','Levetirasetam'])if(medByName(seizureCase,name)?.authority!=='SKKM')err(`Nöbet ${name} SKKM SKKM/ÇM işaretiyle eşleşmiyor`);
 if(!String(medByName(seizureCase,'Fenitoin')?.note||'').includes('25 mg/kg/dk'))err('Fenitoin resmî maksimum infüzyon hızı notu eksik');
 if(!JSON.stringify(seizureCase).includes('5 dk sonra'))err('Nöbet 5 dk benzodiazepin tekrar basamağı eksik');
 
@@ -465,9 +466,9 @@ const koahPractitionerExpected=['ATT_AABT','AABT','AABT','AABT'];
 const koahApprovalExpected=['DIRECT','DIRECT','SKKM','SKKM'];
 for(let i=0;i<4;i++){
   if(koahSteps[i]?.practitionerAuthority!==koahPractitionerExpected[i])err(`KOAH algorithmSteps[${i}] uygulayıcı yetkisi resmî kutu rengiyle eşleşmiyor`);
-  if(koahSteps[i]?.approvalAuthority!==koahApprovalExpected[i])err(`KOAH algorithmSteps[${i}] SKKM/ÇM durumu resmî telefon simgesiyle eşleşmiyor`);
+  if(koahSteps[i]?.approvalAuthority!==koahApprovalExpected[i])err(`KOAH algorithmSteps[${i}] SKKM/ÇM durumu resmî SKKM/ÇM işaretiyle eşleşmiyor`);
 }
-if(!JSON.stringify(koahCase).includes('SKKM/ÇM ile ileri hava yolu')||!JSON.stringify(koahCase).includes('non-invaziv mekanik ventilasyonu'))err('Y-04 yanıtsız ağır KOAH telefon simgeli ileri hava yolu/NIMV basamağı eksik');
+if(!JSON.stringify(koahCase).includes('SKKM/ÇM ile ileri hava yolu')||!JSON.stringify(koahCase).includes('non-invaziv mekanik ventilasyonu'))err('Y-04 yanıtsız ağır KOAH SKKM/ÇM işaretli ileri hava yolu/NIMV basamağı eksik');
 const actionStepExpectations=[
   ['asthma',['ATT_AABT','AABT','AABT','AABT'],['DIRECT','DIRECT','SKKM','SKKM']],
   ['acs',['ATT_AABT','AABT','AABT','AABT'],['DIRECT','DIRECT','SKKM','SKKM']],
@@ -479,7 +480,7 @@ for(const [id,practitionerExpected,approvalExpected] of actionStepExpectations){
   if(steps.length!==4)err(`${id}: yapılandırılmış algoritma adımı sayısı 4 olmalı`);
   for(let i=0;i<4;i++){
     if(steps[i]?.practitionerAuthority!==practitionerExpected[i])err(`${id} algorithmSteps[${i}] uygulayıcı yetkisi resmî kutu rengiyle eşleşmiyor`);
-    if(steps[i]?.approvalAuthority!==approvalExpected[i])err(`${id} algorithmSteps[${i}] SKKM/ÇM durumu resmî telefon simgesiyle eşleşmiyor`);
+    if(steps[i]?.approvalAuthority!==approvalExpected[i])err(`${id} algorithmSteps[${i}] SKKM/ÇM durumu resmî SKKM/ÇM işaretiyle eşleşmiyor`);
   }
 }
 if(!JSON.stringify(asthmaCase?.algorithmSteps||[]).includes('Ölümcül astım atağı'))err('Astım ölümcül atak yapılandırılmış adımı eksik');
@@ -496,7 +497,7 @@ const heartFailureCase=(CASES||[]).find(c=>c.id==='acute-heart-failure-cardiogen
 if(heartFailureCase?.source?.reviewedAt!=='2026-09-25')err('Y-14 son kaynak gözden geçirme tarihi güncel değil');
 if(heartFailureCase?.code!=='SB-ASH-Y-14'||heartFailureCase?.page!=='26'||heartFailureCase?.source?.page!=='25–26')err('Y-14 kaynak izi bozuldu');
 if(!JSON.stringify(heartFailureCase).includes('>%94–98'))err('Y-14 resmî SpO2 >%94–98 ifadesi eksik');
-for(const name of ['Furosemid','İzosorbid dinitrat','%0,9 NaCl','Dopamin'])if(medByName(heartFailureCase,name)?.authority!=='SKKM')err(`Y-14 ${name} SKKM telefon simgesiyle eşleşmiyor`);
+for(const name of ['Furosemid','İzosorbid dinitrat','%0,9 NaCl','Dopamin'])if(medByName(heartFailureCase,name)?.authority!=='SKKM')err(`Y-14 ${name} SKKM SKKM/ÇM işaretiyle eşleşmiyor`);
 if(JSON.stringify(medByName(heartFailureCase,'%0,9 NaCl')?.routes)!==JSON.stringify(['OTHER']))err('Y-14 %0,9 NaCl uygulama yolu kaynakta ayrıca belirtilmediği için türetilmemeli');
 if(medByName(heartFailureCase,'Furosemid')?.dose!=='20–40 mg'||medByName(heartFailureCase,'İzosorbid dinitrat')?.dose!=='5 mg'||medByName(heartFailureCase,'Dopamin')?.dose!=='2–5 mcg/kg/dk'||medByName(heartFailureCase,'Dopamin')?.maxDose!=='20 mcg/kg/dk')err('Y-14 ilaç doz sabitlerinden biri bozuldu');
 if(heartFailureCase?.decisionIntegrated!==true||heartFailureCase?.algorithmBranchLayout!=='profiles'||(heartFailureCase?.algorithmSteps||[]).length!==3||(heartFailureCase?.algorithmBranches||[]).length!==3)err('Y-14 ortak 3 başlangıç adımı / 3 hemodinamik profil / entegre karar yapısı eksik');
@@ -508,7 +509,7 @@ const y14Norm=(heartFailureCase?.algorithmBranches||[]).find(b=>b.label==='Normo
 const y14Hyper=(heartFailureCase?.algorithmBranches||[]).find(b=>b.label==='Hipertansif kalp yetmezliği');
 const y14Shock=(heartFailureCase?.algorithmBranches||[]).find(b=>b.label==='Kardiyojenik şok');
 if(!y14Norm||!y14Hyper||!y14Shock)err('Y-14 üç resmî tedavi profili eksik');
-for(const b of [y14Norm,y14Hyper,y14Shock])for(const s of (b?.steps||[]))if(s.approvalAuthority!=='SKKM'||s.practitionerAuthority!=='AABT')err(`Y-14 ${b?.label}: turuncu + SKKM/ÇM telefon simgesi eşleşmesi bozuk`);
+for(const b of [y14Norm,y14Hyper,y14Shock])for(const s of (b?.steps||[]))if(s.approvalAuthority!=='SKKM'||s.practitionerAuthority!=='AABT')err(`Y-14 ${b?.label}: turuncu + SKKM/ÇM işareti eşleşmesi bozuk`);
 if(!String(y14Norm?.note||'').includes('SKB >100 mmHg')||!JSON.stringify(y14Norm).includes('Furosemid 20–40 mg IV'))err('Y-14 normotansif profil SKB/furosemid bilgisi bozuk');
 if(!String(y14Hyper?.note||'').includes('SKB >140 mmHg')||!JSON.stringify(y14Hyper).includes('İzosorbid dinitrat 5 mg SL')||!JSON.stringify(y14Hyper).includes('maksimum 3 doz')||!JSON.stringify(y14Hyper).includes('furosemid 20–40 mg IV')||!JSON.stringify(y14Hyper).includes('CPAP'))err('Y-14 hipertansif profil nitrat/furosemid/CPAP bilgisi bozuk');
 if(!String(y14Shock?.note||'').includes('SKB genellikle <90 mmHg')||!JSON.stringify(y14Shock).includes('250 mL %0,9 NaCl')||!JSON.stringify(y14Shock).includes('Dopamin 2–5 mcg/kg/dk IV')||!JSON.stringify(y14Shock).includes('20 mcg/kg/dk'))err('Y-14 kardiyojenik şok sıvı/dopamin bilgisi bozuk');
@@ -533,7 +534,7 @@ if(y17Saline?.approvalAuthority!=='DIRECT'||y17Saline?.practitionerAuthority!=='
 if(medByName(diabeticCase,'Dekstroz')?.authority!=='DIRECT'||medByName(diabeticCase,'Dekstroz')?.practitionerAuthority!=='AABT'||medByName(diabeticCase,'Dekstroz')?.dose!=='25 g glikoz (%10–%20 dekstrozdan)')err('Y-17 dekstroz ilaç kartı bozuk');
 if(medByName(diabeticCase,'%0,9 NaCl — hiperglisemi')?.authority!=='DIRECT'||medByName(diabeticCase,'%0,9 NaCl — hiperglisemi')?.practitionerAuthority!=='AABT'||medByName(diabeticCase,'%0,9 NaCl — hiperglisemi')?.dose!=='IV infüzyon')err('Y-17 hiperglisemi NaCl kartı bozuk');
 const y17BranchSteps=(branches=[])=>branches.flatMap(b=>[...(b.steps||[]),...y17BranchSteps(b.branches||[])]);
-if([...(diabeticCase?.algorithmSteps||[]),...y17BranchSteps(diabeticCase?.algorithmBranches||[])].some(s=>s.approvalAuthority==='SKKM'))err('Y-17 resmî sayfada telefon simgesi olmadığı halde SKKM basamağı eklenmiş');
+if([...(diabeticCase?.algorithmSteps||[]),...y17BranchSteps(diabeticCase?.algorithmBranches||[])].some(s=>s.approvalAuthority==='SKKM'))err('Y-17 resmî sayfada SKKM/ÇM işareti olmadığı halde SKKM basamağı eklenmiş');
 
 
 const consciousnessCase=(CASES||[]).find(c=>c.id==='altered-consciousness');

@@ -2,6 +2,14 @@
 
 Mobil-first, offline çekirdekli, vaka bazlı hastane öncesi acil sağlık eğitim ve hızlı hatırlatma uygulaması.
 
+## V0.57 SKKM/ÇM terminoloji temizliği
+
+- **Kullanıcı dili:** Klinik kartlarda görünen “telefon simgesi / telefon simgeli / telefon simgesiz” geliştirici-audit ifadeleri kaldırıldı; kullanıcıya doğrudan SKKM/ÇM odaklı ifade gösterilir.
+- **Kaynak sadakati:** Resmî Ek-2’deki görsel işaret “onay” olarak gereğinden dar yorumlanmaz; arayüzde ana etiket **SKKM/ÇM** olarak tutulur.
+- **Klinik veri:** Doz, uygulama yolu, tekrar, maksimum doz, ATT/AABT ve SKKM/DIRECT veri alanları değiştirilmedi.
+- **Regresyon:** Validator ve UI audit, kullanıcıya görünen klinik veri katmanında “telefon simgesi” terminolojisinin yeniden ortaya çıkmasını engeller.
+- **PWA:** Kritik asset query’leri `v=0.57`, service worker cache adı `saha112-v057` olarak birlikte güncellendi.
+
 ## V0.56 telefon Chrome / PWA / tablet yerleşim audit
 
 - **Telefon Chrome ve PWA geri davranışı:** Kaynak bottom-sheet artık history state kullanır; Android sistem Geri hareketi uygulamadan çıkmadan önce sheet'i kapatır.

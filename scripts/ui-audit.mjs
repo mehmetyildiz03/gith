@@ -31,8 +31,8 @@ assert(css.includes("/* V0.6.1 dark surface hardening */"),'Koyu mod yüzey hard
 assert(css.includes(":root[data-theme='dark'] .quick-step")&&css.includes("background:var(--detail-panel-deep)!important"),'Koyu mod algoritma adımı explicit yüzeyi eksik');
 assert(css.includes(":root[data-theme='dark'] .red-flag")&&css.includes("background:#2b202a!important"),'Koyu mod kırmızı bayrak yüzeyi eksik');
 assert(css.includes(":root[data-theme='dark'] .branch.yes")&&css.includes(":root[data-theme='dark'] .branch.no"),'Koyu mod karar kutuları explicit değil');
-assert(html.includes('styles.css?v=0.56')&&html.includes('app-core.js?v=0.56')&&html.includes('cases-data.js?v=0.56'),'Kritik asset cache-bust sürümü eksik');
-assert(sw.includes("saha112-v056")&&sw.includes('NETWORK_FIRST_DESTINATIONS'),'Service worker kritik asset güncelleme stratejisi eksik');
+assert(html.includes('styles.css?v=0.57')&&html.includes('app-core.js?v=0.57')&&html.includes('cases-data.js?v=0.57'),'Kritik asset cache-bust sürümü eksik');
+assert(sw.includes("saha112-v057")&&sw.includes('NETWORK_FIRST_DESTINATIONS'),'Service worker kritik asset güncelleme stratejisi eksik');
 assert(!app.includes('Kırmızı bayrak'),'Eski kullanıcı terimi hâlâ UI içinde');
 assert(app.includes('Acil Uyarı Bulguları'),'Acil Uyarı Bulguları başlığı eksik');
 assert(app.includes('Önceliği, müdahaleyi veya nakil kararını değiştirebilecek bulgular.'),'Acil uyarı açıklaması eksik');
@@ -69,9 +69,10 @@ assert(data.includes('"transition": "DİYABETİK ACİLLER ALGORİTMASINA GİT"')
 assert(data.includes('"title": "Nabızlı Taşikardi"'),'Nabızlı Taşikardi başlığı eksik');
 assert(data.includes('"contentVersion": "EK2-2026.08.25-early-adult-fidelity-reaudit-2026.09.25"'),'Yetişkin kaynak/yetki audit sürümü eksik');
 assert(html.includes('id="authorityLegend"')&&!html.includes('<span class="authority direct">Doğrudan</span>'),'Yetki legendi dinamik veri kaynağına bağlı değil');
-assert(app.includes("authorityMarkup")&&app.includes("authority-symbol")&&app.includes("✓ Yeşil: SKKM/ÇM onayı yok")&&app.includes("◆ Sarı: SKKM/ÇM onayı"),'Yetki sembol/yazı eşlemesi eksik');
+assert(app.includes("authorityMarkup")&&app.includes("authority-symbol")&&app.includes("✓ Yeşil: ek SKKM/ÇM adımı yok")&&app.includes("◆ Sarı: SKKM/ÇM"),'Yetki sembol/yazı eşlemesi eksik');
 assert(css.includes('.authority.direct{')&&css.includes('var(--greenSoft)')&&css.includes('.authority.skkm{')&&css.includes('var(--amberSoft)'),'Yeşil/sarı yetki renk semantiği eksik');
 assert(data.includes('"symbol": "✓"')&&data.includes('"symbol": "◆"')&&data.includes('"symbol": "•"'),'Yetki sembol metası eksik');
+assert(!/telefon simge/i.test(data),'Kullanıcıya görünen veri katmanında “telefon simgesi” geliştirici terminolojisi kalmamalı');
 assert((data.match(/"authority": "ALGORITHM"/g)||[]).length===1&&data.includes('"sourceAuthorityStatus": "KEYPOINT_NO_SYMBOL"'),'Yalnız kaynakta yetki kodlaması bulunmayan Y-40 Midazolam nötr yetkide kalmalı');
 assert(data.includes('"referenceGroups": [')&&data.includes('Verilen uyarıyı lokalize ediyor')&&data.includes('ASOS’a adli vaka')&&data.includes('ip düğüm bölgesinden değil'),'Y-38 GKS/adli resmî referans grupları eksik');
 assert(app.includes('function renderReferenceGroups(c)')&&app.includes('Resmî Anahtar Noktalar')&&app.includes("reference-points','Anahtar"),'Vaka resmî Anahtar Noktalar renderer/jump eksik');
