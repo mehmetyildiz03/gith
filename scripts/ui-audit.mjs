@@ -42,8 +42,8 @@ assert(css.includes("/* V0.6.1 dark surface hardening */"),'Koyu mod yüzey hard
 assert(css.includes(":root[data-theme='dark'] .quick-step")&&css.includes("background:var(--detail-panel-deep)!important"),'Koyu mod algoritma adımı explicit yüzeyi eksik');
 assert(css.includes(":root[data-theme='dark'] .red-flag")&&css.includes("background:#2b202a!important"),'Koyu mod kırmızı bayrak yüzeyi eksik');
 assert(css.includes(":root[data-theme='dark'] .branch.yes")&&css.includes(":root[data-theme='dark'] .branch.no"),'Koyu mod karar kutuları explicit değil');
-assert(html.includes('styles.css?v=0.58')&&html.includes('app-core.js?v=0.58')&&html.includes('cases-data.js?v=0.58'),'Kritik asset cache-bust sürümü eksik');
-assert(sw.includes("saha112-v058")&&sw.includes('NETWORK_FIRST_DESTINATIONS'),'Service worker kritik asset güncelleme stratejisi eksik');
+assert(html.includes('styles.css?v=0.59')&&html.includes('app-core.js?v=0.59')&&html.includes('cases-data.js?v=0.59'),'Kritik asset cache-bust sürümü eksik');
+assert(sw.includes("saha112-v059")&&sw.includes('NETWORK_FIRST_DESTINATIONS'),'Service worker kritik asset güncelleme stratejisi eksik');
 assert(!app.includes('Kırmızı bayrak'),'Eski kullanıcı terimi hâlâ UI içinde');
 assert(app.includes('Acil Uyarı Bulguları'),'Acil Uyarı Bulguları başlığı eksik');
 assert(app.includes('Önceliği, müdahaleyi veya nakil kararını değiştirebilecek bulgular.'),'Acil uyarı açıklaması eksik');
@@ -51,8 +51,8 @@ assert(css.includes('.app-shell.detail-open>.context-panel'),'Detay görünümü
 assert(html.includes('aria-haspopup="dialog"')&&html.includes('aria-controls="sourceSheet"'),'Kaynak dialog erişilebilirlik ilişkisi eksik');
 assert(app.includes('function priorityRank(c)')&&app.includes("state.density==='compact'"),'Hızlı Saha öncelik sıralaması eksik');
 assert(app.includes("disabled")&&app.includes("Yakında")&&app.includes("populationCount"),'Boş hasta grupları pasif/Yakında davranışı eksik');
-assert(css.includes('/* V0.7 field workflow */'),'Hızlı Saha görsel hiyerarşi bloğu eksik');
-assert(css.includes(":root[data-density='compact'] .dose")&&css.includes('font-size:16px'),'Hızlı Saha doz vurgusu eksik');
+assert(css.includes('/* V0.7 field workflow */')&&css.includes('/* V0.59 standard education / field-use presentation split */'),'Standart eğitim / Hızlı Saha sunum ayrımı eksik');
+assert(css.includes(":root[data-density='compact'] .dose")&&css.includes('font-size:16px')&&css.includes(":root[data-density='compact'] .meds-section{order:50}"),'Hızlı Saha doz vurgusu veya ilaç öncelik sırası eksik');
 assert(css.includes(":root[data-density='compact'] .critical-section")&&css.includes(":root[data-density='compact'] .decision-section")&&css.includes(":root[data-density='compact'] .meds-section"),'Hızlı Saha kritik bölüm vurguları eksik');
 assert(!html.includes('Saha karar desteği')&&!html.includes('Resmî akış şemalarına bağlı')&&!html.includes('Sık kullandıkların')&&!html.includes('Kritik ve sık kullanılan vakalar'),'Eski/iddialı ürün dili kullanıcı arayüzünde kaldı');
 assert(!html.includes('ilk 30 saniye')&&!app.includes('İlk 30 saniye')&&!app.includes('İlk 30 sn'),'İlk 30 saniye terminolojisi kaldı');
@@ -70,6 +70,12 @@ assert(app.includes('aria-pressed="${active}"')&&!app.includes('role="tab" aria-
 assert(app.includes("returnFocus={type:'case',id}")&&app.includes("returnFocus={type:'protocol',id}")&&app.includes("querySelector('.back-btn')?.focus({preventScroll:true})")&&app.includes("document.querySelector(selector)?.focus({preventScroll:true})"),'Detay aç/kapa klavye odağı korunmuyor');
 assert(app.includes('case-icon" aria-hidden="true"')&&app.includes('chev" aria-hidden="true"')&&html.includes('nav-item active')&&html.includes('svg viewBox="0 0 24 24" aria-hidden="true"'),'Dekoratif vaka/navigasyon glifleri ekran okuyucudan gizlenmiyor');
 assert(app.includes('function pushDetailHistory(type,id)')&&app.includes("addEventListener('popstate'")&&app.includes("saha112Detail"),'Detay ekranı tarayıcı/PWA geri-ileri geçmişiyle bütünleşmiyor');
+assert(app.includes('function detailModeSwitch()')&&app.includes('data-density-toggle')&&app.includes("Hızlı Saha • Olay anı")&&app.includes("Standart • Eğitim"),'Standart/Hızlı Saha ürün ayrımı detay içinde erişilebilir değil');
+assert(app.includes('function fieldModeBanner()')&&app.includes('Olay anı görünümü'),'Hızlı Saha olay anı bağlamı eksik');
+assert(css.includes(":root[data-density='compact'] .first30-card{order:10}")&&css.includes(":root[data-density='compact'] #algorithm{order:20}")&&css.includes(":root[data-density='compact'] .detail-columns{order:40}")&&css.includes(":root[data-density='compact'] .meds-section{order:50}")&&css.includes(":root[data-density='compact'] #reference-points{order:60}"),'Hızlı Saha vaka bölüm öncelik sırası eksik');
+assert(css.includes(":root[data-density='compact'] .protocol-detail-body #protocol-flow{order:20}")&&css.includes(":root[data-density='compact'] .protocol-detail-body .protocol-keypoints-section{order:60}"),'Hızlı Saha temel protokol öncelik sırası eksik');
+assert(css.includes(".jump-chip.active-section:not(.mode-switch)")&&app.includes('function updateActiveDetailJump()')&&app.includes("aria-current','location'"),'Detay aktif bölüm göstergesi eksik');
+assert(html.includes('STANDART • EĞİTİM / REFERANS')&&html.includes('Algoritmayı öğren. Vaka anında hızla eriş.')&&html.includes('EĞİTİM + SAHA'),'Standart görünümün eğitim/referans dili eksik');
 assert(app.includes("const tabs=$$('.severity-tab')")&&app.includes("tabs.indexOf(severityTab)"),'Klinik ayrım sekmelerinin klavye Arrow/Home/End gezinmesi bozuk');
 assert(css.includes('.app-shell.detail-open .update-banner')&&!css.includes('.app-shell.detail-open~.update-banner'),'Detay ekranı PWA güncelleme banner seçicisi DOM yapısıyla eşleşmiyor');
 assert(css.includes('.source-actions a{display:flex;align-items:center;justify-content:center'),'Kaynak aksiyon bağlantıları flex hizalama modeliyle eşleşmiyor');
@@ -77,7 +83,7 @@ assert(app.includes("const visibleQuick=c.algorithmSteps?.length?[]:(c.quick||[]
 assert(app.includes("const scrollBehavior=()=>prefersReducedMotion()?'auto':'smooth'")&&!app.includes("behavior:'smooth'"),'Reduced-motion tercihinde JS smooth scroll kapatılmıyor');
 assert(!html.includes('Açık vaka değişmeden kalır'),'PWA güncelleme mesajı yeniden yüklemede vaka durumunu koruduğunu yanlış vaat ediyor');
 assert(manifest.includes('"orientation": "any"'),'PWA portrait-primary ile kilitlenmiş; tablet/landscape kullanımı açık olmalı');
-assert(css.includes('font-size:9.5px;font-weight:900}.authority.direct')&&css.includes('.practitioner,.authority{font-size:9px'),'Yetki rozetleri saha okunabilirliği için yeterince büyük değil');
+assert(css.includes('.practitioner,.authority{font-size:10.5px}')&&css.includes(":root[data-density='compact'] .practitioner{font-size:10.5px}")&&css.includes('@media(max-width:390px)'),'Yetki rozetleri saha okunabilirliği için V0.59 boyutlarına çıkmamış');
 assert(css.includes('.protocol-contact-badge')&&css.includes('font-size:9.5px;font-weight:900;white-space:nowrap'),'SKKM/ÇM iletişim rozeti okunabilirlik boyutu eksik');
 assert(data.includes('"title": "İnme / SVO"'),'İnme / SVO başlığı korunmamış');
 assert(data.includes('"reviewedAt": "2026-09-25"')&&data.includes('"Glikoz <60 mg/dl ve/veya hipoglisemi bulguları varsa"')&&data.includes('"Kan basıncı takibi"')&&data.includes('4,5 saat içinde trombolitik')&&data.includes('6 saat içinde endovasküler girişim'),'Y-18 yapılandırılmış inme akışı eksik');

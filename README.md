@@ -2,6 +2,18 @@
 
 Mobil-first, offline çekirdekli, vaka bazlı hastane öncesi acil sağlık eğitim ve hızlı hatırlatma uygulaması.
 
+## V0.59 Standart eğitim / Hızlı Saha ürün ayrımı
+
+- **Tek klinik veri, iki sunum:** Standart ve Hızlı Saha aynı `CASES/PROTOCOLS` veri kaynağını kullanır; klinik içerik iki ayrı kopyaya bölünmez.
+- **Standart görünüm:** Eğitim, tekrar, algoritmayı anlama, klinik ayrım, Resmî Anahtar Noktalar ve kaynak izi görünür kalır. Ana ekrandaki ürün dili bu rolü açıkça belirtir.
+- **Hızlı Saha:** Olay anı sunumu olarak tanımlandı. Vaka detayında İlk Kritik Adımlar → Algoritma → Klinik ayrım → Acil Uyarı/Karar → İlaçlar öne alınır; Anahtar Noktalar daha aşağıda kalır, özet ve kaynak izi geri çekilir.
+- **Temel protokoller:** Hızlı Saha’da resmî uygulama akışı Anahtar Noktalardan önce gösterilir; eğitim görünümünde kaynak yapısı korunur.
+- **Detay içinden mod değiştirme:** Vaka veya temel protokol açıkken kullanıcı artık görünüm değiştirmek için ana sayfaya dönmek zorunda değildir.
+- **Aktif bölüm göstergesi:** Sticky bölüm çubuğu kaydırma sırasında kullanıcının bulunduğu bölümü `aria-current=location` ile de işaretler.
+- **Okunabilirlik:** Küçük klinik metinler, yetki rozetleri, doz/metaveri ve algoritma adımları ölçülü büyütüldü; 390 px telefonlarda da kritik rozetler 10 px altına düşmez.
+- **Klinik içerik:** Doz, yol, tekrar, maksimum doz, ATT/AABT, SKKM/ÇM ve algoritma içeriğinde değişiklik yapılmadı; `contentVersion` sabit kaldı.
+- **PWA:** Kritik asset query’leri `v=0.59`, service worker cache adı `saha112-v059` olarak güncellendi.
+
 ## V0.58 bağımsız kalite audit düzeltmeleri
 
 - **Resmî kaynak yeniden doğrulandı:** 25.08.2026 yürürlükteki Ek-2 görsel PDF üzerinden SKKM/ÇM işareti, Y-19 Nöbet/Konvülziyon, Y-23 Hipertermi ve Y-36 Opioid sayfaları tekrar kontrol edildi.

@@ -29,6 +29,38 @@ const formatDateTR=iso=>{const m=String(iso||'').match(/^(\d{4})-(\d{2})-(\d{2})
 const latestReviewDate=()=>[...(CASES||[]),...(typeof PROTOCOLS!=='undefined'?PROTOCOLS:[])].filter(c=>c.clinicalStatus==='reviewed').map(c=>c.source?.reviewedAt).filter(Boolean).sort().at(-1)||'';
 const prefersReducedMotion=()=>matchMedia('(prefers-reduced-motion: reduce)').matches;
 const scrollBehavior=()=>prefersReducedMotion()?'auto':'smooth';
+let detailJumpFrame=0;
+function updateActiveDetailJump(){
+  if(!state.current||el.detail.classList.contains('hidden'))return;
+  const chips=[...el.detail.querySelectorAll('.jump-chip[data-jump]')].filter(chip=>{
+    const target=document.getElementById(chip.dataset.jump);
+    return target&&target.getClientRects().length>0;
+  });
+  if(!chips.length)return;
+  const headerH=el.detail.querySelector('.detail-top')?.getBoundingClientRect().height||0;
+  const line=headerH+18;
+  let active=chips[0];
+  for(const chip of chips){
+    const target=document.getElementById(chip.dataset.jump);
+    if(target?.getBoundingClientRect().top<=line)active=chip;
+  }
+  chips.forEach(chip=>{
+    const on=chip===active;
+    chip.classList.toggle('active-section',on);
+    if(on)chip.setAttribute('aria-current','location');else chip.removeAttribute('aria-current');
+  });
+}
+function scheduleDetailJumpUpdate(){
+  if(detailJumpFrame)return;
+  detailJumpFrame=requestAnimationFrame(()=>{detailJumpFrame=0;updateActiveDetailJump()});
+}
+function detailModeSwitch(){
+  const compact=state.density==='compact';
+  return `<button type="button" class="jump-chip mode-switch ${compact?'active':''}" data-density-toggle aria-pressed="${compact}" aria-label="${compact?'Standart eğitim görünümüne geç':'Hızlı Saha olay anı görünümüne geç'}"><span aria-hidden="true">⚡</span><span data-density-label>${compact?'Standart':'Hızlı Saha'}</span></button>`;
+}
+function fieldModeBanner(){
+  return '<div class="field-banner"><strong>⚡ Olay anı görünümü</strong><span>Kritik adım, algoritma, karar ve dozlar önde; eğitimsel bağlam aşağıda kalır.</span></div>';
+}
 function authorityClass(key){return key==='DIRECT'?'direct':key==='SKKM'?'skkm':'algorithm'}
 function authorityMarkup(key,{legend=false}={}){
   const a=APP_META.authority[key]||APP_META.authority.ALGORITHM;
@@ -57,12 +89,28 @@ function renderAppMeta(){const version=`V${APP_META.productVersion}`;if(el.produ
 function detectTheme(){if(['light','dark'].includes(state.theme))return state.theme;return matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light'}
 function applyTheme(theme){const t=theme||detectTheme();document.documentElement.dataset.theme=t;el.themeToggle?.setAttribute('aria-pressed',String(t==='dark'));el.themeToggle?.setAttribute('aria-label',t==='dark'?'Açık moda geç':'Koyu moda geç');if(el.themePill)el.themePill.textContent=t==='dark'?'Koyu':'Açık';el.themeMeta?.setAttribute('content',t==='dark'?'#0f1722':'#edf4f8')}
 function toggleTheme(){state.theme=document.documentElement.dataset.theme==='dark'?'light':'dark';localStorage.setItem(STORAGE.theme,state.theme);applyTheme(state.theme)}
-function applyDensity(){const compact=state.density==='compact';document.documentElement.dataset.density=compact?'compact':'standard';el.fieldToggle?.classList.toggle('active',compact);el.fieldToggle?.setAttribute('aria-pressed',String(compact));el.fieldToggle?.setAttribute('aria-label',compact?'Hızlı Saha modunu kapat':'Hızlı Saha modunu aç');if(el.modePill){el.modePill.textContent=compact?'Hızlı Saha açık':'Standart görünüm';el.modePill.dataset.state=compact?'field':'standard'}}
+function applyDensity(){
+  const compact=state.density==='compact';
+  document.documentElement.dataset.density=compact?'compact':'standard';
+  el.fieldToggle?.classList.toggle('active',compact);
+  el.fieldToggle?.setAttribute('aria-pressed',String(compact));
+  el.fieldToggle?.setAttribute('aria-label',compact?'Standart eğitim görünümüne geç':'Hızlı Saha olay anı görünümüne geç');
+  el.fieldToggle?.setAttribute('title',compact?'Standart eğitim görünümüne geç':'Hızlı Saha olay anı görünümüne geç');
+  if(el.modePill){el.modePill.textContent=compact?'Hızlı Saha • Olay anı':'Standart • Eğitim';el.modePill.dataset.state=compact?'field':'standard'}
+  $$('[data-density-toggle]').forEach(button=>{
+    button.classList.toggle('active',compact);
+    button.setAttribute('aria-pressed',String(compact));
+    button.setAttribute('aria-label',compact?'Standart eğitim görünümüne geç':'Hızlı Saha olay anı görünümüne geç');
+    const label=button.querySelector('[data-density-label]');
+    if(label)label.textContent=compact?'Standart':'Hızlı Saha';
+  });
+}
 function toggleDensity(){
   state.density=state.density==='compact'?'standard':'compact';
   localStorage.setItem(STORAGE.density,state.density);
   applyDensity();
   if(!state.current)renderCases();
+  requestAnimationFrame(scheduleDetailJumpUpdate);
 }
 function updateNetwork(){const online=navigator.onLine;el.network.dataset.state=online?'online':'offline';el.network.querySelector('span:last-child').textContent=online?'Çevrimiçi':'Çevrimdışı';el.offline.classList.toggle('hidden',online)}
 
@@ -162,14 +210,15 @@ function openProtocol(id,{history='root',browserHistory=true}={}){
   else if(history==='push'&&state.current?.startsWith('protocol:'))state.protocolHistory.push(state.current.slice('protocol:'.length));
   state.current=`protocol:${id}`;
   const jumps=[];if(p.keyPoints?.length)jumps.push(['protocol-keypoints','Hatırlatma','']);jumps.push(['protocol-flow','Akış','critical'],['source','Kaynak','']);
-  el.detail.innerHTML=`<header class="detail-top"><div class="detail-bar"><button type="button" class="back-btn" data-action="back" aria-label="Geri">‹</button><div class="detail-title"><div class="kicker">TEMEL PROTOKOL • ${p.order?`${p.order}. ADIM • `:''}${esc(p.category.toUpperCase())}</div><h2>${esc(p.title)}</h2></div><span class="detail-spacer" aria-hidden="true"></span></div><div class="source-ribbon"><span>§</span><span>${esc(p.code)} • PDF s.${esc(p.page)} • gözden geçirme ${formatDateTR(p.source.reviewedAt)}</span></div><div class="detail-jumps">${jumps.map(j=>`<button type="button" class="jump-chip ${j[2]}" data-jump="${j[0]}">${j[1]}</button>`).join('')}</div></header>
-  <div class="detail-body" style="${caseStyle(p)}">
+  el.detail.innerHTML=`<header class="detail-top"><div class="detail-bar"><button type="button" class="back-btn" data-action="back" aria-label="Geri">‹</button><div class="detail-title"><div class="kicker">TEMEL PROTOKOL • ${p.order?`${p.order}. ADIM • `:''}${esc(p.category.toUpperCase())}</div><h2>${esc(p.title)}</h2></div><span class="detail-spacer" aria-hidden="true"></span></div><div class="source-ribbon"><span>§</span><span>${esc(p.code)} • PDF s.${esc(p.page)} • gözden geçirme ${formatDateTR(p.source.reviewedAt)}</span></div><div class="detail-jumps">${detailModeSwitch()}${jumps.map(j=>`<button type="button" class="jump-chip ${j[2]}" data-jump="${j[0]}">${j[1]}</button>`).join('')}</div></header>
+  ${fieldModeBanner()}
+  <div class="detail-body protocol-detail-body" style="${caseStyle(p)}">
     <section class="case-summary protocol-summary"><span class="case-category">${p.order?`${p.order}. adım • `:''}Temel Protokol</span><p>${esc(p.summary)}</p><small>${esc(p.helperText||'Bu bölüm vaka kartı değildir; tüm vakalarda başvurulan temel akıştır.')}</small></section>
     ${renderProtocolKeyPoints(p)}
     <section class="detail-section emphasis" id="protocol-flow"><div class="detail-heading"><span class="tiny-icon">⌖</span><div><h3>Uygulama akışı</h3><p>Resmî ${esc(p.code)} sırası korunmuştur.</p></div></div><div class="protocol-flow">${renderProtocolFlow(p)}</div></section>
     ${renderSource(p)}
   </div>`;
-  el.main.classList.add('hidden');el.detail.classList.remove('hidden');el.shell.classList.add('detail-open');scrollTo(0,0);requestAnimationFrame(()=>el.detail.querySelector('.back-btn')?.focus({preventScroll:true}));
+  el.main.classList.add('hidden');el.detail.classList.remove('hidden');el.shell.classList.add('detail-open');scrollTo(0,0);applyDensity();requestAnimationFrame(()=>{el.detail.querySelector('.back-btn')?.focus({preventScroll:true});scheduleDetailJumpUpdate()});
 }
 function backFromDetail(){
   if(state.current?.startsWith('protocol:')&&state.protocolHistory.length){
@@ -273,9 +322,9 @@ function openCase(id,{browserHistory=true}={}){
   if(browserHistory)state.returnFocus={type:'case',id};
   if(browserHistory)pushDetailHistory('case',id);
   state.current=id;state.returnScrollY=scrollY;state.returnNav=state.nav;addRecent(id);renderShortcuts();const fav=state.favorites.has(id);
-  const jumps=[['critical-actions','İlk adımlar','critical'],['algorithm','Algoritma',''],...(c.severity?[['severity','Klinik ayrım','']]:[]),['red-flags','Acil uyarılar','critical'],...(c.referenceGroups?.length?[['reference-points','Anahtar','']]:[]),...(c.meds?.length?[['medications','İlaçlar','']]:[]),...(!c.decisionIntegrated?[['decision','Karar','']]:[]),['source','Kaynak','']];
-  el.detail.innerHTML=`<header class="detail-top"><div class="detail-bar"><button type="button" class="back-btn" data-action="back" aria-label="Geri">‹</button><div class="detail-title"><div class="kicker">${esc(popMeta(c.population).label.toUpperCase())} • ${esc(c.category.toUpperCase())}</div><h2>${esc(c.title)}</h2></div><button type="button" class="fav-btn ${fav?'active':''}" data-action="favorite" aria-label="${fav?'Favorilerden çıkar':'Favorilere ekle'}" aria-pressed="${fav}">${fav?'★':'☆'}</button></div><div class="source-ribbon"><span>§</span><span>${esc(c.code)} • PDF s.${esc(c.page)} • gözden geçirme ${formatDateTR(c.source.reviewedAt)}</span></div><div class="detail-jumps">${jumps.map(j=>`<button type="button" class="jump-chip ${j[2]}" data-jump="${j[0]}">${j[1]}</button>`).join('')}</div></header>
-  <div class="field-banner"><strong>⚡ Hızlı Saha</strong><span>İlk Kritik Adımlar, acil uyarılar, karar ve dozlar önde; açıklayıcı bölümler geri planda.</span></div>
+  const jumps=[['critical-actions','İlk adımlar','critical'],['algorithm','Algoritma',''],...(c.severity?[['severity','Klinik ayrım','']]:[]),['red-flags','Acil uyarılar','critical'],...(!c.decisionIntegrated?[['decision','Karar','']]:[]),...(c.meds?.length?[['medications','İlaçlar','']]:[]),...(c.referenceGroups?.length?[['reference-points','Anahtar','']]:[]),['source','Kaynak','']];
+  el.detail.innerHTML=`<header class="detail-top"><div class="detail-bar"><button type="button" class="back-btn" data-action="back" aria-label="Geri">‹</button><div class="detail-title"><div class="kicker">${esc(popMeta(c.population).label.toUpperCase())} • ${esc(c.category.toUpperCase())}</div><h2>${esc(c.title)}</h2></div><button type="button" class="fav-btn ${fav?'active':''}" data-action="favorite" aria-label="${fav?'Favorilerden çıkar':'Favorilere ekle'}" aria-pressed="${fav}">${fav?'★':'☆'}</button></div><div class="source-ribbon"><span>§</span><span>${esc(c.code)} • PDF s.${esc(c.page)} • gözden geçirme ${formatDateTR(c.source.reviewedAt)}</span></div><div class="detail-jumps">${detailModeSwitch()}${jumps.map(j=>`<button type="button" class="jump-chip ${j[2]}" data-jump="${j[0]}">${j[1]}</button>`).join('')}</div></header>
+  ${fieldModeBanner()}
   <div class="detail-body" style="${caseStyle(c)}">
     <section class="first30-card" id="critical-actions"><div class="first30-head"><span>ÖNCE</span><div><strong>İlk Kritik Adımlar</strong><p>Önce bunları gör; ardından algoritma ve karar ayrıntısına ilerle.</p></div></div><ol>${c.criticalActions.map(x=>`<li>${esc(x)}</li>`).join('')}</ol></section>
     <section class="case-summary"><span class="case-category">${esc(c.category)}</span><p>${esc(c.summary)}</p></section>
@@ -284,7 +333,7 @@ function openCase(id,{browserHistory=true}={}){
     <div class="detail-columns ${c.decisionIntegrated?'single':''}"><section class="detail-section critical-section" id="red-flags"><div class="detail-heading"><span class="tiny-icon danger">!</span><div><h3>Acil Uyarı Bulguları</h3><p>Önceliği, müdahaleyi veya nakil kararını değiştirebilecek bulgular.</p></div></div><div class="red-flag-list">${c.warningFindings.map(r=>`<div class="red-flag">${esc(r)}</div>`).join('')}</div></section>${!c.decisionIntegrated?`<section class="detail-section decision-section" id="decision"><div class="detail-heading"><span class="tiny-icon">◇</span><div><h3>Karar noktası</h3><p>Şemadaki ana dallanma.</p></div></div><div class="decision-box"><strong>${esc(c.decision.q)}</strong><div class="decision-branches"><div class="branch yes"><b>EVET</b><span>${esc(c.decision.yes)}</span></div><div class="branch no"><b>HAYIR</b><span>${esc(c.decision.no)}</span></div></div></div></section>`:''}</div>
     ${renderReferenceGroups(c)}${renderMeds(c)}${renderSource(c)}
   </div>`;
-  el.main.classList.add('hidden');el.detail.classList.remove('hidden');el.shell.classList.add('detail-open');scrollTo(0,0);requestAnimationFrame(()=>el.detail.querySelector('.back-btn')?.focus({preventScroll:true}));
+  el.main.classList.add('hidden');el.detail.classList.remove('hidden');el.shell.classList.add('detail-open');scrollTo(0,0);applyDensity();requestAnimationFrame(()=>{el.detail.querySelector('.back-btn')?.focus({preventScroll:true});scheduleDetailJumpUpdate()});
 }
 function closeCase({skipHistory=false}={}){
   const shouldPop=!skipHistory&&Boolean(window.history.state?.saha112Detail);
@@ -305,7 +354,7 @@ function selectPopulation(id){
 
 applyTheme();applyDensity();updateNetwork();renderAll();
 matchMedia('(prefers-color-scheme: dark)').addEventListener?.('change',()=>{if(!localStorage.getItem(STORAGE.theme))applyTheme()});
-addEventListener('online',updateNetwork);addEventListener('offline',updateNetwork);
+addEventListener('online',updateNetwork);addEventListener('offline',updateNetwork);addEventListener('scroll',scheduleDetailJumpUpdate,{passive:true});
 addEventListener('popstate',e=>{
   if(!el.source.classList.contains('hidden')){closeSourceSheet({fromHistory:true});return}
   if(e.state?.saha112Sheet){openSourceSheet();return}
@@ -337,12 +386,13 @@ function closeSourceSheet({fromHistory=false}={}){
 }
 
 document.addEventListener('click',e=>{
+  const densityToggle=e.target.closest('[data-density-toggle]');if(densityToggle){toggleDensity();return}
   const protocolOpen=e.target.closest('[data-protocol-open]');if(protocolOpen){openProtocol(protocolOpen.dataset.protocolOpen,{history:state.current?.startsWith('protocol:')?'push':'root'});return}
   const protocolAction=e.target.closest('[data-protocol-action]')?.dataset.protocolAction;if(protocolAction==='cases'){showCaseLibraryFromProtocol();return}
   const open=e.target.closest('[data-open]');if(open){openCase(open.dataset.open);return}
   const pop=e.target.closest('[data-population]');if(pop){selectPopulation(pop.dataset.population);return}
   const filter=e.target.closest('[data-filter]');if(filter){state.category=filter.dataset.filter;renderFilters();renderCases();requestAnimationFrame(()=>[...el.filters.querySelectorAll('[data-filter]')].find(b=>b.dataset.filter===state.category)?.focus({preventScroll:true}));return}
-  const jump=e.target.closest('[data-jump]');if(jump){const target=document.getElementById(jump.dataset.jump);if(target){const headerH=el.detail.querySelector('.detail-top')?.getBoundingClientRect().height||0;const top=Math.max(0,target.getBoundingClientRect().top+scrollY-headerH-8);scrollTo({top,behavior:scrollBehavior()})}return}
+  const jump=e.target.closest('[data-jump]');if(jump){const target=document.getElementById(jump.dataset.jump);if(target&&target.getClientRects().length){const headerH=el.detail.querySelector('.detail-top')?.getBoundingClientRect().height||0;const top=Math.max(0,target.getBoundingClientRect().top+scrollY-headerH-8);scrollTo({top,behavior:scrollBehavior()});jump.classList.add('active-section')}return}
   const level=e.target.closest('[data-level]');if(level&&state.current){$$('.severity-tab').forEach(b=>{const active=b===level;b.classList.toggle('active',active);b.setAttribute('aria-selected',String(active));b.tabIndex=active?0:-1});const c=CASES.find(x=>x.id===state.current);$('#severityCard').outerHTML=renderSeverity(c,level.dataset.level);return}
   const action=e.target.closest('[data-action]')?.dataset.action;
   if(action==='show-all'){el.filterTitle.scrollIntoView({behavior:scrollBehavior()});return}
