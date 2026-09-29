@@ -1,12 +1,13 @@
 const STORAGE={theme:'saha112:theme',density:'saha112:density',favorites:'saha112:favs',recent:'saha112:recent',population:'saha112:population'};
 const safeJSON=(key,fallback)=>{try{return JSON.parse(localStorage.getItem(key)||JSON.stringify(fallback))}catch{return fallback}};
+const safeArray=(key)=>{const value=safeJSON(key,[]);return Array.isArray(value)?value:[]};
 const state={
   theme:localStorage.getItem(STORAGE.theme)||'',
   density:localStorage.getItem(STORAGE.density)||'standard',
   population:localStorage.getItem(STORAGE.population)||'adult',
   category:'Tümü',query:'',view:'home',nav:'home',current:null,
-  favorites:new Set(safeJSON(STORAGE.favorites,[])),recent:safeJSON(STORAGE.recent,[]),
-  returnScrollY:0,returnNav:'home',returnFocus:null,protocolHistory:[]
+  favorites:new Set(safeArray(STORAGE.favorites)),recent:safeArray(STORAGE.recent),
+  returnScrollY:0,returnNav:'home',returnFocus:null
 };
 const $=s=>document.querySelector(s);
 const $$=s=>[...document.querySelectorAll(s)];
@@ -130,7 +131,7 @@ function algorithmBranchSearch(branches=[]){
 }
 function searchText(c){
   const sev=c.severity?Object.values(c.severity).flatMap(s=>[s.label,...s.bullets,s.action]):[];
-  const visibleQuick=c.algorithmSteps?.length?[]:(c.quick||[]);
+  const visibleQuick=Array.isArray(c.algorithmSteps)?[]:(c.quick||[]);
   const visibleDecision=c.decisionIntegrated?[]:[c.decision?.q,c.decision?.yes,c.decision?.no];
   const meds=(c.meds||[]).flatMap(m=>[m.name,m.dose,...(m.routes||[]).flatMap(r=>[r,routeLabel(r)]),m.repeat,m.maxDose,m.note,m.authority==='DIRECT'?null:APP_META.authority[m.authority]?.label,APP_META.practitionerAuthority?.[m.practitionerAuthority||'UNVERIFIED']?.label,APP_META.practitionerAuthority?.[m.practitionerAuthority||'UNVERIFIED']?.officialLabel]);
   const algorithmSteps=(c.algorithmSteps||[]).flatMap(algorithmStepSearch);
@@ -150,9 +151,13 @@ function visibleCases(){
   return list;
 }
 function populationCount(id){return CASES.filter(c=>c.population===id&&c.clinicalStatus==='reviewed').length}
+function populationAvailable(id){
+  const meta=APP_META.populations.find(p=>p.id===id);
+  return meta?.status==='active'&&populationCount(id)>0;
+}
 function ensurePopulationAvailable(){
-  if(populationCount(state.population)>0)return;
-  const fallback=APP_META.populations.find(p=>populationCount(p.id)>0);
+  if(populationAvailable(state.population))return;
+  const fallback=APP_META.populations.find(p=>p.status==='active'&&populationCount(p.id)>0);
   if(fallback){
     state.population=fallback.id;
     localStorage.setItem(STORAGE.population,fallback.id);
@@ -161,7 +166,7 @@ function ensurePopulationAvailable(){
 function renderPopulations(){
   el.populations.innerHTML=APP_META.populations.map(p=>{
     const n=populationCount(p.id);
-    const available=n>0;
+    const available=p.status==='active'&&n>0;
     const active=available&&state.population===p.id;
     return `<button type="button" aria-pressed="${active}" aria-disabled="${!available}" ${available?'':'disabled'} class="population-tab ${active?'active':''} ${available?'':'pending'}" data-population="${p.id}"><span>${esc(p.label)}</span><small>${available?n:'Yakında'}</small></button>`;
   }).join('');
@@ -209,15 +214,17 @@ function renderProtocolKeyPoints(p){
   if(!p.keyPoints?.length)return '';
   return `<section class="detail-section protocol-keypoints-section" id="protocol-keypoints"><div class="detail-heading"><span class="tiny-icon">◎</span><div><h3>Hızlı hatırlatma</h3><p>İlk değerlendirmede gözden kaçmaması gereken çerçeve.</p></div></div><div class="protocol-keypoint-grid">${p.keyPoints.map(group=>`<article class="protocol-keypoint-card"><h4>${esc(group.title)}</h4><div class="protocol-keypoint-list">${(group.items||[]).map(([key,label])=>`<div class="protocol-keypoint-row${String(key).length>4?' long-key':''}"><b>${esc(key)}</b><span>${esc(label)}</span></div>`).join('')}</div></article>`).join('')}</div></section>`;
 }
-function pushDetailHistory(type,id){
-  if(window.history.state?.saha112Detail)return;
-  window.history.pushState({...window.history.state,saha112Detail:{type,id}},'');
+function pushDetailHistory(type,id,{nested=false}={}){
+  const current=window.history.state?.saha112Detail;
+  if(current?.type===type&&current?.id===id)return;
+  const depth=nested?Math.max(2,(Number(current?.depth)||1)+1):1;
+  window.history.pushState({...window.history.state,saha112Detail:{type,id,depth}},'');
 }
 function openProtocol(id,{history='root',browserHistory=true}={}){
   if(typeof PROTOCOLS==='undefined')return;
   const p=PROTOCOLS.find(x=>x.id===id&&x.population===state.population);if(!p)return;
-  if(history==='root'){state.protocolHistory=[];state.returnScrollY=scrollY;state.returnNav=state.nav;if(browserHistory){state.returnFocus={type:'protocol',id};pushDetailHistory('protocol',id)}}
-  else if(history==='push'&&state.current?.startsWith('protocol:'))state.protocolHistory.push(state.current.slice('protocol:'.length));
+  if(history==='root'){state.returnScrollY=scrollY;state.returnNav=state.nav;if(browserHistory){state.returnFocus={type:'protocol',id};pushDetailHistory('protocol',id)}}
+  else if(history==='push'&&state.current?.startsWith('protocol:')&&browserHistory)pushDetailHistory('protocol',id,{nested:true});
   state.current=`protocol:${id}`;
   const jumps=[];if(p.keyPoints?.length)jumps.push(['protocol-keypoints','Hatırlatma','']);jumps.push(['protocol-flow','Akış','critical'],['source','Kaynak','']);
   el.detail.innerHTML=`<header class="detail-top"><div class="detail-bar"><button type="button" class="back-btn" data-action="back" aria-label="Geri">‹</button><div class="detail-title"><div class="kicker">TEMEL PROTOKOL • ${p.order?`${p.order}. ADIM • `:''}${esc(p.category.toUpperCase())}</div><h2>${esc(p.title)}</h2></div><span class="detail-spacer" aria-hidden="true"></span></div><div class="source-ribbon"><span>§</span><span>${esc(p.code)} • PDF s.${esc(p.page)} • gözden geçirme ${formatDateTR(p.source.reviewedAt)}</span></div><div class="detail-jumps">${detailModeSwitch()}${jumps.map(j=>`<button type="button" class="jump-chip ${j[2]}" data-jump="${j[0]}">${j[1]}</button>`).join('')}</div></header>
@@ -231,17 +238,15 @@ function openProtocol(id,{history='root',browserHistory=true}={}){
   el.main.classList.add('hidden');el.detail.classList.remove('hidden');el.shell.classList.add('detail-open');scrollTo(0,0);applyDensity();requestAnimationFrame(()=>{el.detail.querySelector('.back-btn')?.focus({preventScroll:true});scheduleDetailJumpUpdate()});
 }
 function backFromDetail(){
-  if(state.current?.startsWith('protocol:')&&state.protocolHistory.length){
-    const previous=state.protocolHistory.pop();openProtocol(previous,{history:'back'});return;
-  }
-  closeCase();
+  if(window.history.state?.saha112Detail){window.history.back();return}
+  closeCase({skipHistory:true});
 }
 function showCaseLibraryFromProtocol(){
-  const shouldPop=Boolean(window.history.state?.saha112Detail);
-  state.current=null;state.protocolHistory=[];state.view='home';state.category='Tümü';state.query='';el.search.value='';
+  const depth=Number(window.history.state?.saha112Detail?.depth)||0;
+  state.current=null;state.view='home';state.category='Tümü';state.query='';el.search.value='';
   el.detail.classList.add('hidden');el.main.classList.remove('hidden');el.shell.classList.remove('detail-open');setNav('cases');renderAll();
   requestAnimationFrame(()=>el.filterTitle.scrollIntoView({behavior:scrollBehavior(),block:'start'}));
-  if(shouldPop)window.history.back();
+  if(depth>0)window.history.go(-depth);
 }
 function renderCases(){
   const base=casesForPopulation();const list=visibleCases();el.filterTitle.textContent=state.view==='favorites'?'Favoriler':'Vaka kütüphanesi';el.count.textContent=state.view==='favorites'?`${list.length} favori`:`${list.length} vaka`;
@@ -348,7 +353,7 @@ function openCase(id,{browserHistory=true}={}){
 function closeCase({skipHistory=false}={}){
   const shouldPop=!skipHistory&&Boolean(window.history.state?.saha112Detail);
   const returnFocus=state.returnFocus;
-  state.current=null;state.protocolHistory=[];el.detail.classList.add('hidden');el.main.classList.remove('hidden');el.shell.classList.remove('detail-open');renderAll();setNav(state.returnNav||'home');
+  state.current=null;el.detail.classList.add('hidden');el.main.classList.remove('hidden');el.shell.classList.remove('detail-open');renderAll();setNav(state.returnNav||'home');
   requestAnimationFrame(()=>{scrollTo(0,state.returnScrollY||0);if(returnFocus){const selector=returnFocus.type==='protocol'?('[data-protocol-open="'+returnFocus.id+'"]'):('[data-open="'+returnFocus.id+'"]');document.querySelector(selector)?.focus({preventScroll:true})}});
   if(shouldPop)window.history.back();
 }
@@ -357,7 +362,7 @@ function showHome(top=true){state.view='home';state.current=null;el.detail.class
 function showCases(){state.view='home';setNav('cases');renderAll();requestAnimationFrame(()=>el.filterTitle.scrollIntoView({behavior:scrollBehavior(),block:'start'}))}
 function showFavorites(){state.view='favorites';state.category='Tümü';state.query='';el.search.value='';setNav('favorites');renderAll();requestAnimationFrame(()=>el.filterTitle.scrollIntoView({behavior:scrollBehavior(),block:'start'}))}
 function selectPopulation(id){
-  if(!APP_META.populations.some(p=>p.id===id)||populationCount(id)===0)return;
+  if(!populationAvailable(id))return;
   state.population=id;state.category='Tümü';state.query='';state.view='home';el.search.value='';
   localStorage.setItem(STORAGE.population,id);renderAll();scrollTo(0,0);requestAnimationFrame(()=>[...el.populations.querySelectorAll('[data-population]')].find(b=>b.dataset.population===id)?.focus({preventScroll:true}));
 }
@@ -370,7 +375,7 @@ addEventListener('popstate',e=>{
   if(e.state?.saha112Sheet){openSourceSheet();return}
   const route=e.state?.saha112Detail;
   if(route?.type==='case'){openCase(route.id,{browserHistory:false});return}
-  if(route?.type==='protocol'){openProtocol(route.id,{history:'root',browserHistory:false});return}
+  if(route?.type==='protocol'){openProtocol(route.id,{history:'back',browserHistory:false});return}
   if(state.current)closeCase({skipHistory:true});
 });
 
@@ -429,7 +434,7 @@ addEventListener('keydown',e=>{
     if(e.shiftKey&&document.activeElement===first){e.preventDefault();last.focus()}
     else if(!e.shiftKey&&document.activeElement===last){e.preventDefault();first.focus()}
   }
-  if(e.key==='Escape'){if(sourceOpen)closeSourceSheet();else if(state.current)closeCase()}
+  if(e.key==='Escape'){if(sourceOpen)closeSourceSheet();else if(state.current)backFromDetail()}
 });
 if('serviceWorker' in navigator)addEventListener('load',()=>{
   const hadController=Boolean(navigator.serviceWorker.controller);let notified=false;

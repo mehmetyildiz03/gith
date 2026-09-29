@@ -800,3 +800,29 @@ body{overflow-x:hidden}
 .shortcut-kind{font-size:8.5px}
 .source-grid span,.source-meta span{font-size:9.5px}
 .authority-warning,.source-disclaimer,.sheet-disclaimer{font-size:10px}
+
+
+/* V0.59.2 general audit: touch targets + per-case accent contrast */
+.filter-chip,.text-btn,.protocol-branch-link,.protocol-transition.interactive{min-height:44px}
+.text-btn{display:inline-flex;align-items:center;justify-content:center}
+
+:root:not([data-theme='dark']) .tag,
+:root:not([data-theme='dark']) .case-category,
+:root:not([data-theme='dark']) .tiny-icon:not(.danger),
+:root:not([data-theme='dark']) .protocol-card-icon,
+:root:not([data-theme='dark']) .protocol-card-copy>span,
+:root:not([data-theme='dark']) .protocol-keypoint-row b,
+:root:not([data-theme='dark']) .protocol-branch-link,
+:root:not([data-theme='dark']) .algo-step-followup>span{
+  color:color-mix(in srgb,var(--accent) 70%,#14212c);
+}
+:root[data-theme='dark'] .tag,
+:root[data-theme='dark'] .case-category,
+:root[data-theme='dark'] .tiny-icon:not(.danger),
+:root[data-theme='dark'] .protocol-card-icon,
+:root[data-theme='dark'] .protocol-card-copy>span,
+:root[data-theme='dark'] .protocol-keypoint-row b,
+:root[data-theme='dark'] .protocol-branch-link,
+:root[data-theme='dark'] .algo-step-followup>span{
+  color:color-mix(in srgb,var(--accent) 70%,white);
+}

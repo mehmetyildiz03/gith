@@ -2,6 +2,18 @@
 
 Mobil-first, offline çekirdekli, vaka bazlı hastane öncesi acil sağlık eğitim ve hızlı hatırlatma uygulaması.
 
+## V0.59.2 genel bağımsız audit düzeltmeleri
+
+- **Çocuk yayın kapısı:** Hasta grubu artık yalnız kart sayısına göre açılmaz; `APP_META.populations[].status === "active"` olmadan kısmi `reviewed` çocuk kartları kullanıcıya açılmaz. Böylece Ç-01–30 tamamlanmadan pediatrik kütüphane yanlışlıkla yayımlanamaz.
+- **Protokol geri geçmişi:** Y-01 → Y-02 gibi zincirlerde uygulama içi Geri, tarayıcı Geri ve Android/PWA sistem Geri aynı history stack'i kullanır. İç içe protokolden “Vakalar”a geçiş tüm detail derinliğini tek seferde kapatır.
+- **Arama / legacy veri:** `algorithmSteps: []` açıkça tanımlanmış vakalarda gizli `quick[]` artık aranabilir metin olarak indekslenmez; render ve arama aynı görünürlük kuralını kullanır.
+- **PWA cache izolasyonu:** Service worker yalnız `saha112-` önekli eski cache'leri siler; aynı origin altındaki başka uygulamaların cache'lerine dokunmaz.
+- **Erişilebilirlik:** Büyük dinamik detay `main` öğesinden `aria-live` kaldırıldı; ekran okuyucu odak yönetimi geri düğmesi üzerinden sürer. Filtre, metin aksiyonu ve protokol geçiş hedefleri en az 44 px'e çıkarıldı.
+- **Vaka renk kontrastı:** Vaka bazlı accent renklerinin küçük metinlerde doğrudan kullanımı yerine açık temada koyulaştırılmış, koyu temada beyaza yaklaştırılmış metin tonu kullanılır; renk kimliği arka plan/border vurgusunda korunur.
+- **Dayanıklılık:** Bozuk veya eski tipte `favorites/recent` localStorage verisi uygulamanın başlangıcını artık düşürmez.
+- **Klinik veri:** Doz, yol, tekrar, maksimum doz, ATT/AABT, SKKM/ÇM, algoritma ve kaynak içeriği değiştirilmedi; `contentVersion` sabit tutuldu.
+- **PWA:** Kritik asset query'leri `v=0.59.2`, cache adı `saha112-v0592`.
+
 ## V0.59.1 final tasarım audit düzeltmeleri
 
 - **Aktif bölüm doğruluğu:** Sticky bölüm göstergesi artık chip sırasına göre değil ekrandaki gerçek bölüm konumuna göre en yakın görünür bölümü seçer.
