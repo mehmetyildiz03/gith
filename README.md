@@ -2,6 +2,16 @@
 
 Mobil-first, offline çekirdekli, vaka bazlı hastane öncesi acil sağlık eğitim ve hızlı hatırlatma uygulaması.
 
+## V0.59.1 final tasarım audit düzeltmeleri
+
+- **Aktif bölüm doğruluğu:** Sticky bölüm göstergesi artık chip sırasına göre değil ekrandaki gerçek bölüm konumuna göre en yakın görünür bölümü seçer.
+- **Standart sırası:** Anahtar Noktalar → İlaçlar gerçek DOM sırasıyla bölüm çubuğu eşleştirildi.
+- **Hızlı Saha sırası:** Bölüm çubuğu CSS ile olay anı sırasına geçer; İlaçlar Anahtar Noktalardan önce görünür.
+- **Mod değiştirme bağlamı:** Vaka/protokol ortasında Standart ↔ Hızlı Saha değiştirildiğinde kullanıcı bulunduğu klinik bölümde tutulur.
+- **Küçük klinik metinler:** EVET/HAYIR, “Ne yap?”, algoritma devam/geçiş etiketleri ve bazı klinik meta yazıları büyütüldü.
+- **Klinik veri:** İçerik, doz, yol, tekrar, maksimum doz ve yetki alanları değişmedi; yalnız sunum/regresyon düzeltmesi yapıldı.
+- **PWA:** asset query’leri `v=0.59.1`, cache `saha112-v0591`.
+
 ## V0.59 Standart eğitim / Hızlı Saha ürün ayrımı
 
 - **Tek klinik veri, iki sunum:** Standart ve Hızlı Saha aynı `CASES/PROTOCOLS` veri kaynağını kullanır; klinik içerik iki ayrı kopyaya bölünmez.

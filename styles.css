@@ -777,3 +777,26 @@ body{overflow-x:hidden}
   .dose{font-size:13.5px}
   .algo-step{font-size:12px}
 }
+
+
+/* V0.59.1 navigation order + small clinical text polish */
+:root[data-density='compact'] .detail-jumps .mode-switch{order:0}
+:root[data-density='compact'] .jump-chip[data-jump='critical-actions']{order:10}
+:root[data-density='compact'] .jump-chip[data-jump='algorithm'],
+:root[data-density='compact'] .jump-chip[data-jump='protocol-flow']{order:20}
+:root[data-density='compact'] .jump-chip[data-jump='severity']{order:30}
+:root[data-density='compact'] .jump-chip[data-jump='red-flags']{order:40}
+:root[data-density='compact'] .jump-chip[data-jump='decision']{order:45}
+:root[data-density='compact'] .jump-chip[data-jump='medications']{order:50}
+:root[data-density='compact'] .jump-chip[data-jump='reference-points'],
+:root[data-density='compact'] .jump-chip[data-jump='protocol-keypoints']{order:60}
+:root[data-density='compact'] .jump-chip[data-jump='source']{order:90}
+
+.action-box b,.branch b,.protocol-branch b{font-size:10px}
+.algo-step-followup>span{font-size:10px}
+.protocol-transition small{font-size:10px}
+.priority-badge,.featured-priority{font-size:9.5px}
+.tag,.source-code,.featured-card .code{font-size:9.5px}
+.shortcut-kind{font-size:8.5px}
+.source-grid span,.source-meta span{font-size:9.5px}
+.authority-warning,.source-disclaimer,.sheet-disclaimer{font-size:10px}

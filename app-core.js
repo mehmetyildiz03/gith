@@ -39,10 +39,11 @@ function updateActiveDetailJump(){
   if(!chips.length)return;
   const headerH=el.detail.querySelector('.detail-top')?.getBoundingClientRect().height||0;
   const line=headerH+18;
-  let active=chips[0];
+  let active=chips[0],activeTop=-Infinity;
   for(const chip of chips){
     const target=document.getElementById(chip.dataset.jump);
-    if(target?.getBoundingClientRect().top<=line)active=chip;
+    const top=target?.getBoundingClientRect().top;
+    if(Number.isFinite(top)&&top<=line&&top>=activeTop){active=chip;activeTop=top}
   }
   chips.forEach(chip=>{
     const on=chip===active;
@@ -106,11 +107,20 @@ function applyDensity(){
   });
 }
 function toggleDensity(){
+  const anchorId=state.current?el.detail.querySelector('.jump-chip[aria-current="location"]')?.dataset.jump:null;
   state.density=state.density==='compact'?'standard':'compact';
   localStorage.setItem(STORAGE.density,state.density);
   applyDensity();
   if(!state.current)renderCases();
-  requestAnimationFrame(scheduleDetailJumpUpdate);
+  requestAnimationFrame(()=>{
+    const target=anchorId?document.getElementById(anchorId):null;
+    if(target&&target.getClientRects().length){
+      const headerH=el.detail.querySelector('.detail-top')?.getBoundingClientRect().height||0;
+      const top=Math.max(0,target.getBoundingClientRect().top+scrollY-headerH-8);
+      scrollTo({top,behavior:'auto'});
+    }
+    scheduleDetailJumpUpdate();
+  });
 }
 function updateNetwork(){const online=navigator.onLine;el.network.dataset.state=online?'online':'offline';el.network.querySelector('span:last-child').textContent=online?'Çevrimiçi':'Çevrimdışı';el.offline.classList.toggle('hidden',online)}
 
@@ -322,7 +332,7 @@ function openCase(id,{browserHistory=true}={}){
   if(browserHistory)state.returnFocus={type:'case',id};
   if(browserHistory)pushDetailHistory('case',id);
   state.current=id;state.returnScrollY=scrollY;state.returnNav=state.nav;addRecent(id);renderShortcuts();const fav=state.favorites.has(id);
-  const jumps=[['critical-actions','İlk adımlar','critical'],['algorithm','Algoritma',''],...(c.severity?[['severity','Klinik ayrım','']]:[]),['red-flags','Acil uyarılar','critical'],...(!c.decisionIntegrated?[['decision','Karar','']]:[]),...(c.meds?.length?[['medications','İlaçlar','']]:[]),...(c.referenceGroups?.length?[['reference-points','Anahtar','']]:[]),['source','Kaynak','']];
+  const jumps=[['critical-actions','İlk adımlar','critical'],['algorithm','Algoritma',''],...(c.severity?[['severity','Klinik ayrım','']]:[]),['red-flags','Acil uyarılar','critical'],...(!c.decisionIntegrated?[['decision','Karar','']]:[]),...(c.referenceGroups?.length?[['reference-points','Anahtar','']]:[]),...(c.meds?.length?[['medications','İlaçlar','']]:[]),['source','Kaynak','']];
   el.detail.innerHTML=`<header class="detail-top"><div class="detail-bar"><button type="button" class="back-btn" data-action="back" aria-label="Geri">‹</button><div class="detail-title"><div class="kicker">${esc(popMeta(c.population).label.toUpperCase())} • ${esc(c.category.toUpperCase())}</div><h2>${esc(c.title)}</h2></div><button type="button" class="fav-btn ${fav?'active':''}" data-action="favorite" aria-label="${fav?'Favorilerden çıkar':'Favorilere ekle'}" aria-pressed="${fav}">${fav?'★':'☆'}</button></div><div class="source-ribbon"><span>§</span><span>${esc(c.code)} • PDF s.${esc(c.page)} • gözden geçirme ${formatDateTR(c.source.reviewedAt)}</span></div><div class="detail-jumps">${detailModeSwitch()}${jumps.map(j=>`<button type="button" class="jump-chip ${j[2]}" data-jump="${j[0]}">${j[1]}</button>`).join('')}</div></header>
   ${fieldModeBanner()}
   <div class="detail-body" style="${caseStyle(c)}">
