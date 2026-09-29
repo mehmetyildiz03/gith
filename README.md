@@ -1,5 +1,14 @@
 # Saha112 — Vaka Rehberi
 
+## V0.59.5 mod geçiş geometri düzeltmesi
+
+- Standart ve Hızlı Saha artık detay başlığında aynı yükseklikte bir bağlam alanı kullanır.
+- Standart modda bu alanda kaynak izi; Hızlı Saha'da aynı yerde **Olay anı görünümü • Kritik bilgi öncelikli** gösterilir.
+- Eski ayrı `field-banner` akıştan çıkarıldı; mod değişiminde header yüksekliği değişmez.
+- Hızlı Saha `detail-body` üst boşluğu Standart ile aynı 14 px'e sabitlendi; küçük yukarı sıçrama giderildi.
+- Klinik veri değişmedi.
+
+
 ## V0.59.4 mod geçiş stabilizasyonu + kardiyak arrest kaynak dili
 
 - Standart ↔ Hızlı Saha değişiminde aktif klinik bölüm artık üst kenara zorla hizalanmaz; aynı bölümün viewport içindeki piksel konumu korunur.
