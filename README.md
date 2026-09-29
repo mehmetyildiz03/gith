@@ -1,5 +1,12 @@
 # Saha112 — Vaka Rehberi
 
+## V0.59.3 aktif mod etiketi
+
+- Detay görünümündeki mod kontrolü artık hedef modu değil **mevcut modu** gösterir: Standart görünümde `Standart`, olay anı görünümünde `Hızlı Saha`.
+- Kontrole dokunmak doğrudan diğer moda geçirir; kullanıcıya ayrıca “... görünümüne geç” metni gösterilmez.
+- Klinik veri değişmedi; yalnız mod kontrolünün etiket semantiği düzeltildi.
+
+
 Mobil-first, offline çekirdekli, vaka bazlı hastane öncesi acil sağlık eğitim ve hızlı hatırlatma uygulaması.
 
 ## V0.59.2 genel bağımsız audit düzeltmeleri

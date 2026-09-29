@@ -58,7 +58,7 @@ function scheduleDetailJumpUpdate(){
 }
 function detailModeSwitch(){
   const compact=state.density==='compact';
-  return `<button type="button" class="jump-chip mode-switch ${compact?'active':''}" data-density-toggle aria-pressed="${compact}" aria-label="${compact?'Standart eğitim görünümüne geç':'Hızlı Saha olay anı görünümüne geç'}"><span aria-hidden="true">⚡</span><span data-density-label>${compact?'Standart':'Hızlı Saha'}</span></button>`;
+  return `<button type="button" class="jump-chip mode-switch ${compact?'active':''}" data-density-toggle aria-pressed="${compact}"><span aria-hidden="true">⚡</span><span data-density-label>${compact?'Hızlı Saha':'Standart'}</span></button>`;
 }
 function fieldModeBanner(){
   return '<div class="field-banner"><strong>⚡ Olay anı görünümü</strong><span>Kritik adım, algoritma, karar ve dozlar önde; eğitimsel bağlam aşağıda kalır.</span></div>';
@@ -96,15 +96,14 @@ function applyDensity(){
   document.documentElement.dataset.density=compact?'compact':'standard';
   el.fieldToggle?.classList.toggle('active',compact);
   el.fieldToggle?.setAttribute('aria-pressed',String(compact));
-  el.fieldToggle?.setAttribute('aria-label',compact?'Standart eğitim görünümüne geç':'Hızlı Saha olay anı görünümüne geç');
-  el.fieldToggle?.setAttribute('title',compact?'Standart eğitim görünümüne geç':'Hızlı Saha olay anı görünümüne geç');
+  el.fieldToggle?.setAttribute('aria-label','Hızlı Saha');
+  el.fieldToggle?.setAttribute('title',compact?'Hızlı Saha':'Standart');
   if(el.modePill){el.modePill.textContent=compact?'Hızlı Saha • Olay anı':'Standart • Eğitim';el.modePill.dataset.state=compact?'field':'standard'}
   $$('[data-density-toggle]').forEach(button=>{
     button.classList.toggle('active',compact);
     button.setAttribute('aria-pressed',String(compact));
-    button.setAttribute('aria-label',compact?'Standart eğitim görünümüne geç':'Hızlı Saha olay anı görünümüne geç');
     const label=button.querySelector('[data-density-label]');
-    if(label)label.textContent=compact?'Standart':'Hızlı Saha';
+    if(label)label.textContent=compact?'Hızlı Saha':'Standart';
   });
 }
 function toggleDensity(){

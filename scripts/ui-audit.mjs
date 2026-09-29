@@ -42,8 +42,8 @@ assert(css.includes("/* V0.6.1 dark surface hardening */"),'Koyu mod yüzey hard
 assert(css.includes(":root[data-theme='dark'] .quick-step")&&css.includes("background:var(--detail-panel-deep)!important"),'Koyu mod algoritma adımı explicit yüzeyi eksik');
 assert(css.includes(":root[data-theme='dark'] .red-flag")&&css.includes("background:#2b202a!important"),'Koyu mod kırmızı bayrak yüzeyi eksik');
 assert(css.includes(":root[data-theme='dark'] .branch.yes")&&css.includes(":root[data-theme='dark'] .branch.no"),'Koyu mod karar kutuları explicit değil');
-assert(html.includes('styles.css?v=0.59.2')&&html.includes('app-core.js?v=0.59.2')&&html.includes('cases-data.js?v=0.59.2'),'Kritik asset cache-bust sürümü eksik');
-assert(sw.includes("saha112-v0592")&&sw.includes("CACHE_PREFIX='saha112-'")&&sw.includes("k.startsWith(CACHE_PREFIX)&&k!==CACHE")&&sw.includes('NETWORK_FIRST_DESTINATIONS'),'Service worker güncelleme/cache izolasyon stratejisi eksik');
+assert(html.includes('styles.css?v=0.59.3')&&html.includes('app-core.js?v=0.59.3')&&html.includes('cases-data.js?v=0.59.3'),'Kritik asset cache-bust sürümü eksik');
+assert(sw.includes("saha112-v0593")&&sw.includes("CACHE_PREFIX='saha112-'")&&sw.includes("k.startsWith(CACHE_PREFIX)&&k!==CACHE")&&sw.includes('NETWORK_FIRST_DESTINATIONS'),'Service worker güncelleme/cache izolasyon stratejisi eksik');
 assert(!app.includes('Kırmızı bayrak'),'Eski kullanıcı terimi hâlâ UI içinde');
 assert(app.includes('Acil Uyarı Bulguları'),'Acil Uyarı Bulguları başlığı eksik');
 assert(app.includes('Önceliği, müdahaleyi veya nakil kararını değiştirebilecek bulgular.'),'Acil uyarı açıklaması eksik');
@@ -74,7 +74,7 @@ assert(app.includes('aria-pressed="${active}"')&&!app.includes('role="tab" aria-
 assert(app.includes("returnFocus={type:'case',id}")&&app.includes("returnFocus={type:'protocol',id}")&&app.includes("querySelector('.back-btn')?.focus({preventScroll:true})")&&app.includes("document.querySelector(selector)?.focus({preventScroll:true})"),'Detay aç/kapa klavye odağı korunmuyor');
 assert(app.includes('case-icon" aria-hidden="true"')&&app.includes('chev" aria-hidden="true"')&&html.includes('nav-item active')&&html.includes('svg viewBox="0 0 24 24" aria-hidden="true"'),'Dekoratif vaka/navigasyon glifleri ekran okuyucudan gizlenmiyor');
 assert(app.includes("function pushDetailHistory(type,id,{nested=false}={})")&&app.includes("saha112Detail:{type,id,depth}")&&app.includes("history:'back',browserHistory:false")&&app.includes("window.history.go(-depth)")&&app.includes("addEventListener('popstate'"),'Detay/protokol zinciri tarayıcı ve Android/PWA geri geçmişiyle tutarlı değil');
-assert(app.includes('function detailModeSwitch()')&&app.includes('data-density-toggle')&&app.includes("Hızlı Saha • Olay anı")&&app.includes("Standart • Eğitim"),'Standart/Hızlı Saha ürün ayrımı detay içinde erişilebilir değil');
+assert(app.includes('function detailModeSwitch()')&&app.includes('data-density-toggle')&&app.includes("Hızlı Saha • Olay anı")&&app.includes("Standart • Eğitim")&&app.includes("compact?'Hızlı Saha':'Standart'"),'Standart/Hızlı Saha ürün ayrımı veya aktif mod etiketi eksik');
 assert(app.includes('function fieldModeBanner()')&&app.includes('Olay anı görünümü'),'Hızlı Saha olay anı bağlamı eksik');
 assert(css.includes(":root[data-density='compact'] .first30-card{order:10}")&&css.includes(":root[data-density='compact'] #algorithm{order:20}")&&css.includes(":root[data-density='compact'] .detail-columns{order:40}")&&css.includes(":root[data-density='compact'] .meds-section{order:50}")&&css.includes(":root[data-density='compact'] #reference-points{order:60}"),'Hızlı Saha vaka bölüm öncelik sırası eksik');
 assert(css.includes(":root[data-density='compact'] .protocol-detail-body #protocol-flow{order:20}")&&css.includes(":root[data-density='compact'] .protocol-detail-body .protocol-keypoints-section{order:60}"),'Hızlı Saha temel protokol öncelik sırası eksik');
@@ -295,3 +295,5 @@ try{
 console.log(`Saha112 UI audit: ${errors.length} hata`);
 for(const e of errors)console.error('ERROR '+e);
 if(errors.length)process.exit(1);
+
+assert(!app.includes("Standart eğitim görünümüne geç")&&!app.includes("Hızlı Saha olay anı görünümüne geç"),'Mod kontrolü mevcut durum yerine geçiş eylemi metni gösteriyor');
