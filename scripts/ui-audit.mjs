@@ -42,8 +42,8 @@ assert(css.includes("/* V0.6.1 dark surface hardening */"),'Koyu mod yüzey hard
 assert(css.includes(":root[data-theme='dark'] .quick-step")&&css.includes("background:var(--detail-panel-deep)!important"),'Koyu mod algoritma adımı explicit yüzeyi eksik');
 assert(css.includes(":root[data-theme='dark'] .red-flag")&&css.includes("background:#2b202a!important"),'Koyu mod kırmızı bayrak yüzeyi eksik');
 assert(css.includes(":root[data-theme='dark'] .branch.yes")&&css.includes(":root[data-theme='dark'] .branch.no"),'Koyu mod karar kutuları explicit değil');
-assert(html.includes('styles.css?v=0.59.8')&&html.includes('app-core.js?v=0.59.8')&&html.includes('cases-data.js?v=0.59.8'),'Kritik asset cache-bust sürümü eksik');
-assert(sw.includes("saha112-v0598")&&sw.includes("CACHE_PREFIX='saha112-'")&&sw.includes("k.startsWith(CACHE_PREFIX)&&k!==CACHE")&&sw.includes('NETWORK_FIRST_DESTINATIONS'),'Service worker güncelleme/cache izolasyon stratejisi eksik');
+assert(html.includes('styles.css?v=0.59.9')&&html.includes('app-core.js?v=0.59.9')&&html.includes('cases-data.js?v=0.59.9'),'Kritik asset cache-bust sürümü eksik');
+assert(sw.includes("saha112-v0599")&&sw.includes("CACHE_PREFIX='saha112-'")&&sw.includes("k.startsWith(CACHE_PREFIX)&&k!==CACHE")&&sw.includes('NETWORK_FIRST_DESTINATIONS'),'Service worker güncelleme/cache izolasyon stratejisi eksik');
 assert(!app.includes('Kırmızı bayrak'),'Eski kullanıcı terimi hâlâ UI içinde');
 assert(app.includes('Acil Uyarı Bulguları'),'Acil Uyarı Bulguları başlığı eksik');
 assert(app.includes('Önceliği, müdahaleyi veya nakil kararını değiştirebilecek bulgular.'),'Acil uyarı açıklaması eksik');
@@ -80,7 +80,7 @@ assert(css.includes(":root[data-density='compact'] .first30-card{order:10}")&&cs
 assert(css.includes(":root[data-density='compact'] .protocol-detail-body #protocol-flow{order:20}")&&css.includes(":root[data-density='compact'] .protocol-detail-body .protocol-keypoints-section{order:60}"),'Hızlı Saha temel protokol öncelik sırası eksik');
 assert(css.includes(".jump-chip.active-section:not(.mode-switch)")&&app.includes('function updateActiveDetailJump()')&&app.includes("aria-current','location'"),'Detay aktif bölüm göstergesi eksik');
 assert(app.includes('activeTop=-Infinity')&&app.includes('top>=activeTop'),'Aktif bölüm seçimi jump-chip sırasına bağımlı; DOM/CSS yeniden sıralamasında yanlış bölüm seçilebilir');
-assert(app.includes("const anchorId=state.current?el.detail.querySelector('.jump-chip[aria-current=\"location\"]')?.dataset.jump:null")&&app.includes("const anchorBefore=anchorId?document.getElementById(anchorId)?.getBoundingClientRect().top:null")&&app.includes("scrollBy({top:anchorAfter-anchorBefore,behavior:'auto'})"),'Standart/Hızlı Saha değişiminde klinik bölümün ekrandaki piksel konumu korunmuyor');
+assert(app.includes('const scrollBefore=scrollY')&&app.includes("scrollTo({top:scrollBefore,behavior:'auto'})")&&!app.includes('scrollBy({top:anchorAfter-anchorBefore'),'Standart/Hızlı Saha değişiminde mutlak scrollY korunmuyor');
 assert(app.indexOf("['reference-points','Anahtar','']")<app.indexOf("['medications','İlaçlar','']"),'Standart görünüm jump sırası gerçek DOM sırasıyla eşleşmiyor');
 assert(css.includes(".jump-chip[data-jump='medications']{order:50}")&&css.includes(".jump-chip[data-jump='reference-points']")&&css.includes("{order:60}"),'Hızlı Saha jump sırası ilaçları Anahtar Noktalardan önce taşımıyor');
 assert(css.includes('.action-box b,.branch b,.protocol-branch b{font-size:10px}')&&css.includes('.algo-step-followup>span{font-size:10px}'),'Klinik karar/geçiş etiketleri 10px altına düşüyor');
@@ -309,3 +309,5 @@ assert(app.includes('${esc(p.code)} • PDF s.${esc(p.page)}')&&app.includes('${
 assert((app.match(/\$\{modeContextBanner\(\)\}/g)||[]).length===2,'Mod bilgi bandı vaka ve temel protokol detaylarının ikisinde de render edilmiyor');
 
 assert(css.lastIndexOf(":root[data-density='compact'] .detail-jumps{margin-top:8px}")>css.lastIndexOf(":root[data-density='compact'] .detail-jumps{margin-top:5px}"),'Hızlı Saha detail-jumps efektif üst boşluğu Standart ile 8px eşit değil');
+
+assert(css.includes('.detail-view{overflow-anchor:none}'),'Dinamik detay görünümünde tarayıcı scroll anchoring kapalı değil');

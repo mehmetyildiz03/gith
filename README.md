@@ -1,5 +1,13 @@
 # Saha112 — Vaka Rehberi
 
+## V0.59.9 deterministik mod geçişi
+
+- Standart ↔ Hızlı Saha geçişindeki bölüm-anchor tabanlı `scrollBy(...)` telafisi kaldırıldı.
+- Mod değişiminden önceki mutlak `scrollY` değeri korunur ve layout sonrası tekrar uygulanır.
+- Detay görünümünde tarayıcının otomatik scroll anchoring davranışı kapatıldı (`overflow-anchor:none`).
+- Klinik veri değişmedi; yalnız UI scroll davranışı ve ürün sürümü değişti.
+
+
 ## V0.59.8 son 3 px mod geçiş kayması
 
 - Standart görünümde `detail-jumps` üst boşluğu 8 px iken Hızlı Saha'da eski override nedeniyle efektif 5 px kalıyordu.

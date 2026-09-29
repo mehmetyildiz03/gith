@@ -923,3 +923,7 @@ body{overflow-x:hidden}
 
 /* V0.59.8 eliminate final 3px mode-switch jump */
 :root[data-density='compact'] .detail-jumps{margin-top:8px}
+
+
+/* V0.59.9 deterministic mode-switch scroll position */
+.detail-view{overflow-anchor:none}

@@ -107,19 +107,17 @@ function applyDensity(){
   });
 }
 function toggleDensity(){
-  const anchorId=state.current?el.detail.querySelector('.jump-chip[aria-current="location"]')?.dataset.jump:null;
-  const anchorBefore=anchorId?document.getElementById(anchorId)?.getBoundingClientRect().top:null;
+  const scrollBefore=scrollY;
   state.density=state.density==='compact'?'standard':'compact';
   localStorage.setItem(STORAGE.density,state.density);
   applyDensity();
   if(!state.current)renderCases();
   requestAnimationFrame(()=>{
-    const target=anchorId?document.getElementById(anchorId):null;
-    const anchorAfter=target&&target.getClientRects().length?target.getBoundingClientRect().top:null;
-    if(Number.isFinite(anchorBefore)&&Number.isFinite(anchorAfter)){
-      scrollBy({top:anchorAfter-anchorBefore,behavior:'auto'});
-    }
-    scheduleDetailJumpUpdate();
+    scrollTo({top:scrollBefore,behavior:'auto'});
+    requestAnimationFrame(()=>{
+      scrollTo({top:scrollBefore,behavior:'auto'});
+      scheduleDetailJumpUpdate();
+    });
   });
 }
 function updateNetwork(){const online=navigator.onLine;el.network.dataset.state=online?'online':'offline';el.network.querySelector('span:last-child').textContent=online?'Çevrimiçi':'Çevrimdışı';el.offline.classList.toggle('hidden',online)}
