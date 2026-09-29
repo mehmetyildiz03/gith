@@ -1,7 +1,7 @@
 const APP_META = {
   "schemaVersion": 5,
   "contentVersion": "EK2-2026.08.25-early-adult-fidelity-reaudit-2026.09.25",
-  "productVersion": "0.59.3",
+  "productVersion": "0.59.4",
   "populations": [
     {
       "id": "adult",
@@ -2197,7 +2197,7 @@ const CASES = [
       "<strong>Hava yolu/ventilasyon:</strong> ileri hava yolundan önce 30:2; ileri hava yolundan sonra kesintisiz 100–120 bası/dk + <strong>10 solunum/dk</strong>. SpO₂ <strong>%90–98</strong> olacak şekilde O₂ ver.",
       "<strong>Asistoli/NEA:</strong> adrenalin 1 mg IV/IO, 3–5 dk arayla. Güncel Y-10/Y-11 arrest akışında atropin veya rutin NaHCO₃ arrest ilacı olarak yer almıyor.",
       "<strong>VF/nVT:</strong> 2. defibrilasyon sonrası adrenalin 1 mg IV, 3–5 dk arayla; 3. defibrilasyon sonrası amiodaron 300 mg IV/IO veya %2 lidokain 1–1,5 mg/kg IV/IO; tekrarlayan/dirençli VF/nVT'de 5. şok sonrası amiodaron 150 mg IV/IO veya lidokain 0,5–0,75 mg/kg IV/IO.",
-      "<strong>Şok enerjisi:</strong> firma önerisine göre; anahtar noktalarda bifazik 120–200 J, monofazik 360 J, cihaz tipi bilinmiyorsa en yüksek enerji. Sonraki şoklar aynı veya artan doz; 4. şoktan sonra en yüksek enerji.",
+      "<strong>Şok enerjisi:</strong> firma önerisine göre. Ek-2'nin <strong>Şoklanır Ritim Yönetimi VF / Nabızsız VT Anahtar Noktalar</strong> sayfasındaki Şok Enerji Düzeyi Seçimi tablosunda örnek olarak bifazik 120–200 J, monofazik 360 J belirtilir; cihaz tipi bilinmiyorsa en yüksek enerji. Sonraki şoklar aynı veya artan doz; 4. şoktan sonra en yüksek enerji.",
       "<strong>Geri döndürülebilir nedenler:</strong> hipoksi, hipovolemi, hiper/hipokalemi-metabolik nedenler-hipoglisemi, hipotermi, hidrojen iyonu/asidoz; koroner veya pulmoner tromboz, tansiyon pnömotoraks, kardiyak tamponad ve toksin/terapötik bozuklukları gözden geçir.",
       "ROSC olursa Resüsitasyon Sonrası Bakım algoritmasına geç."
     ],
@@ -2330,7 +2330,7 @@ const CASES = [
                 "practitionerAuthority": "ATT_AABT"
               },
               {
-                "html": "<strong>1. defibrilasyon:</strong> firma önerisine göre. Anahtar noktalarda bifazik 120–200 J, monofazik 360 J; cihaz tipi bilinmiyorsa en yüksek enerji düzeyi. Şok sonrası ara vermeden göğüs basısına devam et.",
+                "html": "<strong>1. defibrilasyon:</strong> firma önerisine göre. Ek-2'nin <strong>Şoklanır Ritim Yönetimi VF / Nabızsız VT Anahtar Noktalar</strong> sayfasındaki Şok Enerji Düzeyi Seçimi tablosunda örnek olarak bifazik 120–200 J, monofazik 360 J belirtilir; cihaz tipi bilinmiyorsa en yüksek enerji düzeyi. Şok sonrası ara vermeden göğüs basısına devam et.",
                 "approvalAuthority": "DIRECT",
                 "practitionerAuthority": "AABT"
               },

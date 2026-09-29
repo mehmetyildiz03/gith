@@ -1,5 +1,12 @@
 # Saha112 — Vaka Rehberi
 
+## V0.59.4 mod geçiş stabilizasyonu + kardiyak arrest kaynak dili
+
+- Standart ↔ Hızlı Saha değişiminde aktif klinik bölüm artık üst kenara zorla hizalanmaz; aynı bölümün viewport içindeki piksel konumu korunur.
+- Kardiyak arrestte “anahtar noktalarda bifazik…” ifadesi, bunun Ek-2'deki resmî **Şoklanır Ritim Yönetimi VF / Nabızsız VT Anahtar Noktalar** sayfasının **Şok Enerji Düzeyi Seçimi** tablosundan geldiğini açıkça belirtecek şekilde netleştirildi.
+- Bifazik 120–200 J, monofazik 360 J ve sonraki şok enerji mantığı değişmedi; yalnız kaynak bağlamı daha açık yazıldı.
+
+
 ## V0.59.3 aktif mod etiketi
 
 - Detay görünümündeki mod kontrolü artık hedef modu değil **mevcut modu** gösterir: Standart görünümde `Standart`, olay anı görünümünde `Hızlı Saha`.

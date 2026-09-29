@@ -108,16 +108,16 @@ function applyDensity(){
 }
 function toggleDensity(){
   const anchorId=state.current?el.detail.querySelector('.jump-chip[aria-current="location"]')?.dataset.jump:null;
+  const anchorBefore=anchorId?document.getElementById(anchorId)?.getBoundingClientRect().top:null;
   state.density=state.density==='compact'?'standard':'compact';
   localStorage.setItem(STORAGE.density,state.density);
   applyDensity();
   if(!state.current)renderCases();
   requestAnimationFrame(()=>{
     const target=anchorId?document.getElementById(anchorId):null;
-    if(target&&target.getClientRects().length){
-      const headerH=el.detail.querySelector('.detail-top')?.getBoundingClientRect().height||0;
-      const top=Math.max(0,target.getBoundingClientRect().top+scrollY-headerH-8);
-      scrollTo({top,behavior:'auto'});
+    const anchorAfter=target&&target.getClientRects().length?target.getBoundingClientRect().top:null;
+    if(Number.isFinite(anchorBefore)&&Number.isFinite(anchorAfter)){
+      scrollBy({top:anchorAfter-anchorBefore,behavior:'auto'});
     }
     scheduleDetailJumpUpdate();
   });
