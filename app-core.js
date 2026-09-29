@@ -60,8 +60,8 @@ function detailModeSwitch(){
   const compact=state.density==='compact';
   return `<button type="button" class="jump-chip mode-switch ${compact?'active':''}" data-density-toggle aria-pressed="${compact}"><span aria-hidden="true">⚡</span><span data-density-label>${compact?'Hızlı Saha':'Standart'}</span></button>`;
 }
-function fieldModeBanner(){
-  return '<div class="field-banner"><strong>⚡ Olay anı görünümü</strong><span>Kritik adım, algoritma, karar ve dozlar önde; eğitimsel bağlam aşağıda kalır.</span></div>';
+function modeContextBanner(){
+  return '<div class="mode-context-banner" aria-live="off"><div class="mode-context-copy standard-context"><strong>Standart görünüm</strong><span>Eğitim ve referans • Tüm klinik bağlam görünür</span></div><div class="mode-context-copy field-context"><strong>⚡ Olay anı görünümü</strong><span>Kritik bilgi öncelikli • Eylem, karar ve dozlar önde</span></div></div>';
 }
 function authorityClass(key){return key==='DIRECT'?'direct':key==='SKKM'?'skkm':'algorithm'}
 function authorityMarkup(key,{legend=false}={}){
@@ -227,7 +227,7 @@ function openProtocol(id,{history='root',browserHistory=true}={}){
   state.current=`protocol:${id}`;
   const jumps=[];if(p.keyPoints?.length)jumps.push(['protocol-keypoints','Hatırlatma','']);jumps.push(['protocol-flow','Akış','critical'],['source','Kaynak','']);
   el.detail.innerHTML=`<header class="detail-top"><div class="detail-bar"><button type="button" class="back-btn" data-action="back" aria-label="Geri">‹</button><div class="detail-title"><div class="kicker">TEMEL PROTOKOL • ${p.order?`${p.order}. ADIM • `:''}${esc(p.category.toUpperCase())}</div><h2>${esc(p.title)}</h2></div><span class="detail-spacer" aria-hidden="true"></span></div><div class="source-ribbon"><span>§</span><span>${esc(p.code)} • PDF s.${esc(p.page)}</span></div><div class="detail-jumps">${detailModeSwitch()}${jumps.map(j=>`<button type="button" class="jump-chip ${j[2]}" data-jump="${j[0]}">${j[1]}</button>`).join('')}</div></header>
-  ${fieldModeBanner()}
+  ${modeContextBanner()}
   <div class="detail-body protocol-detail-body" style="${caseStyle(p)}">
     <section class="case-summary protocol-summary"><span class="case-category">${p.order?`${p.order}. adım • `:''}Temel Protokol</span><p>${esc(p.summary)}</p><small>${esc(p.helperText||'Bu bölüm vaka kartı değildir; tüm vakalarda başvurulan temel akıştır.')}</small></section>
     ${renderProtocolKeyPoints(p)}
@@ -338,7 +338,7 @@ function openCase(id,{browserHistory=true}={}){
   state.current=id;state.returnScrollY=scrollY;state.returnNav=state.nav;addRecent(id);renderShortcuts();const fav=state.favorites.has(id);
   const jumps=[['critical-actions','İlk adımlar','critical'],['algorithm','Algoritma',''],...(c.severity?[['severity','Klinik ayrım','']]:[]),['red-flags','Acil uyarılar','critical'],...(!c.decisionIntegrated?[['decision','Karar','']]:[]),...(c.referenceGroups?.length?[['reference-points','Anahtar','']]:[]),...(c.meds?.length?[['medications','İlaçlar','']]:[]),['source','Kaynak','']];
   el.detail.innerHTML=`<header class="detail-top"><div class="detail-bar"><button type="button" class="back-btn" data-action="back" aria-label="Geri">‹</button><div class="detail-title"><div class="kicker">${esc(popMeta(c.population).label.toUpperCase())} • ${esc(c.category.toUpperCase())}</div><h2>${esc(c.title)}</h2></div><button type="button" class="fav-btn ${fav?'active':''}" data-action="favorite" aria-label="${fav?'Favorilerden çıkar':'Favorilere ekle'}" aria-pressed="${fav}">${fav?'★':'☆'}</button></div><div class="source-ribbon"><span>§</span><span>${esc(c.code)} • PDF s.${esc(c.page)}</span></div><div class="detail-jumps">${detailModeSwitch()}${jumps.map(j=>`<button type="button" class="jump-chip ${j[2]}" data-jump="${j[0]}">${j[1]}</button>`).join('')}</div></header>
-  ${fieldModeBanner()}
+  ${modeContextBanner()}
   <div class="detail-body" style="${caseStyle(c)}">
     <section class="first30-card" id="critical-actions"><div class="first30-head"><span>ÖNCE</span><div><strong>İlk Kritik Adımlar</strong><p>Önce bunları gör; ardından algoritma ve karar ayrıntısına ilerle.</p></div></div><ol>${c.criticalActions.map(x=>`<li>${esc(x)}</li>`).join('')}</ol></section>
     <section class="case-summary"><span class="case-category">${esc(c.category)}</span><p>${esc(c.summary)}</p></section>

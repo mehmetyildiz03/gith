@@ -1,5 +1,14 @@
 # Saha112 — Vaka Rehberi
 
+## V0.59.7 sabit mod bilgi bandı
+
+- Standart ve Hızlı Saha artık detay ekranında **aynı DOM alanını ve aynı 48 px yüksekliği** kullanır.
+- Standart mod: **Standart görünüm • Eğitim ve referans • Tüm klinik bağlam görünür**.
+- Hızlı Saha: **Olay anı görünümü • Kritik bilgi öncelikli • Eylem, karar ve dozlar önde**.
+- Mod geçişinde bandın varlığı/yüksekliği değişmez; yalnız içerik ve semantik vurgu değişir. Bu nedenle önceki dikey kaymanın yapısal nedeni ortadan kaldırılır.
+- Klinik veri değişmedi.
+
+
 ## V0.59.6 mod bandı konumu + kaynak satırı sadeleştirme
 
 - **Olay anı görünümü** bandı eski konumuna, sticky başlığın hemen altına geri alındı.
