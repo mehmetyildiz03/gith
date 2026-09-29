@@ -1,5 +1,13 @@
 # Saha112 — Vaka Rehberi
 
+## V0.59.6 mod bandı konumu + kaynak satırı sadeleştirme
+
+- **Olay anı görünümü** bandı eski konumuna, sticky başlığın hemen altına geri alındı.
+- Mod değişiminde sticky header yüksekliği değişmez: kaynak satırı her iki modda da aynı yerde tutulur; jump satırı aralığı ve gövde üst boşluğu eşitlenir.
+- Üst kaynak satırı sadeleştirildi: yalnız **vaka/protokol kodu + PDF sayfası** görünür. `gözden geçirme` tarihi üst alandan kaldırıldı; doğrulama tarihi Kaynaklar/doğrulama bölümünde kalır.
+- Klinik veri değişmedi.
+
+
 ## V0.59.5 mod geçiş geometri düzeltmesi
 
 - Standart ve Hızlı Saha artık detay başlığında aynı yükseklikte bir bağlam alanı kullanır.

@@ -864,3 +864,13 @@ body{overflow-x:hidden}
 :root[data-density='compact'] .detail-context-slot .field-ribbon{display:flex}
 :root[data-density='compact'] .detail-body{padding-top:14px}
 .field-banner{display:none!important}
+
+
+/* V0.59.6 restore field banner location without mode-switch jump */
+.detail-context-slot,.field-ribbon{display:none!important}
+.detail-top .source-ribbon{display:flex!important}
+:root[data-density='compact'] .detail-top .source-ribbon{display:flex!important}
+:root[data-density='compact'] .detail-jumps{margin-top:5px}
+:root[data-density='compact'] .detail-body{padding-top:14px}
+.field-banner{display:none!important}
+:root[data-density='compact'] .field-banner{display:flex!important}
