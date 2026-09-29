@@ -42,8 +42,8 @@ assert(css.includes("/* V0.6.1 dark surface hardening */"),'Koyu mod yüzey hard
 assert(css.includes(":root[data-theme='dark'] .quick-step")&&css.includes("background:var(--detail-panel-deep)!important"),'Koyu mod algoritma adımı explicit yüzeyi eksik');
 assert(css.includes(":root[data-theme='dark'] .red-flag")&&css.includes("background:#2b202a!important"),'Koyu mod kırmızı bayrak yüzeyi eksik');
 assert(css.includes(":root[data-theme='dark'] .branch.yes")&&css.includes(":root[data-theme='dark'] .branch.no"),'Koyu mod karar kutuları explicit değil');
-assert(html.includes('styles.css?v=0.59.7')&&html.includes('app-core.js?v=0.59.7')&&html.includes('cases-data.js?v=0.59.7'),'Kritik asset cache-bust sürümü eksik');
-assert(sw.includes("saha112-v0597")&&sw.includes("CACHE_PREFIX='saha112-'")&&sw.includes("k.startsWith(CACHE_PREFIX)&&k!==CACHE")&&sw.includes('NETWORK_FIRST_DESTINATIONS'),'Service worker güncelleme/cache izolasyon stratejisi eksik');
+assert(html.includes('styles.css?v=0.59.8')&&html.includes('app-core.js?v=0.59.8')&&html.includes('cases-data.js?v=0.59.8'),'Kritik asset cache-bust sürümü eksik');
+assert(sw.includes("saha112-v0598")&&sw.includes("CACHE_PREFIX='saha112-'")&&sw.includes("k.startsWith(CACHE_PREFIX)&&k!==CACHE")&&sw.includes('NETWORK_FIRST_DESTINATIONS'),'Service worker güncelleme/cache izolasyon stratejisi eksik');
 assert(!app.includes('Kırmızı bayrak'),'Eski kullanıcı terimi hâlâ UI içinde');
 assert(app.includes('Acil Uyarı Bulguları'),'Acil Uyarı Bulguları başlığı eksik');
 assert(app.includes('Önceliği, müdahaleyi veya nakil kararını değiştirebilecek bulgular.'),'Acil uyarı açıklaması eksik');
@@ -300,10 +300,12 @@ assert(!app.includes("Standart eğitim görünümüne geç")&&!app.includes("Hı
 
 assert(data.includes("Şoklanır Ritim Yönetimi VF / Nabızsız VT Anahtar Noktalar")&&data.includes("Şok Enerji Düzeyi Seçimi tablosunda örnek olarak bifazik 120–200 J"),'Kardiyak arrest şok enerjisi Anahtar Noktalar kaynak bağlamı belirsiz');
 
-assert(css.includes(".detail-top .source-ribbon{display:flex!important}")&&css.includes(":root[data-density='compact'] .detail-top .source-ribbon{display:flex!important}")&&css.includes(":root[data-density='compact'] .detail-jumps{margin-top:5px}"),'Standart/Hızlı Saha sticky header geometrisi eşit değil');
+assert(css.includes(".detail-top .source-ribbon{display:flex!important}")&&css.includes(":root[data-density='compact'] .detail-top .source-ribbon{display:flex!important}")&&css.includes(":root[data-density='compact'] .detail-jumps{margin-top:8px}"),'Standart/Hızlı Saha sticky header geometrisi eşit değil');
 assert(css.includes('.mode-context-banner{')&&css.includes('height:48px')&&css.includes('.field-context{display:none}')&&css.includes(":root[data-density='compact'] .standard-context{display:none}")&&css.includes(":root[data-density='compact'] .field-context{display:flex}"),'Standart/Hızlı Saha ortak bandı sabit yükseklikte değil');
 
 assert(!app.includes('• gözden geçirme ${formatDateTR(p.source.reviewedAt)}')&&!app.includes('• gözden geçirme ${formatDateTR(c.source.reviewedAt)}'),'Sticky kaynak şeridinde teknik gözden geçirme tarihi gösteriliyor');
 assert(app.includes('${esc(p.code)} • PDF s.${esc(p.page)}')&&app.includes('${esc(c.code)} • PDF s.${esc(c.page)}'),'Sticky kaynak şeridi kod + PDF sayfasını korumuyor');
 
 assert((app.match(/\$\{modeContextBanner\(\)\}/g)||[]).length===2,'Mod bilgi bandı vaka ve temel protokol detaylarının ikisinde de render edilmiyor');
+
+assert(css.lastIndexOf(":root[data-density='compact'] .detail-jumps{margin-top:8px}")>css.lastIndexOf(":root[data-density='compact'] .detail-jumps{margin-top:5px}"),'Hızlı Saha detail-jumps efektif üst boşluğu Standart ile 8px eşit değil');

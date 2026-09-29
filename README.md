@@ -1,5 +1,12 @@
 # Saha112 — Vaka Rehberi
 
+## V0.59.8 son 3 px mod geçiş kayması
+
+- Standart görünümde `detail-jumps` üst boşluğu 8 px iken Hızlı Saha'da eski override nedeniyle efektif 5 px kalıyordu.
+- Hızlı Saha değeri de 8 px'e eşitlendi; mod değişiminde kalan yaklaşık 3 px yukarı kaymanın doğrudan CSS nedeni kaldırıldı.
+- Klinik veri değişmedi.
+
+
 ## V0.59.7 sabit mod bilgi bandı
 
 - Standart ve Hızlı Saha artık detay ekranında **aynı DOM alanını ve aynı 48 px yüksekliği** kullanır.

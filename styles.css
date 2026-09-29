@@ -919,3 +919,7 @@ body{overflow-x:hidden}
 :root[data-density='compact'] .field-context{display:flex}
 :root[data-density='compact'] .field-context strong{color:var(--amber)}
 .field-banner{display:none!important}
+
+
+/* V0.59.8 eliminate final 3px mode-switch jump */
+:root[data-density='compact'] .detail-jumps{margin-top:8px}
