@@ -1,5 +1,12 @@
 # Saha112 — Vaka Rehberi
 
+## V0.59.10 genel audit kapanışı
+
+- Y‑27 **Suda Boğulma** için başlık/kod/sayfa, kaynak aralığı, ilaçsız yapı ve temel resmî akış/Anahtar Nokta ifadelerini koruyan vaka-özel regresyon testleri eklendi.
+- Hızlı Saha’da CSS ile yeniden sıralanan detay bölümlerinde aktif sekmenin ilk durumda DOM sırasına değil **ekrandaki fiziksel konuma** göre seçilmesi sağlandı. Özellikle temel protokollerde `Akış` üstteyse `Hatırlatma` yanlış aktif görünmez.
+- Klinik içerik ve `contentVersion` değiştirilmedi.
+
+
 ## V0.59.9 deterministik mod geçişi
 
 - Standart ↔ Hızlı Saha geçişindeki bölüm-anchor tabanlı `scrollBy(...)` telafisi kaldırıldı.

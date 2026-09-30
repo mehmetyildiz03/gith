@@ -42,8 +42,8 @@ assert(css.includes("/* V0.6.1 dark surface hardening */"),'Koyu mod yüzey hard
 assert(css.includes(":root[data-theme='dark'] .quick-step")&&css.includes("background:var(--detail-panel-deep)!important"),'Koyu mod algoritma adımı explicit yüzeyi eksik');
 assert(css.includes(":root[data-theme='dark'] .red-flag")&&css.includes("background:#2b202a!important"),'Koyu mod kırmızı bayrak yüzeyi eksik');
 assert(css.includes(":root[data-theme='dark'] .branch.yes")&&css.includes(":root[data-theme='dark'] .branch.no"),'Koyu mod karar kutuları explicit değil');
-assert(html.includes('styles.css?v=0.59.9')&&html.includes('app-core.js?v=0.59.9')&&html.includes('cases-data.js?v=0.59.9'),'Kritik asset cache-bust sürümü eksik');
-assert(sw.includes("saha112-v0599")&&sw.includes("CACHE_PREFIX='saha112-'")&&sw.includes("k.startsWith(CACHE_PREFIX)&&k!==CACHE")&&sw.includes('NETWORK_FIRST_DESTINATIONS'),'Service worker güncelleme/cache izolasyon stratejisi eksik');
+assert(html.includes('styles.css?v=0.59.10')&&html.includes('app-core.js?v=0.59.10')&&html.includes('cases-data.js?v=0.59.10'),'Kritik asset cache-bust sürümü eksik');
+assert(sw.includes("saha112-v05910")&&sw.includes("CACHE_PREFIX='saha112-'")&&sw.includes("k.startsWith(CACHE_PREFIX)&&k!==CACHE")&&sw.includes('NETWORK_FIRST_DESTINATIONS'),'Service worker güncelleme/cache izolasyon stratejisi eksik');
 assert(!app.includes('Kırmızı bayrak'),'Eski kullanıcı terimi hâlâ UI içinde');
 assert(app.includes('Acil Uyarı Bulguları'),'Acil Uyarı Bulguları başlığı eksik');
 assert(app.includes('Önceliği, müdahaleyi veya nakil kararını değiştirebilecek bulgular.'),'Acil uyarı açıklaması eksik');
@@ -79,7 +79,7 @@ assert(app.includes('function modeContextBanner()')&&app.includes('Standart gör
 assert(css.includes(":root[data-density='compact'] .first30-card{order:10}")&&css.includes(":root[data-density='compact'] #algorithm{order:20}")&&css.includes(":root[data-density='compact'] .detail-columns{order:40}")&&css.includes(":root[data-density='compact'] .meds-section{order:50}")&&css.includes(":root[data-density='compact'] #reference-points{order:60}"),'Hızlı Saha vaka bölüm öncelik sırası eksik');
 assert(css.includes(":root[data-density='compact'] .protocol-detail-body #protocol-flow{order:20}")&&css.includes(":root[data-density='compact'] .protocol-detail-body .protocol-keypoints-section{order:60}"),'Hızlı Saha temel protokol öncelik sırası eksik');
 assert(css.includes(".jump-chip.active-section:not(.mode-switch)")&&app.includes('function updateActiveDetailJump()')&&app.includes("aria-current','location'"),'Detay aktif bölüm göstergesi eksik');
-assert(app.includes('activeTop=-Infinity')&&app.includes('top>=activeTop'),'Aktif bölüm seçimi jump-chip sırasına bağımlı; DOM/CSS yeniden sıralamasında yanlış bölüm seçilebilir');
+assert(app.includes('const positioned=chips.map')&&app.includes('item.top<best.top')&&app.includes('activeTop=-Infinity')&&app.includes('top>=activeTop'),'Aktif bölüm seçimi fiziksel bölüm sırasını izlemiyor');
 assert(app.includes('const scrollBefore=scrollY')&&app.includes("scrollTo({top:scrollBefore,behavior:'auto'})")&&!app.includes('scrollBy({top:anchorAfter-anchorBefore'),'Standart/Hızlı Saha değişiminde mutlak scrollY korunmuyor');
 assert(app.indexOf("['reference-points','Anahtar','']")<app.indexOf("['medications','İlaçlar','']"),'Standart görünüm jump sırası gerçek DOM sırasıyla eşleşmiyor');
 assert(css.includes(".jump-chip[data-jump='medications']{order:50}")&&css.includes(".jump-chip[data-jump='reference-points']")&&css.includes("{order:60}"),'Hızlı Saha jump sırası ilaçları Anahtar Noktalardan önce taşımıyor');

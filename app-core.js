@@ -40,11 +40,15 @@ function updateActiveDetailJump(){
   if(!chips.length)return;
   const headerH=el.detail.querySelector('.detail-top')?.getBoundingClientRect().height||0;
   const line=headerH+18;
-  let active=chips[0],activeTop=-Infinity;
-  for(const chip of chips){
-    const target=document.getElementById(chip.dataset.jump);
-    const top=target?.getBoundingClientRect().top;
-    if(Number.isFinite(top)&&top<=line&&top>=activeTop){active=chip;activeTop=top}
+  const positioned=chips.map(chip=>({
+    chip,
+    top:document.getElementById(chip.dataset.jump)?.getBoundingClientRect().top
+  })).filter(item=>Number.isFinite(item.top));
+  if(!positioned.length)return;
+  let active=positioned.reduce((best,item)=>item.top<best.top?item:best).chip;
+  let activeTop=-Infinity;
+  for(const {chip,top} of positioned){
+    if(top<=line&&top>=activeTop){active=chip;activeTop=top}
   }
   chips.forEach(chip=>{
     const on=chip===active;

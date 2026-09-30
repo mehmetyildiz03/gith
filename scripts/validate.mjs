@@ -75,7 +75,7 @@ if(APP_META?.authority?.DIRECT?.symbol!=='✓'||APP_META?.authority?.DIRECT?.vis
 if(APP_META?.authority?.SKKM?.symbol!=='◆'||APP_META?.authority?.SKKM?.visualLabel!=='SKKM/ÇM')err('SKKM sarı/onay sembol metası eksik');
 if(APP_META?.authority?.ALGORITHM?.symbol!=='•'||APP_META?.authority?.ALGORITHM?.visualLabel!=='Kaynakta SKKM/ÇM kodlaması belirtilmemiş')err('ALGORITHM kaynakta belirtilmeyen yetki metası eksik');
 if(APP_META?.contentVersion!=='EK2-2026.08.25-early-adult-fidelity-reaudit-2026.09.25')err('contentVersion yetişkin kaynak/yetki audit sürümüyle eşleşmiyor');
-if(APP_META?.productVersion!=='0.59.9')err('productVersion V0.59.9 olmalı');
+if(APP_META?.productVersion!=='0.59.10')err('productVersion V0.59.10 olmalı');
 if(APP_META?.practitionerAuthority?.ATT_AABT?.officialLabel!=='Acil Tıp Teknisyeni / Teknikeri'||APP_META?.practitionerAuthority?.AABT?.officialLabel!=='Acil Tıp Teknikeri'||APP_META?.practitionerAuthority?.UNVERIFIED?.symbol!=='□')err('ATT/AABT uygulayıcı yetki metası eksik veya bozuk');
 for(const code of ['SB-ASH-Y-04','SB-ASH-Y-05','SB-ASH-Y-06','SB-ASH-Y-07','SB-ASH-Y-08','SB-ASH-Y-09','SB-ASH-Y-10','SB-ASH-Y-11','SB-ASH-Y-12','SB-ASH-Y-13','SB-ASH-Y-14','SB-ASH-Y-15','SB-ASH-Y-17','SB-ASH-Y-19','SB-ASH-Y-21','SB-ASH-Y-22','SB-ASH-Y-23','SB-ASH-Y-24','SB-ASH-Y-28','SB-ASH-Y-29','SB-ASH-Y-34','SB-ASH-Y-35','SB-ASH-Y-36','SB-ASH-Y-37','SB-ASH-Y-39','SB-ASH-Y-40'])if(!APP_META?.practitionerAudit?.verifiedMedicationCases?.includes(code))err(`Uygulayıcı yetki görsel audit izi eksik: ${code}`);
 if(APP_META?.practitionerAudit?.adultMedicationCardsComplete!==true)err('Yetişkin ilaç kartları uygulayıcı audit tamamlama işareti eksik');
@@ -146,6 +146,10 @@ for(const branch of [y26Land,y26Sea]){
 }
 for(const term of ['Görülebilen arı iğnesini çıkar','Turnike uygulama','bir parmak girecek kadar gevşek','Ezmeden ve parçalamadan çıkar','kişisel koruyucu ekipman'])if(!JSON.stringify(biteStingCase).includes(term))err(`Y-26 Anahtar Nokta eksik: ${term}`);
 if(!APP_META?.actionAudit?.verifiedCases?.includes('SB-ASH-Y-26')||!APP_META?.actionAudit?.verifiedBranchCases?.includes('SB-ASH-Y-26'))err('Y-26 actionAudit kapsamına eklenmemiş');
+const drowningCase=(CASES||[]).find(c=>c.id==='drowning');
+if(!drowningCase||drowningCase.title!=='Suda Boğulma'||drowningCase.code!=='SB-ASH-Y-27'||drowningCase.page!=='47'||drowningCase.source?.page!=='46–47'||drowningCase.source?.reviewedAt!=='2026-09-25')err('Y-27 Suda Boğulma başlık/kod/sayfa kaynak izi bozuk');
+if(JSON.stringify(drowningCase?.source?.algorithmCodes)!==JSON.stringify(['SB-ASH-Y-27'])||(drowningCase?.meds||[]).length!==0)err('Y-27 kaynak kodu/ilaç yapısı bozuk');
+for(const term of ['at-çek-uzat','Spontan solunum varsa','BVM ile solunumu destekle','solunum yok/gasping','spinal stabilizasyon','ıslak giysileri çıkar'])if(!JSON.stringify(drowningCase).includes(term))err('Y-27 resmî akış/Anahtar Nokta eksik: '+term);
 
 const anaphylaxisCase=(CASES||[]).find(c=>c.id==='anaphylaxis');
 if(anaphylaxisCase?.source?.reviewedAt!=='2026-09-25')err('Y-22 son kaynak gözden geçirme tarihi güncel değil');
