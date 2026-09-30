@@ -146,10 +146,6 @@ for(const branch of [y26Land,y26Sea]){
 }
 for(const term of ['Görülebilen arı iğnesini çıkar','Turnike uygulama','bir parmak girecek kadar gevşek','Ezmeden ve parçalamadan çıkar','kişisel koruyucu ekipman'])if(!JSON.stringify(biteStingCase).includes(term))err(`Y-26 Anahtar Nokta eksik: ${term}`);
 if(!APP_META?.actionAudit?.verifiedCases?.includes('SB-ASH-Y-26')||!APP_META?.actionAudit?.verifiedBranchCases?.includes('SB-ASH-Y-26'))err('Y-26 actionAudit kapsamına eklenmemiş');
-const drowningCase=(CASES||[]).find(c=>c.id==='drowning');
-if(!drowningCase||drowningCase.title!=='Suda Boğulma'||drowningCase.code!=='SB-ASH-Y-27'||drowningCase.page!=='47'||drowningCase.source?.page!=='46–47'||drowningCase.source?.reviewedAt!=='2026-09-25')err('Y-27 Suda Boğulma başlık/kod/sayfa kaynak izi bozuk');
-if(JSON.stringify(drowningCase?.source?.algorithmCodes)!==JSON.stringify(['SB-ASH-Y-27'])||(drowningCase?.meds||[]).length!==0)err('Y-27 kaynak kodu/ilaç yapısı bozuk');
-for(const term of ['at-çek-uzat','Spontan solunum varsa','BVM ile solunumu destekle','solunum yok/gasping','spinal stabilizasyon','ıslak giysileri çıkar'])if(!JSON.stringify(drowningCase).includes(term))err('Y-27 resmî akış/Anahtar Nokta eksik: '+term);
 
 const anaphylaxisCase=(CASES||[]).find(c=>c.id==='anaphylaxis');
 if(anaphylaxisCase?.source?.reviewedAt!=='2026-09-25')err('Y-22 son kaynak gözden geçirme tarihi güncel değil');
@@ -421,8 +417,10 @@ for(const term of ['hipotansiyon veya nabız <40 atım/dk','yakın asistoli öyk
 if(!JSON.stringify(bradyCase).includes('Dopamin ampul 200 mg'))err('Y-07 dopamin ampul 200 mg Anahtar Nokta bilgisi eksik');
 if(JSON.stringify(arrestCase?.source?.algorithmCodes)!==JSON.stringify(['SB-ASH-Y-09','SB-ASH-Y-10','SB-ASH-Y-11'])||arrestCase?.page!=='18–22')err('Kardiyak Arrest Y-09/Y-10/Y-11 kaynak izi bozuldu');
 const drowningCase=(CASES||[]).find(c=>c.id==='drowning');
+if(!drowningCase||drowningCase.title!=='Suda Boğulma'||drowningCase.code!=='SB-ASH-Y-27'||drowningCase.page!=='47'||drowningCase.source?.page!=='46–47'||drowningCase.source?.reviewedAt!=='2026-09-25')err('Y-27 Suda Boğulma başlık/kod/sayfa kaynak izi bozuk');
+if(JSON.stringify(drowningCase?.source?.algorithmCodes)!==JSON.stringify(['SB-ASH-Y-27'])||(drowningCase?.meds||[]).length!==0)err('Y-27 kaynak kodu/ilaç yapısı bozuk');
 if(!String(drowningCase?.criticalActions?.[0]||'').includes('suya girme')||!String(drowningCase?.criticalActions?.[0]||'').includes('at-çek-uzat'))err('Suda Boğulma at-çek-uzat güvenlik kuralı eksik');
-for(const term of ['spinal stabilizasyon','ıslak giysileri çıkar','hastayı kurula','hipotermiden koru'])if(!JSON.stringify(drowningCase).includes(term))err(`Y-27 Suda Boğulma Anahtar Nokta eksik: ${term}`);
+for(const term of ['Spontan solunum varsa','BVM ile solunumu destekle','solunum yok/gasping','spinal stabilizasyon','ıslak giysileri çıkar','hastayı kurula','hipotermiden koru'])if(!JSON.stringify(drowningCase).includes(term))err(`Y-27 Suda Boğulma resmî akış/Anahtar Nokta eksik: ${term}`);
 const hypothermiaCase=(CASES||[]).find(c=>c.id==='hypothermia');
 if(!hypothermiaCase?.source?.algorithmCodes?.includes('SB-ASH-Y-25')||!JSON.stringify(hypothermiaCase).includes('60 sn'))err('Hipotermi Y-25/60 sn kaynak izi eksik');
 for(const term of ['42–46°C','40–42°C','Orta/ciddi hipotermide bilinç değişikliği'])if(!JSON.stringify(hypothermiaCase).includes(term))err(`Y-24 Hipotermi ısıtma Anahtar Noktası eksik: ${term}`);
